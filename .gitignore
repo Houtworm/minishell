@@ -1,0 +1,10 @@
+*.pdf
+*.o
+*.a
+minishell
+LICENSE
+obj
+tmp
+.git
+.ccls-cache
+.vscode
