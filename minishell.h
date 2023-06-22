@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                     |o_o || |                */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fsarkoh <fsarkoh@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 07:20:24 by houtworm          #+#    #+#             */
-/*   Updated: 2023/05/29 22:20:47 by houtworm     \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fsarkoh <fsarkoh@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/03/17 07:20:24 by houtworm      #+#    #+#                 */
+/*   Updated: 2023/06/22 11:47:25 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,8 @@ int	ft_export(t_shell *strct);
 int	ft_env(t_shell *strct);
 int	ft_pwd(t_shell *strct);
 int	ft_echo(t_shell *strct);
+
+//test
+
 
 #endif
