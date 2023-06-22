@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                    .--.  _                 */
-/*   chdir.c                                         |o_o || |                */
+/*   chdir.c                                            :+:      :+:    :+:   */
 /*                                                   |:_/ || |_ _   ___  __   */
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 17:21:02 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/05/29 23:11:16 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/06/22 22:49:47 by houtworm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,31 @@ int	ft_setenv(char **envp, char *var, char *val)
 	}
 	if (!envp[i])
 	{
+		char	**temp;
+
+		temp = ft_calloc((i + 2) * 512, 1);
+		/*temp = envp;*/
 		j = 0;
 		while (var[j])
 		{
-			envp[i][j] = var[j];
+			/*temp[i][j] = var[j];*/
 			j++;
 		}
-		envp[i][j] = '=';
+		printf("blabla\n");
+		/*temp[i][j] = '=';*/
 		j++;
 		k = 0;
 		while (val[k])
 		{
-			envp[i][j] = val[k];
-			j++;
+			/*temp[i][k + j] = val[k];*/
 			k++;
 		}
-		envp[i][j] = '\0';
+		/*temp[i][j] = '\0';*/
+		/*temp[i + 1][0] = '\0';*/
+		/*ft_frearr(envp);*/
+		/*envp = ft_calloc((i + 2) * 512, 1);*/
+		/*envp = temp;*/
+		/*ft_frearr(temp);*/
 	}
 	return (0);
 }
