@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/05/26 18:51:45 by houtworm         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:22:59 by houtworm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_echo(t_shell *strct)
 			if (line[i + j + k] == ' ')
 				k++;
 			else if	(line[i + j + k] == '\0')
-				k = 1;
+				k = k;
 			else
 			{
 				k = 0;
