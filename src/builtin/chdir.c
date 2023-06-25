@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                    .--.  _                 */
-/*   chdir.c                                         |o_o || |                */
+/*   chdir.c                                            :+:      :+:    :+:   */
 /*                                                   |:_/ || |_ _   ___  __   */
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 17:21:02 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/06/23 18:58:29 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/06/25 15:45:32 by houtworm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,22 @@ int	ft_setenv(char **envp, char *var, char *val)
 	}
 	if (!envp[i])
 	{
-		char	**temp;
-
-		temp = ft_calloc((i + 2) * 512, 1);
-		/*temp = envp;*/
+		envp[i] = ft_calloc(8 * 512, 1);
 		j = 0;
-		while (var[j])
+		while (var[j] != '\0')
 		{
-			/*temp[i][j] = var[j];*/
+			envp[i][j] = var[j];
 			j++;
 		}
-		printf("blabla\n");
-		/*temp[i][j] = '=';*/
+		envp[i][j] = '=';
 		j++;
 		k = 0;
-		while (val[k])
+		while (val[k] != '\0')
 		{
-			/*temp[i][k + j] = val[k];*/
+			envp[i][k + j] = val[k];
 			k++;
 		}
-		/*temp[i][j] = '\0';*/
-		/*temp[i + 1][0] = '\0';*/
-		/*ft_frearr(envp);*/
-		/*envp = ft_calloc((i + 2) * 512, 1);*/
-		/*envp = temp;*/
-		/*ft_frearr(temp);*/
+		envp[i + 1] = ft_calloc(8 * 2, 1);
 	}
 	return (0);
 }
