@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                         |o_o || |                */
+/*   parse.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fsarkoh <fsarkoh@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 13:20:31 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/07/05 22:45:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/19 16:18:43 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,37 +91,13 @@ void	ft_expandcommands(t_shell *strct)
 	/*}*/
 }
 
-void	ft_strct_per_cmd(char **line, t_shell *shell)
-{
-	int	i;
-	char	**tmp;
-	t_forks	*forks;
-
-	i = 0;
-	while (line[i])
-	{
-		tmp = ft_split(line[i], '|');
-		while (tmp)
-		{
-			
-		}
-		ft_frearr(tmp);
-		i++;
-	}
-}
-
-
-//example commandline 
-// cat < file1 | grep a | wc -l > file2 > file3 ; echo "hello; world | hey" | grep e; echo b
 int	*ft_parseline(char *line, t_shell *shell)
 {
 	char	**paths;
 	char	**semicolon_tmp;
 
 	shell->line = line;
-	// 1. look for quotes, check if it's properly clsoed, split based on quote
-	// 2. separate based on semicolon
-	// 3. 
+
 	/*ft_expandcommands(strct);*/
 	 /*expand * outside quotes;*/
 	// expand ? outside quotes;
