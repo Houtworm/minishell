@@ -6,7 +6,7 @@
 /*   By: fsarkoh <fsarkoh@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 13:20:31 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/08/19 16:18:43 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/20 18:28:39 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,15 @@ void	ft_expandcommands(t_shell *strct)
 
 int	*ft_parseline(char *line, t_shell *shell)
 {
-	char	**paths;
-	char	**semicolon_tmp;
 
 	shell->line = line;
+	char	**paths;
 
+	shell->arguments = ft_split(line, ' ');
+	paths = ft_getpaths(shell->envp, 1);
+	shell->absolute = ft_abspathcmd(paths, shell->arguments[0]);
+	ft_frearr(paths);
+	
 	/*ft_expandcommands(strct);*/
 	 /*expand * outside quotes;*/
 	// expand ? outside quotes;
@@ -113,10 +117,17 @@ int	*ft_parseline(char *line, t_shell *shell)
 	// look for < >> > in all commands and set up dup2  where needed
 	// look for << and <<< Heredoc and Herestring
 	// split ever command up into absolute and arguments for execve
-	shell->arguments = ft_split(line, ' ');
-	paths = ft_getpaths(shell->envp, 1);
-	shell->absolute = ft_abspathcmd(paths, shell->arguments[0]);
-	ft_frearr(paths);
+	
+
+/* yuka working
+	char	**arr;
+
+	if (!check_quote_closed(line))
+		printf("num of str = %d\n", count_str(line, '|'));
+	arr = split_not_quote(line, '|');
+	ft_strct_per_cmd(arr, shell);
+	printf("test\n");
+*/
 	return (SUCCESS);
 }
 

@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                     .--.  _                  #
-#    Makefile                                        |o_o || |                 #
-#                                                    |:_/ || |_ _   ___  __    #
-#    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
-#                                                  (|     | )|_| |_| |>  <     #
-#    Created: 2021/08/19 15:20:20 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/05/29 22:07:56 by houtworm     \___)=(___/                  #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: djonker <djonker@student.codam.nl>           +#+                      #
+#                                                    +#+                       #
+#    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
+#    Updated: 2023/08/20 18:02:51 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ SRC		=src/main.c\
 		 src/init.c\
 		 src/prompt.c\
 		 src/parse.c\
+		 src/parse_1.c\
+		 src/parse_2.c\
 		 src/exec.c\
 		 src/script.c\
 		 src/builtin/exit.c\

@@ -6,7 +6,7 @@
 /*   By: fsarkoh <fsarkoh@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 07:20:24 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/06/22 11:47:25 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/20 18:18:26 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_shell
 	char		*line;
 	char		*absolute;
 	char		**arguments;
+	
 }	t_shell;
 
 // Prototypes
@@ -81,6 +82,17 @@ void	ft_printprompt(t_shell *strct, char **envp);
 // parse
 
 int	*ft_parseline(char *line, t_shell *strct);
+
+
+//parse_1
+int		check_quote_closed(char *s);
+int		count_str(char *s, int c);
+int		count_wd(char *s, int c);
+char	**split_not_quote(char *s, int c);
+
+//parse_2
+void	ft_strct_per_cmd(char **cmd, t_shell *shell);
+
 
 // execute
 
