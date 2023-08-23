@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 07:25:30 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 07:26:11 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,4 +51,3 @@ testfunction()
 
 testfunction echo hallo
 testfunction echo -n hallo
-testfunction env
