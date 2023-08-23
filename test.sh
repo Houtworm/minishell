@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 09:44:28 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 09:47:45 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ testfunction()
 		PASSES=$(($PASSES+1))
 	fi
 	rm realstdoutfile realerroutfile ministdoutfile minierroutfile
-	sleep 0.2
+	#sleep 0.2
 }
 
 # Testing Lines
