@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 07:47:15 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 07:52:52 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@
 
 testfunction()
 {
-	bash -c $@ > realstdoutfile 2> realerroutfile
+	bash -c "$@" > realstdoutfile 2> realerroutfile
 	REALRETURN=$?
-	./minishell -c $@ > ministdoutfile 2> minierroutfile
+	./minishell -c "$@" > ministdoutfile 2> minierroutfile
 	MINIRETURN=$?
 	diff realstdoutfile ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
@@ -39,14 +39,14 @@ testfunction()
 		printf "\e[1;32mreturn OK\n\e[0;00m"
 	fi
 	sleep 0.1
-	rm realstdoutfile realerroutfile ministdoutfile minierroutfile
+	#rm realstdoutfile realerroutfile ministdoutfile minierroutfile
 }
 
-testfunction echo hallo
-testfunction echo "hallo"
-testfunction echo 'hallo'
-testfunction echo -n hallo
-testfunction echo -nnn hallo
-testfunction echo -nnm hallo
-testfunction echo -n -n hallo
+testfunction 'echo hallo'
+testfunction 'echo "hallo"'
+testfunction "echo 'hallo'"
+testfunction "echo -n hallo"
+testfunction "echo -nnn hallo"
+testfunction "echo -nnm hallo"
+testfunction "echo -n -n hallo"
 
