@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 09:42:44 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 09:44:28 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,6 +83,7 @@ testfunction "export PATH=bahbah"
 # unset
 printf "\e[1;36mTesting unset\e[0;00m\n"
 testfunction "unset bla"
+testfunction "unset PATH"
 testfunction "unset"
 testfunction "unset -wat"
 
