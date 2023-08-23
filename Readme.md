@@ -20,7 +20,8 @@ is a lightweight implementation of bash
 2. ignoring text inside quotes split on command end ```;```
 3. ignoring text inside quotes split on & to know if it has to be pushed to the background.
 4. ignoring text inside quotes split on && and || and assign the correct condition to the next command struct in pipe struct.
-5. ignoring text inside quotes, expand variables like $VAR, *, ?, []
+5. ignoring text inside quotes, expand *, ? and []
+5. ignoring text inside single quotes, expand $VAR
 6. ignoring text inside quotes set the right fds and redirections for ```<, > and >>```
 7. ignoring text inside quotes set the redirection to heredoc or herestring for ```<< and <<<```
 8. ignoring text inside quotes check for $(command) and `command` and put it at the front of the command struct
