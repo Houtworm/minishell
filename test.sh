@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 08:45:17 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 08:52:47 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ testfunction()
 # Testing Lines
 
 # echo
+printf "\e[1;36mTesting echo\e[0;00m\n"
 testfunction "echo hallo"
 testfunction 'echo "hallo"'
 testfunction "echo 'hallo'"
@@ -59,14 +60,31 @@ testfunction "echo -nnm hallo"
 testfunction "echo -n -n hallo"
 
 # pwd
+printf "\e[1;36mTesting pwd\e[0;00m\n"
+testfunction "pwd"
+testfunction "pwd bla"
+testfunction "pwd -wat"
 
 # export
+printf "\e[1;36mTesting export\e[0;00m\n"
+testfunction "export"
+testfunction "export bla=bla"
+testfunction "export bla"
 
 # unset
+printf "\e[1;36mTesting unset\e[0;00m\n"
+testfunction "unset bla"
+testfunction "unset"
+testfunction "unset -wat"
 
 # env
+printf "\e[1;36mTesting env\e[0;00m\n"
 
 # exit
+printf "\e[1;36mTesting exit\e[0;00m\n"
+
+# cd
+printf "\e[1;36mTesting cd\e[0;00m\n"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO\'s\e[0;00m\n"
