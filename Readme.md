@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                     .--.  _                  #
+#    Readme.md                                       |o_o || |                 #
+#                                                    |:_/ || |_ _   ___  __    #
+#    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
+#                                                  (|     | )|_| |_| |>  <     #
+#    Created: 2023/03/26 12:50:51 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
+#    Updated: 2023/08/23 04:51:13 by djonker      \___)=(___/                  #
+#                                                                              #
+# **************************************************************************** #
+
 # Project Name
 Minishell is a lightweight implementation of bash
 
@@ -36,11 +48,13 @@ Minishell is a lightweight implementation of bash
 
 ### Builtins
 #### cd
+- cd
 - cd ..
 - cd .
-- cd /path
+- cd ~
 - cd path
-- cd
+- cd /path
+- cd ~/path
 - replace PWD in env
 - replace OLDPWD in env but only if it is not the same dir.
 #### export
