@@ -30,15 +30,35 @@ Minishell is a lightweight implementation of bash
 - replace PWD in env
 - replace OLDPWD in env but only if it is not the same dir.
 #### export
-- export
+- export "declare -x VAR=VAL"
 - export bla=bla
 - make sure variables can only start with a A or _
+- Double check the value in env
+- test existing var
+- test new var
 #### unset
+- unset VAR
+- unset
+- double check env
+#### env
+- should print environment variables in list
+#### pwd
+- should print the working directory
+#### echo
+- echo hallo
+- echo "hallo"
+- echo 'hallo'
+- echo -n hallo
+- echo -nnn hallo
+- echo -nnm hallo
+- echo -n -n hallo
+#### exit
+- exit should exit with 0
+- exit 123 should exit with 123
+- exit blabla should exit with a warning
 #### alias
-#### env Test properly
-#### pwd Test properly
-#### echo Test properly
-#### exit Test properly
+- should be easy, it is like unset so easy extra points :)
+#### Any more handy ones?
 
 #### Signals
 - ```^C``` should break the readline
