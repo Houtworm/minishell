@@ -6,12 +6,12 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/03/26 12:50:51 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 04:51:13 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 04:59:46 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
-# Project Name
-Minishell is a lightweight implementation of bash
+# Minishell
+is a lightweight implementation of bash
 
 ---
 ## Todo
