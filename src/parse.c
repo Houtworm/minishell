@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   parse.c                                         |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/03/19 04:36:04 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/23 04:54:01 by djonker      \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   parse.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: djonker <djonker@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
+/*   Updated: 2023/08/23 13:04:15 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,15 @@ int	*ft_parseline(char *line, t_shell *shell)
 	shell->absolute = ft_abspathcmd(paths, shell->arguments[0]);
 	ft_frearr(paths);
 
-/* yuka working
+/*yuka working
 	char	**arr;
 
 	if (!check_quote_closed(line))
 		printf("num of str = %d\n", count_str(line, '|'));
 	arr = split_not_quote(line, '|');
 	ft_strct_per_cmd(arr, shell);
-	printf("test\n");
+	printf("end of testing\n");
+	exit(0);
 */
 	return (SUCCESS);
 }

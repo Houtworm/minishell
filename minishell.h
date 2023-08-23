@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   minishell.h                                     |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/03/17 18:12:31 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/23 04:52:12 by djonker      \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: djonker <djonker@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
+/*   Updated: 2023/08/23 12:58:02 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@
 
 // Structs
 
+typedef struct s_redirect
+{
+	int					fd_in;
+	int					fd_out;
+	int					trc_apd; //0 for trunc, 1 for append
+	struct s_redirect	*nxt;
+}	t_redirect;
+
 typedef struct s_exec
 {
 	char		**envp;
@@ -41,8 +49,8 @@ typedef struct s_exec
 	int			redirectfrom;
 	int			redirectto;
 	int			detatch;
-	int			andop;
-	int			orop;
+	int			condition; // 0 for non, 1 for &&, 2 for || 
+	t_redirect	*redirect;
 }	t_exec;
 
 typedef struct s_forks
@@ -90,7 +98,10 @@ char	**split_not_quote(char *s, int c);
 
 //parse_2
 void	ft_strct_per_cmd(char **cmd, t_shell *shell);
-
+void	ft_check_redirect(t_exec *commands, int strnum);
+t_redirect	*ft_redrc_in(t_exec commands, char *meta, char *file);
+t_redirect	*ft_redrc_out(t_exec commands, char *meta, char *file);
+void	ft_rdrct_add_back(t_redirect **lst, t_redirect *new);
 
 // execute
 

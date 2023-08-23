@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                     .--.  _                  #
-#    test.sh                                         |o_o || |                 #
-#                                                    |:_/ || |_ _   ___  __    #
-#    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
-#                                                  (|     | )|_| |_| |>  <     #
-#    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 09:52:52 by djonker      \___)=(___/                  #
+#                                                         ::::::::             #
+#    test.sh                                            :+:    :+:             #
+#                                                      +:+                     #
+#    By: djonker <djonker@student.codam.nl>           +#+                      #
+#                                                    +#+                       #
+#    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
+#    Updated: 2023/08/23 12:04:10 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,6 +113,9 @@ testfunction "cd src"
 testfunction "cd /etc"
 testfunction "cd ~/Documents"
 testfunction "cd nonexistingpath"
+
+# cat
+testfunction "cat < file2 < file3 > file4"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO\'s and $PASSES OK\'s\e[0;00m\n"
