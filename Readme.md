@@ -9,7 +9,12 @@ Minishell is a lightweight implementation of bash
 - write return code to $?
 - SHLVL +1 at launch
 
+#### Signals
+- ```^C``` should break the readline
+- ```^\``` shouldn't print anything
+
 #### Parser
+1. Split on Quotes
 1. Quotes
 2. ```;```
 3. ```{} () < > << >> <<< | [] ? & && ||```
@@ -59,10 +64,6 @@ Minishell is a lightweight implementation of bash
 #### alias
 - should be easy, it is like unset so easy extra points :)
 #### Any more handy ones?
-
-#### Signals
-- ```^C``` should break the readline
-- ```^\``` shouldn't print anything
 
 ---
 ## Bugs
