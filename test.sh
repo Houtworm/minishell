@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 08:52:47 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 09:27:23 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,9 @@ printf "\e[1;36mTesting export\e[0;00m\n"
 testfunction "export"
 testfunction "export bla=bla"
 testfunction "export bla"
+testfunction "export 0bla"
+testfunction "export -bla"
+testfunction "export _bla"
 
 # unset
 printf "\e[1;36mTesting unset\e[0;00m\n"
@@ -79,12 +82,28 @@ testfunction "unset -wat"
 
 # env
 printf "\e[1;36mTesting env\e[0;00m\n"
+testfunction "env"
+testfunction "env blabla"
+testfunction "env -wat"
 
 # exit
 printf "\e[1;36mTesting exit\e[0;00m\n"
+testfunction "exit"
+testfunction "exit 1"
+testfunction "exit 123"
+testfunction "exit 256"
+testfunction "exit bla"
+testfunction "exit -wat"
 
 # cd
 printf "\e[1;36mTesting cd\e[0;00m\n"
+testfunction "cd"
+testfunction "cd .."
+testfunction "cd ."
+testfunction "cd ~"
+testfunction "cd path"
+testfunction "cd /path"
+testfunction "cd ~/path"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO\'s\e[0;00m\n"
