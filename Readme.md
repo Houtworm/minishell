@@ -20,22 +20,25 @@ Minishell is a lightweight implementation of bash
 1. fork if there are pipes
 2. execve all the command structs in current pipe struct
 
-#### Builtins
+### Builtins
+#### cd
+- cd ..
+- cd .
+- cd /path
+- cd path
 - cd
-	cd ..
-	cd .
-	cd /path
-	cd path
-	cd
-	replace PWD in env
-	replace OLDPWD in env but only if it is not the same dir.
+- replace PWD in env
+- replace OLDPWD in env but only if it is not the same dir.
+#### export
 - export
-- unset
-- alias
-- env Test properly
-- pwd Test properly
-- echo Test properly
-- exit Test properly
+- export bla=bla
+- make sure variables can only start with a A or _
+#### unset
+#### alias
+#### env Test properly
+#### pwd Test properly
+#### echo Test properly
+#### exit Test properly
 
 #### Signals
 - ```^C``` should break the readline
