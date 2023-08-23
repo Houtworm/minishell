@@ -7,17 +7,28 @@ Minishell is a lightweight implementation of bash
 - Write new CWD to $CWD
 - Parse ~/.mshrc
 - write return code to $?
+- SHLVL +1 at launch
+
 #### Parser
 1. Quotes
-2. ;
-3. {} () < > << >> <<< | [] ? & && ||
-4. * $NAME $(command)
-5. prepare commands for execve
+2. ```;```
+3. ```{} () < > << >> <<< | [] ? & && ||```
+4. ```* $NAME $(command)```
+5. prepare command structs for execve
+
 #### Exec
 1. fork if there are pipes
-2. execve all the commands
+2. execve all the command structs in current pipe struct
+
 #### Builtins
 - cd
+	cd ..
+	cd .
+	cd /path
+	cd path
+	cd
+	replace PWD in env
+	replace OLDPWD in env but only if it is not the same dir.
 - export
 - unset
 - alias
@@ -27,8 +38,8 @@ Minishell is a lightweight implementation of bash
 - exit Test properly
 
 #### Signals
-- ^C should break the readline
-- ^\ shouldn't print anything
+- ```^C``` should break the readline
+- ```^\``` shouldn't print anything
 
 ---
 ## Bugs
