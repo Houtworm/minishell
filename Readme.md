@@ -4,6 +4,8 @@ Minishell is a lightweight implementation of bash
 ---
 ## Todo
 #### Environment
+- Show prompt
+- Handle history
 - Parse ~/.mshrc
 - SHLVL +1 at launch
 
@@ -73,7 +75,6 @@ Minishell is a lightweight implementation of bash
 #### z
 - might be a tough one, but certainly extremely handy
 
-
 ---
 ## Bugs
 #### crashes when giving proper memory and a lot of arguments
@@ -87,6 +88,12 @@ Minishell is a lightweight implementation of bash
 - Statements, if, then, else, elif, while, for are probably too much too.
 #### Posix Compliant
 - //// is the same as / or /////////////////////////////
+
+---
+### Cleanup
+- No memory leaks found in any testcase
+- Break up code into digestable functions
+- Norminette
 
 ---
 ## Usage
