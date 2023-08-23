@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 08:11:27 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 08:40:05 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ testfunction()
 	then
 		printf "\e[1;32mstdout OK \e[0;00m"
 	else
-		printf "\n\e[1;31mKO stdout doesn't match with command ${@} \nreal: $(cat realstdoutfile)\nmini: $(cat ministdoutfile)\e[0;00m\n"
+		printf "\e[1;31mKO stdout doesn't match with command ${@} \nreal: $(cat realstdoutfile)\nmini: $(cat ministdoutfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	diff realerroutfile minierroutfile > /dev/null
