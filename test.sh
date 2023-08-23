@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                         |o_o || |                 #
+#    test.sh                                            :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/23 13:37:09 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 13:41:19 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ testfunction()
 
 redirectfunction()
 {
+	echo 1 > m1; echo 1 > r1; echo 2 > m2; echo 2 > r2; echo 3 > r3; echo 3 > m3;
 	bash -c "$1" > realstdoutfile 2> realerroutfile
 	REALRETURN=$?
 	./minishell -c "$2" > ministdoutfile 2> minierroutfile
@@ -192,7 +193,6 @@ testfunction "cd nonexistingpath"
 
 # redirections
 printf "\e[1;36mTesting redirections\e[0;00m\n"
-echo 1 > m1; echo 1 > r1; echo 2 > m2; echo 2 > r2; echo 3 > r3; echo 3 > m3;
 redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
 
 # Shutdown

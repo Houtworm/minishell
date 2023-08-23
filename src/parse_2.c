@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/23 12:59:19 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/23 13:40:50 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 cmd1: cat '< file1 | grep a' | wc -l > file2 > file3
 command[1] cat < file1
 command[2] grep a 
-command[3] wc -l > file2 > file3
+command[3] wc -l > file2 > file3	
 */
 
 void	ft_strct_per_cmd(char **cmd, t_shell *shell)
