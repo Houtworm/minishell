@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 07:53:46 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 07:54:56 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,8 @@ testfunction()
 	else
 		printf "\e[1;32mreturn OK\n\e[0;00m"
 	fi
-	sleep 0.1
 	rm realstdoutfile realerroutfile ministdoutfile minierroutfile
+	sleep 0.2
 }
 
 testfunction 'echo hallo'
