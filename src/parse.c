@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:36:04 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/23 04:36:11 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/23 04:54:01 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,23 +101,6 @@ int	*ft_parseline(char *line, t_shell *shell)
 	paths = ft_getpaths(shell->envp, 1);
 	shell->absolute = ft_abspathcmd(paths, shell->arguments[0]);
 	ft_frearr(paths);
-	
-	/*ft_expandcommands(strct);*/
-	 /*expand * outside quotes;*/
-	// expand ? outside quotes;
-	// expand [] outside quotes
-	// expand ` outside quotes
-	// expand $ only not in single quote
-	// check for |, ;, &, ||, && not in quotes in every fork->line and do the following depending on the character in order of the string
-	// on | remove character split rest of string into next fork
-	// on ; remove character split rest of string into next command
-	// on & remove character split rest of string into next command and flag background
-	// on || remove characters split rest of string into next command with condition
-	// on && remove characters split rest of string into next command with condition
-	// look for < >> > in all commands and set up dup2  where needed
-	// look for << and <<< Heredoc and Herestring
-	// split ever command up into absolute and arguments for execve
-	
 
 /* yuka working
 	char	**arr;
@@ -130,21 +113,3 @@ int	*ft_parseline(char *line, t_shell *shell)
 */
 	return (SUCCESS);
 }
-
-// Order
-// parse quotes
-// parse ; special character
-// parse special operators {} () < > << >> <<< | [] ? & && || 
-// parse expansion * $NAME $(command) 
-//
-// < Makefile cat  | grep CFLAGS > out
-// echo $NAME | $(which cat) >> out 
-// << EOF `which cat` | wc -l 
-// cat * && cat ? || cat file[123]
-//
-// Expand Every $ not in single quotes $VAR execute $() beforehand and replace the value
-// Split on pipe pipe1 pipe2 pipe3 if pipe prepare pipes and run pipes at the same time
-// split all pipes on ; put commands in pipe struct
-// check if command needs to be redirected if so set up the proper pipes
-// Check if any command needs to be detatched
-//

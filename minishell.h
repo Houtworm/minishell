@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/17 18:12:31 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/23 04:37:22 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/23 04:52:12 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ typedef struct s_exec
 	int			detatch;
 	int			andop;
 	int			orop;
-//	int			tofd;
-//	int			fromfd;
 }	t_exec;
 
 typedef struct s_forks
