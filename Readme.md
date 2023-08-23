@@ -7,9 +7,6 @@ Minishell is a lightweight implementation of bash
 - Write new CWD to $CWD
 - Parse ~/.mshrc
 - write return code to $?
-#### Prompt
-- Rework execution time so it works cross platform, maybe with time?
-- Fix on Mac, Total garbage
 #### Parser
 1. Quotes
 2. ;
