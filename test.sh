@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 09:27:23 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 09:32:59 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ testfunction()
 	then
 		printf "\e[1;32mstdout OK \e[0;00m"
 	else
-		printf "\e[1;31mKO stdout doesn't match with command ${@} \nreal: $(cat realstdoutfile)\nmini: $(cat ministdoutfile)\e[0;00m\n"
+		printf "\e[1;31mKO stdout doesn't match with command ${@} \nreal: $(cat realstdoutfile 2> /dev/null)\nmini: $(cat ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	diff realerroutfile minierroutfile > /dev/null
@@ -33,7 +33,7 @@ testfunction()
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
 	else
-		printf "\n\e[1;31mKO stderr doesn't match with command ${@} \nreal: $(cat realstderrfile)\nmini: $(cat ministderrfile)\e[0;00m\n"
+		printf "\n\e[1;31mKO stderr doesn't match with command ${@} \nreal: $(cat realstderrfile 2> /dev/null)\nmini: $(cat ministderrfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
@@ -70,9 +70,11 @@ printf "\e[1;36mTesting export\e[0;00m\n"
 testfunction "export"
 testfunction "export bla=bla"
 testfunction "export bla"
-testfunction "export 0bla"
-testfunction "export -bla"
+testfunction "export 0bla=bla"
+testfunction "export -bla=bla"
+testfunction "export _bla=bla"
 testfunction "export _bla"
+testfunction "export PATH=bahbah"
 
 # unset
 printf "\e[1;36mTesting unset\e[0;00m\n"
@@ -101,9 +103,10 @@ testfunction "cd"
 testfunction "cd .."
 testfunction "cd ."
 testfunction "cd ~"
-testfunction "cd path"
-testfunction "cd /path"
-testfunction "cd ~/path"
+testfunction "cd src"
+testfunction "cd /etc"
+testfunction "cd ~/Documents"
+testfunction "cd nonexistingpath"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO\'s\e[0;00m\n"
