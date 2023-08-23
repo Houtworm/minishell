@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 07:16:37 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 07:25:30 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,10 @@ testfunction()
 	then
 		printf "\e[1;32mOK \e[0;00m"
 	else
-		printf "\n\e[1;31mKO stdout doesn't match $@\e[0;00m\n\n"
-		#printf real: 
+		printf "\n\e[1;31mKO stdout doesn't match with command $@\e[0;00m\n"
+		printf "\nreal:\n"
 		cat realstdoutfile
-		#printf mini: 
+		printf "\nmini:\n"
 		cat ministdoutfile
 	fi
 	diff realerroutfile minierroutfile > /dev/null
@@ -34,15 +34,15 @@ testfunction()
 	then
 		printf "\e[1;32mOK \e[0;00m"
 	else
-		printf "\n\e[1;31mKO stderr doesn't match $@\e[0;00m\n\n"
-		#printf real: 
+		printf "\n\e[1;31mKO stderr doesn't match with command $@\e[0;00m\n"
+		printf "\nreal:\n"
 		cat realerroutfile
-		#printf mini: 
+		printf "\nmini:\n"
 		cat minierroutfile
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
 	then
-		printf "\n\e[1;31mKO Return doesn't match\nReal $REALRETURN\nMini $MINIRETURN\e[0;00m\n"
+		printf "\n\e[1;31mKO Return doesn't match with command $@\nReal $REALRETURN\nMini $MINIRETURN\e[0;00m\n"
 	else
 		printf "\e[1;32mOK \e[0;00m"
 	fi
