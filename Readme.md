@@ -108,7 +108,7 @@ is a lightweight implementation of bash
 
 ---
 ## Tester
-- write seperate testfunction for cd, env, export and unset that checks a specific part of the output of env
+- write seperate testfunction for redirections, cd, env, export and unset that checks a specific part of the output of env
 
 ---
 [This project is part of the studies at 42](https://42.fr/en/homepage/)
