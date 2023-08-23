@@ -107,8 +107,7 @@ is a lightweight implementation of bash
 
 ---
 ## Tester
-### Todo
-- Figure out the best way to test minishell
+write seperate testfunction for cd, env, export and unset that checks a specific part of the output of env
 
 ---
 [This project is part of the studies at 42](https://42.fr/en/homepage/)
