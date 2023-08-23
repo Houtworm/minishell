@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 07:07:35 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 07:16:37 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,9 @@ testfunction()
 		printf "\e[1;32mOK \e[0;00m"
 	else
 		printf "\n\e[1;31mKO stdout doesn't match $@\e[0;00m\n\n"
-		printf real: 
+		#printf real: 
 		cat realstdoutfile
-		printf mini: 
+		#printf mini: 
 		cat ministdoutfile
 	fi
 	diff realerroutfile minierroutfile > /dev/null
@@ -35,9 +35,9 @@ testfunction()
 		printf "\e[1;32mOK \e[0;00m"
 	else
 		printf "\n\e[1;31mKO stderr doesn't match $@\e[0;00m\n\n"
-		printf real: 
+		#printf real: 
 		cat realerroutfile
-		printf mini: 
+		#printf mini: 
 		cat minierroutfile
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
