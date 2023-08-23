@@ -54,12 +54,14 @@ is a lightweight implementation of bash
 - test new var
 #### unset
 - unset VAR
-- unset
+- should return 0 without arguments
 - double check env
 #### env
 - should print environment variables in list
+- with arguments "env: $ARG: No such file or directory"
 #### pwd
 - should print the working directory
+- should ignore arguments
 #### echo
 - echo hallo
 - echo "hallo"
@@ -71,7 +73,7 @@ is a lightweight implementation of bash
 #### exit
 - exit should exit with 0
 - exit 123 should exit with 123
-- exit blabla should exit with a warning
+- exit blabla should exit with a warning and code -1
 #### alias
 - should be easy, it is like unset so easy extra points :)
 #### z
