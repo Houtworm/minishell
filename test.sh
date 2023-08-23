@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 07:54:56 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 07:56:25 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ testfunction()
 	sleep 0.2
 }
 
-testfunction 'echo hallo'
+testfunction "echo hallo"
 testfunction 'echo "hallo"'
 testfunction "echo 'hallo'"
 testfunction "echo -n hallo"
