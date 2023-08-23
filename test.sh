@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2023/08/23 06:35:52 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/08/23 09:47:45 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/23 09:52:52 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ testfunction "echo -n hallo"
 testfunction "echo -nnn hallo"
 testfunction "echo -nnm hallo"
 testfunction "echo -n -n hallo"
+testfunction "echo -n hallo -n"
 
 # pwd
 printf "\e[1;36mTesting pwd\e[0;00m\n"
