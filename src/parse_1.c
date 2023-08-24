@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/28 18:48:20 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/20 18:29:29 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/24 15:24:15 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	count_str(char *s, int c)
 	}
 	return (str_count + 1);
 }
-
 
 int	count_wd(char *s, int c)
 {

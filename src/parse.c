@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/23 13:04:15 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/24 15:27:22 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,6 @@ int	*ft_parseline(char *line, t_shell *shell)
 	ft_strct_per_cmd(arr, shell);
 	printf("end of testing\n");
 	exit(0);
-*/
+//*/
 	return (SUCCESS);
 }

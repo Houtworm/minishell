@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/20 18:02:51 by yitoh         ########   odam.nl          #
+#    Updated: 2023/08/24 15:16:57 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC		=src/main.c\
 		 src/parse.c\
 		 src/parse_1.c\
 		 src/parse_2.c\
+		 src/redirect.c\
 		 src/exec.c\
 		 src/script.c\
 		 src/builtin/exit.c\

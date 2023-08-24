@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/23 12:58:02 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/24 15:15:51 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ typedef struct s_exec
 	char		**envp;
 	char		*absolute;
 	char		**arguments;
-	int			redirectfrom;
-	int			redirectto;
 	int			detatch;
 	int			condition; // 0 for non, 1 for &&, 2 for || 
 	t_redirect	*redirect;
@@ -98,7 +96,9 @@ char	**split_not_quote(char *s, int c);
 
 //parse_2
 void	ft_strct_per_cmd(char **cmd, t_shell *shell);
-void	ft_check_redirect(t_exec *commands, int strnum);
+
+//redirect
+void	ft_check_redirect(t_exec commands, char *cmd);
 t_redirect	*ft_redrc_in(t_exec commands, char *meta, char *file);
 t_redirect	*ft_redrc_out(t_exec commands, char *meta, char *file);
 void	ft_rdrct_add_back(t_redirect **lst, t_redirect *new);
