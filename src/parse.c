@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/24 15:27:22 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/24 17:34:32 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ int	*ft_parseline(char *line, t_shell *shell)
 
 	if (!check_quote_closed(line))
 		printf("num of str = %d\n", count_str(line, '|'));
-	arr = split_not_quote(line, '|');
-	ft_strct_per_cmd(arr, shell);
+	shell->forks = ft_forks_strct(line, shell);
 	printf("end of testing\n");
 	exit(0);
 //*/
