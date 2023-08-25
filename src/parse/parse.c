@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/25 02:34:48 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 03:01:15 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_shell *ft_testfillfakestruct(t_shell *shell, char *line)
 	shell->forks[0].cmds[0].absolute = ft_abspathcmd(paths, shell->forks[0].cmds[0].arguments[0]);
 	shell->forks[0].cmds[0].detatch = 0;
 	shell->forks[0].cmds[0].condition = 0;
-	printf("hallo\n");
 	shell->forks[0].cmds[0].redirect = ft_calloc(10 * sizeof(t_redirect), 1);
 	shell->forks[0].cmds[0].redirect[0].fd_in = 0;
 	shell->forks[0].cmds[0].redirect[0].fd_out = 1;
