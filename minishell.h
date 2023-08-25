@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/25 19:51:02 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/25 20:24:38 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,22 @@ int		count_wd(char *s, int c);
 char	**split_not_quote(char *s, int c);
 
 //parse_2
-void	ft_strct_per_cmd(char **cmds, t_shell *shell);
+t_forks	*ft_forks_strct(char *line, t_shell *shell);
+t_cmds	*ft_exec_strct(char *pipeline, t_forks forks);
+// void	ft_strct_per_cmd(char **cmds, t_shell *shell);
 
 //redirect
 void	ft_check_redirect(t_cmds cmds, char *command);
 t_redirect	*ft_redrc_in(t_cmds cmds, char *meta, char *file);
 t_redirect	*ft_redrc_out(t_cmds cmds, char *meta, char *file);
 void	ft_rdrct_add_back(t_redirect **lst, t_redirect *new);
+
+//exec_strct
+int	symbol_check(char	*s);
+int	count_str2(char *s);
+int	count_wd2(char *s);
+char	**split_spchr(char *s);
+
 
 // exec
 int	ft_forktheforks(t_shell *shell);

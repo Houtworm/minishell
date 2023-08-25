@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_1.c                                       |o_o || |                */
+/*   parse_1.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/28 18:48:20 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/24 22:11:23 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 21:27:25 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ int	count_str(char *s, int c)
 				j++;
 		}
 		i = i + j;
-		if (s[i] == c)
+		if (s[i] == c && s[i + 1] == '|')
+			i++;
+		else if (s[i] == c)
 			str_count++;
 		i++;
 	}
@@ -101,7 +103,12 @@ char	**split_not_quote(char *s, int c)
 	start = 0;
 	cmd = ft_calloc(count_str(s, c) + 1, sizeof(char *));
 	if (!cmd)
-		return (NULL);
+		ft_errorexit("Error allocating memory", "malloc", 1);
+	if (count_str(s, c) == 1)
+	{
+		cmd[i] = ft_strdup(s);
+		return (cmd);
+	}
 	while (s[start])
 	{
 		while (s[start] == c)
