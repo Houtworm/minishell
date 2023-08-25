@@ -6,14 +6,14 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:00 by houtworm          #+#    #+#             */
-/*   Updated: 2023/05/24 04:49:53 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/25 01:10:44 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_pwd(t_shell *strct)
-{
-	ft_printf("%s", ft_getpwd(strct->envp, 0));
-	return (0);
-}
+/*int	ft_pwd(t_shell *shell)*/
+/*{*/
+	/*ft_printf("%s", ft_getpwd(shell->envp, 0));*/
+	/*return (0);*/
+/*}*/

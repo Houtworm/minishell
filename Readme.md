@@ -16,22 +16,22 @@ is a lightweight implementation of bash
 - ```^Z``` should push to background
 
 #### Parser
-1. Split on pipes and create an extra pipe struct for every pipe
+1. Split on pipes and create an additional fork struct for every pipe
 2. ignoring text inside quotes split on command end ```;```
 3. ignoring text inside quotes split on & to know if it has to be pushed to the background.
-4. ignoring text inside quotes split on && and || and assign the correct condition to the next command struct in pipe struct.
+4. ignoring text inside quotes split on && and || and assign the correct condition to the next cmd struct in the current fork struct.
 5. ignoring text inside quotes, expand *, ? and []
 5. ignoring text inside single quotes, expand $VAR
 6. ignoring text inside quotes set the right fds and redirections for ```<, > and >>```
 7. ignoring text inside quotes set the redirection to heredoc or herestring for ```<< and <<<```
-8. ignoring text inside quotes check for $(command) and `command` and put it at the front of the command struct
+8. ignoring text inside quotes check for $(command) and `command` and put it at the front of the cmd struct
 9. finally get the absolute path for the main command and split the rest of the command on the space for execve
 
 #### Exec
-1. create a child for every pipe struct.
+1. create a child for every fork struct.
 2. run the dupmachine, and set the redirect values heredoc or fd as the in and output.
-3. execve the current command struct.
-4. go to the next command in the struct and repeat steps 2 - 4 untill there are no commands left.
+3. execve the current cmd struct.
+4. go to the next cmd struct in the fork struct and repeat steps 2 - 4 untill there are no commands left in the cmd struct of the active fork struct child.
 5. somehow terminate a foreground process if the next command says it had enough example: cat /dev/random | head -n 100
 6. write return code to $?
 

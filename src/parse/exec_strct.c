@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec_strct.c                                       :+:    :+:            */
+/*   exec_strct.c                                    |o_o || |                */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 17:38:38 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/24 19:36:44 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/24 23:36:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 /*
 
@@ -28,6 +28,9 @@ bash-3.2$ ls&&;echo 'hello'
 bash: syntax error near unexpected token `;'
 bash-3.2$ ls&& ;echo 'hello'
 bash: syntax error near unexpected token `;'
+
+Danny here, I added these lines to the tester, feel free to add any edge cases you can think off so we can see if we accidently break it again :)
+I also don't mind if you comment out parts of the tester for some clarity :), it is easier if you just see the tests you are working on :)
 */
 
 

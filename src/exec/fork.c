@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                    .--.  _                 */
-/*   exit.c                                          |o_o || |                */
+/*   fork.c                                          |o_o || |                */
 /*                                                   |:_/ || |_ _   ___  __   */
-/*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
+/*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/05/18 18:48:08 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/25 01:06:57 by houtworm     \___)=(___/                 */
+/*   Created: 2023/08/24 23:56:01 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
+/*   Updated: 2023/08/24 23:56:55 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_exit(t_cmds cmds)
+int	ft_forkthepipes(t_shell *shell)
 {
-	if (!ft_strncmp(cmds.absolute, "exit ", 5))
-		exit(ft_atoi(cmds.arguments[0]));
-	if (!ft_strncmp(cmds.absolute, "exit\0", 5))
-		exit(0);
-	return (0);
+	int ret;
+
+	ret = 1;
+	return (ret);
 }

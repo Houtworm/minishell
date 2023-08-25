@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/06/25 09:20:45 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/25 02:29:20 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_echo(t_shell *strct)
+int	ft_echo(t_cmds cmds)
 {
 	char	*line;
 	char	*print;
@@ -23,10 +23,10 @@ int	ft_echo(t_shell *strct)
 	i = 0;
 	j = 5;
 	k = 0;
-	if (!ft_strncmp(strct->line, "echo ", 5))
+	if (!ft_strncmp(cmds.arguments[0], "echo ", 5))
 	{
 		print = ft_calloc(512, 1);
-		line = strct->line;
+		line = cmds.arguments[0];
 		if (line[i + j] == '-')
 		{
 			j++;
@@ -52,7 +52,7 @@ int	ft_echo(t_shell *strct)
 		if (k == 0)
 			ft_printf("\n");
 	}
-	if (!ft_strncmp(strct->line, "echo\0", 5))
+	if (!ft_strncmp(cmds.arguments[0], "echo\0", 5))
 		ft_printf("\n");
 	return (0);
 }

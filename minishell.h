@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
+/*   minishell.h                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/24 15:15:51 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/25 02:33:22 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,23 @@ typedef struct s_redirect
 	struct s_redirect	*nxt;
 }	t_redirect;
 
-typedef struct s_exec
+typedef struct s_cmds
 {
 	char		**envp;
 	char		*absolute;
 	char		**arguments;
 	int			detatch;
 	int			condition; // 0 for non, 1 for &&, 2 for || 
+	int			pid;
+	int			code;
 	t_redirect	*redirect;
-}	t_exec;
+}	t_cmds;
 
 typedef struct s_forks
 {
-	t_exec		*commands;
+	t_cmds		*cmds;
+	int			pid;
+	int			cmdamount;
 }	t_forks;
 
 typedef struct s_shell
@@ -62,15 +66,14 @@ typedef struct s_shell
 	char		**envp;
 	long long	starttime;
 	int			code;
+	int			forkamount;
 	char		*line;
-	char		*absolute;
-	char		**arguments;
 	
 }	t_shell;
 
 // Prototypes
 
-// Move to libft
+// Tools
 
 int	ft_setenv(char **envp, char *var, char *val);
 long long	ft_gettimems(char **envp);
@@ -78,15 +81,11 @@ long long	ft_gettimems(char **envp);
 // init
 
 t_shell	*ft_initstruct(char **envp);
-
-// prompt
-
 void	ft_printprompt(t_shell *strct, char **envp);
+int	ft_runscript(int argc, char **argv, char **envp);
 
 // parse
-
-int	*ft_parseline(char *line, t_shell *strct);
-
+int	*ft_parseline(char *line, t_shell *shell);
 
 //parse_1
 int		check_quote_closed(char *s);
@@ -95,33 +94,25 @@ int		count_wd(char *s, int c);
 char	**split_not_quote(char *s, int c);
 
 //parse_2
-void	ft_strct_per_cmd(char **cmd, t_shell *shell);
+void	ft_strct_per_cmd(char **cmds, t_shell *shell);
 
 //redirect
-void	ft_check_redirect(t_exec commands, char *cmd);
-t_redirect	*ft_redrc_in(t_exec commands, char *meta, char *file);
-t_redirect	*ft_redrc_out(t_exec commands, char *meta, char *file);
+void	ft_check_redirect(t_cmds cmds, char *command);
+t_redirect	*ft_redrc_in(t_cmds cmds, char *meta, char *file);
+t_redirect	*ft_redrc_out(t_cmds cmds, char *meta, char *file);
 void	ft_rdrct_add_back(t_redirect **lst, t_redirect *new);
 
-// execute
-
-int	ft_executecommands(t_shell *strct);
-
-// script
-
-int	ft_runscript(int argc, char **argv, char **envp);
+// exec
+int	ft_forktheforks(t_shell *shell);
+int	ft_dupmachine(t_cmds cmds);
 
 // builtins
-
-int	ft_chdir(t_shell *strct);
-int	ft_exit(t_shell *strct);
-int	ft_unset(t_shell *strct);
-int	ft_export(t_shell *strct);
-int	ft_env(t_shell *strct);
-int	ft_pwd(t_shell *strct);
-int	ft_echo(t_shell *strct);
-
-//test
-
+int	ft_chdir(t_cmds cmds);
+int	ft_exit(t_cmds cmds);
+int	ft_unset(t_cmds cmds);
+int	ft_export(t_cmds cmds);
+int	ft_env(t_cmds cmds);
+int	ft_pwd(t_cmds cmds);
+int	ft_echo(t_cmds cmds);
 
 #endif

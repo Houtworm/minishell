@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                        |o_o || |                 #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/24 15:16:57 by yitoh         ########   odam.nl          #
+#    Updated: 2023/08/24 22:09:55 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,14 +15,14 @@ CC		=gcc
 CFLAGS	=-Wall -Werror -Wextra# -g -fsanitize=address
 RM		=rm -f
 SRC		=src/main.c\
-		 src/init.c\
-		 src/prompt.c\
-		 src/parse.c\
-		 src/parse_1.c\
-		 src/parse_2.c\
-		 src/redirect.c\
-		 src/exec.c\
-		 src/script.c\
+		 src/init/init.c\
+		 src/init/prompt.c\
+		 src/init/script.c\
+		 src/parse/parse.c\
+		 src/parse/parse_1.c\
+		 src/parse/parse_2.c\
+		 src/parse/redirect.c\
+		 src/exec/exec.c\
 		 src/builtin/exit.c\
 		 src/builtin/chdir.c\
 		 src/builtin/unset.c\

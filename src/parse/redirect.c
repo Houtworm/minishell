@@ -1,51 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   redirect.c                                         :+:    :+:            */
+/*   redirect.c                                      |o_o || |                */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/24 15:24:50 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/25 01:20:21 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 //ex sort < a.txt > b.txt
 //problem when there is two redirection 
 //ex. wc -l > file 2 > file3 then the file name will be ' file2 > file3'
 //split before ft_redrc_in / _out
 
-void	ft_check_redirect(t_exec commands, char *cmd)
+void	ft_check_redirect(t_cmds cmds, char *command)
 {
 	char	**tmp;
 	int		k;
 	t_redirect	*p;
 
-	tmp = split_not_quote(cmd, ' ');
+	tmp = split_not_quote(command, ' ');
 	if (!tmp)
 		return ;
 	k = 0;
 	while (tmp[k])
 	{
 		if (ft_strnstr(tmp[k], "<<", 2) || ft_strchr(tmp[k], '<'))
-			commands.redirect = ft_redrc_in(commands, tmp[k], tmp[k+1]);
+			cmds.redirect = ft_redrc_in(cmds, tmp[k], tmp[k+1]);
 		if (ft_strnstr(tmp[k], ">>", 2) || ft_strchr(tmp[k], '>'))
-			commands.redirect = ft_redrc_out(commands, tmp[k], tmp[k+1]);
+			cmds.redirect = ft_redrc_out(cmds, tmp[k], tmp[k+1]);
 		k++;
 	}
 	ft_frearr(tmp);
-	p = commands.redirect;
+	p = cmds.redirect;
 	printf("fd in = %d, fd out final = %d\n", p->fd_in, p->fd_out);
-	while (commands.redirect && p->nxt)
+	while (cmds.redirect && p->nxt)
 	{
 		p = p->nxt;
 		printf("fd in = %d, fd out final = %d\n", p->fd_in, p->fd_out);
 	}
 }
 
-t_redirect	*ft_redrc_in(t_exec commands, char *meta, char *file)
+t_redirect	*ft_redrc_in(t_cmds cmds, char *meta, char *file)
 {
 	t_redirect	*new;
 
@@ -58,16 +58,16 @@ t_redirect	*ft_redrc_in(t_exec commands, char *meta, char *file)
 		new->fd_in = open(file, O_RDONLY);
 	if (new->fd_in < 0)
 		return (NULL);
-	ft_rdrct_add_back(&commands.redirect, new);
-	return (commands.redirect);
+	ft_rdrct_add_back(&cmds.redirect, new);
+	return (cmds.redirect);
 }
 
-t_redirect	*ft_redrc_out(t_exec commands, char *meta, char *file)
+t_redirect	*ft_redrc_out(t_cmds cmds, char *meta, char *file)
 {
 	t_redirect	*new;
 
-	if (commands.redirect && !commands.redirect->fd_out)
-		new = commands.redirect;
+	if (cmds.redirect && !cmds.redirect->fd_out)
+		new = cmds.redirect;
 	else
 		new = ft_calloc(1, sizeof(t_redirect));
 	if (!new)
@@ -84,9 +84,9 @@ t_redirect	*ft_redrc_out(t_exec commands, char *meta, char *file)
 	}
 	if (new->fd_out < 0)
 		return (NULL);
-	if (new != commands.redirect)
-		ft_rdrct_add_back(&commands.redirect, new);
-	return (commands.redirect);
+	if (new != cmds.redirect)
+		ft_rdrct_add_back(&cmds.redirect, new);
+	return (cmds.redirect);
 }
 
 void	ft_rdrct_add_back(t_redirect **lst, t_redirect *new)

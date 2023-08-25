@@ -6,11 +6,11 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/22 13:26:25 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/23 04:36:43 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/24 23:07:18 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 char	*ft_addosuserandhosttoprompt(char **envp)
 {
@@ -69,33 +69,33 @@ long long	ft_gettimems(char **envp)
 	return (currenttime);
 }
 
-char	*ft_addexecutiontime(t_shell *strct, char *temp, char **envp)
+char	*ft_addexecutiontime(t_shell *shell, char *temp, char **envp)
 {
 	char				*date;
 	char				*prompt;
 	long long			diff;
 
-	diff = ft_gettimems(envp) - strct->starttime;
+	diff = ft_gettimems(envp) - shell->starttime;
 	date = ft_ltoa(diff);
 	prompt = ft_vastrjoin(3, temp, "\e[0;30;44m ", date);
 	ft_vafree(2, date, temp);
 	return (prompt);
 }
 
-char	*ft_addreturncode(t_shell *strct, char *temp)
+char	*ft_addreturncode(t_shell *shell, char *temp)
 {
 	char	*prompt;
 	char	*temp2;
 
-	if (strct->code != 256)
+	if (shell->code != 256)
 	{
-		if (strct->code)
+		if (shell->code)
 			temp2 = ft_strjoin(temp, "ms \e[34;41m\e[30;41m ");
 		else
 			temp2 = ft_strjoin(temp, "ms \e[34;42m\e[30;42m ");
 		free(temp);
-		temp = ft_itoa(strct->code);
-		if (strct->code)
+		temp = ft_itoa(shell->code);
+		if (shell->code)
 			prompt = ft_vastrjoin(3, temp2, temp, " ✘ \e[31;49m\e[0;0m\n");
 		else
 			prompt = ft_strjoin(temp2, "✔ \e[32;49m\e[0;0m\n");
@@ -107,14 +107,14 @@ char	*ft_addreturncode(t_shell *strct, char *temp)
 	return (prompt);
 }
 
-void	ft_printprompt(t_shell *strct, char **envp)
+void	ft_printprompt(t_shell *shell, char **envp)
 {
 	char	*prompt;
 
 	prompt = ft_addosuserandhosttoprompt(envp);
 	prompt = ft_addworkingdirectory(prompt, envp);
-	prompt = ft_addexecutiontime(strct, prompt, envp);
-	prompt = ft_addreturncode(strct, prompt);
+	prompt = ft_addexecutiontime(shell, prompt, envp);
+	prompt = ft_addreturncode(shell, prompt);
 	ft_printf(prompt);
 	free(prompt);
 }

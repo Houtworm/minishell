@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                            :+:    :+:             #
+#    test.sh                                         |o_o || |                 #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/23 13:41:19 by yitoh         ########   odam.nl          #
+#    Updated: 2023/08/24 23:34:29 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -194,6 +194,16 @@ testfunction "cd nonexistingpath"
 # redirections
 printf "\e[1;36mTesting redirections\e[0;00m\n"
 redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
+
+# and operator
+printf "\e[1;36mTesting and operator\e[0;00m\n"
+testfunction "ls && echo 'hello'"
+testfunction "ls &&echo 'hello'"
+testfunction "ls&&echo 'hello'"
+testfunction "ls&&&echo 'hello'"
+testfunction "ls&& &echo 'hello'"
+testfunction "ls&&;echo 'hello'"
+testfunction "ls&& ;echo 'hello'"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO\'s and $PASSES OK\'s\e[0;00m\n"
