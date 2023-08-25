@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec_strct.c                                    |o_o || |                */
+/*   exec_strct.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 17:38:38 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/24 23:36:28 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 19:41:43 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+ 
 /*
 
 OK!
@@ -33,7 +34,6 @@ Danny here, I added these lines to the tester, feel free to add any edge cases y
 I also don't mind if you comment out parts of the tester for some clarity :), it is easier if you just see the tests you are working on :)
 */
 
-
 int	symbol_check(char	*s)
 {
 	int	i;
@@ -41,9 +41,9 @@ int	symbol_check(char	*s)
 	i = 0;
 	while (s[i] == ' ')
 		i++;
-	if (s[i] != '&' || s[i] != '|' || s[i] != ';')
+	if (s[i] != '&' && s[i] != '|' && s[i] != ';')
 		return (i + 1);
-	return (0); //ft_error(ex. bash: +echo: command not found)
+	ft_errorexit("syntax error near unexpected token", (char *)s[i], 258);
 }
 
 int	count_str2(char *s)
@@ -63,13 +63,18 @@ int	count_str2(char *s)
 			while (s[i + j] != s[i])
 				j++;
 		}
-		i = i + j;
+		i += j;
 		if ((s[i] == '&' && s[i + 1] == '&')
 			|| (s[i] == '|' && s[i + 1] == '|'))
+		{
+			str_count++;
 			i += symbol_check(s + i + 2);
-		if (s[i] == '&' || s[i] == ';')
+		}
+		else if (s[i] == '&' || s[i] == ';')
+		{
+			str_count++;	
 			i += symbol_check(s + i + 1);
-		str_count++;
+		}
 		i++;
 	}
 	return (str_count + 1);

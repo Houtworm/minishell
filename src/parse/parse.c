@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                         |o_o || |                */
+/*   parse.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/25 06:18:08 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 19:54:14 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ int	*ft_parseline(char *line, t_shell *shell)
 	// that way you use the variables of your parsing and not the fake ones put in place by the function.
 	// if it at least doesn't segfault  the application or mess with other outputs you can leave it be and slowly add all the parsing till you're done :)
 
-/*yuka working
-	char	**arr; //I'm a pirate :P
+//yuka working
+	// char	**arr; //I'm a pirate :P
 
-	if (!check_quote_closed(line))
-		printf("num of str = %d\n", count_str(line, '|'));
-	shell->forks = ft_forks_strct(line, shell);
-	printf("end of testing\n");
-	exit(0);
+	// if (!check_quote_closed(line))
+	// 	printf("num of str = %d\n", count_str(line, '|'));
+	// shell->forks = ft_forks_strct(line, shell);
+	// printf("end of testing\n");
+	// exit(0);
 //*/
 	return (SUCCESS);
 }
