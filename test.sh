@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/25 06:06:41 by houtworm     \___)=(___/                  #
+#    Updated: 2023/08/25 06:15:49 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,41 +85,29 @@ redirectfunction()
 		printf "\e[1;32mreturn OK\n\e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	cat m1 2> /dev/null 1>&2
+	diff r1 m1 > /dev/null
 	if [ $? -ne 0 ]
 	then
-		diff r1 m1 2> /dev/null
-		if [ $? -ne 0 ]
-		then
-			printf "\n\e[1;31mKO file 1 doesn't match with command ${1} \nreal: $(cat r1 2> /dev/null)\nmini: $(cat m1 2> /dev/null)\e[0;00m\n"
-			ERRORS=$(($ERRORS+1))
-		fi
+		printf "\n\e[1;31mKO file 1 doesn't match with command ${1} \nreal: $(cat r1 2> /dev/null)\nmini: $(cat m1 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
 	else
 		printf "\e[1;32mFile 1 OK\n\e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	cat m2 2> /dev/null 1>&2
+	diff r2 m2 > /dev/null
 	if [ $? -ne 0 ]
 	then
-		diff r2 m2 2> /dev/null
-		if [ $? -ne 0 ]
-		then
-			printf "\n\e[1;31mKO file 2 doesn't match with command ${1} \nreal: $(cat r2 2> /dev/null)\nmini: $(cat m2 2> /dev/null)\e[0;00m\n"
-			ERRORS=$(($ERRORS+1))
-		fi
+		printf "\n\e[1;31mKO file 2 doesn't match with command ${1} \nreal: $(cat r2 2> /dev/null)\nmini: $(cat m2 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
 	else
 		printf "\e[1;32mFile 2 OK\n\e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	cat m3 2> /dev/null 1>&2
+	diff r3 m3 > /dev/null
 	if [ $? -ne 0 ]
 	then
-		diff r3 m3 2> /dev/null
-		if [ $? -ne 0 ]
-		then
-			printf "\n\e[1;31mKO file 3 doesn't match with command ${1} \nreal: $(cat r3 2> /dev/null)\nmini: $(cat m3 2> /dev/null)\e[0;00m\n"
-			ERRORS=$(($ERRORS+1))
-		fi
+		printf "\n\e[1;31mKO file 3 doesn't match with command ${1} \nreal: $(cat r3 2> /dev/null)\nmini: $(cat m3 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
 	else
 		printf "\e[1;32mFile 3 OK\n\e[0;00m"
 		PASSES=$(($PASSES+1))
@@ -196,6 +184,8 @@ printf "\e[1;36mTesting redirections\e[0;00m\n"
 redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
 redirectfunction "cat r1 > r2 > r3" "cat m1 > m2 > m3"
 redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
+redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > r3" "printf 'blabla' > m1; printf 'blabla' > m2; printf 'blabla' > m3"
+redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
 
 # and operator
 printf "\e[1;36mTesting and operator\e[0;00m\n"
