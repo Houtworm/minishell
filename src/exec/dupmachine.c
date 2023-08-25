@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/24 21:59:03 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/25 04:37:41 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 04:54:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,12 @@ int	ft_heredoc(char *delimiter)
 
 int	ft_dupmachine(t_cmds cmds)
 {
+	// check if cmdnbr == 0 and forknbr > 0 then fd_in is output from pipe
 	if (cmds.redirect[0].fd_in == -1)
 		cmds.redirect[0].fd_in = ft_heredoc(cmds.redirect[0].heredocdelimiter);
 	else
 		dup2(cmds.redirect[0].fd_in, 0);
+	// check if cmdnumber == cmdamount and forknumber < forkamount. then fd_out is dupped to pipe.
 	dup2(cmds.redirect[0].fd_out, 1);
 	return (0);
 }
