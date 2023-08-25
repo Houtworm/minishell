@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/25 03:55:22 by houtworm     \___)=(___/                  #
+#    Updated: 2023/08/25 06:06:41 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -194,6 +194,8 @@ redirectfunction()
 # redirections
 printf "\e[1;36mTesting redirections\e[0;00m\n"
 redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
+redirectfunction "cat r1 > r2 > r3" "cat m1 > m2 > m3"
+redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
 
 # and operator
 printf "\e[1;36mTesting and operator\e[0;00m\n"
