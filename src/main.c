@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:43 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/25 03:12:03 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 04:36:54 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 	shell.envp = envp;
 	shell.starttime = ft_gettimems(shell.envp);
 	shell.code = 256;
-	/*signal(SIGINT, ft_sighandler);*/
+	/*signal(SIGINT, ft_sighandler);*/ //leave commented out untill builtins are fixed
 	signal(SIGQUIT, ft_sighandler);
 	if (argc > 1)
 		return (ft_runscript(argc, argv, envp));

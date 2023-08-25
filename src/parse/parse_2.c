@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/25 01:13:58 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 04:39:53 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	ft_strct_per_cmd(char **command, t_shell *shell)
 
 	cmds = ft_calloc(count_str(shell->line, '|') + 1, sizeof(t_cmds));
 	if (!cmds)
-		return ;	//ft_error()?;
+		return ;	//ft_error()?; (There is a ft_errorexit function :)
 	i = 0;
 	paths = ft_getpaths(shell->envp, 1);
 	while (command[i])

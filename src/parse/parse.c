@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/25 04:21:47 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 04:46:40 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@ t_shell *ft_testfillfakestruct(t_shell *shell, char *line)
 	char	**paths;
 
 	paths = ft_getpaths(shell->envp, 1); // This should probably be done somewhere else?
-	shell->forkamount = 1;
-	shell->forks = ft_calloc(10 * sizeof(t_forks), 1);
-	shell->forks->cmdamount = 1;
-	shell->forks->cmds = ft_calloc(10 * sizeof(t_cmds), 1);
-	shell->forks[0].cmds[0].envp = shell->envp;
-	shell->forks[0].cmds[0].arguments = ft_split(line, ' ');
-	shell->forks[0].cmds[0].absolute = ft_abspathcmd(paths, shell->forks[0].cmds[0].arguments[0]);
-	shell->forks[0].cmds[0].detatch = 0;
-	shell->forks[0].cmds[0].condition = 0;
-	shell->forks[0].cmds[0].redirect = ft_calloc(10 * sizeof(t_redirect), 1);
-	shell->forks[0].cmds[0].redirect[0].fd_in = 0;
-	shell->forks[0].cmds[0].redirect[0].fd_out = 1;
-	shell->forks[0].cmds[0].redirect[0].trc_apd = 1;
-	ft_frearr(paths);
+	shell->forkamount = 1; //number of fork structs
+	shell->forks = ft_calloc(10 * sizeof(t_forks), 1); //temp calloc
+	shell->forks->cmdamount = 1; //number of command structs
+	shell->forks->cmds = ft_calloc(10 * sizeof(t_cmds), 1); //temp calloc
+	shell->forks[0].cmds[0].envp = shell->envp; //copy over envp (should be done differently, Perhaps make it a pointer if that will work. else make it a file?)
+	shell->forks[0].cmds[0].arguments = ft_split(line, ' '); // can be removed as soon as you populate the command struct with the arguments.
+	shell->forks[0].cmds[0].absolute = ft_abspathcmd(paths, shell->forks[0].cmds[0].arguments[0]); //can be removed after arguments and absolute are handled by the parser.
+	shell->forks[0].cmds[0].detatch = 0; // wether to detach the process (&)
+	shell->forks[0].cmds[0].condition = 0; // && || or no condition.
+	shell->forks[0].cmds[0].redirect = ft_calloc(10 * sizeof(t_redirect), 1); //temp calloc
+	shell->forks[0].cmds[0].redirect[0].fd_in = 0; // in fd make it -1 for heredoc
+	shell->forks[0].cmds[0].redirect[0].fd_out = 1; // out fd, 
+	shell->forks[0].cmds[0].redirect[0].trc_apd = 1; //trunc append. This is probably completely handled by you, since you open the files and just pass the fd. so it probably doesn't have to be passed to the executioner.
+	ft_frearr(paths); //free the temporary paths.
 	return (shell);
 }
 
@@ -45,7 +45,7 @@ int	*ft_parseline(char *line, t_shell *shell)
 	// if it at least doesn't segfault  the application or mess with other outputs you can leave it be and slowly add all the parsing till you're done :)
 
 /*yuka working
-	char	**arr;
+	char	**arr; //I'm a pirate :P
 
 	if (!check_quote_closed(line))
 		printf("num of str = %d\n", count_str(line, '|'));

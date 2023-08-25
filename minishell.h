@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/25 03:49:21 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 04:36:32 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct s_redirect
 {
 	int					fd_in; // -1 for heredoc?
 	int					fd_out;
-	int					trc_apd; //0 for trunc, 1 for append
-	char				*heredocdelimiter;
+	int					trc_apd; //0 for trunc, 1 for append, 2 for just touch (if it should remain empty)
+	char				*heredocdelimiter; // the EOF thingy in heredoc :)
 	struct s_redirect	*nxt;
 }	t_redirect;
 
@@ -67,9 +67,8 @@ typedef struct s_shell
 	char		**envp;
 	long long	starttime;
 	int			code;
-	int			forkamount;
+	int			forkamount; // 1 fork struct is 1, 2 fork structs is 2. so start from 1, and ++ for every additional fork :)
 	char		*line;
-	
 }	t_shell;
 
 // Prototypes
