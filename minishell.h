@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/25 04:57:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 06:20:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_cmds
 	int			condition; // 0 for non, 1 for &&, 2 for || 
 	int			pid;
 	int			code;
+	int			lastcode;
 	t_redirect	*redirect;
 }	t_cmds;
 
