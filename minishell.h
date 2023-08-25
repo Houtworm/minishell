@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/25 02:33:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 03:49:21 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@
 
 typedef struct s_redirect
 {
-	int					fd_in;
+	int					fd_in; // -1 for heredoc?
 	int					fd_out;
 	int					trc_apd; //0 for trunc, 1 for append
+	char				*heredocdelimiter;
 	struct s_redirect	*nxt;
 }	t_redirect;
 

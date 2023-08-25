@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:43 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/25 02:08:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/25 03:12:03 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	ft_sighandler(int sig)
 int	ft_mainloop(t_shell *shell, char **envp)
 {
 	char	*line;
+	int		forknumber;
+	int		status;
 
+	forknumber = 0;
 	ft_printprompt(shell, envp);
 	line = readline(SHELL_PROMPT);
 	shell->starttime = ft_gettimems(shell->envp);
@@ -40,6 +43,11 @@ int	ft_mainloop(t_shell *shell, char **envp)
 		add_history(line);
 		ft_parseline(line, shell);
 		ft_forktheforks(shell);
+		while (shell->forkamount > forknumber)
+		{
+			waitpid(shell->forks[forknumber].pid, &status, 0);
+			forknumber++;
+		}
 		ft_frearr(shell->forks[0].cmds[0].arguments);
 		free(shell->forks[0].cmds[0].absolute);
 		free(line);
