@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/25 04:07:59 by houtworm     \___)=(___/                  #
+#    Updated: 2023/08/25 04:58:18 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRC		=src/main.c\
 		 src/builtin/export.c\
 		 src/builtin/env.c\
 		 src/builtin/pwd.c\
-		 src/builtin/echo.c
+		 src/builtin/echo.c\
+		 src/tools/error.c
 OBJ		=$(SRC:src/%.c=obj/%.o)
 LIB		=printf/ft_printf.a getnextline/get_next_line.a libft/libft.a
 
