@@ -6,21 +6,21 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:16 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/25 01:10:21 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/26 05:39:38 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*int	ft_env(t_shell *shell)*/
-/*{*/
-	/*int	i;*/
+int	ft_env(t_cmds cmds)
+{
+	int	i;
 
-	/*i = 0;*/
-	/*while (shell->envp[i])*/
-	/*{*/
-		/*ft_printf("%s\n", shell->envp[i]);*/
-		/*i++;*/
-	/*}*/
-	/*return (0);*/
-/*}*/
+	i = 0;
+	while (cmds.envp[i])
+	{
+		ft_printf("%s\n", cmds.envp[i]);
+		i++;
+	}
+	return (0);
+}

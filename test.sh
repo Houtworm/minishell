@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/25 06:15:49 by houtworm     \___)=(___/                  #
+#    Updated: 2023/08/26 05:54:32 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,9 @@ SLEEP=0
 
 testfunction()
 {
-	bash -c "$1" > realstdoutfile 2> realerroutfile
+	bash -c "$1" 2> realstderrfile 1> realstdoutfile
 	REALRETURN=$?
-	./minishell -c "$1" > ministdoutfile 2> minierroutfile
+	./minishell -c "$1" 2> ministderrfile 1> ministdoutfile
 	MINIRETURN=$?
 	diff realstdoutfile ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
@@ -31,13 +31,13 @@ testfunction()
 		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat realstdoutfile 2> /dev/null)\nmini: $(cat ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff realerroutfile minierroutfile > /dev/null
+	diff realstderrfile ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat realstderrfile 2> /dev/null)\nmini: $(cat ministderrfile 2> /dev/null)\e[0;00m\n"
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat realstderrfile)\nmini: $(cat ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
@@ -48,16 +48,16 @@ testfunction()
 		printf "\e[1;32mreturn OK\n\e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	rm realstdoutfile realerroutfile ministdoutfile minierroutfile
+	rm realstdoutfile realstderrfile ministdoutfile ministderrfile
 	sleep $SLEEP
 }
 
 redirectfunction()
 {
 	echo 1 > m1; echo 1 > r1; echo 2 > m2; echo 2 > r2; echo 3 > r3; echo 3 > m3;
-	bash -c "$1" > realstdoutfile 2> realerroutfile
+	bash -c "$1" > realstdoutfile 2> realstderrfile
 	REALRETURN=$?
-	./minishell -c "$2" > ministdoutfile 2> minierroutfile
+	./minishell -c "$2" > ministdoutfile 2> ministderrfile
 	MINIRETURN=$?
 	diff realstdoutfile ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
@@ -68,7 +68,7 @@ redirectfunction()
 		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat realstdoutfile 2> /dev/null)\nmini: $(cat ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff realerroutfile minierroutfile > /dev/null
+	diff realstderrfile ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
@@ -112,11 +112,30 @@ redirectfunction()
 		printf "\e[1;32mFile 3 OK\n\e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	rm realstdoutfile realerroutfile ministdoutfile minierroutfile r1 r2 r3 m1 m2 m3 2> /dev/null
+	rm realstdoutfile realstderrfile ministdoutfile ministderrfile r1 r2 r3 m1 m2 m3 2> /dev/null
 	sleep $SLEEP
 }
 
 # Testing Lines
+
+# basic
+printf "\e[1;36mTesting basics\e[0;00m\n"
+testfunction "hallo"
+touch perm
+chmod 000 perm
+testfunction "perm"
+testfunction "cat perm"
+chmod 444 perm
+testfunction "perm"
+testfunction "cat perm"
+chmod 666 perm
+testfunction "perm"
+testfunction "cat perm"
+chmod 777 perm
+testfunction "perm"
+testfunction "cat perm"
+rm perm
+
 
 # echo
 #printf "\e[1;36mTesting echo\e[0;00m\n"

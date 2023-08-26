@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 04:15:15 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 05:00:17 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,13 +134,20 @@ int	ft_checkinputfile(char *inputfile);
 int	ft_checkoutputfile(char *outputfile);
 int	ft_checkcommand(t_cmds cmds);
 
-// builtins
+// BUILTINS
+// chdir
 int	ft_chdir(t_cmds cmds);
+// exit
 int	ft_exit(t_cmds cmds);
+// unset
 int	ft_unset(t_cmds cmds);
+// export
 int	ft_export(t_cmds cmds);
+// env
 int	ft_env(t_cmds cmds);
+// pwd
 int	ft_pwd(t_cmds cmds);
+// echo
 int	ft_echo(t_cmds cmds);
 
 #endif
