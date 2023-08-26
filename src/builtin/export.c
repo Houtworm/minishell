@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:12:44 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/26 05:39:08 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 09:19:03 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_export(t_cmds cmds)
 		val[j] = line[8 + j + i];
 		j++;
 	}
-	ft_setenv(cmds.envp, var, val);
+	ft_setenv(*cmds.envp, var, val);
 	free(var);
 	free(val);
 	return (0);

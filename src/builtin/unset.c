@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:05 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/26 05:38:09 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 09:18:49 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ int	ft_unset(t_cmds cmds)
 		var[i] = line[5 + i];
 		i++;
 	}
-	while (cmds.envp[i])
+	while (*cmds.envp[i])
 	{
-		if (!ft_strncmp(cmds.envp[i], var, ft_strlen(var)))
+		if (!ft_strncmp(*cmds.envp[i], var, ft_strlen(var)))
 		{
-			cmds.envp[i] = cmds.envp[i + 1];
+			*cmds.envp[i] = *cmds.envp[i + 1];
 			while (cmds.envp[i + 1])
 			{
-				cmds.envp[i] = cmds.envp[i + 1];
+				*cmds.envp[i] = *cmds.envp[i + 1];
 				i++;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 05:59:41 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 09:17:15 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_executecommand(t_cmds cmds)
 	if (cmds.pid == 0)
 	{
 		if (ft_builtincheck(cmds))
-			execve(cmds.absolute, cmds.arguments, cmds.envp);
+			execve(cmds.absolute, cmds.arguments, *cmds.envp);
 		exit (0);
 	}
 	waitpid(cmds.pid, &status, 0);

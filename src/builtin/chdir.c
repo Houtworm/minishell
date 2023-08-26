@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 17:21:02 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 05:35:28 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 10:09:59 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,27 @@
 int	ft_chdir(t_cmds cmds)
 {
 	char	*line;
-	char	*dir;
 	int		i;
 	char	*cwd;
 
 	cwd = malloc(512);
 	getcwd(cwd, 512);
 	i = 0;
-	dir = ft_calloc(512, 1);
-	line = cmds.arguments[1];
-	while (line[i] != '\0')
+	if (!ft_strncmp(cmds.arguments[1],  "~\0", 2) || i == 0)
+		line = ft_gethome(*cmds.envp);
+	else if (!ft_strncmp(cmds.arguments[1],  "-\0", 2))
+		line = ft_getenvval(*cmds.envp, "OLDPWD");
+	else
+		line = *cmds.envp[1];
+	if (chdir(line))
 	{
-		while (line[i] == ' ')
-			i++;
-		dir[i] = line[i + 1];
-		i++;
-	}
-	if (!ft_strncmp(dir,  "~\0", 2) || i == 0)
-	{
-		dir = ft_gethome(cmds.envp);
-	}
-	if (!ft_strncmp(dir,  "-\0", 2))
-	{
-		dir = ft_getenvval(cmds.envp, "OLDPWD");
-	}
-	if (chdir(dir))
-	{
-		free(dir);
 		free(cwd);
-		return (1);
+		ft_errorexit("No such file or directory", cmds.arguments[0], 1); //also needs filename:
 	}
-	ft_setenv(cmds.envp, "OLDPWD", cwd);
+	ft_setenv(*cmds.envp, "OLDPWD", cwd);
 	getcwd(cwd, 512);
-	ft_setenv(cmds.envp, "PWD", cwd);
-	free(dir);
+	ft_setenv(*cmds.envp, "PWD", cwd);
 	free(cwd);
+	ft_charpptofd(*cmds.envp, cmds.envpfd);
 	return (0);
 }
