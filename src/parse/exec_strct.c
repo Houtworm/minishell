@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 17:38:38 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 10:56:58 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 13:39:35 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ char	**split_spchr(char *s)
 		ft_errorexit("Error allocating memory", "malloc", 1);
 	while (s[start])
 	{
-		printf("start = %d, %d char\n", start, count_wd2(s + start));
+		// printf("start = %d, %d char\n", start, count_wd2(s + start));
 		cmd[i] = ft_substr(s, start, count_wd2(s + start));
 		if (!cmd[i])
 			return (ft_frenarr(cmd, i));

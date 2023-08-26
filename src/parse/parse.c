@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 13:18:15 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 14:17:22 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ t_shell *ft_testfillfakestruct(t_shell *shell, char *line)
 	shell->forks->cmdamount = 1; //number of command structs
 	shell->forks->cmds = ft_calloc(10 * sizeof(t_cmds), 1); //temp calloc
 	shell->forks[0].cmds[0].envp = &shell->envp; //copy over envp (should be done to every single command struct)
-	shell->forks[0].cmds[0].arguments = ft_split(line, ' '); // can be removed as soon as you populate the command struct with the arguments.
-	shell->forks[0].cmds[0].absolute = ft_abspathcmd(paths, shell->forks[0].cmds[0].arguments[0]); //can be removed after arguments and absolute are handled by the parser.
+	// shell->forks[0].cmds[0].arguments = ft_split(line, ' '); // can be removed as soon as you populate the command struct with the arguments.
+	// shell->forks[0].cmds[0].absolute = ft_abspathcmd(paths, shell->forks[0].cmds[0].arguments[0]); //can be removed after arguments and absolute are handled by the parser.
 	shell->forks[0].cmds[0].detatch = 0; // wether to detach the process (&)
 	shell->forks[0].cmds[0].condition = 0; // && || or no condition.
 	shell->forks[0].cmds[0].redirect = ft_calloc(10 * sizeof(t_redirect), 1); //temp calloc
@@ -38,7 +38,11 @@ t_shell *ft_testfillfakestruct(t_shell *shell, char *line)
 
 int	*ft_parseline(char *line, t_shell *shell)
 {
-	shell = ft_testfillfakestruct(shell, line); 
+	// shell = ft_testfillfakestruct(shell, line); 
+	// if (check_quote_closed(line))
+		
+	shell->forks = ft_parsepipe(line, shell);
+	shell->forks = ft_parsespchr(shell->forks, shell);
 	
 	// This will fill the struct with fake variables, 
 	// so if you are testing something just comment out the line in this function,
@@ -49,12 +53,10 @@ int	*ft_parseline(char *line, t_shell *shell)
 
 	// if (!check_quote_closed(line))
 	// 	printf("num of str = %d\n", count_str(line, '|'));
-	// shell->forks = ft_parsepipe(line, shell);
 	// // printf("split by pip %s\n", shell->forks[0].pipeline);
 	// // printf("split by pip %s\n", shell->forks[1].pipeline);
 	// // printf("split by pip %s\n", shell->forks[2].pipeline);
 	
-	// shell->forks = ft_parsespchr(shell->forks, shell);
 	// // printf("split by spchr %s\n", shell->forks[0].cmds[0].absolute);
 	// // printf("split by spchr %s\n", shell->forks[1].cmds[0].absolute);
 	// // printf("split by spchr %s\n", shell->forks[1].cmds[1].absolute);

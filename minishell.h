@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 12:08:41 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 14:19:52 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,17 +104,16 @@ int	ft_runscript(int argc, char **argv, char **envp);
 // PARSE
 // parse
 int	*ft_parseline(char *line, t_shell *shell);
-//parse_1
+//parse_utils
 int		check_quote_closed(char *s);
 int		count_str(char *s, int c);
 int		count_wd(char *s, int c);
 char	**split_not_quote(char *s, int c);
-//parse_2
+//struct
 t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell);
 t_forks	*ft_parsepipe(char *line, t_shell *shell);
-// t_forks	*ft_forks_strct(char *line, t_shell *shell);
-// t_cmds	*ft_exec_strct(char *pipeline, t_forks forks);
-// void	ft_strct_per_cmd(char **cmds, t_shell *shell);
+t_forks	ft_fill_teststrct(t_forks forks, t_shell *shell, char *cmd, int cmdamount);
+
 //redirect
 void	ft_check_redirect(t_cmds cmds, char *command);
 t_redirect	*ft_redrc_in(t_cmds cmds, char *meta, char *file);

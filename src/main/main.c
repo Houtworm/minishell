@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   main.c                                          |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/03/19 04:35:43 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 12:06:48 by djonker      \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: djonker <djonker@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
+/*   Updated: 2023/08/26 13:47:49 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	ft_mainloop(t_shell *shell)
 			waitpid(shell->forks[forknumber].pid, &status, 0);
 			forknumber++;
 		}
-		ft_frearr(shell->forks[0].cmds[0].arguments);
-		free(shell->forks[0].cmds[0].absolute);
+		// ft_frearr(shell->forks[0].cmds[0].arguments);
+		// free(shell->forks[0].cmds[0].absolute);
 		free(line);
 	}
 	return (0);
