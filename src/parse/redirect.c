@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   redirect.c                                      |o_o || |                */
+/*   redirect.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/25 01:20:21 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/26 16:34:54 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	ft_check_redirect(t_cmds cmds, char *command)
 	while (tmp[k])
 	{
 		if (ft_strnstr(tmp[k], "<<", 2) || ft_strchr(tmp[k], '<'))
-			cmds.redirect = ft_redrc_in(cmds, tmp[k], tmp[k+1]);
+			cmds.redirect = ft_redrc_in(cmds, tmp[k], tmp[k + 1]);
 		if (ft_strnstr(tmp[k], ">>", 2) || ft_strchr(tmp[k], '>'))
-			cmds.redirect = ft_redrc_out(cmds, tmp[k], tmp[k+1]);
+			cmds.redirect = ft_redrc_out(cmds, tmp[k], tmp[k + 1]);
 		k++;
 	}
 	ft_frearr(tmp);
@@ -53,7 +53,7 @@ t_redirect	*ft_redrc_in(t_cmds cmds, char *meta, char *file)
 	if (!new)
 		return (NULL);
 	if (ft_strnstr(meta, "<<", 2))
-		new->fd_in = open("/tmp/shell_file.tmp", O_RDWR| O_CREAT | O_TRUNC, 0666);
+		new->fd_in = open("/tmp/minishellheredocfile.temp", O_RDWR| O_CREAT | O_TRUNC, 0666);
 	if (ft_strchr(meta, '<'))
 		new->fd_in = open(file, O_RDONLY);
 	if (new->fd_in < 0)

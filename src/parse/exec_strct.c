@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 17:38:38 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 15:33:06 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 16:36:37 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	count_str2(char *s)
 
 	str_count = 0;
 	i = 0;
-	printf("count_str2 %s\n", s);
 	while (s[i])
 	{
 		j = 0;

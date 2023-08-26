@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 16:23:25 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 16:51:28 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,22 @@ t_forks	*ft_parsepipe(char *line, t_shell *shell)
 	if (!forks)
 		ft_errorexit("Error allocating memory", "malloc", 1);
 	if (!ft_strchr(line, '|'))
-	{
 		forks[(shell->forkamount) - 1].pipeline = ft_strdup(line);
-			// shell->forkamount++;
-	}
 	else
 	{
 		tmp = split_not_quote(line, '|');
-		// printf("tmpforkamount: %s\n", tmp[(shell->forkamount) - 1]);
 		while (tmp[(shell->forkamount) - 1])
 		{
 			forks[(shell->forkamount)-1 ].pipeline = tmp[(shell->forkamount)  - 1];
 			shell->forkamount++;
-		}	
+		}
 	}
 	shell->forks = forks;
 	return (forks);
 }
 
-// 		// before split cmd by space, split cmd by &&, ||, (+ &)?
-// 		// then ft_check_redirect needs to happen -> ft_substr take cmd before < > << >>
+		// before split cmd by space, split cmd by &&, ||, (+ &)?
+		// then ft_check_redirect needs to happen -> ft_substr take cmd before < > << >>
 
 t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell)
 {
@@ -65,8 +61,11 @@ t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell)
 	int		i;
 
 	i = 0;
-	while (i < shell->forkamount)
+	// if (shell->forkamount == 1)
+	// 	i = -1;
+	while (i < (shell->forkamount))
 	{
+		printf("pipeline = %s\n",forks[i].pipeline );
 		forks[i].cmds = ft_calloc(count_str2(forks[i].pipeline) + 1, sizeof(t_cmds));
 		if (!forks[i].cmds)
 			ft_errorexit("Error allocating memory", "malloc", 1);
@@ -77,7 +76,6 @@ t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell)
 			forks[i] = ft_fill_teststrct(forks[i], shell, tmp[forks[i].cmdamount], forks[i].cmdamount);
 			forks[i].cmdamount++;
 		}
-		
 		i++;
 	}
 	return (forks);
@@ -101,5 +99,3 @@ t_forks	ft_fill_teststrct(t_forks forks, t_shell *shell, char *cmd, int cmdamoun
 	ft_frearr(paths);
 	return (forks);
 }
-
-// echo hello && wc
