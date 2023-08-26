@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 10:37:58 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 10:53:35 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	*ft_parseline(char *line, t_shell *shell)
 	// if it at least doesn't segfault  the application or mess with other outputs you can leave it be and slowly add all the parsing till you're done :)
 
 //yuka working
-
+//hello testing!!!
 	// if (!check_quote_closed(line))
 	// 	printf("num of str = %d\n", count_str(line, '|'));
 	// shell->forks = ft_forks_strct(line, shell);
