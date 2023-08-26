@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 17:21:02 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 10:09:59 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 11:38:02 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,18 @@ int	ft_chdir(t_cmds cmds)
 	cwd = malloc(512);
 	getcwd(cwd, 512);
 	i = 0;
-	if (!ft_strncmp(cmds.arguments[1],  "~\0", 2) || i == 0)
+	if (!ft_strncmp(cmds.arguments[1],  "~\0", 2) || !cmds.arguments[1])
 		line = ft_gethome(*cmds.envp);
 	else if (!ft_strncmp(cmds.arguments[1],  "-\0", 2))
 		line = ft_getenvval(*cmds.envp, "OLDPWD");
 	else
-		line = *cmds.envp[1];
+	{
+		line = cmds.arguments[1];
+	}
 	if (chdir(line))
 	{
 		free(cwd);
-		ft_errorexit("No such file or directory", cmds.arguments[0], 1); //also needs filename:
+		ft_moderrorexit("No such file or directory", cmds.arguments[0], cmds.arguments[1], 1); //also needs filename:
 	}
 	ft_setenv(*cmds.envp, "OLDPWD", cwd);
 	getcwd(cwd, 512);

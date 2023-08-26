@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 11:11:41 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 11:37:28 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ char	**ft_fdtocharpp(int	fd);
 void	ft_charpptofd(char **array, int fd);
 // error
 int	ft_errorexit(char *reason, char *cmd, int code);
+int	ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
 
 // INIT
 // init
