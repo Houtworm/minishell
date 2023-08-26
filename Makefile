@@ -6,11 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-<<<<<<< HEAD
-#    Updated: 2023/08/26 14:46:46 by yitoh         ########   odam.nl          #
-=======
 #    Updated: 2023/08/26 14:43:15 by houtworm         ###   ########.fr        #
->>>>>>> ac3cca3c75a50898890d4ae6ecabab771edae875
 #                                                                              #
 # **************************************************************************** #
 
