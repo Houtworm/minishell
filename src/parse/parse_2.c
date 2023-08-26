@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/25 21:27:56 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 11:00:58 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_cmds	*ft_exec_strct(char *pipeline, t_forks forks)
 	// char	**paths;
 	int		i;
 
-	printf("%d str in %s\n", count_str2(pipeline), pipeline);
+	// printf("%d str in %s\n", count_str2(pipeline), pipeline);
 	forks.cmdamount = count_str2(pipeline);
 	cmd = ft_calloc(forks.cmdamount + 1, sizeof(t_cmds));
 	if (!cmd)

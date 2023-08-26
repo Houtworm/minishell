@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 17:38:38 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 10:45:53 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 10:56:58 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	symbol_check(char	*s)
 	i = 0;
 	while (s[i] == ' ')
 		i++;
-	if (s[i] != '&' && s[i] != '|' && s[i] != ';') s[i]
+	if (s[i] != '&' && s[i] != '|' && s[i] != ';')
 		return (i + 1);
 	ft_errorexit("syntax error near unexpected token", &s[i], 258);
 	return (0);
