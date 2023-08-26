@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:28 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/24 23:06:16 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/26 07:00:35 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_shell	*ft_initstruct(char **envp)
 
 	shell = ft_calloc(sizeof(shell), 10);
 	shell->envp = envp;
+	shell->envpfd = open("/tmp/minishellenvpfile.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+	ft_charpptofd(envp, shell->envpfd);
 	shell->starttime = ft_gettimems(shell->envp);
 	shell->code = 256;
 	return (shell);

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 05:00:17 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 06:57:19 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_redirect
 typedef struct s_cmds
 {
 	char		**envp;
+	int			envpfd;
 	char		*absolute;
 	char		**arguments;
 	int			detatch;
@@ -60,6 +61,7 @@ typedef struct s_forks
 typedef struct s_shell
 {
 	t_forks		*forks;
+	int			envpfd;
 	char		**envp;
 	long long	starttime;
 	int			code;
@@ -80,6 +82,8 @@ void	ft_sighandler(int sig);
 long long	ft_gettimems(char **envp);
 // env
 int	ft_setenv(char **envp, char *var, char *val);
+char	**ft_fdtocharpp(int	fd);
+void	ft_charpptofd(char **array, int fd);
 // error
 int	ft_errorexit(char *reason, char *cmd, int code);
 

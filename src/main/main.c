@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:43 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 04:20:28 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 07:10:21 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	ft_mainloop(t_shell *shell, char **envp)
 	int		status;
 
 	forknumber = 0;
+	/*shell->envp = ft_fdtocharpp(shell->envpfd);*/ //segfaults
 	ft_printprompt(shell, envp);
 	line = readline("❯ ");
 	shell->starttime = ft_gettimems(shell->envp);
@@ -57,16 +58,14 @@ int	ft_mainloop(t_shell *shell, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell	shell;
+	t_shell	*shell;
 
-	shell.envp = envp;
-	shell.starttime = ft_gettimems(shell.envp);
-	shell.code = 256;
+	shell =	ft_initstruct(envp);
 	/*signal(SIGINT, ft_sighandler);*/ //leave commented out untill builtins are fixed
 	signal(SIGQUIT, ft_sighandler);
 	if (argc > 1)
 		return (ft_runscript(argc, argv, envp));
 	while (1)
-		ft_mainloop(&shell, envp);
+		ft_mainloop(shell, envp);
 	return (0);
 }
