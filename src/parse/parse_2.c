@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 12:10:07 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 12:35:46 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ t_forks	*ft_parsepipe(char *line, t_shell *shell)
 		forks[shell->forkamount].pipeline = tmp[shell->forkamount];
 		shell->forkamount++;
 	}
-	ft_frearr(tmp);
-	return (forks);
+	shell->forks = forks;
+	return (shell->forks);
 }
 
 
@@ -61,11 +61,9 @@ t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell)
 		tmp = split_spchr(forks[i].pipeline);
 		while (tmp[forks[i].cmdamount])
 		{
-			printf("split by spchr %s\n", tmp[forks[i].cmdamount]);
 			forks[i].cmds[forks[i].cmdamount].absolute = tmp[forks[i].cmdamount];
 			forks[i].cmdamount++;
 		}
-		ft_frearr(tmp);
 		i++;
 	}
 	return (forks);

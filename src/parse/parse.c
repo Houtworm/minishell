@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 12:11:27 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 12:36:31 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_shell *ft_testfillfakestruct(t_shell *shell, char *line)
 
 int	*ft_parseline(char *line, t_shell *shell)
 {
-	shell = ft_testfillfakestruct(shell, line); 
+	// shell = ft_testfillfakestruct(shell, line); 
 	
 	// This will fill the struct with fake variables, 
 	// so if you are testing something just comment out the line in this function,
@@ -47,13 +47,21 @@ int	*ft_parseline(char *line, t_shell *shell)
 
 //yuka working
 
-	// if (!check_quote_closed(line))
-	// 	printf("num of str = %d\n", count_str(line, '|'));
-	// shell->forks = ft_parsepipe(line, shell);
-	// shell->forks = ft_parsespchr(shell->forks, shell);
+	if (!check_quote_closed(line))
+		printf("num of str = %d\n", count_str(line, '|'));
+	shell->forks = ft_parsepipe(line, shell);
+	// printf("split by pip %s\n", shell->forks[0].pipeline);
+	// printf("split by pip %s\n", shell->forks[1].pipeline);
+	// printf("split by pip %s\n", shell->forks[2].pipeline);
+	
+	shell->forks = ft_parsespchr(shell->forks, shell);
+	// printf("split by spchr %s\n", shell->forks[0].cmds[0].absolute);
+	// printf("split by spchr %s\n", shell->forks[1].cmds[0].absolute);
+	// printf("split by spchr %s\n", shell->forks[1].cmds[1].absolute);
+	// printf("split by spchr %s\n", shell->forks[0].cmds[2].absolute);
 
-	// printf("end of testing\n");
-	// exit(0);
+	printf("end of testing\n");
+	exit(0);
 //*/
 	return (0);
 }
