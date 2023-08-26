@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 09:16:02 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 11:11:41 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int	ft_unset(t_cmds cmds);
 // export
 int	ft_export(t_cmds cmds);
 // env
-int	ft_env(t_cmds cmds);
+int	ft_env(void);
 // pwd
 int	ft_pwd(t_cmds cmds);
 // echo

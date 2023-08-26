@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 09:17:15 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 11:12:16 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_builtincheck(t_cmds cmds)
 	if (!ft_strncmp(cmds.arguments[0], "export", 6))
 		ret = ft_export(cmds);
 	if (!ft_strncmp(cmds.arguments[0], "env", 3))
-		ret = ft_env(cmds);
+		ret = ft_env();
 	if (!ft_strncmp(cmds.arguments[0], "pwd", 3))
 		ret = ft_pwd(cmds);
 	if (!ft_strncmp(cmds.arguments[0], "echo", 4))
