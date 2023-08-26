@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/26 12:30:18 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 12:35:15 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_echo(t_cmds cmds)
 	int		i;
 	int		j;
 	int		k;
-	int		l;
+	char		*line;
 
 	i = 0;
 	j = 0;
