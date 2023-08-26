@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/26 12:53:38 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 13:10:00 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,55 @@
 	/*char	*print;*/
 	/*int		i;*/
 	/*int		j;*/
-	/*int		k;*/
-	/*char	*line;*/
+	/*int		flag;*/
 
 	/*i = 0;*/
 	/*j = 0;*/
-	/*k = 0;*/
+	/*flag = 0;*/
 	/*if (cmds.arguments[1])*/
 	/*{*/
 		/*print = ft_calloc(512, 1);*/
-		/*line = cmds.arguments[1];*/
-		/*if (line[i + j] == '-')*/
+		/*if (cmds.arguments[1][0] == '-')*/
 		/*{*/
-			/*j++;*/
-			/*while (line[i + j + k] == 'n')*/
-				/*k++;*/
-			/*if (line[i + j + k] == ' ')*/
-				/*k++;*/
+			/*i++;*/
+			/*while (cmds.arguments[1][i] == 'n')*/
+				/*i++;*/
+			/*if (cmds.arguments[1][i] == '\0')*/
+				/*flag = 1;*/
 			/*else*/
 			/*{*/
-				/*k = 0;*/
-				/*j--;*/
+				/*i = 0;*/
+				/*while (cmds.arguments[1][i] != '\0')*/
+				/*{*/
+					/*print[i] = cmds.arguments[1][i];*/
+					/*i++;*/
+				/*}*/
+				/*print[i] = '\0';*/
 			/*}*/
 		/*}*/
-		/*while (line[i + j + k] != '\0')*/
-		/*{*/
-			/*print[i] = line[j + i + k];*/
-			/*i++;*/
-		/*}*/
-		/*print[i] = '\0';*/
 		/*ft_printf("%s", print);*/
-		/*if (k == 0)*/
+		/*if (flag == 0)*/
 			/*ft_printf("\n");*/
 	/*}*/
 	/*else*/
 		/*ft_printf("\n");*/
 	/*return (0);*/
 /*}*/
+
+int ft_echorecursion(char *print, int i, int j)
+{
+	int k;
+
+	k = 0;
+	while (cmds.arguments[j][k] != '\0')
+	{
+		print[i] = cmds.arguments[j][k];
+		i++;
+		k++;
+	}
+	return (j);
+}
+
 
 int	ft_echo(t_cmds cmds)
 {
@@ -63,7 +75,7 @@ int	ft_echo(t_cmds cmds)
 	int		flag;
 
 	i = 0;
-	j = 0;
+	j = 1;
 	flag = 0;
 	if (cmds.arguments[1])
 	{
@@ -78,11 +90,7 @@ int	ft_echo(t_cmds cmds)
 			else
 			{
 				i = 0;
-				while (cmds.arguments[1][i] != '\0')
-				{
-					print[i] = cmds.arguments[1][i];
-					i++;
-				}
+				j = ft_echorecursion(print, j + 1);
 				print[i] = '\0';
 			}
 		}
@@ -94,6 +102,5 @@ int	ft_echo(t_cmds cmds)
 		ft_printf("\n");
 	return (0);
 }
-
 
 // make it recursive damnit
