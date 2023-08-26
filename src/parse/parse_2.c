@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 12:08:34 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 12:10:07 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell)
 {
 	char	**tmp;
 	int		i;
-	int		k;
 
 	i = 0;
 	while (i < shell->forkamount)
