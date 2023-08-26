@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 14:17:22 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 15:53:24 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ int	*ft_parseline(char *line, t_shell *shell)
 	// if (check_quote_closed(line))
 		
 	shell->forks = ft_parsepipe(line, shell);
+	printf("line: %s\n", line);
+	printf("forkamount: %d\n", shell->forkamount);
+	printf("split by pip %s\n", shell->forks[0].pipeline);
 	shell->forks = ft_parsespchr(shell->forks, shell);
 	
 	// This will fill the struct with fake variables, 
@@ -53,7 +56,6 @@ int	*ft_parseline(char *line, t_shell *shell)
 
 	// if (!check_quote_closed(line))
 	// 	printf("num of str = %d\n", count_str(line, '|'));
-	// // printf("split by pip %s\n", shell->forks[0].pipeline);
 	// // printf("split by pip %s\n", shell->forks[1].pipeline);
 	// // printf("split by pip %s\n", shell->forks[2].pipeline);
 	

@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 14:22:52 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 16:15:43 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,28 @@ t_forks	*ft_parsepipe(char *line, t_shell *shell)
 	t_forks	*forks;
 	char	**tmp;
 
+	shell->forkamount = 1;
 	forks = ft_calloc(count_str(line, '|') + 1, sizeof(t_forks));
 	if (!forks)
 		ft_errorexit("Error allocating memory", "malloc", 1);
-	tmp = split_not_quote(line, '|');
-	while (tmp[shell->forkamount])
+	printf("original fork amount %d\n", shell->forkamount);
+	if (!ft_strchr(line, '|'))
 	{
-		forks[shell->forkamount].pipeline = tmp[shell->forkamount];
-		shell->forkamount++;
+		forks[(shell->forkamount) - 1].pipeline = ft_strdup(line);
+			// shell->forkamount++;
+	}
+	else
+	{
+		tmp = split_not_quote(line, '|');
+		printf("tmpforkamount: %s\n", tmp[(shell->forkamount) - 1]);
+		while (tmp[(shell->forkamount) - 1])
+		{
+			forks[(shell->forkamount)-1 ].pipeline = tmp[(shell->forkamount)  - 1];
+			shell->forkamount++;
+		}	
 	}
 	shell->forks = forks;
-	return (shell->forks);
+	return (forks);
 }
 
 // 		// before split cmd by space, split cmd by &&, ||, (+ &)?
@@ -55,7 +66,7 @@ t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell)
 	int		i;
 
 	i = 0;
-	while (i < shell->forkamount)
+	while (i < shell->forkamount - 1)
 	{
 		forks[i].cmds = ft_calloc(count_str2(forks[i].pipeline) + 1, sizeof(t_cmds));
 		if (!forks[i].cmds)

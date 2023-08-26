@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 14:19:52 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 15:45:26 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int		count_wd(char *s, int c);
 char	**split_not_quote(char *s, int c);
 //struct
 t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell);
-t_forks	*ft_parsepipe(char *line, t_shell *shell);
+t_forks *ft_parsepipe(char *line, t_shell *shell);
 t_forks	ft_fill_teststrct(t_forks forks, t_shell *shell, char *cmd, int cmdamount);
 
 //redirect
