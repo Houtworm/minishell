@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/26 03:56:16 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 10:11:01 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 11:01:10 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ char	**ft_fdtocharpp(int	fd)
 	status = get_next_line(fd, &line);
 	while (status > 0)
 	{
+		printf("%s\n", line);
 		ret[i] = ft_strdup(line);
 		free(line);
 		status = get_next_line(fd, &line);
