@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/24 23:56:01 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 10:55:08 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 11:58:56 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,23 @@ int	ft_forktheforks(t_shell *shell)
 	forknumber = 0;
 	status = 1;
 	shell->starttime = ft_gettimems(shell->envp);
-	while (shell->forkamount > forknumber)
+	if (shell->forkamount > 1)
 	{
-		shell->forks[forknumber].pid = fork();
-		if (shell->forks[forknumber].pid == 0)
+		while (shell->forkamount > forknumber)
 		{
-			status = ft_executeforks(shell->forks[forknumber]);
-			exit(status);
+			shell->forks[forknumber].pid = fork();
+			if (shell->forks[forknumber].pid == 0)
+			{
+				status = ft_executeforks(shell->forks[forknumber]);
+				exit(status);
+			}
+			forknumber++;
+			waitpid(shell->forks[forknumber].pid, &status, 0);
+			code = WEXITSTATUS(status);
 		}
-		forknumber++;
-		waitpid(shell->forks[forknumber].pid, &status, 0);
-		code = WEXITSTATUS(status);
 	}
+	else
+		status = ft_executeforks(shell->forks[forknumber]);
+	code = WEXITSTATUS(status);
 	return (code);
 }

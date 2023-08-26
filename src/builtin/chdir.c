@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 17:21:02 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 11:46:33 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 11:49:41 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_chdir(t_cmds cmds)
 	if (chdir(line))
 	{
 		free(cwd);
-		ft_moderrorexit("No such file or directory", cmds.arguments[0], cmds.arguments[1], 1); //also needs filename:
+		ft_moderrorexit("No such file or directory", cmds.arguments[0], cmds.arguments[1], 1);
 	}
 	ft_setenv(*cmds.envp, "OLDPWD", cwd);
 	getcwd(cwd, 512);

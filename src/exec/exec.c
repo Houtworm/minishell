@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 11:12:16 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 12:04:55 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_builtincheck(t_cmds cmds)
 {
 	int	ret;
 
-	ret = 1;
+	ret = -1111;
 	if (!ft_strncmp(cmds.arguments[0], "exit", 4))
 		ret = ft_exit(cmds);
 	if (!ft_strncmp(cmds.arguments[0], "cd", 2))
@@ -44,15 +44,18 @@ int	ft_executecommand(t_cmds cmds)
 	if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
 		return (-1);
 	ft_dupmachine(cmds);
-	cmds.pid = fork();
-	if (cmds.pid == 0)
+	cmds.code = ft_builtincheck(cmds);
+	if (cmds.code == -1111)
 	{
-		if (ft_builtincheck(cmds))
+		cmds.pid = fork();
+		if (cmds.pid == 0)
+		{
 			execve(cmds.absolute, cmds.arguments, *cmds.envp);
-		exit (0);
+			exit (0);
+		}
+		waitpid(cmds.pid, &status, 0);
+		cmds.code = WEXITSTATUS(status);
 	}
-	waitpid(cmds.pid, &status, 0);
-	cmds.code = WEXITSTATUS(status);
 	return (cmds.code);
 }
 

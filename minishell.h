@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 11:37:28 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 12:07:02 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_shell
 // MAIN
 // main
 int	main(int argc, char **argv, char **envp);
-int	ft_mainloop(t_shell *shell, char **envp);
+int	ft_mainloop(t_shell *shell);
 void	ft_sighandler(int sig);
 
 // TOOLS
