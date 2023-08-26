@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 12:36:31 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 13:14:37 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	*ft_parseline(char *line, t_shell *shell)
 	// printf("split by spchr %s\n", shell->forks[0].cmds[2].absolute);
 
 	printf("end of testing\n");
-	exit(0);
+	/*exit(0);*/
 //*/
 	return (0);
 }
