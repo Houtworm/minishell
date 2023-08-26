@@ -6,11 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2023/08/26 13:12:28 by yitoh         ########   odam.nl         */
-=======
-/*   Updated: 2023/08/26 13:14:37 by djonker      \___)=(___/                 */
->>>>>>> 796bad932778de8be370cda188948c72c9045911
+/*   Updated: 2023/08/26 13:17:02 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +59,7 @@ int	*ft_parseline(char *line, t_shell *shell)
 	// printf("split by spchr %s\n", shell->forks[1].cmds[0].absolute);
 	// printf("split by spchr %s\n", shell->forks[1].cmds[1].absolute);
 	// printf("split by spchr %s\n", shell->forks[0].cmds[2].absolute);
-	ft_check_redirect(shell->forks->cmds, i);
+
 	printf("end of testing\n");
 	/*exit(0);*/
 //*/
