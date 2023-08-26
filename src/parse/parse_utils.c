@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/28 18:48:20 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 14:42:33 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 14:45:23 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ char	**split_not_quote(char *s, int c)
 
 	i = 0;
 	start = 0;
+	printf("s = %s\n", s);
 	cmd = ft_calloc((count_str(s, c) + 1) * sizeof(char *), 1);
 	if (!cmd)
 		ft_errorexit("Error allocating memory", "malloc", 1);
