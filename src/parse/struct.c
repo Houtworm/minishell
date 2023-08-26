@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 16:15:43 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 16:23:25 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_forks	*ft_parsepipe(char *line, t_shell *shell)
 	forks = ft_calloc(count_str(line, '|') + 1, sizeof(t_forks));
 	if (!forks)
 		ft_errorexit("Error allocating memory", "malloc", 1);
-	printf("original fork amount %d\n", shell->forkamount);
 	if (!ft_strchr(line, '|'))
 	{
 		forks[(shell->forkamount) - 1].pipeline = ft_strdup(line);
@@ -46,7 +45,7 @@ t_forks	*ft_parsepipe(char *line, t_shell *shell)
 	else
 	{
 		tmp = split_not_quote(line, '|');
-		printf("tmpforkamount: %s\n", tmp[(shell->forkamount) - 1]);
+		// printf("tmpforkamount: %s\n", tmp[(shell->forkamount) - 1]);
 		while (tmp[(shell->forkamount) - 1])
 		{
 			forks[(shell->forkamount)-1 ].pipeline = tmp[(shell->forkamount)  - 1];
@@ -66,7 +65,7 @@ t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell)
 	int		i;
 
 	i = 0;
-	while (i < shell->forkamount - 1)
+	while (i < shell->forkamount)
 	{
 		forks[i].cmds = ft_calloc(count_str2(forks[i].pipeline) + 1, sizeof(t_cmds));
 		if (!forks[i].cmds)
