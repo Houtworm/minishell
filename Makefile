@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                        |o_o || |                 #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/25 20:14:16 by yitoh         ########   odam.nl          #
+#    Updated: 2023/08/26 03:58:23 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	=minishell
 CC		=gcc
 CFLAGS	=-Wall -Werror -Wextra# -g -fsanitize=address
 RM		=rm -f
-SRC		=src/main.c\
+SRC		=src/main/main.c\
 		 src/init/init.c\
 		 src/init/prompt.c\
 		 src/init/script.c\
@@ -25,6 +25,7 @@ SRC		=src/main.c\
 		 src/parse/exec_strct.c\
 		 src/exec/verify.c\
 		 src/exec/exec.c\
+		 src/exec/fork.c\
 		 src/exec/dupmachine.c\
 		 src/builtin/exit.c\
 		 src/builtin/chdir.c\
@@ -33,7 +34,9 @@ SRC		=src/main.c\
 		 src/builtin/env.c\
 		 src/builtin/pwd.c\
 		 src/builtin/echo.c\
-		 src/tools/error.c
+		 src/tools/tools.c\
+		 src/tools/error.c\
+		 src/tools/env.c
 OBJ		=$(SRC:src/%.c=obj/%.o)
 LIB		=printf/ft_printf.a getnextline/get_next_line.a libft/libft.a
 

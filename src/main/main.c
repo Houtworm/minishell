@@ -6,11 +6,11 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:43 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/25 04:36:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/26 03:57:39 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	ft_sighandler(int sig)
 {

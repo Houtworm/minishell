@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/25 06:23:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/26 03:45:21 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,3 @@ int	ft_executeforks(t_forks forks)
 	return (status);
 }
 
-int	ft_forktheforks(t_shell *shell)
-{
-	int	status;
-	int forknumber;
-
-	forknumber = 0;
-	status = 1;
-	shell->starttime = ft_gettimems(shell->envp);
-	while (shell->forkamount > forknumber)
-	{
-		shell->forks[forknumber].pid = fork();
-		if (shell->forks[forknumber].pid == 0)
-		{
-			status = ft_executeforks(shell->forks[forknumber]);
-			exit(0);
-		}
-		forknumber++;
-	}
-	return (status);
-}

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/22 13:26:25 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/24 23:07:18 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/26 03:52:21 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,6 @@ char	*ft_addworkingdirectory(char *prompt, char **envp)
 	prompt = ft_vastrjoin(4, dir, "/\e[1m", user, " \e[0;33;44m");
 	ft_vafree(2, dir, user);
 	return (prompt);
-}
-
-long long	ft_gettimems(char **envp)
-{
-	char		*date;
-	long long	currenttime;
-
-	date = ft_system("date +%s%3N", envp);
-	currenttime = ft_atol(date);
-	free(date);
-	return (currenttime);
 }
 
 char	*ft_addexecutiontime(t_shell *shell, char *temp, char **envp)
