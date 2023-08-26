@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:43 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 03:57:39 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 04:20:28 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ int	ft_mainloop(t_shell *shell, char **envp)
 
 	forknumber = 0;
 	ft_printprompt(shell, envp);
-	line = readline(SHELL_PROMPT);
+	line = readline("❯ ");
 	shell->starttime = ft_gettimems(shell->envp);
 	if (!line)
-		return (ERROR);
+		return (1);
 	if (!ft_isallbyte(line, ' '))
 	{
 		add_history(line);
 		ft_parseline(line, shell);
-		ft_forktheforks(shell);
+		shell->code = ft_forktheforks(shell);
 		while (shell->forkamount > forknumber)
 		{
 			waitpid(shell->forks[forknumber].pid, &status, 0);
@@ -52,7 +52,7 @@ int	ft_mainloop(t_shell *shell, char **envp)
 		free(shell->forks[0].cmds[0].absolute);
 		free(line);
 	}
-	return (SUCCESS);
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, ft_sighandler);
 	if (argc > 1)
 		return (ft_runscript(argc, argv, envp));
-	while (TRUE)
+	while (1)
 		ft_mainloop(&shell, envp);
-	return (SUCCESS);
+	return (0);
 }

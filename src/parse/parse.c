@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/25 21:27:46 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 04:15:59 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ int	*ft_parseline(char *line, t_shell *shell)
 	// printf("end of testing\n");
 	// exit(0);
 //*/
-	return (SUCCESS);
+	return (0);
 }

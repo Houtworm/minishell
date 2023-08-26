@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/26 03:45:21 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 04:22:53 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ int	ft_executecommand(t_cmds cmds)
 {
 	int	status;
 
-	//check command existance and permissions.
+	status = ft_checkcommand(cmds);
+	if (status)
+		return (status);
 	if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
 		return (-1);
 	ft_dupmachine(cmds);

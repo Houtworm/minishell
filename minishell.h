@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 04:02:25 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 04:15:15 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-# define SUCCESS	0
-# define ERROR		1
-
-# define TRUE		1
-# define FALSE		0
-
-# define SHELL_PROMPT	"❯ "
 
 // Structs
 
