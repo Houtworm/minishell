@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 11:02:04 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/26 12:06:10 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ t_shell *ft_testfillfakestruct(t_shell *shell, char *line)
 int	*ft_parseline(char *line, t_shell *shell)
 {
 	shell = ft_testfillfakestruct(shell, line); 
-	// ft_parsepipes
-	// ft_parseandoperator()
 	
 	// This will fill the struct with fake variables, 
 	// so if you are testing something just comment out the line in this function,
@@ -51,8 +49,8 @@ int	*ft_parseline(char *line, t_shell *shell)
 
 	// if (!check_quote_closed(line))
 	// 	printf("num of str = %d\n", count_str(line, '|'));
-	// shell->forks = ft_forks_strct(line, shell);
-	// printf("num of forks = %d\n", shell->forkamount);
+	// shell->forks = ft_parsepipe(line, shell);
+	// shell->forks = ft_parsespchr(shell->forks, shell);
 
 	// printf("end of testing\n");
 	// exit(0);
