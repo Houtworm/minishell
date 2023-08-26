@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                         |o_o || |                */
+/*   parse.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 09:22:18 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/26 10:37:58 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ t_shell *ft_testfillfakestruct(t_shell *shell, char *line)
 int	*ft_parseline(char *line, t_shell *shell)
 {
 	shell = ft_testfillfakestruct(shell, line); 
+	// ft_parsepipes
+	// ft_parseandoperator()
+	
 	// This will fill the struct with fake variables, 
 	// so if you are testing something just comment out the line in this function,
 	// that way you use the variables of your parsing and not the fake ones put in place by the function.
