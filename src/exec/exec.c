@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/27 06:28:26 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 06:40:09 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ int	ft_builtincheck(t_cmds cmds)
 	int	ret;
 
 	ret = -1111;
-	if (!ft_strncmp(cmds.arguments[0], "exit", 4))
+	if (!ft_strncmp(cmds.arguments[0], "exit\0", 5))
 		ret = ft_exit(cmds);
-	if (!ft_strncmp(cmds.arguments[0], "cd", 2))
+	if (!ft_strncmp(cmds.arguments[0], "cd\0", 3))
 		ret = ft_chdir(cmds);
-	if (!ft_strncmp(cmds.arguments[0], "unset", 5))
+	if (!ft_strncmp(cmds.arguments[0], "unset\0", 6))
 		ret = ft_unset(cmds);
-	if (!ft_strncmp(cmds.arguments[0], "export", 6))
+	if (!ft_strncmp(cmds.arguments[0], "export\0", 7))
 		ret = ft_export(cmds);
-	if (!ft_strncmp(cmds.arguments[0], "env", 3))
+	if (!ft_strncmp(cmds.arguments[0], "env\0", 4))
 		ret = ft_env();
-	if (!ft_strncmp(cmds.arguments[0], "pwd", 3))
+	if (!ft_strncmp(cmds.arguments[0], "pwd\0", 4))
 		ret = ft_pwd(cmds);
-	if (!ft_strncmp(cmds.arguments[0], "echo", 4))
+	if (!ft_strncmp(cmds.arguments[0], "echo\0", 5))
 		ret = ft_echo(cmds);
 	return (ret);
 }

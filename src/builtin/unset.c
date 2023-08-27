@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:05 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/26 09:18:49 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/27 07:04:31 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,12 @@
 
 int	ft_unset(t_cmds cmds)
 {
-	char	*line;
-	char	*var;
 	int		i;
 
 	i = 0;
-	var = ft_calloc(512, 1);
-	line = cmds.arguments[1];
-	while (line[i + 6] != ' ' && line[i + 5] != '\0')
-	{
-		var[i] = line[5 + i];
-		i++;
-	}
 	while (*cmds.envp[i])
 	{
-		if (!ft_strncmp(*cmds.envp[i], var, ft_strlen(var)))
+		if (!ft_strncmp(*cmds.envp[i], cmds.arguments[1], ft_strlen(cmds.arguments[1])))
 		{
 			*cmds.envp[i] = *cmds.envp[i + 1];
 			while (cmds.envp[i + 1])
@@ -38,6 +29,8 @@ int	ft_unset(t_cmds cmds)
 			}
 		}
 		i++;
+		printf("%s\n", *cmds.envp[i]);
 	}
+	ft_charpptofd(*cmds.envp, cmds.envpfd);
 	return (0);
 }
