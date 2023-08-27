@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   struct.c                                           :+:    :+:            */
+/*   struct.c                                        |o_o || |                */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 16:51:28 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/27 06:33:22 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell)
 	// 	i = -1;
 	while (i < (shell->forkamount))
 	{
-		printf("pipeline = %s\n",forks[i].pipeline );
+		/*printf("pipeline = %s\n",forks[i].pipeline );*/
 		forks[i].cmds = ft_calloc(count_str2(forks[i].pipeline) + 1, sizeof(t_cmds));
 		if (!forks[i].cmds)
 			ft_errorexit("Error allocating memory", "malloc", 1);

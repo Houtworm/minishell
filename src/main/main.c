@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   main.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 16:23:41 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/27 06:34:12 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 
 	shell =	ft_initstruct(envp);
-	/*signal(SIGINT, ft_sighandler);*/ //leave commented out untill builtins are fixed
+	signal(SIGINT, ft_sighandler);
 	signal(SIGQUIT, ft_sighandler);
 	if (argc > 1)
 		return (ft_runscript(argc, argv, envp));
