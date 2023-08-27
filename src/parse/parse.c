@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/27 15:09:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 15:28:50 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ int ft_parseendcondition(t_shell *shell)
 	int		icpip;
 
 	shell->forks->cmdamount = ft_countendconditions(shell->forks->pipeline, 0, 0) + 1;
-	shell->forks->cmds = ft_calloc(shell->forks->cmdamount * sizeof(t_cmds), 1);
+	shell->forks->cmds = ft_calloc(10000 * sizeof(t_cmds), 1);
 	icmd = 0;
 	ifpip = 0;
 	icpip = 0;
-	while (shell->forks->pipeline[ifpip])
+	while (shell->forks[0].pipeline[ifpip])
 	{
 		shell->forks->cmds[icmd].pipeline = ft_calloc(1000 * 8, 1);
 		while (!ft_strchr("&|;", shell->forks->pipeline[ifpip]))
@@ -84,11 +84,14 @@ int ft_parseendcondition(t_shell *shell)
 			ifpip++;
 			icpip++;
 		}
+		shell->forks[0].cmds[icmd].pipeline[icpip] = '\0';
 		if (shell->forks->pipeline[ifpip] == '|')
 		{
 			ifpip = ifpip + 2;
 			shell->forks->cmds[icmd + 1].condition = 2;
 		}
+		if (!shell->forks[0].pipeline[ifpip])
+			return (shell->forks->cmdamount);
 		else if (shell->forks->pipeline[ifpip] == '&')
 		{
 			ifpip++;
@@ -100,6 +103,8 @@ int ft_parseendcondition(t_shell *shell)
 			else
 				shell->forks->cmds[icmd].detatch = 1;
 		}
+		if (!shell->forks[0].pipeline[ifpip])
+			return (shell->forks->cmdamount);
 		else
 		{
 			ifpip++;
