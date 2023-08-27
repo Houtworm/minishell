@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:05 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/27 07:04:31 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 07:21:08 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_unset(t_cmds cmds)
 {
 	int		i;
 
+	printf("hallo\n");
 	i = 0;
 	while (*cmds.envp[i])
 	{
