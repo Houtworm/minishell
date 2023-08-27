@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/27 07:40:39 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 12:21:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_executecommand(t_cmds cmds)
 		cmds.pid = fork();
 		if (cmds.pid == 0)
 		{
-			execve(cmds.absolute, cmds.arguments, *cmds.envp);
+			execve(cmds.absolute, cmds.arguments, cmds.envp);
 			exit (0);
 		}
 		waitpid(cmds.pid, &status, 0);

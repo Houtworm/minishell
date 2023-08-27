@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:00 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/26 09:19:18 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/27 12:22:39 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	ft_pwd(t_cmds cmds)
 {
-	ft_printf("%s", ft_getpwd(*cmds.envp, 0));
+	ft_printf("%s", ft_getpwd(cmds.envp, 0));
 	return (0);
 }

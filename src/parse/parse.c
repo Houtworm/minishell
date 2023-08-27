@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/27 10:44:33 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 12:20:00 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_shell *ft_testfillfakestruct(t_shell *shell, char *line)
 	shell->forks = ft_calloc(10 * sizeof(t_forks), 1); //temp calloc
 	shell->forks->cmdamount = 1; //number of command structs
 	shell->forks->cmds = ft_calloc(10 * sizeof(t_cmds), 1); //temp calloc
-	shell->forks[0].cmds[0].envp = &shell->envp; //copy over envp (should be done to every single command struct)
+	shell->forks[0].cmds[0].envp = shell->envp; //copy over envp (should be done to every single command struct)
 	shell->forks[0].cmds[0].arguments = ft_split(line, ' '); // can be removed as soon as you populate the command struct with the arguments.
 	shell->forks[0].cmds[0].absolute = ft_abspathcmd(paths, shell->forks[0].cmds[0].arguments[0]); //can be removed after arguments and absolute are handled by the parser.
 	shell->forks[0].cmds[0].detatch = 0; // wether to detach the process (&)

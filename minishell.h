@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/27 09:45:47 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 12:18:40 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_redirect
 
 typedef struct s_cmds
 {
-	char		***envp;
+	char		**envp;
 	int			envpfd;
 	char		*absolute;
 	char		**arguments;

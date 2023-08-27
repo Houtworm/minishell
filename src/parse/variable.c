@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:18 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/27 10:22:36 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 12:21:13 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_parsevariable(t_cmds cmd)
 				i++;
 				j++;
 			}
-			val = ft_getenvval(*cmd.envp, var);
+			val = ft_getenvval(cmd.envp, var);
 			j = 0;
 			while (cmd.pipeline[i])
 			{

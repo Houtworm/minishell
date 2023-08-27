@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/27 08:55:32 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 12:20:52 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_forks	ft_fill_teststrct(t_forks forks, t_shell *shell, char *cmd, int cmdamoun
 	char	**paths;
 
 	paths = ft_getpaths(shell->envp, 1);
-	forks.cmds[cmdamount].envp = &shell->envp;
+	forks.cmds[cmdamount].envp = shell->envp;
 	forks.cmds[cmdamount].arguments = split_not_quote(cmd, ' '); 
 	forks.cmds[cmdamount].absolute = ft_abspathcmd(paths, forks.cmds[cmdamount].arguments[0]); 
 	// if (ft_checkcommand(forks.cmds[cmdamount]))
