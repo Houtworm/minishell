@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/27 07:05:45 by houtworm     \___)=(___/                  #
+#    Updated: 2023/08/27 10:23:30 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,9 @@ SRC		=src/main/main.c\
 		 src/parse/struct.c\
 		 src/parse/redirect.c\
 		 src/parse/exec_strct.c\
+		 src/parse/variable.c\
+		 src/parse/wildcard.c\
+		 src/parse/tools.c\
 		 src/exec/verify.c\
 		 src/exec/exec.c\
 		 src/exec/fork.c\

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/27 07:40:52 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 09:45:47 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_cmds
 	char		*absolute;
 	char		**arguments;
 	int			detatch;
+	char		*pipeline; //command line separated by operators && || and ;
 	int			condition; // 0 for non, 1 for &&, 2 for || 
 	int			pid;
 	int			code;
@@ -124,6 +125,14 @@ int	symbol_check(char	*s);
 int	count_str2(char *s);
 int	count_wd2(char *s);
 char	**split_spchr(char *s);
+//variable
+int ft_parsevariable(t_cmds cmd);
+//wildcard
+int	ft_parsewildcard(t_cmds cmd);
+//tools
+int	ft_findcharoutquote(char *line, char target, char quote);
+int	ft_checkoutquote(char *line, char target, int mode);
+
 
 // EXEC
 // fork

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:16 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/26 11:11:13 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/27 08:07:43 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_env(void)
 	status = get_next_line(fd, &line);
 	while (status > 0)
 	{
-		ft_printf("%s\n", line);
+		ft_putendl(line);
 		free(line);
 		status = get_next_line(fd, &line);
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/26 16:39:49 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/27 10:44:33 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ t_shell *ft_testfillfakestruct(t_shell *shell, char *line)
 
 int	*ft_parseline(char *line, t_shell *shell)
 {
-	// shell = ft_testfillfakestruct(shell, line); 
+	/*int	i;*/
+	/*int	j;*/
+	 /*shell = ft_testfillfakestruct(shell, line); */
 	// if (check_quote_closed(line))
 
 	shell->forks = ft_parsepipe(line, shell);
@@ -48,12 +50,27 @@ int	*ft_parseline(char *line, t_shell *shell)
 
 	shell->forks = ft_parsespchr(shell->forks, shell);
 	
-	// This will fill the struct with fake variables, 
-	// so if you are testing something just comment out the line in this function,
-	// that way you use the variables of your parsing and not the fake ones put in place by the function.
-	// if it at least doesn't segfault  the application or mess with other outputs you can leave it be and slowly add all the parsing till you're done :)
-
-	// if (!check_quote_closed(line))
+	/*ft_parsepipe(shell);*/ // splits line into pipeline for the forks
+	/*i = 0;*/
+	/*while (shell->forkamount < i) // forks loop should set the cmds.pipeline and set cmds.conditions*/
+	/*{*/
+		/*ft_parseandoperator(shell->forks[i]);*/
+		/*ft_parseoroperator(shell->forks[i]);*/
+		/*ft_parseendcommand(shell->forks[i]);*/
+		/*j = 0;*/
+		/*while (shell->forks[i].cmdamount < j) // cmds loop should expand, handle redirections and split the pipeline into the arguments*/
+		/*{*/
+			/*ft_parsevariable(shell->forks[i].cmds[j]);*/ //expanding pipeline
+			/*ft_parsewildcard(shell->forks[i].cmds[j]);*/ //expanding pipeline
+			/*...*/
+			/*ft_parseredirect(shell->forks[i].cmds[j]);*/ //handling redirection
+			/*...*/
+			/*ft_splitpipelineintoarguments(shell->forks[i].cmds[j])*/
+			/*j++;*/
+		/*}*/
+		/*i++;*/
+	/*}*/
+	// if (!check_quote_closed(line)) // should probably be done at the beginning since you can't parse a incomplete line.
 	return (0);
 }
 

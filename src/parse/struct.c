@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/27 06:33:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 08:55:32 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_forks	*ft_parsepipe(char *line, t_shell *shell)
 	char	**tmp;
 
 	shell->forkamount = 1;
-	forks = ft_calloc(count_str(line, '|') + 1, sizeof(t_forks));
+	forks = ft_calloc(count_str(line, '|') + 1, sizeof(t_forks)); // does this count the |? so if it is 0 +1 we have 1 fork struct, but we need 2 for null termination?
 	if (!forks)
 		ft_errorexit("Error allocating memory", "malloc", 1);
 	if (!ft_strchr(line, '|'))
