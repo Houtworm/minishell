@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/28 12:19:18 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/28 13:40:00 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,100 +74,99 @@ typedef struct s_shell
 
 // MAIN
 // main
-int	main(int argc, char **argv, char **envp);
-int	ft_mainloop(t_shell *shell);
-void	ft_sighandler(int sig);
+int			main(int argc, char **argv, char **envp);
+int			ft_mainloop(t_shell *shell);
+void		ft_sighandler(int sig);
 
 // TOOLS
 // tools
 long long	ft_gettimems(char **envp);
-void	ft_printshell(t_shell shell);
-void	ft_printforks(t_forks forks, int forknumber);
-void	ft_printcmds(t_cmds cmds, int cmdnbr);
+void		ft_printshell(t_shell shell);
+void		ft_printforks(t_forks forks, int forknumber);
+void		ft_printcmds(t_cmds cmds, int cmdnbr);
 // env
-int	ft_setenv(char **envp, char *var, char *val);
-char	**ft_fdtocharpp(int	fd);
-void	ft_charpptofd(char **array, int fd);
+int			ft_setenv(char **envp, char *var, char *val);
+char		**ft_fdtocharpp(int	fd);
+void		ft_charpptofd(char **array, int fd);
 // error
-int	ft_errorexit(char *reason, char *cmd, int code);
-int	ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
+int			ft_errorexit(char *reason, char *cmd, int code);
+int			ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
 
 // INIT
 // init
-t_shell	*ft_initstruct(char **envp);
+t_shell		*ft_initstruct(char **envp);
 // prompt
-void	ft_printprompt(t_shell *strct, char **envp);
-char	*ft_addosuserandhosttoprompt(char **envp);
-char	*ft_addworkingdirectory(char *prompt, char **envp);
-char	*ft_addexecutiontime(t_shell *shell, char *temp, char **envp);
-char	*ft_addreturncode(t_shell *shell, char *temp);
+void		ft_printprompt(t_shell *strct, char **envp);
+char		*ft_addosuserandhosttoprompt(char **envp);
+char		*ft_addworkingdirectory(char *prompt, char **envp);
+char		*ft_addexecutiontime(t_shell *shell, char *temp, char **envp);
+char		*ft_addreturncode(t_shell *shell, char *temp);
 // script
-int	ft_runscript(int argc, char **argv, char **envp);
+int			ft_runscript(int argc, char **argv, char **envp);
 
 
 // PARSE
-// parse
+//parse
 t_shell		ft_parseline(char *line, t_shell shell);
-//parse_utils
-int		check_quote_closed(char *s);
-int		count_str(char *s, int c);
-int		count_wd(char *s, int c);
-char	**split_not_quote(char *s, int c);
 //pipe
-t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell);
-t_forks *ft_parsepipe(char *line, t_shell *shell);
-t_forks	ft_fill_teststrct(t_forks forks, t_shell *shell, char *cmd, int cmdamount);
+t_shell 	ft_parsepipe(char *line, t_shell shell);
 //redirect
-void	ft_check_redirect(t_cmds cmds, char *command);
+void		ft_check_redirect(t_cmds cmds, char *command);
 t_redirect	*ft_redrc_in(t_cmds cmds, char *meta, char *file);
 t_redirect	*ft_redrc_out(t_cmds cmds, char *meta, char *file);
-void	ft_rdrct_add_back(t_redirect **lst, t_redirect *new);
-//exec_strct
-int	symbol_check(char	*s);
-int	count_str2(char *s);
-int	count_wd2(char *s);
-char	**split_spchr(char *s);
+void		ft_rdrct_add_back(t_redirect **lst, t_redirect *new);
 //condition
-int		ft_countendconditions(char *line, int count, int i);
-t_forks	ft_parseendcondition(t_forks forks);
+int			ft_countendconditions(char *line, int count, int i);
+t_forks		ft_parseendcondition(t_forks forks);
 //variable
-int ft_parsevariable(t_cmds cmd);
+int 		ft_parsevariable(t_cmds cmd);
 //wildcard
-int	ft_parsewildcard(t_cmds cmd);
+int			ft_parsewildcard(t_cmds cmd);
 //tools
-int	ft_findcharoutquote(char *line, char target, char quote);
-int	ft_checkoutquote(char *line, char target, int mode);
+int			ft_findcharoutquote(char *line, char target, char quote);
+int			ft_checkoutquote(char *line, char target, int mode);
+//parse_utils
+//int			check_quote_closed(char *s);
+//int			count_str(char *s, int c);
+//int			count_wd(char *s, int c);
+//char		**split_not_quote(char *s, int c);
+//struct
+//t_forks		*ft_parsespchr(t_forks *forks, t_shell *shell);
+//t_forks 	*ft_parsepipe(char *line, t_shell *shell);
+//t_forks		ft_fill_teststrct(t_forks forks, t_shell *shell, char *cmd, int cmdamount);
+//exec_strct
+//int			symbol_check(char	*s);
+//int			count_str2(char *s);
+//int			count_wd2(char *s);
+//char		**split_spchr(char *s);
 
 
 // EXEC
 // fork
-int	ft_forktheforks(t_shell shell);
+int			ft_forktheforks(t_shell shell);
 // exec
-int	ft_builtincheck(t_cmds cmds);
-int	ft_executecommand(t_cmds cmds);
-int	ft_executeforks(t_forks forks);
+int			ft_executeforks(t_forks forks);
 // dupmachine
-int	ft_dupmachine(t_cmds cmds);
-int	ft_heredoc(char *delimiter);
+int			ft_dupmachine(t_cmds cmds);
 //verify
-int	ft_checkinputfile(char *inputfile);
-int	ft_checkoutputfile(char *outputfile);
-int	ft_checkcommand(t_cmds cmds);
+int			ft_checkinputfile(char *inputfile);
+int			ft_checkoutputfile(char *outputfile);
+int			ft_checkcommand(t_cmds cmds);
 
 // BUILTINS
 // chdir
-int	ft_chdir(t_cmds cmds);
+int			ft_chdir(t_cmds cmds);
 // exit
-int	ft_exit(t_cmds cmds);
+int			ft_exit(t_cmds cmds);
 // unset
-int	ft_unset(t_cmds cmds);
+int			ft_unset(t_cmds cmds);
 // export
-int	ft_export(t_cmds cmds);
+int			ft_export(t_cmds cmds);
 // env
-int	ft_env(void);
+int			ft_env(void);
 // pwd
-int	ft_pwd(t_cmds cmds);
+int			ft_pwd(t_cmds cmds);
 // echo
-int	ft_echo(t_cmds cmds);
+int			ft_echo(t_cmds cmds);
 
 #endif

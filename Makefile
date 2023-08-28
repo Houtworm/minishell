@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/28 11:13:15 by houtworm     \___)=(___/                  #
+#    Updated: 2023/08/28 13:46:37 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,9 @@ SRC		=src/main/main.c\
 		 src/init/init.c\
 		 src/init/prompt.c\
 		 src/init/script.c\
-		 src/parse/parse_utils.c\
-		 src/parse/exec_strct.c\
 		 src/parse/parse.c\
 		 src/parse/pipe.c\
 		 src/parse/condition.c\
-		 src/parse/redirect.c\
 		 src/parse/variable.c\
 		 src/parse/wildcard.c\
 		 src/parse/tools.c\
@@ -41,6 +38,9 @@ SRC		=src/main/main.c\
 		 src/tools/tools.c\
 		 src/tools/error.c\
 		 src/tools/env.c
+		#src/parse/parse_utils.c\
+		#src/parse/exec_strct.c\
+		#src/parse/redirect.c
 OBJ		=$(SRC:src/%.c=obj/%.o)
 LIB		=printf/ft_printf.a getnextline/get_next_line.a libft/libft.a
 
