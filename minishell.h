@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/27 22:34:37 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/28 10:38:21 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	ft_runscript(int argc, char **argv, char **envp);
 
 // PARSE
 // parse
-int		ft_parseline(char *line, t_shell shell);
+t_shell		ft_parseline(char *line, t_shell shell);
 //parse_utils
 int		check_quote_closed(char *s);
 int		count_str(char *s, int c);
@@ -138,7 +138,7 @@ int	ft_checkoutquote(char *line, char target, int mode);
 
 // EXEC
 // fork
-int	ft_forktheforks(t_shell *shell);
+int	ft_forktheforks(t_shell shell);
 // exec
 int	ft_builtincheck(t_cmds cmds);
 int	ft_executecommand(t_cmds cmds);
