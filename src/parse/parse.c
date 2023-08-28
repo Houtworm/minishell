@@ -6,22 +6,20 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/28 10:39:13 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/28 10:44:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
-void	ft_initstructs(t_shell *shell, int i, int j)
+void	ft_setcmddefaults(t_shell *shell, int i, int j)
 {
-	/*shell->forks[i].cmds = ft_calloc(2000 * 8, sizeof(t_cmds));*/
 	shell->forks[i].cmds[j].envp = shell->envp;
 	shell->forks[i].cmds[j].detatch = 0;
 	shell->forks[i].cmds[j].redirect = ft_calloc(10 * sizeof(t_redirect), 1);
 	shell->forks[i].cmds[j].redirect[0].fd_in = 0;
 	shell->forks[i].cmds[j].redirect[0].fd_out = 1;
-	ft_printf("cmd pipeline in ft_initstructs: %s\n", shell->forks[i].cmds[j].pipeline); //fails here
 }
 
 void	ft_finalparsing(t_forks *forks, int i, int j)
@@ -48,7 +46,7 @@ t_shell	ft_parseline(char *line, t_shell shell)
 		j = 0;
 		while (shell.forks[i].cmdamount > j) // cmds loop should expand, handle redirections and split the pipeline into the arguments
 		{
-			ft_initstructs(&shell, i, j);
+			ft_setcmddefaults(&shell, i, j);
 			ft_parsevariable(shell.forks[i].cmds[j]); //expanding pipeline
 			/*ft_parsewildcard(shell.forks[i].cmds[j]); //expanding pipeline*/
 			ft_finalparsing(shell.forks, i, j);

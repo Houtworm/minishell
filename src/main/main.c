@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/28 10:38:34 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/28 10:44:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ int	ft_mainloop(t_shell *shell)
 			waitpid(shell->forks[forknumber].pid, &status, 0);
 			forknumber++;
 		}
-		ft_printf("forknumber here: %s\n", shell->forks[forknumber].pipeline);
-		/*ft_frearr(shell->forks[0].cmds[0].arguments);*/
-		/*free(shell->forks[0].cmds[0].absolute);*/
 		free(line);
 	}
 	return (0);
