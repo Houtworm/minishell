@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 19:35:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/28 11:54:06 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/28 13:02:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ t_forks ft_parseendcondition(t_forks forks)
 	forks.cmds = ft_calloc(10000 * sizeof(t_cmds), 1);
 	icmd = 0;
 	ifpip = 0;
-	icpip = 0;
 	while (forks.pipeline[ifpip])
 	{
+		icpip = 0;
 		forks.cmds[icmd].pipeline = ft_calloc(1000 * 8, 1);
 		while (!ft_strchr("&|;", forks.pipeline[ifpip]))
 		{
