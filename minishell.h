@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/27 12:18:40 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 22:34:37 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,17 +104,16 @@ int	ft_runscript(int argc, char **argv, char **envp);
 
 // PARSE
 // parse
-int	*ft_parseline(char *line, t_shell *shell);
+int		ft_parseline(char *line, t_shell shell);
 //parse_utils
 int		check_quote_closed(char *s);
 int		count_str(char *s, int c);
 int		count_wd(char *s, int c);
 char	**split_not_quote(char *s, int c);
-//struct
+//pipe
 t_forks	*ft_parsespchr(t_forks *forks, t_shell *shell);
 t_forks *ft_parsepipe(char *line, t_shell *shell);
 t_forks	ft_fill_teststrct(t_forks forks, t_shell *shell, char *cmd, int cmdamount);
-
 //redirect
 void	ft_check_redirect(t_cmds cmds, char *command);
 t_redirect	*ft_redrc_in(t_cmds cmds, char *meta, char *file);
@@ -125,6 +124,9 @@ int	symbol_check(char	*s);
 int	count_str2(char *s);
 int	count_wd2(char *s);
 char	**split_spchr(char *s);
+//condition
+int		ft_countendconditions(char *line, int count, int i);
+t_forks	ft_parseendcondition(t_forks forks);
 //variable
 int ft_parsevariable(t_cmds cmd);
 //wildcard

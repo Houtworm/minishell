@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/27 14:48:42 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/27 22:35:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_mainloop(t_shell *shell)
 	if (!ft_isallbyte(line, ' '))
 	{
 		add_history(line);
-		ft_parseline(line, shell);
+		ft_parseline(line, *shell);
 		shell->code = ft_forktheforks(shell);
 		while (shell->forkamount > forknumber)
 		{

@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/27 15:22:37 by houtworm     \___)=(___/                  #
+#    Updated: 2023/08/27 19:40:18 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,12 @@ SRC		=src/main/main.c\
 		 src/init/init.c\
 		 src/init/prompt.c\
 		 src/init/script.c\
-		 src/parse/parse.c\
 		 src/parse/parse_utils.c\
-		 src/parse/struct.c\
-		 src/parse/redirect.c\
 		 src/parse/exec_strct.c\
+		 src/parse/parse.c\
+		 src/parse/pipe.c\
+		 src/parse/condition.c\
+		 src/parse/redirect.c\
 		 src/parse/variable.c\
 		 src/parse/wildcard.c\
 		 src/parse/tools.c\
