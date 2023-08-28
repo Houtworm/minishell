@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   condition.c                                     |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/08/27 19:35:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/28 13:02:35 by houtworm     \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   condition.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: houtworm <codam@houtworm.net>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
+/*   Updated: 2023/08/28 21:14:49 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		ft_countendconditions(char *line, int count, int i)
 {
 	while (line[i])
 	{
+		i = check_quote(line, i);
 		if (line[i] == '&')
 		{
 			i++;
@@ -45,7 +46,8 @@ t_forks ft_parseendcondition(t_forks forks)
 	int		icmd;
 	int		ifpip;
 	int		icpip;
-	
+	int		tmp;
+
 	forks.cmdamount = ft_countendconditions(forks.pipeline, 0, 0) + 1;
 	forks.cmds = ft_calloc(10000 * sizeof(t_cmds), 1);
 	icmd = 0;
@@ -54,8 +56,24 @@ t_forks ft_parseendcondition(t_forks forks)
 	{
 		icpip = 0;
 		forks.cmds[icmd].pipeline = ft_calloc(1000 * 8, 1);
-		while (!ft_strchr("&|;", forks.pipeline[ifpip]))
+		while (!ft_strchr("&|;\"'", forks.pipeline[ifpip]))
 		{
+			forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
+			ifpip++;
+			icpip++;
+		}
+		if (forks.pipeline[ifpip] == '\"' || forks.pipeline[ifpip] == '\'')
+		{
+			forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
+			tmp = ifpip;
+			ifpip++;
+			icpip++;
+			while (forks.pipeline[tmp] != forks.pipeline[ifpip])
+			{
+				forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
+				ifpip++;
+				icpip++;
+			}
 			forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
 			ifpip++;
 			icpip++;

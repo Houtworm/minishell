@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/28 18:48:20 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 16:38:32 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/28 21:29:26 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,54 +43,60 @@ int	check_quote_closed(char *s)
 	return (check);
 }
 
+int	check_quote(char *s, int i)
+{
+	int	j;
+
+	j = 0;
+	if (s[i] == '\"' || (s[i] == '\''))
+	{
+		j++;
+		while (s[i + j] != s[i])
+			j++;
+	}
+	return (i + j);
+}
+
 int	count_str(char *s, int c)
 {
 	int	str_count;
 	int	i;
-	int	j;
 
 	str_count = 0;
 	i = 0;
+	while (s[i] && s[i] == c)
+		i++;
 	while (s[i])
 	{
-		j = 0;
-		if (s[i] == '\"' || (s[i] == '\''))
-		{
-			j++;
-			while (s[i + j] != s[i])
-				j++;
-		}
-		i = i + j;
+		i = check_quote(s, i);
+		while (s[i] && s[i] != c)
+			i++;
+		str_count++;
 		if (s[i] == c && s[i + 1] == '|')
 			i++;
-		else if (s[i] == c)
-			str_count++;
-		i++;
+		else if (s[i] && s[i] == c)
+			i++;
 	}
-	return (str_count + 1);
+	return (str_count);
 }
 
 int	count_wd(char *s, int c)
 {
 	int	i;
-	int	j;
+	int	wd;
 
 	i = 0;
-	while (s[i])
-	{
-		j = 0;
-		if (s[i] == '\"' || (s[i] == '\''))
-		{
-			j++;
-			while (s[i + j] != s[i])
-				j++;
-		}
-		i = i + j;
-		if (s[i] == c)
-			break ;
+	wd = 0;
+	while (s[i] == c)
 		i++;
+	while (s[i + wd])
+	{
+		wd = check_quote(s, wd);
+		if (s[i + wd] == c && s[i + wd + 1] != c && s[i + wd - 1] != c)
+			break ;
+		wd++;
 	}
-	return (i);
+	return (wd);
 }
 
 char	**split_not_quote(char *s, int c)
@@ -104,6 +110,7 @@ char	**split_not_quote(char *s, int c)
 	cmd = ft_calloc(count_str(s, c) + 1, sizeof(char *));
 	if (!cmd)
 		ft_errorexit("Error allocating memory", "malloc", 1);
+	//this condition is messing up and leaving c in the beginning and the end of str
 	if (count_str(s, c) == 1)
 	{
 		cmd[i] = ft_strdup(s);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                     |o_o || |                */
+/*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/28 13:40:00 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/28 19:04:33 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,11 @@ int			ft_parsewildcard(t_cmds cmd);
 int			ft_findcharoutquote(char *line, char target, char quote);
 int			ft_checkoutquote(char *line, char target, int mode);
 //parse_utils
-//int			check_quote_closed(char *s);
-//int			count_str(char *s, int c);
-//int			count_wd(char *s, int c);
-//char		**split_not_quote(char *s, int c);
+// int			check_quote_closed(char *s);
+int			check_quote(char *s, int i);
+int			count_str(char *s, int c);
+int			count_wd(char *s, int c);
+char		**split_not_quote(char *s, int c);
 //struct
 //t_forks		*ft_parsespchr(t_forks *forks, t_shell *shell);
 //t_forks 	*ft_parsepipe(char *line, t_shell *shell);
