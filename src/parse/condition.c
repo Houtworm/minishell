@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 19:35:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/27 22:38:10 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/28 11:54:06 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ int		ft_countendconditions(char *line, int count, int i)
 		{
 			i++;
 			count++;
-			if (line[i + 1] == '&')
+			if (line[i] == '&')
 				i++;
 		}
 		if (line[i] == '|')
 		{
 			i++;
 			count++;
-			if (line[i + 1] == '|')
+			if (line[i] == '|')
 				i++;
 		}
 		if (line[i] == ';')
@@ -61,15 +61,11 @@ t_forks ft_parseendcondition(t_forks forks)
 			icpip++;
 		}
 		forks.cmds[icmd].pipeline[icpip] = '\0';
-		if (!forks.pipeline[ifpip])
-			return (forks);
 		if (forks.pipeline[ifpip] == '|')
 		{
 			ifpip = ifpip + 2;
 			forks.cmds[icmd + 1].condition = 2;
 		}
-		if (!forks.pipeline[ifpip])
-			return (forks);
 		else if (forks.pipeline[ifpip] == '&')
 		{
 			ifpip++;
@@ -81,8 +77,6 @@ t_forks ft_parseendcondition(t_forks forks)
 			else
 				forks.cmds[icmd].detatch = 1;
 		}
-		if (!forks.pipeline[ifpip])
-			return (forks);
 		else
 		{
 			ifpip++;

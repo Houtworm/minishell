@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/26 03:50:51 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/28 09:44:23 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/28 12:19:01 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,29 @@ long long	ft_gettimems(char **envp)
 
 void	ft_printshell(t_shell shell)
 {
-	printf("%s\n", "shell struct");
-	printf("forkamount: %d\n", shell.forkamount);
+	printf("\e[1;34mshell struct\e[0;00m\n");
+	printf("\e[1;34mforkamount: %d\e[0;00m\n", shell.forkamount);
+	printf("\e[1;34mline: %s\e[0;00m\n", shell.line);
 }
 
-void	ft_printforks(t_forks forks)
+void	ft_printforks(t_forks forks, int forknumber)
 {
-	printf("%s\n", "forks struct");
-	printf("pipeline: %s\n", forks.pipeline);
-	printf("cmdamount: %d\n", forks.cmdamount);
+	printf("\e[1;35mforks struct %d\e[0;00m\n", forknumber);
+	printf("\e[1;35mpipeline: %s\n", forks.pipeline);
+	printf("\e[1;35mcmdamount: %d\n", forks.cmdamount);
 }
 
-void	ft_printcmds(t_cmds cmds)
+void	ft_printcmds(t_cmds cmds, int cmdnbr)
 {
-	printf("%s\n", "cmds struct");
-	printf("pipeline: %s\n", cmds.pipeline);
-	printf("argument: %s\n", cmds.arguments[0]);
-	printf("absolute: %s\n", cmds.absolute);
+	int		i;
+
+	i = 0;
+	printf("\e[1;36mcmds struct %d\e[0;00m\n", cmdnbr);
+	printf("\e[1;36mpipeline: %s\e[0;00m\n", cmds.pipeline);
+	while (cmds.arguments[i])
+	{
+		printf("\e[1;36margument %d: %s\e[0;00m\n", i, cmds.arguments[i]);
+		i++;
+	}
+	printf("\e[1;36mabsolute: %s\e[0;00m\n", cmds.absolute);
 }

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/28 10:44:35 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/28 12:27:54 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ t_shell	ft_parseline(char *line, t_shell shell)
 	int	j;
 	// if (check_quote_closed(line))
 	shell.forks = ft_parsepipe(line, &shell);
+	ft_printshell(shell);
 	/*shell->forks = ft_parsespchr(shell->forks, shell);*/
 	i = 0;
 	while (shell.forkamount > i) // forks loop should set the cmds.pipeline and set cmds.conditions
 	{
-		*shell.forks = ft_parseendcondition(*shell.forks);
+		shell.forks[i] = ft_parseendcondition(shell.forks[i]);
+		ft_printforks(shell.forks[i], i);
 		j = 0;
 		while (shell.forks[i].cmdamount > j) // cmds loop should expand, handle redirections and split the pipeline into the arguments
 		{
@@ -50,6 +52,7 @@ t_shell	ft_parseline(char *line, t_shell shell)
 			ft_parsevariable(shell.forks[i].cmds[j]); //expanding pipeline
 			/*ft_parsewildcard(shell.forks[i].cmds[j]); //expanding pipeline*/
 			ft_finalparsing(shell.forks, i, j);
+			ft_printcmds(shell.forks[i].cmds[j], j);
 			j++;
 		}
 		i++;

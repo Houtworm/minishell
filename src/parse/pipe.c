@@ -1,53 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   struct.c                                        |o_o || |                */
+/*   pipe.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/19 16:18:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/27 19:39:14 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/28 12:24:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-/*
-cmd1: cat < file1 | grep a&&wc -l > file2 > file3
-command[1] cat < file1
-command[2] grep a&& wc -l > file2 > file3	
-command[3] wc -l > file2 > file3	
-(for char **argument, cut out the redirection part = only 'cat' or 'wc\n -l')
-
-
-fork[0] = cat < file1
-fork[1] = grep a && wc -l > file2 > file3
-fork[0].cmd[0] = cat < file1
-fork[1].cmd[0] =  grep a
-fork[1].cmd[1] = wc -l ..
-*/
-
 
 t_forks	*ft_parsepipe(char *line, t_shell *shell)
 {
 	t_forks	*forks;
 	char	**tmp;
 
-	shell->forkamount = 1;
+	shell->forkamount = 0;
 	forks = ft_calloc(count_str(line, '|') + 1, sizeof(t_forks)); // does this count the |? so if it is 0 +1 we have 1 fork struct, but we need 2 for null termination?
 	if (!forks)
 		ft_errorexit("Error allocating memory", "malloc", 1);
 	if (!ft_strchr(line, '|'))
-		forks[(shell->forkamount) - 1].pipeline = ft_strdup(line);
+		forks[(shell->forkamount)].pipeline = ft_strdup(line);
 	else
 	{
 		tmp = split_not_quote(line, '|');
-		while (tmp[(shell->forkamount) - 1])
+		while (tmp[(shell->forkamount)])
 		{
-			forks[(shell->forkamount)-1 ].pipeline = tmp[(shell->forkamount)  - 1];
+			forks[(shell->forkamount)].pipeline = tmp[(shell->forkamount)];
 			shell->forkamount++;
 		}
 	}
+	if (shell->forkamount == 0)
+		shell->forkamount = 1;
+	shell->line = ft_strdup(line);
 	shell->forks = forks;
 	return (forks);
 }
