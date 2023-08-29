@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/24 21:59:03 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/29 03:06:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/29 04:33:37 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int	ft_outputfile(char *file, int append)
 	return (0);
 }
 
-int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, int **pipes)
+int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell shell)
 {
 	if (cmdnbr == 0 && forknbr > 0) // if input needs to come from pipe
 	{
 		ft_putendl_fd("input from pipe", 2);
-		dup2(pipes[forknbr + 1][0], 0);
+		dup2(shell.pipes[forknbr][0], 0);
 	}
 	else if (cmds.redirect[0].fd_in == -1) // if input needs to come from heredoc
 	{
@@ -91,12 +91,12 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, int **pipes)
 	else // input comes from stdin
 	{
 		ft_putendl_fd("input from stdin", 2);
-		dup2(0, 0);
+		dup2(shell.tempfdin, 0);
 	}
-	if (cmdnbr + 1 == cmds.cmdamount && forknbr < cmds.forkamount) // if output needs to go to pipe
+	if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount) // if output needs to go to pipe
 	{
 		ft_putendl_fd("output to pipe", 2);
-		dup2(pipes[forknbr][1], 1);
+		dup2(shell.pipes[forknbr][1], 1);
 	}
 	else if (cmds.redirect[0].fd_out > 2) // if outpuut needs to go to file
 	{
@@ -107,7 +107,7 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, int **pipes)
 	else // output goes to stdout
 	{
 		ft_putendl_fd("output to stdout", 2);
-		dup2(1, 1);
+		dup2(shell.tempfdout, 1);
 	}
 	return (0);
 }

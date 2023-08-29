@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/29 02:11:06 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/29 05:20:03 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ typedef struct s_shell
 	long long	starttime;
 	int			code;
 	int			**pipes;
+	int			tempfdin;
+	int			tempfdout;
 	int			forkamount; // 1 fork struct is 1, 2 fork structs is 2. so start from 1, and ++ for every additional fork :)
 	char		*line;
 }	t_shell;
@@ -142,9 +144,9 @@ char		**split_not_quote(char *s, int c);
 // fork
 int			ft_forktheforks(t_shell shell);
 // exec
-int			ft_executeforks(t_forks forks, int forknbr, int **pipes);
+int			ft_executeforks(t_forks forks, int forknbr, t_shell shell);
 // dupmachine
-int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, int **pipes);
+int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell shell);
 //verify
 int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);

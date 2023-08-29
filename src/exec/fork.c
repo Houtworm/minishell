@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/24 23:56:01 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/29 03:03:35 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/29 05:33:13 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	**ft_preparepipes(t_shell shell)
 	int	i;
 
 	i = 0;
-	pipes = ft_calloc(sizeof(int *) * (shell.forkamount + 1), 1);
+	pipes = ft_calloc(sizeof(int *) * (shell.forkamount + 2), 1);
 	if (pipes == NULL)
 		ft_errorexit("Error allocating memory", "malloc", 1);
-	while (i < shell.forkamount)
+	while (i <= shell.forkamount + 1)
 	{
 		pipes[i] = ft_calloc(sizeof(int) * 2, 1);
 		if (pipes[i] == NULL)
@@ -41,22 +41,30 @@ int	ft_forktheforks(t_shell shell)
 	status = 1;
 	shell.starttime = ft_gettimems(shell.envp);
 	shell.pipes = ft_preparepipes(shell);
+	shell.tempfdout = dup(1);
+	shell.tempfdin = dup(0);
 	if (shell.forkamount > 1)
 	{
+		pipe(shell.pipes[forknumber]);
 		while (shell.forkamount > forknumber)
 		{
-			pipe(shell.pipes[forknumber]);
+			pipe(shell.pipes[forknumber + 1]);
 			shell.forks[forknumber].pid = fork();
 			if (shell.forks[forknumber].pid == 0)
-				status = ft_executeforks(shell.forks[forknumber], forknumber, shell.pipes);
+				status = ft_executeforks(shell.forks[forknumber], forknumber, shell);
 			waitpid(shell.forks[forknumber].pid, &status, 0);
 			code = WEXITSTATUS(status);
+			close(shell.pipes[forknumber][0]);
 			close(shell.pipes[forknumber][1]);
 			forknumber++;
+			close(shell.pipes[forknumber][0]);
+			close(shell.pipes[forknumber][1]);
 		}
 	}
 	else
-		status = ft_executeforks(shell.forks[forknumber], forknumber, shell.pipes);
+	{
+		status = ft_executeforks(shell.forks[forknumber], forknumber, shell);
+	}
 	code = WEXITSTATUS(status);
 	return (code);
 }
