@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/29 06:15:12 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/29 07:22:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	ft_finalparsing(t_forks forks, int cmdnumber)
 	char	**paths;
 
 	paths = ft_getpaths(forks.cmds[0].envp, 1);
-	/*forks.cmds[cmdnumber].arguments = split_not_quote(forks.cmds[cmdnumber].pipeline, ' ');*/
-	forks.cmds[cmdnumber].cmdamount = forks.cmdamount;
+	forks.cmds[cmdnumber].arguments = split_not_quote(forks.cmds[cmdnumber].pipeline, ' ');
+	/*forks.cmds[cmdnumber].cmdamount = forks.cmdamount;*/
 	forks.cmds[cmdnumber].arguments = ft_split(forks.cmds[cmdnumber].pipeline, ' ');
 	forks.cmds[cmdnumber].absolute = ft_abspathcmd(paths, forks.cmds[cmdnumber].arguments[0]);
 	ft_frearr(paths);
@@ -52,17 +52,17 @@ t_shell	ft_parseline(char *line, t_shell shell)
 	// if (check_quote_closed(line))
 	shell = ft_parsepipe(line, shell);
 	/*shell->forks = ft_parsespchr(shell->forks, shell);*/
-	/*ft_printshell(shell); // printing contents of shellstruct*/
+	ft_printshell(shell); // printing contents of shellstruct
 	forknumber = 0;
 	while (shell.forkamount > forknumber)
 	{
 		shell.forks[forknumber] = ft_parseendcondition(shell.forks[forknumber]);
-		/*ft_printforks(shell.forks[forknumber], forknumber); //printing contents of forkstruct*/
+		ft_printforks(shell.forks[forknumber], forknumber); //printing contents of forkstruct
 		cmdnumber = 0;
 		while (shell.forks[forknumber].cmdamount > cmdnumber)
 		{
 			shell = ft_parsecmds(shell, forknumber, cmdnumber);
-			/*ft_printcmds(shell.forks[forknumber].cmds[cmdnumber], cmdnumber); // printing content of cmdstruct*/
+			ft_printcmds(shell.forks[forknumber].cmds[cmdnumber], cmdnumber); // printing content of cmdstruct
 			cmdnumber++;
 		}
 		forknumber++;
