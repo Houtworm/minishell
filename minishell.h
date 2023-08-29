@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
+/*   minishell.h                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/28 19:04:33 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/29 02:11:06 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ typedef struct s_cmds
 	int			pid;
 	int			code;
 	int			lastcode;
+	int			cmdamount;
+	int			forkamount;
 	t_redirect	*redirect;
 }	t_cmds;
 
@@ -66,6 +68,7 @@ typedef struct s_shell
 	char		**envp;
 	long long	starttime;
 	int			code;
+	int			**pipes;
 	int			forkamount; // 1 fork struct is 1, 2 fork structs is 2. so start from 1, and ++ for every additional fork :)
 	char		*line;
 }	t_shell;
@@ -97,13 +100,8 @@ int			ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
 t_shell		*ft_initstruct(char **envp);
 // prompt
 void		ft_printprompt(t_shell *strct, char **envp);
-char		*ft_addosuserandhosttoprompt(char **envp);
-char		*ft_addworkingdirectory(char *prompt, char **envp);
-char		*ft_addexecutiontime(t_shell *shell, char *temp, char **envp);
-char		*ft_addreturncode(t_shell *shell, char *temp);
 // script
 int			ft_runscript(int argc, char **argv, char **envp);
-
 
 // PARSE
 //parse
@@ -123,7 +121,6 @@ int 		ft_parsevariable(t_cmds cmd);
 //wildcard
 int			ft_parsewildcard(t_cmds cmd);
 //tools
-int			ft_findcharoutquote(char *line, char target, char quote);
 int			ft_checkoutquote(char *line, char target, int mode);
 //parse_utils
 // int			check_quote_closed(char *s);
@@ -141,14 +138,13 @@ char		**split_not_quote(char *s, int c);
 //int			count_wd2(char *s);
 //char		**split_spchr(char *s);
 
-
 // EXEC
 // fork
 int			ft_forktheforks(t_shell shell);
 // exec
-int			ft_executeforks(t_forks forks);
+int			ft_executeforks(t_forks forks, int forknbr, int **pipes);
 // dupmachine
-int			ft_dupmachine(t_cmds cmds);
+int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, int **pipes);
 //verify
 int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   condition.c                                        :+:    :+:            */
+/*   condition.c                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/08/28 21:14:49 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/28 22:05:07 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		ft_countendconditions(char *line, int count, int i)
 {
 	while (line[i])
 	{
-		i = check_quote(line, i);
+		/*i = check_quote(line, i);*/
 		if (line[i] == '&')
 		{
 			i++;
@@ -56,7 +56,7 @@ t_forks ft_parseendcondition(t_forks forks)
 	{
 		icpip = 0;
 		forks.cmds[icmd].pipeline = ft_calloc(1000 * 8, 1);
-		while (!ft_strchr("&|;\"'", forks.pipeline[ifpip]))
+		while (!ft_strchr("&|;\"\'", forks.pipeline[ifpip]))
 		{
 			forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
 			ifpip++;

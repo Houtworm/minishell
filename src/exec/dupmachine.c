@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/24 21:59:03 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/25 04:58:01 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/29 02:12:02 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,57 @@ int	ft_heredoc(char *delimiter)
 	return (fdi);
 }
 
-int	ft_dupmachine(t_cmds cmds)
+int	ft_inputfile(char *file)
 {
-	// check if cmdnbr == 0 and forknbr > 0 then fd_in is output from pipe
-	if (cmds.redirect[0].fd_in == -1)
-		cmds.redirect[0].fd_in = ft_heredoc(cmds.redirect[0].heredocdelimiter);
+	int	fdi;
+
+	if (ft_checkinputfile(file))
+		return (1);
+	fdi = open(file, O_RDONLY);
+	dup2(fdi, 0);
+	return (0);
+} 
+
+int	ft_outputfile(char *file, int append)
+{
+	int	fdo;
+
+	if (ft_checkoutputfile(file))
+		return (1);
+	if (append)
+		fdo = open(file, O_RDWR | O_CREAT | O_APPEND, 0666);
 	else
-		dup2(cmds.redirect[0].fd_in, 0);
-	// check if cmdnumber == cmdamount and forknumber < forkamount. then fd_out is dupped to pipe.
-	dup2(cmds.redirect[0].fd_out, 1);
+		fdo = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	if (fdo == -1)
+	{
+		ft_errorexit("Is a directory", file, 0);
+		return (1);
+	}
+	dup2(fdo, 1);
+	return (0);
+}
+
+int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, int **pipes)
+{
+	if (cmdnbr == 0 && forknbr > 0) // if input needs to come from pipe
+		dup2(pipes[forknbr][0], 0);
+	else if (cmds.redirect[0].fd_in == -1) // if input needs to come from heredoc
+		cmds.redirect[0].fd_in = ft_heredoc(cmds.redirect[0].heredocdelimiter);
+	else if (cmds.redirect[0].fd_in > 2) // if input needs to come from file
+	{
+		if (ft_inputfile(cmds.redirect[0].infilename))
+			return (1);
+	}
+	else // input comes from stdin
+		dup2(0, 0);
+	if (cmdnbr == cmds.cmdamount && forknbr < cmds.forkamount) // if output needs to go to pipe
+		dup2(pipes[forknbr + 1][1], 1);
+	else if (cmds.redirect[0].fd_out > 2) // if outpuut needs to go to file
+	{
+		if (ft_inputfile(cmds.redirect[0].infilename))
+			return (1);
+	}
+	else // output goes to stdout
+		 dup2(1, 1);
 	return (0);
 }
