@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/24 21:59:03 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/29 02:12:02 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/29 03:06:22 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,24 +73,41 @@ int	ft_outputfile(char *file, int append)
 int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, int **pipes)
 {
 	if (cmdnbr == 0 && forknbr > 0) // if input needs to come from pipe
-		dup2(pipes[forknbr][0], 0);
+	{
+		ft_putendl_fd("input from pipe", 2);
+		dup2(pipes[forknbr + 1][0], 0);
+	}
 	else if (cmds.redirect[0].fd_in == -1) // if input needs to come from heredoc
-		cmds.redirect[0].fd_in = ft_heredoc(cmds.redirect[0].heredocdelimiter);
+	{
+		ft_putendl_fd("input from heredoc", 2);
+		dup2(ft_heredoc(cmds.redirect[0].heredocdelimiter), 0);
+	}
 	else if (cmds.redirect[0].fd_in > 2) // if input needs to come from file
 	{
+		ft_putendl_fd("input from file", 2);
 		if (ft_inputfile(cmds.redirect[0].infilename))
 			return (1);
 	}
 	else // input comes from stdin
+	{
+		ft_putendl_fd("input from stdin", 2);
 		dup2(0, 0);
-	if (cmdnbr == cmds.cmdamount && forknbr < cmds.forkamount) // if output needs to go to pipe
-		dup2(pipes[forknbr + 1][1], 1);
+	}
+	if (cmdnbr + 1 == cmds.cmdamount && forknbr < cmds.forkamount) // if output needs to go to pipe
+	{
+		ft_putendl_fd("output to pipe", 2);
+		dup2(pipes[forknbr][1], 1);
+	}
 	else if (cmds.redirect[0].fd_out > 2) // if outpuut needs to go to file
 	{
+		ft_putendl_fd("output to file", 2);
 		if (ft_inputfile(cmds.redirect[0].infilename))
 			return (1);
 	}
 	else // output goes to stdout
-		 dup2(1, 1);
+	{
+		ft_putendl_fd("output to stdout", 2);
+		dup2(1, 1);
+	}
 	return (0);
 }
