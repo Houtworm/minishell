@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                         |o_o || |                */
+/*   parse.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/29 07:22:28 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/29 20:18:32 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	ft_finalparsing(t_forks forks, int cmdnumber)
 
 	paths = ft_getpaths(forks.cmds[0].envp, 1);
 	forks.cmds[cmdnumber].arguments = split_not_quote(forks.cmds[cmdnumber].pipeline, ' ');
-	/*forks.cmds[cmdnumber].cmdamount = forks.cmdamount;*/
-	forks.cmds[cmdnumber].arguments = ft_split(forks.cmds[cmdnumber].pipeline, ' ');
+	forks.cmds[cmdnumber].cmdamount = forks.cmdamount;
+	// forks.cmds[cmdnumber].arguments = ft_split(forks.cmds[cmdnumber].pipeline, ' ');
 	forks.cmds[cmdnumber].absolute = ft_abspathcmd(paths, forks.cmds[cmdnumber].arguments[0]);
 	ft_frearr(paths);
 }

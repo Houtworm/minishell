@@ -1,42 +1,71 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   condition.c                                     |o_o || |                */
+/*   condition.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/08/28 22:05:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/29 21:31:12 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+// int		ft_countendconditions(char *line, int count, int i)
+// {
+// 	while (line[i])
+// 	{
+// 		i = ft_skipquote(line, i);
+// 		if (line[i] == '&')
+// 		{
+// 			i++;
+// 			count++;
+// 			if (line[i] == '&')
+// 				i++;
+// 		}
+// 		if (line[i] == '|')
+// 		{
+// 			i++;
+// 			count++;
+// 			if (line[i] == '|')
+// 				i++;
+// 		}
+// 		if (line[i] == ';')
+// 		{
+// 			i++;
+// 			count++;
+// 		}
+// 		i++;
+// 	}
+// 	return (count);
+// }
+
 int		ft_countendconditions(char *line, int count, int i)
 {
 	while (line[i])
 	{
-		/*i = check_quote(line, i);*/
+		while (!ft_strchr("&|;\'\"", line[i]))
+			i++;
+		if (line[i] == '\'' || line[i] == '\"')
+			i = ft_skipquote(line, i) + 1;
+		count++;
 		if (line[i] == '&')
 		{
 			i++;
-			count++;
 			if (line[i] == '&')
 				i++;
 		}
 		if (line[i] == '|')
 		{
 			i++;
-			count++;
 			if (line[i] == '|')
 				i++;
 		}
 		if (line[i] == ';')
 		{
 			i++;
-			count++;
 		}
-		i++;
 	}
 	return (count);
 }
@@ -48,7 +77,7 @@ t_forks ft_parseendcondition(t_forks forks)
 	int		icpip;
 	int		tmp;
 
-	forks.cmdamount = ft_countendconditions(forks.pipeline, 0, 0) + 1;
+	forks.cmdamount = ft_countendconditions(forks.pipeline, 0, 0);
 	forks.cmds = ft_calloc(10000 * sizeof(t_cmds), 1);
 	icmd = 0;
 	ifpip = 0;

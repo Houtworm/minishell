@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   tools.c                                         |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/08/26 03:50:51 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/28 12:19:01 by houtworm     \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   tools.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: djonker <djonker@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/26 03:50:51 by djonker       #+#    #+#                 */
+/*   Updated: 2023/08/29 17:38:08 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,6 @@ void	ft_printcmds(t_cmds cmds, int cmdnbr)
 		i++;
 	}
 	printf("\e[1;36mabsolute: %s\e[0;00m\n", cmds.absolute);
+	// printf("\e[1;36mcondition: %d\e[0;00m\n", cmds.condition);
+	// printf("\e[1;36mdetatch: %d\e[0;00m\n", cmds.detatch);
 }

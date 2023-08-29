@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/28 18:48:20 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/28 21:29:26 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/29 21:30:37 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,45 +16,45 @@
 // check whether double & single quote are closed
 // ignore the other type of quote mark if it's within a quote
 // return 0 when the quote is properly closed
-int	check_quote_closed(char *s)
+// int	check_quote_closed(char *s)
+// {
+// 	int	i;
+// 	int	check;
+
+// 	i = 0;
+// 	check = 0;
+// 	while (s[i])
+// 	{
+// 		while (s[i] && !check)
+// 		{
+// 			if (s[i] == '\'')
+// 				check = 1;
+// 			if (s[i] == '\"')
+// 				check = 2;
+// 			i++;
+// 		}
+// 		while (s[i] && check)
+// 		{
+// 			if ((s[i] == '\'' && check == 1) || (s[i] == '\"' && check == 2))
+// 				check = 0;
+// 			i++;
+// 		}
+// 	}
+// 	return (check);
+// }
+
+int	ft_skipquote(char *s, int i)
 {
-	int	i;
-	int	check;
+	int	k;
 
-	i = 0;
-	check = 0;
-	while (s[i])
-	{
-		while (s[i] && !check)
-		{
-			if (s[i] == '\'')
-				check = 1;
-			if (s[i] == '\"')
-				check = 2;
-			i++;
-		}
-		while (s[i] && check)
-		{
-			if ((s[i] == '\'' && check == 1) || (s[i] == '\"' && check == 2))
-				check = 0;
-			i++;
-		}
-	}
-	return (check);
-}
-
-int	check_quote(char *s, int i)
-{
-	int	j;
-
-	j = 0;
+	k = 0;
 	if (s[i] == '\"' || (s[i] == '\''))
 	{
-		j++;
-		while (s[i + j] != s[i])
-			j++;
+		k++;
+		while (s[i + k] != s[i])
+			k++;
 	}
-	return (i + j);
+	return (i + k);
 }
 
 int	count_str(char *s, int c)
@@ -68,13 +68,20 @@ int	count_str(char *s, int c)
 		i++;
 	while (s[i])
 	{
-		i = check_quote(s, i);
 		while (s[i] && s[i] != c)
-			i++;
-		str_count++;
+		{
+			i = ft_skipquote(s, i);
+			i++;    
+		}
 		if (s[i] == c && s[i + 1] == '|')
-			i++;
-		else if (s[i] && s[i] == c)
+			i += 2;
+		while (s[i] && s[i] != c)
+		{
+			i = ft_skipquote(s, i);
+			i++;    
+		}
+		str_count++;
+		if (s[i] && s[i] == c)
 			i++;
 	}
 	return (str_count);
@@ -91,7 +98,7 @@ int	count_wd(char *s, int c)
 		i++;
 	while (s[i + wd])
 	{
-		wd = check_quote(s, wd);
+		wd = ft_skipquote(s, wd);
 		if (s[i + wd] == c && s[i + wd + 1] != c && s[i + wd - 1] != c)
 			break ;
 		wd++;
@@ -104,19 +111,20 @@ char	**split_not_quote(char *s, int c)
 	int		i;
 	int		start;
 	char	**cmd;
+	char	k;
 
 	i = 0;
 	start = 0;
 	cmd = ft_calloc(count_str(s, c) + 1, sizeof(char *));
 	if (!cmd)
 		ft_errorexit("Error allocating memory", "malloc", 1);
-	//this condition is messing up and leaving c in the beginning and the end of str
 	if (count_str(s, c) == 1)
 	{
-		cmd[i] = ft_strdup(s);
+		k = (char)c;
+		cmd[i] = ft_strtrim(s, &k);
 		return (cmd);
 	}
-	while (s[start])
+	while (i < count_str(s, c))
 	{
 		while (s[start] == c)
 			start++;
