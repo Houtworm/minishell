@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/30 10:18:55 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/30 10:34:01 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,32 +45,49 @@ t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 	return (shell);
 }
 
-/*char	*ft_closequote(char *line)*/
-/*{*/
-	/*int		quote;*/
-	/*char	*temp;*/
-	/*int		ret;*/
-	/*char	*gnl;*/
+char	*ft_closequote(char *line)
+{
+	int		quote;
+	char	*temp;
+	int		ret;
+	char	*gnl;
 
-	/*quote = check_quote_closed(line);*/
-	/*if (quote)*/
-	/*{*/
-		/*ret = get_next_line(0, &gnl);*/
-		
-		
-
-		/*free(line);*/
-		/*return (temp);*/
-	/*}*/
-	/*return (line);*/
-/*}*/
+	quote = check_quote_closed(line);
+	if (quote)
+	{
+		while (1)
+		{
+			if (quote == 1)
+				ft_putstr("quote> ");
+			if (quote == 2)
+				ft_putstr("dquote> ");
+			ret = get_next_line(0, &gnl);
+			if (ret == 0)
+				break;
+			if (quote == 1 && ft_strchr(line, '\''))
+				break ;
+			else if (quote == 2 && ft_strchr(line, '\"'))
+				break ;
+			else
+			{
+				temp = ft_vastrjoin(3, line, "\n", gnl);
+				free(gnl);
+			}
+		}
+		temp = ft_vastrjoin(3, line, "\n", gnl);
+		free(gnl);
+		free(line);
+		return (temp);
+	}
+	return (line);
+}
 
 t_shell	ft_parseline(char *line, t_shell shell)
 {
 	int	forknumber;
 	int	cmdnumber;
-	// if (check_quote_closed(line))
-	/*line = ft_closequote(line);*/
+	 /*if (check_quote_closed(line))*/
+	line = ft_closequote(line);
 	shell = ft_parsepipe(line, shell);
 	/*shell->forks = ft_parsespchr(shell->forks, shell);*/
 	/*ft_printshell(shell); // printing contents of shellstruct*/
