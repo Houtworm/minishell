@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/23 14:59:51 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/30 06:19:19 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/30 18:19:38 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_runscript(int argc, char **argv, char **envp)
 			fd = open(argv[1], O_RDONLY);
 			while (ret > 0)
 			{
-				ret = get_next_line(fd, &line); // write second GNL for \ at end of line
+				ret = get_next_line(fd, &line);
 				shell = ft_parseline(line, shell);
 				code = ft_forktheforks(&shell);
 				free(line);
@@ -46,6 +46,5 @@ int	ft_runscript(int argc, char **argv, char **envp)
 			i++;
 		}
 	}
-	// cleanup
 	return (code);
 }

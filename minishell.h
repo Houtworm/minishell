@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/30 17:10:00 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/30 18:23:09 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 
 typedef struct s_redirect
 {
-	//int					fd_in; // -1 for heredoc?
-	//int					fd_out;
 	char				*infilename;
 	char				*outfilename;
 	int					append; //0 for trunc, 1 for append, 2 for just touch (if it should remain empty)
@@ -43,7 +41,7 @@ typedef struct s_cmds
 	char		*absolute;
 	char		**arguments;
 	int			detatch;
-	char		*pipeline; //command line separated by operators && || and ;
+	char		*pipeline;
 	int			condition; // 0 for non, 1 for &&, 2 for || 
 	int			pid;
 	int			code;
@@ -56,7 +54,7 @@ typedef struct s_cmds
 typedef struct s_forks
 {
 	t_cmds		*cmds;
-	char		*pipeline; //command line separated by pipe
+	char		*pipeline;
 	int			pid;
 	int			cmdamount;
 }	t_forks;
@@ -71,7 +69,7 @@ typedef struct s_shell
 	int			**pipes;
 	int			tempfdin;
 	int			tempfdout;
-	int			forkamount; // 1 fork struct is 1, 2 fork structs is 2. so start from 1, and ++ for every additional fork :)
+	int			forkamount;
 	char		*line;
 }	t_shell;
 

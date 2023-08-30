@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 09:00:10 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/27 10:34:35 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/30 18:20:54 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_findcharoutquote(char *line, char target, char quote) // subfunction of c
 	return (0);
 }
 
-int	ft_checkoutquote(char *line, char target, int mode) // used to check if we actually need to run the parse functions to save time.
+int	ft_checkoutquote(char *line, char target, int mode)
 {
 	if (mode > 0)
 		if (ft_findcharoutquote(line, target, '\''))

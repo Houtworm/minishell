@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/30 17:43:30 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/30 18:19:13 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	ft_finalparsing(t_forks forks, int cmdnumber)
 t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 {
 	ft_setcmddefaults(shell, forknumber, cmdnumber);
-	ft_parsevariable(shell.forks[forknumber].cmds[cmdnumber]); //expanding pipeline
-	/*ft_parsewildcard(shell.forks[forknumber].cmds[cmdnumber]); //expanding pipeline*/
+	ft_parsevariable(shell.forks[forknumber].cmds[cmdnumber]);
+	/*ft_parsewildcard(shell.forks[forknumber].cmds[cmdnumber]);*/
 	ft_finalparsing(shell.forks[forknumber], cmdnumber);
 	return (shell);
 }
