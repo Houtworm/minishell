@@ -1,45 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   condition.c                                        :+:    :+:            */
+/*   condition.c                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/08/29 21:31:12 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/30 03:25:35 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-// int		ft_countendconditions(char *line, int count, int i)
-// {
-// 	while (line[i])
-// 	{
-// 		i = ft_skipquote(line, i);
-// 		if (line[i] == '&')
-// 		{
-// 			i++;
-// 			count++;
-// 			if (line[i] == '&')
-// 				i++;
-// 		}
-// 		if (line[i] == '|')
-// 		{
-// 			i++;
-// 			count++;
-// 			if (line[i] == '|')
-// 				i++;
-// 		}
-// 		if (line[i] == ';')
-// 		{
-// 			i++;
-// 			count++;
-// 		}
-// 		i++;
-// 	}
-// 	return (count);
-// }
 
 int		ft_countendconditions(char *line, int count, int i)
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   dupmachine.c                                       :+:    :+:            */
+/*   dupmachine.c                                    |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/08/29 20:17:02 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/30 05:13:04 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_inputfile(char *file)
 	fdi = open(file, O_RDONLY);
 	dup2(fdi, 0);
 	return (0);
-} 
+}
 
 int	ft_outputfile(char *file, int append)
 {
@@ -96,12 +96,12 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell shell)
 	if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount) // if output needs to go to pipe
 	{
 		ft_putendl_fd("output to pipe", 2);
-		dup2(shell.pipes[forknbr][1], 1);
+		dup2(shell.pipes[forknbr + 1][1], 1);
 	}
 	else if (cmds.redirect[0].fd_out > 2) // if outpuut needs to go to file
 	{
 		ft_putendl_fd("output to file", 2);
-		if (ft_inputfile(cmds.redirect[0].infilename))
+		if (ft_outputfile(cmds.redirect[0].infilename, cmds.redirect[0].trc_apd))
 			return (1);
 	}
 	else // output goes to stdout
