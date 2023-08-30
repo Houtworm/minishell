@@ -28,12 +28,18 @@ is a lightweight implementation of bash
 9. finally get the absolute path for the main command and split the rest of the command on the space for execve
 
 #### Exec
-1. create a child for every fork struct.
-2. run the dupmachine, and set the redirect values heredoc or fd as the in and output.
-3. execve the current cmd struct.
-4. go to the next cmd struct in the fork struct and repeat steps 2 - 4 untill there are no commands left in the cmd struct of the active fork struct child.
-5. somehow terminate a foreground process if the next command says it had enough example: cat /dev/random | head -n 100
-6. write return code to $?
+1. save starting time
+2. prepare the pipes for every fork
+3. save stdin and stdout
+4. create a child for every fork struct. unless there is only 1 fork struct then skip step 5
+5. every child will run every cmd struct in their fork struct.
+6. check for builtin and run them.
+7. run the dupmachine, and set the source and destination of the in/output.
+8. if it is a file run some checks on it, if it is a file, pipe or stdin/out set the correct fd. or call heredoc
+9. execute the command.
+10. somehow terminate a foreground process if the next command says it had enough example: cat /dev/random | head -n 100
+11. wait for exit of child and pass the return code back
+12. write return code to $?
 
 ### Builtins
 #### cd

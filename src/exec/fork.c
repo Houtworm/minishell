@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/24 23:56:01 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/30 06:37:24 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/30 08:20:38 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int	ft_forktheforks(t_shell *shell)
 				exit (status);
 			}
 			waitpid(shell->forks[forknumber].pid, &status, 0);
-			close(shell->pipes[forknumber][0]);
-			close(shell->pipes[forknumber][1]);
 			forknumber++;
 			close(shell->pipes[forknumber][1]);
 		}
