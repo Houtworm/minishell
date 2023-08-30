@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/30 17:10:20 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/30 17:43:30 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	ft_setcmddefaults(t_shell shell, int forknumber, int cmdnumber)
 	shell.forks[forknumber].cmds[cmdnumber].detatch = 0;
 	shell.forks[forknumber].cmds[cmdnumber].forkamount = shell.forkamount;
 	shell.forks[forknumber].cmds[cmdnumber].redirect = ft_calloc(10 * sizeof(t_redirect), 1);
-	/*shell.forks[forknumber].cmds[cmdnumber].redirect[0].fd_in = 0;*/
-	/*shell.forks[forknumber].cmds[cmdnumber].redirect[0].fd_out = 1;*/
 }
 
 void	ft_finalparsing(t_forks forks, int cmdnumber)
@@ -30,7 +28,6 @@ void	ft_finalparsing(t_forks forks, int cmdnumber)
 	paths = ft_getpaths(forks.cmds[0].envp, 1);
 	forks.cmds[cmdnumber].arguments = split_not_quote(forks.cmds[cmdnumber].pipeline, ' ');
 	forks.cmds[cmdnumber].cmdamount = forks.cmdamount;
-	// forks.cmds[cmdnumber].arguments = ft_split(forks.cmds[cmdnumber].pipeline, ' ');
 	forks.cmds[cmdnumber].absolute = ft_abspathcmd(paths, forks.cmds[cmdnumber].arguments[0]);
 	ft_frearr(paths);
 }
@@ -49,10 +46,8 @@ t_shell	ft_parseline(char *line, t_shell shell)
 {
 	int	forknumber;
 	int	cmdnumber;
-	 /*if (check_quote_closed(line))*/
 	line = ft_closequote(line);
 	shell = ft_parsepipe(line, shell);
-	/*shell->forks = ft_parsespchr(shell->forks, shell);*/
 	/*ft_printshell(shell); // printing contents of shellstruct*/
 	forknumber = 0;
 	while (shell.forkamount > forknumber)
