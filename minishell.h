@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
+/*   minishell.h                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/29 19:22:10 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/30 05:41:01 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@
 
 typedef struct s_redirect
 {
-	int					fd_in; // -1 for heredoc?
-	int					fd_out;
+	//int					fd_in; // -1 for heredoc?
+	//int					fd_out;
 	char				*infilename;
 	char				*outfilename;
-	int					trc_apd; //0 for trunc, 1 for append, 2 for just touch (if it should remain empty)
-	char				*heredocdelimiter; // the EOF thingy in heredoc :)
+	int					append; //0 for trunc, 1 for append, 2 for just touch (if it should remain empty)
+	char				*delimiter; // the EOF thingy in heredoc :)
 	struct s_redirect	*nxt;
 }	t_redirect;
 

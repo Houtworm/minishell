@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/08/30 05:13:04 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/30 05:44:26 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,12 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell shell)
 		ft_putendl_fd("input from pipe", 2);
 		dup2(shell.pipes[forknbr][0], 0);
 	}
-	else if (cmds.redirect[0].fd_in == -1) // if input needs to come from heredoc
+	else if (cmds.redirect[0].delimiter) // if input needs to come from heredoc
 	{
 		ft_putendl_fd("input from heredoc", 2);
-		dup2(ft_heredoc(cmds.redirect[0].heredocdelimiter), 0);
+		dup2(ft_heredoc(cmds.redirect[0].delimiter), 0);
 	}
-	else if (cmds.redirect[0].fd_in > 2) // if input needs to come from file
+	else if (cmds.redirect[0].infilename) // if input needs to come from file
 	{
 		ft_putendl_fd("input from file", 2);
 		if (ft_inputfile(cmds.redirect[0].infilename))
@@ -98,10 +98,10 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell shell)
 		ft_putendl_fd("output to pipe", 2);
 		dup2(shell.pipes[forknbr + 1][1], 1);
 	}
-	else if (cmds.redirect[0].fd_out > 2) // if outpuut needs to go to file
+	else if (cmds.redirect[0].outfilename) // if outpuut needs to go to file
 	{
 		ft_putendl_fd("output to file", 2);
-		if (ft_outputfile(cmds.redirect[0].infilename, cmds.redirect[0].trc_apd))
+		if (ft_outputfile(cmds.redirect[0].infilename, cmds.redirect[0].append))
 			return (1);
 	}
 	else // output goes to stdout

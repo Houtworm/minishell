@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/29 20:18:32 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/30 05:39:55 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	ft_setcmddefaults(t_shell shell, int forknumber, int cmdnumber)
 	shell.forks[forknumber].cmds[cmdnumber].detatch = 0;
 	shell.forks[forknumber].cmds[cmdnumber].forkamount = shell.forkamount;
 	shell.forks[forknumber].cmds[cmdnumber].redirect = ft_calloc(10 * sizeof(t_redirect), 1);
-	shell.forks[forknumber].cmds[cmdnumber].redirect[0].fd_in = 0;
-	shell.forks[forknumber].cmds[cmdnumber].redirect[0].fd_out = 1;
+	/*shell.forks[forknumber].cmds[cmdnumber].redirect[0].fd_in = 0;*/
+	/*shell.forks[forknumber].cmds[cmdnumber].redirect[0].fd_out = 1;*/
 }
 
 void	ft_finalparsing(t_forks forks, int cmdnumber)
