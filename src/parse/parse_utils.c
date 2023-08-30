@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_utils.c                                      :+:    :+:            */
+/*   parse_utils.c                                   |o_o || |                */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/28 18:48:20 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/29 21:30:37 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/08/30 09:00:00 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,32 @@
 // check whether double & single quote are closed
 // ignore the other type of quote mark if it's within a quote
 // return 0 when the quote is properly closed
-// int	check_quote_closed(char *s)
-// {
-// 	int	i;
-// 	int	check;
+ int	check_quote_closed(char *s)
+ {
+	 int	i;
+	 int	check;
 
-// 	i = 0;
-// 	check = 0;
-// 	while (s[i])
-// 	{
-// 		while (s[i] && !check)
-// 		{
-// 			if (s[i] == '\'')
-// 				check = 1;
-// 			if (s[i] == '\"')
-// 				check = 2;
-// 			i++;
-// 		}
-// 		while (s[i] && check)
-// 		{
-// 			if ((s[i] == '\'' && check == 1) || (s[i] == '\"' && check == 2))
-// 				check = 0;
-// 			i++;
-// 		}
-// 	}
-// 	return (check);
-// }
+	 i = 0;
+	 check = 0;
+	 while (s[i])
+	 {
+		 while (s[i] && !check)
+		 {
+			 if (s[i] == '\'')
+				 check = 1;
+			 if (s[i] == '\"')
+				 check = 2;
+			 i++;
+		 }
+		 while (s[i] && check)
+		 {
+			 if ((s[i] == '\'' && check == 1) || (s[i] == '\"' && check == 2))
+				 check = 0;
+			 i++;
+		 }
+	 }
+	 return (check);
+ }
 
 int	ft_skipquote(char *s, int i)
 {
@@ -51,8 +51,10 @@ int	ft_skipquote(char *s, int i)
 	if (s[i] == '\"' || (s[i] == '\''))
 	{
 		k++;
-		while (s[i + k] != s[i])
+		while (s[i + k] != s[i] && s[i + k])
 			k++;
+		if (!s[i + k])
+			return (-1);
 	}
 	return (i + k);
 }

@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/28 13:07:06 by houtworm     \___)=(___/                  #
+#    Updated: 2023/08/30 09:20:23 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -163,6 +163,7 @@ redirectfunction()
  testfunction "export _bla=bla"
  testfunction "export _bla"
  testfunction "export PATH=bahbah"
+ testfunction "export arg=-la && ls $arg"
 
 # unset
  printf "\e[1;36mTesting unset\e[0;00m\n"
@@ -179,12 +180,17 @@ redirectfunction()
 
 # exit
  printf "\e[1;36mTesting exit\e[0;00m\n"
- testfunction "exit"
- testfunction "exit 1"
- testfunction "exit 123"
- testfunction "exit 256"
- testfunction "exit bla"
- testfunction "exit -wat"
+testfunction "exit"
+testfunction "exit 1"
+testfunction "exit 123"
+testfunction "exit 256"
+testfunction "exit bla"
+testfunction "exit -wat"
+testfunction "exit 9223372036854775807"
+testfunction "exit 9223372036854775808"
+testfunction "exit -9223372036854775807"
+testfunction "exit -9223372036854775808"
+testfunction "exit -9223372036854775809"
 
 # cd
  printf "\e[1;36mTesting cd\e[0;00m\n"
@@ -204,6 +210,8 @@ redirectfunction "cat r1 > r2 > r3" "cat m1 > m2 > m3"
 redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
 redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > r3" "printf 'blabla' > m1; printf 'blabla' > m2; printf 'blabla' > m3"
 redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
+redirectfunction "echo "hoi" > | file"
+redirectfunction "echo "hoi" >| file"
 
 # and operator
 printf "\e[1;36mTesting and operator\e[0;00m\n"
@@ -214,6 +222,9 @@ testfunction "ls&&&echo 'hello'"
 testfunction "ls&& &echo 'hello'"
 testfunction "ls&&;echo 'hello'"
 testfunction "ls&& ;echo 'hello'"
+
+# expansion
+#echo $""
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO\'s and $PASSES OK\'s\e[0;00m\n"

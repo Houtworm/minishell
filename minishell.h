@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/30 06:18:40 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/30 09:05:11 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int			ft_parsewildcard(t_cmds cmd);
 //tools
 int			ft_checkoutquote(char *line, char target, int mode);
 //parse_utils
-// int			check_quote_closed(char *s);
+int			check_quote_closed(char *s);
 int			ft_skipquote(char *s, int i);
 int			count_str(char *s, int c);
 int			count_wd(char *s, int c);
