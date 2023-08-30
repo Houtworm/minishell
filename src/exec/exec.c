@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/29 04:16:57 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/08/30 06:17:16 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_builtincheck(t_cmds cmds)
 	return (ret);
 }
 
-int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell shell)
+int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	status;
 
@@ -59,7 +59,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell shell)
 	return (cmds.code);
 }
 
-int	ft_executeforks(t_forks forks, int forknbr, t_shell shell)
+int	ft_executeforks(t_forks forks, int forknbr, t_shell *shell)
 {
 	int	status;
 	int	cmdnbr;

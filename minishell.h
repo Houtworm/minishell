@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/30 05:41:01 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/30 06:18:40 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,11 +142,11 @@ char		**split_not_quote(char *s, int c);
 
 // EXEC
 // fork
-int			ft_forktheforks(t_shell shell);
+int			ft_forktheforks(t_shell *shell);
 // exec
-int			ft_executeforks(t_forks forks, int forknbr, t_shell shell);
+int			ft_executeforks(t_forks forks, int forknbr, t_shell *shell);
 // dupmachine
-int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell shell);
+int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
 //verify
 int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);
