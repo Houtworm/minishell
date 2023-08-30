@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/08/30 06:18:09 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/30 07:00:51 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,39 +74,39 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	if (cmdnbr == 0 && forknbr > 0) // if input needs to come from pipe
 	{
-		ft_putendl_fd("input from pipe", 2);
+		/*ft_putendl_fd("input from pipe", 2);*/
 		dup2(shell->pipes[forknbr][0], 0);
 	}
 	else if (cmds.redirect[0].delimiter) // if input needs to come from heredoc
 	{
-		ft_putendl_fd("input from heredoc", 2);
+		/*ft_putendl_fd("input from heredoc", 2);*/
 		dup2(ft_heredoc(cmds.redirect[0].delimiter), 0);
 	}
 	else if (cmds.redirect[0].infilename) // if input needs to come from file
 	{
-		ft_putendl_fd("input from file", 2);
+		/*ft_putendl_fd("input from file", 2);*/
 		if (ft_inputfile(cmds.redirect[0].infilename))
 			return (1);
 	}
 	else // input comes from stdin
 	{
-		ft_putendl_fd("input from stdin", 2);
+		/*ft_putendl_fd("input from stdin", 2);*/
 		dup2(shell->tempfdin, 0);
 	}
 	if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount) // if output needs to go to pipe
 	{
-		ft_putendl_fd("output to pipe", 2);
+		/*ft_putendl_fd("output to pipe", 2);*/
 		dup2(shell->pipes[forknbr + 1][1], 1);
 	}
 	else if (cmds.redirect[0].outfilename) // if outpuut needs to go to file
 	{
-		ft_putendl_fd("output to file", 2);
+		/*ft_putendl_fd("output to file", 2);*/
 		if (ft_outputfile(cmds.redirect[0].infilename, cmds.redirect[0].append))
 			return (1);
 	}
 	else // output goes to stdout
 	{
-		ft_putendl_fd("output to stdout", 2);
+		/*ft_putendl_fd("output to stdout", 2);*/
 		dup2(shell->tempfdout, 1);
 	}
 	return (0);
