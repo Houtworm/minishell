@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                        |o_o || |                 #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/30 01:29:07 by djonker          ###   ########.fr        #
+#    Updated: 2023/08/30 17:09:25 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC		=src/main/main.c\
 		 src/parse/parse.c\
 		 src/parse/parse_utils.c\
 		 src/parse/pipe.c\
+		 src/parse/quote.c\
 		 src/parse/condition.c\
 		 src/parse/variable.c\
 		 src/parse/wildcard.c\
