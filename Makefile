@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/28 18:32:59 by yitoh         ########   odam.nl          #
+#    Updated: 2023/08/30 01:29:07 by djonker          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ $(OBJ):		$(SRC)
 
 $(NAME):	$(OBJ)
 				@printf "\e[1;36mCompiling $@\n\e[0;00m"
-				@$(CC) $(CFLAGS) -lreadline $^ -o $@ $(LIB)
+				@$(CC) $(CFLAGS) $^ -o $@ $(LIB) -lreadline
 				@printf "\e[1;32mDone\e[0;00m\n"
 
 libft:
