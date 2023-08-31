@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>               //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/30 17:08:32 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/30 17:16:20 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/31 17:07:21 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_closequote(char *line)
 	{
 		while (1)
 		{
-			if (quote == 1)
+			if (quote)
 				ft_putstr("> ");
 			ret = get_next_line(0, &gnl);
 			if (ret == 0)
