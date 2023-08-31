@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   condition.c                                     |o_o || |                */
+/*   condition.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/08/30 03:25:35 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/31 20:02:33 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ int		ft_countendconditions(char *line, int count, int i)
 	{
 		while (!ft_strchr("&|;\'\"", line[i]))
 			i++;
-		if (line[i] == '\'' || line[i] == '\"')
+		while (line[i] == '\'' || line[i] == '\"')
 			i = ft_skipquote(line, i) + 1;
+		while (!ft_strchr("&|;\'\"", line[i]))
+			i++;
 		count++;
 		if (line[i] == '&')
 		{
@@ -46,7 +48,7 @@ t_forks ft_parseendcondition(t_forks forks)
 	int		icmd;
 	int		ifpip;
 	int		icpip;
-	int		tmp;
+	int		check;
 
 	forks.cmdamount = ft_countendconditions(forks.pipeline, 0, 0);
 	forks.cmds = ft_calloc(10000 * sizeof(t_cmds), 1);
@@ -65,10 +67,10 @@ t_forks ft_parseendcondition(t_forks forks)
 		if (forks.pipeline[ifpip] == '\"' || forks.pipeline[ifpip] == '\'')
 		{
 			forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
-			tmp = ifpip;
+			check = ifpip;
 			ifpip++;
 			icpip++;
-			while (forks.pipeline[tmp] != forks.pipeline[ifpip])
+			while (forks.pipeline[check] != forks.pipeline[ifpip])
 			{
 				forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
 				ifpip++;
@@ -77,6 +79,15 @@ t_forks ft_parseendcondition(t_forks forks)
 			forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
 			ifpip++;
 			icpip++;
+			if (forks.pipeline[ifpip] && !ft_strchr("&| \\", forks.pipeline[ifpip]))
+			{
+				while (forks.pipeline[ifpip] && forks.pipeline[ifpip]!= ' ')
+				{
+					forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
+					ifpip++;
+					icpip++;
+				}
+			}
 		}
 		forks.cmds[icmd].pipeline[icpip] = '\0';
 		if (forks.pipeline[ifpip] == '|')

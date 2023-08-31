@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                     |o_o || |                */
+/*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/30 18:23:09 by djonker      \___)=(___/                 */
+/*   Updated: 2023/08/31 18:27:05 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ t_shell		ft_parseline(char *line, t_shell shell);
 t_shell 	ft_parsepipe(char *line, t_shell shell);
 //quote
 char		*ft_closequote(char *line);
+char	**ft_remove_quote(char	**cmd);
 //redirect
 void		ft_check_redirect(t_cmds cmds, char *command);
 t_redirect	*ft_redrc_in(t_cmds cmds, char *meta, char *file);

@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                         |o_o || |                 #
+#    test.sh                                            :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/30 09:20:23 by djonker      \___)=(___/                  #
+#    Updated: 2023/08/31 19:33:56 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -146,6 +146,11 @@ redirectfunction()
  testfunction "echo -nnm hallo"
  testfunction "echo -n -n hallo"
  testfunction "echo -n hallo -n"
+ testfunction "echo \"hey\"J"
+ testfunction "echo \"hey\"$PATH"
+ testfunction "echo \"hey\"&"
+ testfunction "echo \"hey\"\"hey\""
+
 
 # pwd
  printf "\e[1;36mTesting pwd\e[0;00m\n"

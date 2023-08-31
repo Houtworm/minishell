@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   quote.c                                         |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: djonker <codam@houtworm.net>               //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/08/30 17:08:32 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/31 17:07:21 by houtworm     \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   quote.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: djonker <codam@houtworm.net>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
+/*   Updated: 2023/08/31 19:58:13 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,36 @@ char	*ft_closequote(char *line)
 		return (temp);
 	}
 	return (line);
+}
+
+char	**ft_remove_quote(char	**cmd)
+{
+	char	*tmp;
+	int		count;
+	int		i;
+	int		k;
+
+	count = 0;
+	while (cmd[count])
+	{
+		tmp = ft_strdup(cmd[count]);
+		i = 0;
+		k = 0;
+		while (tmp[i])
+		{
+			while (tmp[i] == '\"' || tmp[i] == '\'')
+				i++;
+			cmd[count][k] = tmp[i];
+			i++;
+			k++;
+		}
+		while (cmd[count][k])
+		{
+			cmd[count][k] = '\0';
+			k++;
+		}
+		free (tmp);
+		count++;
+	}
+	return (cmd);
 }
