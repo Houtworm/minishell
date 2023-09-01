@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/01 06:23:10 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/01 07:28:12 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,9 @@ SLEEP=0
 
 testfunction()
 {
-	bash -c "$1" 2> realstderrfile 1> realstdoutfile
+	timeout 2 bash -c "$1" 2> realstderrfile 1> realstdoutfile
 	REALRETURN=$?
-	./minishell -c "$1" 2> ministderrfile 1> ministdoutfile
+	timeout 2 ./minishell -c "$1" 2> ministderrfile 1> ministdoutfile
 	MINIRETURN=$?
 	diff realstdoutfile ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
@@ -238,9 +238,32 @@ testfunction "echo hello&&&echo 'hello'"
 testfunction "echo hello&& &echo 'hello'"
 testfunction "echo hello&&;echo 'hello'"
 testfunction "echo hello&& ;echo 'hello'"
+testfunction "sleep 1 && sleep 1 && sleep 1"
+
+# or operator
+printf "\e[1;36mTesting or operator\e[0;00m\n"
+testfunction "echo hello || echo 'hello'"
+testfunction "echo hello ||echo 'hello'"
+testfunction "echo hello||echo 'hello'"
+testfunction "echo hello|||echo 'hello'"
+testfunction "echo hello|| &echo 'hello'"
+testfunction "echo hello||;echo 'hello'"
+testfunction "echo hello|| ;echo 'hello'"
+testfunction "sleep 1 || sleep 1 || sleep 1"
 
 # expansion
-#echo $""
+printf "\e[1;36mTesting expansion\e[0;00m\n"
+testfunction "echo $''"
+testfunction "echo \$PWD"
+testfunction "echo \$?"
+testfunction "echo \$DOESNOTEXIST"
+testfunction "\$DOESNOTEXIST"
+testfunction "cd $HOME"
+testfunction "ls $HOME"
+
+# piping
+testfunction "cat /dev/random | head -n 1"
+testfunction "sleep 1 | sleep 1 | sleep 1"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO\'s and $PASSES OK\'s\e[0;00m\n"
