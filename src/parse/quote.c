@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   quote.c                                            :+:    :+:            */
+/*   quote.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/31 19:58:13 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/02 00:53:09 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_closequote(char *line)
 	char	*gnl;
 
 	quote = check_quote_closed(line);
-	if (quote)
+	while (quote)
 	{
 		while (1)
 		{
@@ -43,8 +43,10 @@ char	*ft_closequote(char *line)
 		}
 		temp = ft_vastrjoin(3, line, "\n", gnl);
 		free(gnl);
-		free(line);
-		return (temp);
+		/*free(line);*/
+		line = ft_strdup(temp);
+		free (temp);
+		quote = check_quote_closed(line);
 	}
 	return (line);
 }

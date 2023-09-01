@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/01 07:56:53 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/02 01:18:51 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -274,6 +274,25 @@ testfunction "printf \'\"hallo\'\""
 testfunction "printf \'\'\"hallo\"\'\'"
 testfunction "printf \"\'\"hallo\"\'\""
 testfunction "printf \'\"\'\"hallo\"\'\"\'"
+
+# open quotes
+printf "\e[1;36mTesting open quotes\e[0;00m\n"
+testfunction "printf \"hallo
+hallo\""
+testfunction "printf \"
+\""
+testfunction "printf \"hallo
+\"\"hallo
+\"\"hallo
+\""
+testfunction "printf \'hallo
+hallo\'"
+testfunction "printf \'
+\'"
+testfunction "printf \'hallo
+\'\'hallo
+\'\'hallo
+\'"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO\'s and $PASSES OK\'s\e[0;00m\n"

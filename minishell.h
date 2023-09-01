@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/01 01:59:31 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/02 00:24:09 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ t_redirect	*ft_redrc_in(t_cmds cmds, char *meta, char *file);
 t_redirect	*ft_redrc_out(t_cmds cmds, char *meta, char *file);
 void		ft_rdrct_add_back(t_redirect **lst, t_redirect *new);
 //condition
-int			ft_countendconditions(char *line, int count, int i);
 t_forks		ft_parseendcondition(t_forks forks);
 //variable
 int 		ft_parsevariable(t_cmds *cmd);
