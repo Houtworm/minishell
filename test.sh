@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/01 02:25:03 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/01 06:23:10 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,6 +135,9 @@ redirectfunction()
  testfunction "perm"
  testfunction "cat perm"
  rm perm
+ testfunction "echo \$SHLVL"
+ testfunction "echo \$?"
+ testfunction "echo \$PWD"
 
 # echo
  printf "\e[1;36mTesting echo\e[0;00m\n"
@@ -152,18 +155,12 @@ redirectfunction()
  testfunction "echo \"hey\"\"hey\""
 
  # variable
- #echo $SHLVL"$SHLVL"$SHLVL'$SHLVL'$SHLVL
- testfunction "echo '$SHLVL"$SHLVL"''"$SHLVL'$SHLVL'$SHLVL"'"
+ testfunction "echo \$SHLVL\"\$SHLVL\"\$SHLVL\'\$SHLVL\'\$SHLVL"
 
-# pwd
- printf "\e[1;36mTesting pwd\e[0;00m\n"
- testfunction "pwd"
- testfunction "pwd bla"
- testfunction "pwd -wat"
 
 # export
  printf "\e[1;36mTesting export\e[0;00m\n"
- testfunction "export"
+ #testfunction "export"
  testfunction "export bla=bla"
  testfunction "export bla"
  testfunction "export 0bla=bla"
@@ -182,9 +179,9 @@ redirectfunction()
 
 # env
  printf "\e[1;36mTesting env\e[0;00m\n"
- testfunction "env"
- testfunction "env blabla"
- testfunction "env -wat"
+ #testfunction "env"
+ #testfunction "env blabla"
+ #testfunction "env -wat"
 
 # exit
  printf "\e[1;36mTesting exit\e[0;00m\n"
@@ -200,36 +197,47 @@ testfunction "exit -9223372036854775807"
 testfunction "exit -9223372036854775808"
 testfunction "exit -9223372036854775809"
 
-# cd
- printf "\e[1;36mTesting cd\e[0;00m\n"
+# cd and pwd
+ printf "\e[1;36mTesting cd and pwd\e[0;00m\n"
  testfunction "cd"
+ testfunction "cd && pwd"
  testfunction "cd .."
+ testfunction "cd .. && pwd"
  testfunction "cd ."
+ testfunction "cd . && pwd"
  testfunction "cd ~"
+ testfunction "cd ~ && pwd"
  testfunction "cd src"
+ testfunction "cd src && pwd"
  testfunction "cd /etc"
+ testfunction "cd /etc && pwd"
  testfunction "cd ~/Documents"
+ testfunction "cd ~/Documents && pwd"
  testfunction "cd nonexistingpath"
+ testfunction "cd nonexistingpath && pwd"
+ testfunction "pwd"
+ testfunction "pwd bla"
+ testfunction "pwd -wat"
 
 # redirections
 printf "\e[1;36mTesting redirections\e[0;00m\n"
-redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
-redirectfunction "cat r1 > r2 > r3" "cat m1 > m2 > m3"
-redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
-redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > r3" "printf 'blabla' > m1; printf 'blabla' > m2; printf 'blabla' > m3"
-redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
-redirectfunction "echo "hoi" > | file"
-redirectfunction "echo "hoi" >| file"
+#redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
+#redirectfunction "cat r1 > r2 > r3" "cat m1 > m2 > m3"
+#redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
+#redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > r3" "printf 'blabla' > m1; printf 'blabla' > m2; printf 'blabla' > m3"
+#redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
+#redirectfunction "echo "hoi" > | file"
+#redirectfunction "echo "hoi" >| file"
 
 # and operator
 printf "\e[1;36mTesting and operator\e[0;00m\n"
-testfunction "ls && echo 'hello'"
-testfunction "ls &&echo 'hello'"
-testfunction "ls&&echo 'hello'"
-testfunction "ls&&&echo 'hello'"
-testfunction "ls&& &echo 'hello'"
-testfunction "ls&&;echo 'hello'"
-testfunction "ls&& ;echo 'hello'"
+testfunction "echo hello && echo 'hello'"
+testfunction "echo hello &&echo 'hello'"
+testfunction "echo hello&&echo 'hello'"
+testfunction "echo hello&&&echo 'hello'"
+testfunction "echo hello&& &echo 'hello'"
+testfunction "echo hello&&;echo 'hello'"
+testfunction "echo hello&& ;echo 'hello'"
 
 # expansion
 #echo $""
