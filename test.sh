@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                            :+:    :+:             #
+#    test.sh                                         |o_o || |                 #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/08/31 19:33:56 by yitoh         ########   odam.nl          #
+#    Updated: 2023/09/01 02:25:03 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -151,6 +151,9 @@ redirectfunction()
  testfunction "echo \"hey\"&"
  testfunction "echo \"hey\"\"hey\""
 
+ # variable
+ #echo $SHLVL"$SHLVL"$SHLVL'$SHLVL'$SHLVL
+ testfunction "echo '$SHLVL"$SHLVL"''"$SHLVL'$SHLVL'$SHLVL"'"
 
 # pwd
  printf "\e[1;36mTesting pwd\e[0;00m\n"

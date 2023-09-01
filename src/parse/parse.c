@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/31 20:11:55 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/01 02:00:01 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_finalparsing(t_forks forks, int cmdnumber)
 t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 {
 	ft_setcmddefaults(shell, forknumber, cmdnumber);
-	ft_parsevariable(shell.forks[forknumber].cmds[cmdnumber]);
+	ft_parsevariable(&shell.forks[forknumber].cmds[cmdnumber]);
 	/*ft_parsewildcard(shell.forks[forknumber].cmds[cmdnumber]);*/
 	ft_finalparsing(shell.forks[forknumber], cmdnumber);
 	return (shell);
@@ -49,17 +49,17 @@ t_shell	ft_parseline(char *line, t_shell shell)
 	int	cmdnumber;
 	line = ft_closequote(line);
 	shell = ft_parsepipe(line, shell);
-	/*ft_printshell(shell); // printing contents of shellstruct*/
+	ft_printshell(shell); // printing contents of shellstruct
 	forknumber = 0;
 	while (shell.forkamount > forknumber)
 	{
 		shell.forks[forknumber] = ft_parseendcondition(shell.forks[forknumber]);
-		/*ft_printforks(shell.forks[forknumber], forknumber); //printing contents of forkstruct*/
+		ft_printforks(shell.forks[forknumber], forknumber); //printing contents of forkstruct
 		cmdnumber = 0;
 		while (shell.forks[forknumber].cmdamount > cmdnumber)
 		{
 			shell = ft_parsecmds(shell, forknumber, cmdnumber);
-			/*ft_printcmds(shell.forks[forknumber].cmds[cmdnumber], cmdnumber); // printing content of cmdstruct*/
+			ft_printcmds(shell.forks[forknumber].cmds[cmdnumber], cmdnumber); // printing content of cmdstruct
 			cmdnumber++;
 		}
 		forknumber++;

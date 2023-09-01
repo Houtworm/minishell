@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   condition.c                                        :+:    :+:            */
+/*   condition.c                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/08/31 20:02:33 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/01 05:30:51 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_forks ft_parseendcondition(t_forks forks)
 			forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
 			ifpip++;
 			icpip++;
-			if (forks.pipeline[ifpip] && !ft_strchr("&| \\", forks.pipeline[ifpip]))
+			if (forks.pipeline[ifpip] && !ft_strchr("&|\'\"", forks.pipeline[ifpip]))
 			{
 				while (forks.pipeline[ifpip] && forks.pipeline[ifpip]!= ' ')
 				{
