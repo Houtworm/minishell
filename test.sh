@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/01 07:28:12 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/01 07:56:53 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -262,8 +262,18 @@ testfunction "cd $HOME"
 testfunction "ls $HOME"
 
 # piping
+printf "\e[1;36mTesting piping\e[0;00m\n"
 testfunction "cat /dev/random | head -n 1"
 testfunction "sleep 1 | sleep 1 | sleep 1"
+
+# quotes
+printf "\e[1;36mTesting quotes\e[0;00m\n"
+testfunction "printf \"hallo\""
+testfunction "printf \'hallo\'"
+testfunction "printf \'\"hallo\'\""
+testfunction "printf \'\'\"hallo\"\'\'"
+testfunction "printf \"\'\"hallo\"\'\""
+testfunction "printf \'\"\'\"hallo\"\'\"\'"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO\'s and $PASSES OK\'s\e[0;00m\n"
