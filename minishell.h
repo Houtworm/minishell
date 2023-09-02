@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/02 00:24:09 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/02 04:43:17 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ typedef struct s_redirect
 	char				*delimiter; // the EOF thingy in heredoc :)
 	struct s_redirect	*nxt;
 }	t_redirect;
+
+typedef struct s_alias
+{
+	char		*var;
+	char		*val;
+}	t_alias;
 
 typedef struct s_cmds
 {
@@ -62,6 +68,7 @@ typedef struct s_forks
 typedef struct s_shell
 {
 	t_forks		*forks;
+	t_alias		*alias;
 	int			envpfd;
 	char		**envp;
 	long long	starttime;
@@ -108,6 +115,8 @@ int			ft_runscript(int argc, char **argv, char **envp);
 t_shell		ft_parseline(char *line, t_shell shell);
 //pipe
 t_shell 	ft_parsepipe(char *line, t_shell shell);
+//alias
+void		ft_parsealiases(t_cmds *cmds, t_shell shell);
 //quote
 char		*ft_closequote(char *line);
 char	**ft_remove_quote(char	**cmd);
