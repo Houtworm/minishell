@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                         |o_o || |                 #
+#    test.sh                                            :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/02 12:35:39 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/02 14:57:18 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -275,6 +275,8 @@ redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > 
 redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
 redirectfunction "echo "hoi" > | r1"
 redirectfunction "echo "hoi" >| r1"
+#redirectfunction "< r1 cat | << EOF cat | cat >> r3" "< m1 cat | << EOF cat | cat >> m3"
+
 
 # and operator
 printf "\e[1;36mTesting and operator\e[0;00m\n"
@@ -339,6 +341,10 @@ testfunction "printf '
 testfunction "printf 'hallo
 ''hallo
 ''hallo
+'"
+testfunction "printf 'hallo
+''hallo
+'   'hallo
 '"
 
 # Shutdown
