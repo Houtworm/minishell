@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/24 23:56:01 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/02 05:41:19 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/02 06:59:52 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	ft_forktheforks(t_shell *shell)
 	forknumber = 0;
 	status = 1;
 	shell->starttime = ft_gettimems(shell->envp);
-	shell->pipes = ft_preparepipes(shell);
-	shell->tempfdout = dup(1);
-	shell->tempfdin = dup(0);
 	if (shell->forkamount > 1)
 	{
+		shell->pipes = ft_preparepipes(shell);
+		shell->tempfdout = dup(1);
+		shell->tempfdin = dup(0);
 		pipe(shell->pipes[forknumber]);
 		while (shell->forkamount > forknumber)
 		{
@@ -53,12 +53,18 @@ int	ft_forktheforks(t_shell *shell)
 			if (shell->forks[forknumber].pid == 0)
 			{
 				ft_executeforks(shell->forks[forknumber], forknumber, shell);
-				exit (status);
+				exit (-1);
 			}
-			waitpid(shell->forks[forknumber].pid, &status, 0);
-			code = WEXITSTATUS(status);
 			forknumber++;
 			close(shell->pipes[forknumber][1]);
+		}
+		forknumber = 0;
+		while (shell->forkamount > forknumber)
+		{
+			waitpid(shell->forks[forknumber].pid, &status, 0);
+			code = WEXITSTATUS(status);
+			shell->code = code;
+			forknumber++;
 		}
 	}
 	else

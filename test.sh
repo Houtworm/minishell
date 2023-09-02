@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/02 02:41:36 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/02 07:09:02 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -273,8 +273,8 @@ redirectfunction "cat r1 > r2 > r3" "cat m1 > m2 > m3"
 redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
 redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > r3" "printf 'blabla' > m1; printf 'blabla' > m2; printf 'blabla' > m3"
 redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
-redirectfunction "echo "hoi" > | file"
-redirectfunction "echo "hoi" >| file"
+redirectfunction "echo "hoi" > | r1"
+redirectfunction "echo "hoi" >| r1"
 
 # and operator
 printf "\e[1;36mTesting and operator\e[0;00m\n"
@@ -300,13 +300,13 @@ testfunction "sleep 1 || sleep 1 || sleep 1"
 
 # expansion
 printf "\e[1;36mTesting expansion\e[0;00m\n"
-testfunction "echo $''"
+testfunction "echo \$''"
 testfunction "echo \$PWD"
 testfunction "echo \$?"
 testfunction "echo \$DOESNOTEXIST"
 testfunction "\$DOESNOTEXIST"
-testfunction "cd $HOME"
-testfunction "ls $HOME"
+testfunction "cd \$HOME"
+testfunction "ls \$HOME"
 
 # piping
 printf "\e[1;36mTesting piping\e[0;00m\n"
@@ -316,11 +316,11 @@ testfunction "sleep 1 | sleep 1 | sleep 1"
 # quotes
 printf "\e[1;36mTesting quotes\e[0;00m\n"
 testfunction "printf \"hallo\""
-testfunction "printf \'hallo\'"
-testfunction "printf \'\"hallo\'\""
-testfunction "printf \'\'\"hallo\"\'\'"
-testfunction "printf \"\'\"hallo\"\'\""
-testfunction "printf \'\"\'\"hallo\"\'\"\'"
+testfunction "printf 'hallo'"
+testfunction "printf '\"hallo'\""
+testfunction "printf ''\"hallo\"''"
+testfunction "printf \"'\"hallo\"'\""
+testfunction "printf '\"'\"hallo\"'\"'"
 
 # open quotes
 printf "\e[1;36mTesting open quotes\e[0;00m\n"
@@ -332,14 +332,14 @@ testfunction "printf \"hallo
 \"\"hallo
 \"\"hallo
 \""
-testfunction "printf \'hallo
-hallo\'"
-testfunction "printf \'
-\'"
-testfunction "printf \'hallo
-\'\'hallo
-\'\'hallo
-\'"
+testfunction "printf 'hallo
+hallo'"
+testfunction "printf '
+'"
+testfunction "printf 'hallo
+''hallo
+''hallo
+'"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO\'s and $PASSES OK\'s\e[0;00m\n"

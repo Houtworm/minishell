@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/30 06:31:06 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/02 06:59:58 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		if (status)
 			return (status);
 		if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
-			return (-1);
+			return (cmds.lastcode);
 		ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 		cmds.pid = fork();
 		if (cmds.pid == 0)
 		{
 			execve(cmds.absolute, cmds.arguments, cmds.envp);
-			exit (0);
+			exit (-1);
 		}
 		waitpid(cmds.pid, &status, 0);
 		cmds.code = WEXITSTATUS(status);
