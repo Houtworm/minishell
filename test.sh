@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/02 09:07:34 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/02 12:35:39 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -342,5 +342,5 @@ testfunction "printf 'hallo
 '"
 
 # Shutdown
-printf "\e[1;36mThe tester found $ERRORS KO\'s and $PASSES OK\'s\e[0;00m\n"
+printf "\e[1;36mThe tester found $ERRORS KO's and $PASSES OK's\e[0;00m\n"
 exit $ERRORS
