@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/02 02:40:26 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/02 02:41:36 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -268,13 +268,13 @@ testfunction "exit -9223372036854775809"
 
 # redirections
 printf "\e[1;36mTesting redirections\e[0;00m\n"
-#redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
-#redirectfunction "cat r1 > r2 > r3" "cat m1 > m2 > m3"
-#redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
-#redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > r3" "printf 'blabla' > m1; printf 'blabla' > m2; printf 'blabla' > m3"
-#redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
-#redirectfunction "echo "hoi" > | file"
-#redirectfunction "echo "hoi" >| file"
+redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
+redirectfunction "cat r1 > r2 > r3" "cat m1 > m2 > m3"
+redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
+redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > r3" "printf 'blabla' > m1; printf 'blabla' > m2; printf 'blabla' > m3"
+redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
+redirectfunction "echo "hoi" > | file"
+redirectfunction "echo "hoi" >| file"
 
 # and operator
 printf "\e[1;36mTesting and operator\e[0;00m\n"
