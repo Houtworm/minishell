@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/02 01:18:51 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/02 02:40:26 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,6 +116,42 @@ redirectfunction()
 	sleep $SLEEP
 }
 
+environmentfunction()
+{
+	timeout 2 bash -c "$1" | grep "$2" 2> realstderrfile 1> realstdoutfile
+	REALRETURN=$?
+	timeout 2 ./minishell -c "$1" | grep "$2" 2> ministderrfile 1> ministdoutfile
+	MINIRETURN=$?
+	diff realstdoutfile ministdoutfile > /dev/null
+	if [ $? -eq 0 ]
+	then
+		printf "\e[1;32mstdout OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	else
+		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat realstdoutfile 2> /dev/null)\nmini: $(cat ministdoutfile 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	fi
+	diff realstderrfile ministderrfile > /dev/null
+	if [ $? -eq 0 ]
+	then
+		printf "\e[1;32mstderr OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	else
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat realstderrfile)\nmini: $(cat ministderrfile)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	fi
+	if [ $REALRETURN -ne $MINIRETURN ]
+	then
+		printf "\n\e[1;31mKO Return doesn't match with command ${1} \nReal $REALRETURN\nMini $MINIRETURN\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	else
+		printf "\e[1;32mreturn OK\n\e[0;00m"
+		PASSES=$(($PASSES+1))
+	fi
+	rm realstdoutfile realstderrfile ministdoutfile ministderrfile
+	sleep $SLEEP
+}
+
 # Testing Lines
 
 # basic
@@ -157,31 +193,42 @@ redirectfunction()
  # variable
  testfunction "echo \$SHLVL\"\$SHLVL\"\$SHLVL\'\$SHLVL\'\$SHLVL"
 
-
 # export
  printf "\e[1;36mTesting export\e[0;00m\n"
- #testfunction "export"
+ environmentfunction "export" "SHLVL"
  testfunction "export bla=bla"
+ environmentfunction "export bla=bla" "bla"
  testfunction "export bla"
+ environmentfunction "export bla" "bla"
  testfunction "export 0bla=bla"
+ environmentfunction "export 0bla=bla" "0bla"
  testfunction "export -bla=bla"
+ environmentfunction "export -bla=bla" "-bla"
  testfunction "export _bla=bla"
+ environmentfunction "export _bla=bla" "_bla"
  testfunction "export _bla"
+ environmentfunction "export _bla" "_bla"
  testfunction "export PATH=bahbah"
- testfunction "export arg=-la && ls $arg"
+ environmentfunction "export PATH=bahbah" "PATH"
+ testfunction "export arg=\"-la\" && ls $arg"
 
 # unset
  printf "\e[1;36mTesting unset\e[0;00m\n"
- testfunction "unset bla"
+ testfunction "unset notexistant"
  testfunction "unset PATH"
  testfunction "unset"
  testfunction "unset -wat"
+ environmentfunction "unset PATH" "PATH"
+ environmentfunction "unset SHLVL" "SHLVL"
+ environmentfunction "unset PWD" "PWD"
 
 # env
  printf "\e[1;36mTesting env\e[0;00m\n"
- #testfunction "env"
- #testfunction "env blabla"
- #testfunction "env -wat"
+ testfunction "env blabla"
+ testfunction "env -wat"
+ environmentfunction "env" "SHLVL"
+ environmentfunction "env blabla" "SHLVL"
+ environmentfunction "env -wat" "SHLVL"
 
 # exit
  printf "\e[1;36mTesting exit\e[0;00m\n"
