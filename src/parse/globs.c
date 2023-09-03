@@ -6,26 +6,44 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/03 09:51:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/03 19:15:56 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+t_globs *ft_initglobstruct(t_cmds cmd)
+{
+	t_globs			*globs;
+	int				linelenght;
+
+	linelenght = ft_strlen(cmd.pipeline);
+	globs = ft_calloc(linelenght , 56);
+	globs->gstart = ft_calloc(linelenght, 8);
+	globs->gend = ft_calloc(linelenght, 8);
+	globs->start = ft_calloc(linelenght, 8);
+	globs->glob = ft_calloc(linelenght, 8);
+	globs->end = ft_calloc(linelenght, 8);
+	globs->subdir = ft_calloc(linelenght, 8);
+	globs->matches = ft_calloc(linelenght, 8);
+	globs->pipeline = ft_strdup(cmd.pipeline);
+	return (globs);
+}
+
 int	ft_parseglobs(t_cmds *cmd)
 {
-	char			*globstart;
-	char			*globend;
+	t_globs			*globs;
 	int				i;
 	int				j;
 	int				k;
+	int				l;
 
 	i = 0;
 	j = 0;
 	k = 0;
-	globstart = ft_calloc(ft_strlen(cmd->pipeline), 8);
-	globend = ft_calloc(ft_strlen(cmd->pipeline), 8);
-	while (cmd->pipeline[i + j + k])
+	l = 0;
+	globs = ft_initglobstruct(*cmd);
+	while (cmd->pipeline[i + j + k + l])
 	{
 		k = 0;
 		if (cmd->pipeline[i + j] == '\'')
@@ -33,7 +51,7 @@ int	ft_parseglobs(t_cmds *cmd)
 			j++;
 			while (cmd->pipeline[i + j] != '\'' && cmd->pipeline[i + j])
 			{
-				globstart[j] = cmd->pipeline[i + j];
+				globs->gstart[j] = cmd->pipeline[i + j];
 				j++;
 			}
 			j++;
@@ -43,7 +61,7 @@ int	ft_parseglobs(t_cmds *cmd)
 			j++;
 			while (cmd->pipeline[i + j] != '\"' && cmd->pipeline[i + j])
 			{
-				globstart[j] = cmd->pipeline[i + j];
+				globs->gstart[j] = cmd->pipeline[i + j];
 				j++;
 			}
 			j++;
@@ -55,18 +73,32 @@ int	ft_parseglobs(t_cmds *cmd)
 		}
 		if (cmd->pipeline[i + j] == '*')
 		{
-			globstart[j] = '\0';
+			if (cmd->pipeline[i + j - 1] == '.')
+				globs->period = 1;
+			globs->gstart[j] = '\0';
 			j++;
-			while (cmd->pipeline[i + j + k] && !ft_strchr(" /", cmd->pipeline[i + j]))
+			while (cmd->pipeline[i + j + k] && !ft_strchr(" /", cmd->pipeline[i + j + k]))
 			{
-				globend[k] = cmd->pipeline[i + j + k];
+				globs->gend[k] = cmd->pipeline[i + j + k];
 				k++;
 			}
-			globend[k] = '\0';
-			j++;
-			cmd->pipeline = ft_vastrjoin(3, ft_substr(cmd->pipeline, 0, i), ft_parsewildcard(*cmd, globstart, globend), cmd->pipeline[i + j + k]);
+			globs->gend[k] = '\0';
+			if (cmd->pipeline[i + j + k] == '/')
+			{
+				l = 0;
+				while (cmd->pipeline[i + j + k + l] && cmd->pipeline[i + j + k + l] != ' ')
+				{
+					globs->subdir[l] = cmd->pipeline[i + j + k + l];
+					l++;
+				}
+				globs->subdir[l] = '\0';
+			}
+			/*j++;*/
+			globs->start = ft_substr(cmd->pipeline, 0, i);
+			ft_parsewildcard(*cmd, globs);
+			cmd->pipeline = ft_vastrjoin(3, globs->start, globs->matches, &cmd->pipeline[i + j + k + l]);
 		}
-		globstart[j] = cmd->pipeline[i + j + k];
+		globs->gstart[j] = cmd->pipeline[i + j + k];
 		j++;
 	}
 	return (0);

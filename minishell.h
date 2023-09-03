@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
+/*   minishell.h                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/03 14:33:56 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 19:16:10 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,19 @@ typedef struct s_alias
 	char		*var;
 	char		*val;
 }	t_alias;
+
+typedef struct s_globs
+{
+	char		*gstart;
+	char		*gend;
+	char		*start;
+	char		*glob;
+	char		*end;
+	char		*subdir;
+	char		*matches;
+	char		*pipeline;
+	int			period;
+}	t_globs;
 
 typedef struct s_cmds
 {
@@ -133,8 +146,8 @@ int		ft_countendconditions(char *line, int count, int i);
 int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
 //globs
 int			ft_parseglobs(t_cmds *cmd);
-//globs
-char		*ft_parsewildcard(t_cmds cmd, char *globstart, char *globend);
+//wildcard
+void		ft_parsewildcard(t_cmds cmd, t_globs *globs);
 //tools
 int			ft_checkoutquote(char *line, char target, int mode);
 //parse_utils

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   redirect.c                                         :+:    :+:            */
+/*   redirect.c                                      |o_o || |                */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/03 17:14:39 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 17:19:06 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,33 @@
 	
 // }
 
-void	ft_check_redirect(t_cmds *cmds)
-{
+/*void	ft_check_redirect(t_cmds *cmds)*/
+/*{*/
 	// char		**tmp;
 	// char		*newline;
-	int			k;
+	/*int			k;*/
 	// t_redirect	*p;
 
-	k = 0;
-	if (ft_strnstr((*cmds).pipeline, "<<", 2))
-	{
-		(*cmds).redirect = ft_redrc_in((*cmds).redirect, "<<", (*cmds).pipeline);
+	/*k = 0;*/
+	/*if (ft_strnstr((*cmds).pipeline, "<<", 2))*/
+	/*{*/
+		/*(*cmds).redirect = ft_redrc_in((*cmds).redirect, "<<", (*cmds).pipeline);*/
 
-	}
-	else if (ft_strchr((*cmds).pipeline, '<'))
-	{
-		(*cmds).redirect = ft_redrc_in((*cmds).redirect, "<", (*cmds).pipeline);
-	}
-	if (ft_strnstr((*cmds).pipeline, ">>", 2))
-	{
-		(*cmds).redirect = ft_redrc_out((*cmds).redirect, ">>", (*cmds).pipeline);
-	}
-	else if (ft_strchr((*cmds).pipeline, '>'))
-	{
-		(*cmds).redirect = ft_redrc_out((*cmds).redirect, ">", (*cmds).pipeline);
-	}
+	/*}*/
+	/*else if (ft_strchr((*cmds).pipeline, '<'))*/
+	/*{*/
+		/*(*cmds).redirect = ft_redrc_in((*cmds).redirect, "<", (*cmds).pipeline);*/
+	/*}*/
+	/*if (ft_strnstr((*cmds).pipeline, ">>", 2))*/
+	/*{*/
+		/*(*cmds).redirect = ft_redrc_out((*cmds).redirect, ">>", (*cmds).pipeline);*/
+	/*}*/
+	/*else if (ft_strchr((*cmds).pipeline, '>'))*/
+	/*{*/
+		/*(*cmds).redirect = ft_redrc_out((*cmds).redirect, ">", (*cmds).pipeline);*/
+	/*}*/
 	
-}
+/*}*/
 
 
 t_redirect *ft_redrc_in(t_redirect *redirect, char *meta, char *line)
