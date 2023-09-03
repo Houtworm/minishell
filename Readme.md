@@ -90,7 +90,7 @@ is a lightweight implementation of bash
 ## Bugs
 #### crashes when giving proper memory and a lot of arguments
 #### Overwrites line when typing past the terminal width at first command
-
+#### piping fails when echo is the first arg
 ---
 ## Extras
 #### Handle scripts from stdin or argument (very handy for testing)
