@@ -6,11 +6,16 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/03 19:27:08 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/03 20:00:18 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	ft_checkglobmatch(t_globs *globs, char *dir)
+{
+	globs->matches = ft_vastrjoin(4, globs->matches, dir, globs->subdir, " ");
+}
 
 void	ft_parsewildcard(t_cmds cmd, t_globs *globs)
 {
@@ -37,10 +42,10 @@ void	ft_parsewildcard(t_cmds cmd, t_globs *globs)
 			{
 				if (globs->period == 1)
 					if (dirents->d_name[0] == '.')
-						globs->matches = ft_vastrjoin(4, globs->matches, dirents->d_name, globs->subdir, " ");
+						ft_checkglobmatch(globs, dirents->d_name);
 				if (globs->period == 0)
 					if (dirents->d_name[0] != '.')
-						globs->matches = ft_vastrjoin(4, globs->matches, dirents->d_name, globs->subdir, " ");
+						ft_checkglobmatch(globs, dirents->d_name);
 			}
 		}
 	}
