@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/03 08:41:56 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/03 08:49:57 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -346,6 +346,12 @@ testfunction "printf 'hallo
 ''hallo
 '   'hallo
 '"
+
+# * wildcards
+printf "\e[1;36mTesting * Wildcards\e[0;00m\n"
+testfunction "ls *rc"
+testfunction "ls *r*"
+testfunction "ls *rc/b*"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO's and $PASSES OK's\e[0;00m\n"
