@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/03 14:49:45 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 16:55:58 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ char	**ft_remove_quote(char	**cmd, int count)
 	int		i;
 	int		k;
 
+	check = '\0';
 	while (cmd[count])
 	{
-		tmp = ft_strdup(cmd[count]);
+		tmp = cmd[count];
 		i = 0;
 		k = 0;
 		while (tmp[i])
@@ -70,20 +71,18 @@ char	**ft_remove_quote(char	**cmd, int count)
 				check = tmp[i];
 				i++;
 			}
-			while (tmp[i] != check)
+			while (tmp[i] && tmp[i] != check)
 			{
 				cmd[count][k] = tmp[i];
 				i++;
 				k++;
 			}
-			i++;
 		}
 		while (cmd[count][k])
 		{
 			cmd[count][k] = '\0';
 			k++;
 		}
-		free (tmp);
 		count++;
 	}
 	return (cmd);
