@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   redirect.c                                      |o_o || |                */
+/*   redirect.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/08/26 16:34:54 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 11:04:50 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,32 +17,32 @@
 //ex. wc -l > file 2 > file3 then the file name will be ' file2 > file3'
 //split before ft_redrc_in / _out
 
-void	ft_check_redirect(t_cmds cmds, char *command)
+void	ft_check_redirect(t_cmds *cmds)
 {
-	char	**tmp;
-	int		k;
+	char		**tmp;
+	int			k;
 	t_redirect	*p;
 
-	tmp = split_not_quote(command, ' ');
+	tmp = split_not_quote((*cmds).pipeline, ' ');
 	if (!tmp)
 		return ;
 	k = 0;
 	while (tmp[k])
 	{
 		if (ft_strnstr(tmp[k], "<<", 2) || ft_strchr(tmp[k], '<'))
-			cmds.redirect = ft_redrc_in(cmds, tmp[k], tmp[k + 1]);
+			(*cmds).redirect = ft_redrc_in(*cmds, tmp[k], tmp[k + 1]);
 		if (ft_strnstr(tmp[k], ">>", 2) || ft_strchr(tmp[k], '>'))
-			cmds.redirect = ft_redrc_out(cmds, tmp[k], tmp[k + 1]);
+			(*cmds).redirect = ft_redrc_out(*cmds, tmp[k], tmp[k + 1]);
 		k++;
 	}
 	ft_frearr(tmp);
-	p = cmds.redirect;
-	printf("fd in = %d, fd out final = %d\n", p->fd_in, p->fd_out);
-	while (cmds.redirect && p->nxt)
-	{
-		p = p->nxt;
-		printf("fd in = %d, fd out final = %d\n", p->fd_in, p->fd_out);
-	}
+		p = (*cmds).redirect;
+		printf("1: fd in = %s, fd out= %s\n", p->infilename, p->outfilename);
+		while ((*cmds).redirect && p->nxt)
+		{
+			p = p->nxt;
+			printf("fd in = %s, fd out final = %s\n", p->infilename, p->outfilename);
+		}
 }
 
 t_redirect	*ft_redrc_in(t_cmds cmds, char *meta, char *file)
@@ -53,11 +53,9 @@ t_redirect	*ft_redrc_in(t_cmds cmds, char *meta, char *file)
 	if (!new)
 		return (NULL);
 	if (ft_strnstr(meta, "<<", 2))
-		new->fd_in = open("/tmp/minishellheredocfile.temp", O_RDWR| O_CREAT | O_TRUNC, 0666);
+		new->delimiter = file;
 	if (ft_strchr(meta, '<'))
-		new->fd_in = open(file, O_RDONLY);
-	if (new->fd_in < 0)
-		return (NULL);
+		new->infilename = file;
 	ft_rdrct_add_back(&cmds.redirect, new);
 	return (cmds.redirect);
 }
@@ -66,24 +64,17 @@ t_redirect	*ft_redrc_out(t_cmds cmds, char *meta, char *file)
 {
 	t_redirect	*new;
 
-	if (cmds.redirect && !cmds.redirect->fd_out)
+	if (cmds.redirect && !cmds.redirect->outfilename)
 		new = cmds.redirect;
 	else
 		new = ft_calloc(1, sizeof(t_redirect));
 	if (!new)
 		return (NULL);
+	new->outfilename = file;
 	if (ft_strnstr(meta, ">>", 2))
-	{
-		new->fd_out = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-		new->trc_apd = 0;
-	}
+		new->append = 0;
 	if (ft_strchr(meta, '>'))
-	{
-		new->fd_out = open(file, O_CREAT | O_WRONLY | O_APPEND, 0666);
-		new->trc_apd = 1;
-	}
-	if (new->fd_out < 0)
-		return (NULL);
+		new->append = 1;
 	if (new != cmds.redirect)
 		ft_rdrct_add_back(&cmds.redirect, new);
 	return (cmds.redirect);

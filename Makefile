@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                        |o_o || |                 #
+#    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/03 09:13:12 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/03 11:02:32 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC		=src/main/main.c\
 		 src/parse/condition.c\
 		 src/parse/variable.c\
 		 src/parse/globs.c\
+		 src/parse/redirect.c\
 		 src/parse/wildcard.c\
 		 src/parse/tools.c\
 		 src/exec/verify.c\
