@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
+/*   minishell.h                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/02 15:14:47 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 06:05:10 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ void	ft_copyquote(char **cmdline, char	*forkline, int icpip, int ifpip);
 int		ft_countendconditions(char *line, int count, int i);
 //variable
 int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
-//wildcard
-int			ft_parsewildcard(t_cmds cmd);
+//globs
+int			ft_parseglobs(t_cmds cmd);
 //tools
 int			ft_checkoutquote(char *line, char target, int mode);
 //parse_utils
