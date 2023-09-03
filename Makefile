@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/02 04:16:41 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/03 09:13:12 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC		=src/main/main.c\
 		 src/parse/quote.c\
 		 src/parse/condition.c\
 		 src/parse/variable.c\
+		 src/parse/globs.c\
 		 src/parse/wildcard.c\
 		 src/parse/tools.c\
 		 src/exec/verify.c\

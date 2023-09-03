@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/03 08:18:42 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/03 09:15:00 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ int		ft_countendconditions(char *line, int count, int i);
 int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
 //globs
 int			ft_parseglobs(t_cmds *cmd);
+//globs
+char		*ft_parsewildcard(t_cmds cmd, char *globstart, char *globend);
 //tools
 int			ft_checkoutquote(char *line, char target, int mode);
 //parse_utils
