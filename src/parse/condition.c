@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/03 09:37:47 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 10:05:12 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ int		ft_countendconditions(char *line, int count, int i)
 		while (!ft_strchr("&|;\'\"", line[i]))
 			i++;
 		while (line[i] == '\'' || line[i] == '\"')
+		{
 			i = ft_skipquote(line, i) + 1;
+			while (line[i] == ' ')
+				i++;
+		}
 		while (!ft_strchr("&|;\'\"", line[i]))
 			i++;
 		count++;
@@ -85,15 +89,12 @@ t_forks ft_parseendcondition(t_forks forks)
 			ft_copyquote(&(forks.cmds[icmd].pipeline), forks.pipeline, icpip, ifpip);
 			icpip = ft_strlen(forks.cmds[icmd].pipeline);
 			ifpip = ft_skipquote(forks.pipeline, ifpip) + 1;
-		// printf("ifpip %d, icpip %d\n", ifpip, icpip);
 			if (forks.pipeline[ifpip] == '\"' || forks.pipeline[ifpip] == '\'')
 			{
 				ft_copyquote(&(forks.cmds[icmd].pipeline), forks.pipeline, icpip, ifpip);
 				icpip = ft_strlen(forks.cmds[icmd].pipeline);
 				ifpip = ft_skipquote(forks.pipeline, ifpip) + 1;
 			}
-		// printf("ifpip %d, icpip %d\n", ifpip, icpip);
-
 			if (forks.pipeline[ifpip] && !ft_strchr("&|", forks.pipeline[ifpip]))
 			{
 				while ((ft_strnstr(forks.cmds[icmd].pipeline, "echo", 4) && forks.pipeline[ifpip] == ' ')
@@ -105,9 +106,6 @@ t_forks ft_parseendcondition(t_forks forks)
 				}
 			}
 		}
-		// printf("ifpip %d, icpip %d\n", ifpip, icpip);
-
-		// printf("forkpipeline: %s\n icpip %d\n", forks.cmds[icmd].pipeline, icpip);
 		forks.cmds[icmd].pipeline[icpip] = '\0';
 		if (forks.pipeline[ifpip] == '|')
 		{
@@ -129,7 +127,6 @@ t_forks ft_parseendcondition(t_forks forks)
 		ifpip++;
 		icmd++;
 	}
-	// printf("condition done\n"); 
 	return (forks);
 }
 
