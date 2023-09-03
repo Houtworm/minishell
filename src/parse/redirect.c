@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/03 14:36:26 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 16:29:50 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,19 @@
 //ex. wc -l > file 2 > file3 then the file name will be ' file2 > file3'
 //split before ft_redrc_in / _out
 
+//wc-l>file1>file2
+//cat < r1 < r2 > r3 will copy the content from r2 to r3 while skipping r1 (r1 is empty)
+//ls > r2 > r3 will copy the result of ls to file3, while skipping r2
+//cat < r3 << EOF > r1 will copy the content of heredoc to r1 while skipping r3
 
+// char	*ft_removeredirect(char *line, char meta)
+// {
+// 	if (count_str(line, meta) > 1)
+// 	{
+		
+// 	}
+	
+// }
 
 void	ft_check_redirect(t_cmds *cmds)
 {
@@ -54,18 +66,32 @@ void	ft_check_redirect(t_cmds *cmds)
 t_redirect *ft_redrc_in(t_redirect *redirect, char *meta, char *line)
 {
 	t_redirect	*new;
-	char		*file;
+	char		**file;
+	int			i;
 
 	new = ft_calloc(1, sizeof(t_redirect));
 	if (!new)
 		return (NULL);
-	if (!ft_strncmp(meta, "<<", 2))
+	i = ft_strlen(line) - 1;
+	file = NULL;
+	while (i > -1)
 	{
-		line = NULL;
-		new->delimiter = ft_strdup(file);
+		if (line[i] == '<')
+		{
+			if (line[i - 1] == '<')
+				i++;
+			i++;
+			file = split_not_quote(line + 1, ' ');
+			break ;
+		}
+		i--;
 	}
+	printf("file = %s\n", file[0]);
+	if (!ft_strncmp(meta, "<<", 2))
+		new->delimiter = ft_strdup(file[0]);
 	if (!ft_strncmp(meta, "<", 1))
-		new->infilename = ft_strdup(file);
+		new->infilename = ft_strdup(file[0]);
+	ft_frearr(file);
 	ft_rdrct_add_back(&redirect, new);
 	return (redirect);
 }
