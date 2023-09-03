@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   quote.c                                         |o_o || |                */
+/*   quote.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/02 00:53:09 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/03 14:49:45 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,13 @@ char	*ft_closequote(char *line)
 	return (line);
 }
 
-char	**ft_remove_quote(char	**cmd)
+char	**ft_remove_quote(char	**cmd, int count)
 {
 	char	*tmp;
-	int		count;
+	char	check;
 	int		i;
 	int		k;
 
-	count = 0;
 	while (cmd[count])
 	{
 		tmp = ft_strdup(cmd[count]);
@@ -67,10 +66,17 @@ char	**ft_remove_quote(char	**cmd)
 		while (tmp[i])
 		{
 			while (tmp[i] == '\"' || tmp[i] == '\'')
+			{
+				check = tmp[i];
 				i++;
-			cmd[count][k] = tmp[i];
+			}
+			while (tmp[i] != check)
+			{
+				cmd[count][k] = tmp[i];
+				i++;
+				k++;
+			}
 			i++;
-			k++;
 		}
 		while (cmd[count][k])
 		{

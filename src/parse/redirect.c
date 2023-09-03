@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/03 12:40:54 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 14:36:26 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,51 +17,60 @@
 //ex. wc -l > file 2 > file3 then the file name will be ' file2 > file3'
 //split before ft_redrc_in / _out
 
+
+
 void	ft_check_redirect(t_cmds *cmds)
 {
 	char		**tmp;
+	char		*newline;
 	int			k;
 	// t_redirect	*p;
 
-	tmp = split_not_quote((*cmds).pipeline, ' ');
-	if (!tmp)
-		return ;
 	k = 0;
-	while (tmp[k])
+	if (ft_strnstr((*cmds).pipeline, "<<", 2))
 	{
-		if (ft_strnstr(tmp[k], "<<", 2) || ft_strchr(tmp[k], '<'))
-			(*cmds).redirect = ft_redrc_in((*cmds).redirect, tmp[k], tmp[k + 1]);
-		if (ft_strnstr(tmp[k], ">>", 2) || ft_strchr(tmp[k], '>'))
-			(*cmds).redirect = ft_redrc_out((*cmds).redirect, tmp[k], tmp[k + 1]);
-		k++;
+		(*cmds).redirect = ft_redrc_in((*cmds).redirect, "<<", (*cmds).pipeline);
+		tmp = split_not_quote((*cmds).pipeline, '<');
+		while (tmp[k])
+		{
+			newline = ft_strjoin(newline, tmp[k]);
+		}
 	}
-	ft_frearr(tmp);
-
-		// p = (*cmds).redirect;
-		// printf("1: fd in = %s, fd out= %s\n", p->infilename, p->outfilename);
-		// while ((*cmds).redirect && p->nxt)
-		// {
-		// 	p = p->nxt;
-		// 	printf("fd in = %s, fd out final = %s\n", p->infilename, p->outfilename);
-		// }
+	else if (ft_strchr((*cmds).pipeline, '<'))
+	{
+		(*cmds).redirect = ft_redrc_in((*cmds).redirect, "<", (*cmds).pipeline);
+	}
+	if (ft_strnstr((*cmds).pipeline, ">>", 2))
+	{
+		(*cmds).redirect = ft_redrc_out((*cmds).redirect, ">>", (*cmds).pipeline);
+	}
+	else if (ft_strchr((*cmds).pipeline, '>'))
+	{
+		(*cmds).redirect = ft_redrc_out((*cmds).redirect, ">", (*cmds).pipeline);
+	}
 }
 
-t_redirect *ft_redrc_in(t_redirect *redirect, char *meta, char *file)
+
+t_redirect *ft_redrc_in(t_redirect *redirect, char *meta, char *line)
 {
 	t_redirect	*new;
+	char		*file;
 
 	new = ft_calloc(1, sizeof(t_redirect));
 	if (!new)
 		return (NULL);
-	if (ft_strnstr(meta, "<<", 2))
+	if (!ft_strncmp(meta, "<<", 2))
+	{
+		line = NULL;
 		new->delimiter = ft_strdup(file);
-	if (ft_strchr(meta, '<'))
+	}
+	if (!ft_strncmp(meta, "<", 1))
 		new->infilename = ft_strdup(file);
 	ft_rdrct_add_back(&redirect, new);
 	return (redirect);
 }
 
-t_redirect *ft_redrc_out(t_redirect *redirect, char *meta, char *file)
+t_redirect *ft_redrc_out(t_redirect *redirect, char *meta, char *line)
 {
 	t_redirect	*new;
 
@@ -71,7 +80,7 @@ t_redirect *ft_redrc_out(t_redirect *redirect, char *meta, char *file)
 		new = ft_calloc(1, sizeof(t_redirect));
 	if (!new)
 		return (NULL);
-	new->outfilename = ft_strdup(file);
+	new->outfilename = ft_strdup(line);
 	if (ft_strnstr(meta, ">>", 2))
 		new->append = 0;
 	if (ft_strchr(meta, '>'))
@@ -103,3 +112,31 @@ void	ft_rdrct_add_back(t_redirect **lst, t_redirect *new)
 	}
 }
 
+	// tmp = split_not_quote((*cmds).pipeline, ' ');
+	// if (!tmp)
+	// 	return ;
+	// k = 0;
+	// newline = NULL;
+	// while (tmp[k])
+	// {
+	// 	if (ft_strnstr(tmp[k], "<<", 2) || ft_strchr(tmp[k], '<'))
+	// 		(*cmds).redirect = ft_redrc_in((*cmds).redirect, tmp[k], tmp[k + 1]);
+	// 	if (ft_strnstr(tmp[k], ">>", 2) || ft_strchr(tmp[k], '>'))
+	// 		(*cmds).redirect = ft_redrc_out((*cmds).redirect, tmp[k], tmp[k + 1]);
+	// 	while (tmp[k])
+		
+
+	// 	k++;
+		
+	// }
+
+	// ft_frearr(tmp);
+
+		// p = (*cmds).redirect;
+		// printf("1: fd in = %s, fd out= %s\n", p->infilename, p->outfilename);
+		// while ((*cmds).redirect && p->nxt)
+		// {
+		// 	p = p->nxt;
+		// 	printf("fd in = %s, fd out final = %s\n", p->infilename, p->outfilename);
+		// }
+// }

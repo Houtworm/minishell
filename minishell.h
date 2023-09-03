@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/03 12:02:20 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 14:33:56 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_shell 	ft_parsepipe(char *line, t_shell shell);
 void		ft_parsealiases(t_cmds *cmds, t_shell shell);
 //quote
 char		*ft_closequote(char *line);
-char	**ft_remove_quote(char	**cmd);
+char	**ft_remove_quote(char	**cmd, int count);
 //redirect
 void		ft_check_redirect(t_cmds *cmds);
 t_redirect *ft_redrc_in(t_redirect *redirect, char *meta, char *file);
