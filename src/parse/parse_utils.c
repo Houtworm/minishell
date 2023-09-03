@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/28 18:48:20 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/03 10:05:35 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 12:44:05 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,32 @@
 // check whether double & single quote are closed
 // ignore the other type of quote mark if it's within a quote
 // return 0 when the quote is properly closed
- int	check_quote_closed(char *s)
- {
-	 int	i;
-	 int	check;
+int	check_quote_closed(char *s)
+{
+	int	i;
+	int	check;
 
-	 i = 0;
-	 check = 0;
-	 while (s[i])
-	 {
-		 while (s[i] && !check)
-		 {
-			 if (s[i] == '\'')
-				 check = 1;
-			 if (s[i] == '\"')
-				 check = 2;
-			 i++;
-		 }
-		 while (s[i] && check)
-		 {
-			 if ((s[i] == '\'' && check == 1) || (s[i] == '\"' && check == 2))
-				 check = 0;
-			 i++;
-		 }
-	 }
-	 return (check);
- }
+	i = 0;
+	check = 0;
+	while (s[i])
+	{
+		while (s[i] && !check)
+		{
+			if (s[i] == '\'')
+				check = 1;
+			if (s[i] == '\"')
+				check = 2;
+			i++;
+		}
+		while (s[i] && check)
+		{
+			if ((s[i] == '\'' && check == 1) || (s[i] == '\"' && check == 2))
+				check = 0;
+			i++;
+		}
+	}
+	return (check);
+}
 
 int	ft_skipquote(char *s, int i)
 {

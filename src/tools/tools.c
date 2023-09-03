@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   tools.c                                         |o_o || |                */
+/*   tools.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/26 03:50:51 by djonker       #+#    #+#                 */
-/*   Updated: 2023/08/30 18:22:12 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/03 12:22:26 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,9 @@ void	ft_printcmds(t_cmds cmds, int cmdnbr)
 	printf("\e[1;36mabsolute: %s\e[0;00m\n", cmds.absolute);
 	 printf("\e[1;36mcondition: %d\e[0;00m\n", cmds.condition);
 	 printf("\e[1;36mdetatch: %d\e[0;00m\n", cmds.detatch);
+	 printf("\e[1;36mredirect->infilename: %s\e[0;00m\n", cmds.redirect->infilename);
+	 printf("\e[1;36mredirect->outfilename: %s\e[0;00m\n", cmds.redirect->outfilename);
+	 printf("\e[1;36mredirect->delimiter: %s\e[0;00m\n", cmds.redirect->delimiter);
+	 printf("\e[1;36mredirect->append: %d\e[0;00m\n", cmds.redirect->append);
+
 }
