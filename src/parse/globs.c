@@ -6,18 +6,18 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/03 20:04:01 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/03 21:54:23 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_globs *ft_initglobstruct(t_cmds cmd)
+t_globs *ft_initglobstruct(char *pipeline)
 {
 	t_globs			*globs;
 	int				linelenght;
 
-	linelenght = ft_strlen(cmd.pipeline);
+	linelenght = ft_strlen(pipeline);
 	globs = ft_calloc(linelenght , 128);
 	globs->gstart = ft_calloc(linelenght, 8);
 	globs->gend = ft_calloc(linelenght, 8);
@@ -27,7 +27,7 @@ t_globs *ft_initglobstruct(t_cmds cmd)
 	globs->subdir = ft_calloc(linelenght, 8);
 	globs->pardir = ft_calloc(linelenght, 8);
 	globs->matches = ft_calloc(linelenght, 8);
-	globs->pipeline = ft_strdup(cmd.pipeline);
+	globs->pipeline = ft_strdup(pipeline);
 	return (globs);
 }
 
@@ -43,7 +43,7 @@ int	ft_parseglobs(t_cmds *cmd)
 	j = 0;
 	k = 0;
 	l = 0;
-	globs = ft_initglobstruct(*cmd);
+	globs = ft_initglobstruct(cmd->pipeline);
 	while (globs->pipeline[i + j + k + l])
 	{
 		k = 0;

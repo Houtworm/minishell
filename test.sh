@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/03 08:49:57 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/03 22:34:40 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,9 @@ SLEEP=0
 
 testfunction()
 {
-	timeout 2 bash -c "$1" 2> realstderrfile 1> realstdoutfile
+	timeout 2 bash -c "$1" > realstdoutfile 2> realstderrfile
 	REALRETURN=$?
-	timeout 2 ./minishell -c "$1" 2> ministderrfile 1> ministdoutfile
+	timeout 2 ./minishell -c "$1" > ministdoutfile 2> ministderrfile
 	MINIRETURN=$?
 	diff realstdoutfile ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
@@ -118,9 +118,9 @@ redirectfunction()
 
 environmentfunction()
 {
-	timeout 2 bash -c "$1" | grep "$2" 2> realstderrfile 1> realstdoutfile
+	timeout 2 bash -c "$1" | grep "$2" > realstdoutfile 2> realstderrfile
 	REALRETURN=$?
-	timeout 2 ./minishell -c "$1" | grep "$2" 2> ministderrfile 1> ministdoutfile
+	timeout 2 ./minishell -c "$1" | grep "$2" > ministdoutfile 2> ministderrfile
 	MINIRETURN=$?
 	diff realstdoutfile ministdoutfile > /dev/null
 	if [ $? -eq 0 ]

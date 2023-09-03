@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/26 13:40:03 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/03 22:26:01 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,12 @@ int	ft_echo(t_cmds cmds)
 		}
 		else
 			ft_echorecursion(cmds, print, i, j);
-		ft_printf("%s", print);
 		if (flag == 0)
-			ft_printf("\n");
+			ft_putendl(print);
+		else
+			ft_putstr(print);
 	}
 	else
-		ft_printf("\n");
+		ft_putchar('\n');
 	return (0);
 }
