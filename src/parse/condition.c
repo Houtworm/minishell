@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/02 15:29:16 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 09:37:47 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_forks ft_parseendcondition(t_forks forks)
 	forks.cmds = ft_calloc(10000 * sizeof(t_cmds), 1);
 	icmd = 0;
 	ifpip = 0;
-	while (forks.pipeline[ifpip])
+	while (forks.pipeline[ifpip] && icmd < forks.cmdamount)
 	{
 		icpip = 0;
 		forks.cmds[icmd].pipeline = ft_calloc(1000 * 8, 1);
@@ -85,12 +85,15 @@ t_forks ft_parseendcondition(t_forks forks)
 			ft_copyquote(&(forks.cmds[icmd].pipeline), forks.pipeline, icpip, ifpip);
 			icpip = ft_strlen(forks.cmds[icmd].pipeline);
 			ifpip = ft_skipquote(forks.pipeline, ifpip) + 1;
+		// printf("ifpip %d, icpip %d\n", ifpip, icpip);
 			if (forks.pipeline[ifpip] == '\"' || forks.pipeline[ifpip] == '\'')
 			{
 				ft_copyquote(&(forks.cmds[icmd].pipeline), forks.pipeline, icpip, ifpip);
 				icpip = ft_strlen(forks.cmds[icmd].pipeline);
-				ifpip = ft_skipquote(forks.pipeline, ifpip);
+				ifpip = ft_skipquote(forks.pipeline, ifpip) + 1;
 			}
+		// printf("ifpip %d, icpip %d\n", ifpip, icpip);
+
 			if (forks.pipeline[ifpip] && !ft_strchr("&|", forks.pipeline[ifpip]))
 			{
 				while ((ft_strnstr(forks.cmds[icmd].pipeline, "echo", 4) && forks.pipeline[ifpip] == ' ')
@@ -102,15 +105,17 @@ t_forks ft_parseendcondition(t_forks forks)
 				}
 			}
 		}
+		// printf("ifpip %d, icpip %d\n", ifpip, icpip);
+
+		// printf("forkpipeline: %s\n icpip %d\n", forks.cmds[icmd].pipeline, icpip);
 		forks.cmds[icmd].pipeline[icpip] = '\0';
 		if (forks.pipeline[ifpip] == '|')
 		{
-			ifpip = ifpip + 2;
+			ifpip++;
 			forks.cmds[icmd + 1].condition = 2;
 		}
 		else if (forks.pipeline[ifpip] == '&')
 		{
-			ifpip++;
 			if (forks.pipeline[ifpip] == '&')
 			{
 				ifpip++;
@@ -120,12 +125,11 @@ t_forks ft_parseendcondition(t_forks forks)
 				forks.cmds[icmd].detatch = 1;
 		}
 		else
-		{
-			ifpip++;
 			forks.cmds[icmd + 1].condition = 0;
-		}
+		ifpip++;
 		icmd++;
 	}
+	// printf("condition done\n"); 
 	return (forks);
 }
 

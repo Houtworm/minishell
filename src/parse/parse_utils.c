@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/28 18:48:20 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/03 09:09:44 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 09:15:29 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	count_str(char *s, int c)
 			i = ft_skipquote(s, i);
 			i++;    
 		}
-	printf("cnt_str = %d\n", str_count);
+	// printf("cnt_str = %d\n", str_count);
 
 		if (s[i] == c && s[i + 1] == '|')
 			i += 2;
@@ -84,7 +84,7 @@ int	count_str(char *s, int c)
 			i = ft_skipquote(s, i);
 			i++;    
 		}
-		printf("s[%d] = %c\n", i, s[i]);
+		// printf("s[%d] = %c\n", i, s[i]);
 		str_count++;
 		if (s[i] && s[i] == c)
 			i++;
@@ -123,7 +123,7 @@ char	**split_not_quote(char *s, int c)
 	cmd = ft_calloc(count_str(s, c) + 1, sizeof(char *));
 	if (!cmd)
 		ft_errorexit("Error allocating memory", "malloc", 1);
-	printf("str in cmd: %d\n",count_str(s, c));
+	// printf("str in cmd: %d\n",count_str(s, c));
 	if (count_str(s, c) == 1)
 	{
 		k = (char)c;
