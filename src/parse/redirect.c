@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/03 16:29:50 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/03 17:14:39 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 
 void	ft_check_redirect(t_cmds *cmds)
 {
-	char		**tmp;
-	char		*newline;
+	// char		**tmp;
+	// char		*newline;
 	int			k;
 	// t_redirect	*p;
 
@@ -42,11 +42,7 @@ void	ft_check_redirect(t_cmds *cmds)
 	if (ft_strnstr((*cmds).pipeline, "<<", 2))
 	{
 		(*cmds).redirect = ft_redrc_in((*cmds).redirect, "<<", (*cmds).pipeline);
-		tmp = split_not_quote((*cmds).pipeline, '<');
-		while (tmp[k])
-		{
-			newline = ft_strjoin(newline, tmp[k]);
-		}
+
 	}
 	else if (ft_strchr((*cmds).pipeline, '<'))
 	{
@@ -60,6 +56,7 @@ void	ft_check_redirect(t_cmds *cmds)
 	{
 		(*cmds).redirect = ft_redrc_out((*cmds).redirect, ">", (*cmds).pipeline);
 	}
+	
 }
 
 
@@ -78,10 +75,8 @@ t_redirect *ft_redrc_in(t_redirect *redirect, char *meta, char *line)
 	{
 		if (line[i] == '<')
 		{
-			if (line[i - 1] == '<')
-				i++;
 			i++;
-			file = split_not_quote(line + 1, ' ');
+			file = split_not_quote(line + i, ' ');
 			break ;
 		}
 		i--;
