@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/03 22:21:28 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 01:39:20 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,14 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, ft_sighandler);
 	signal(SIGQUIT, ft_sighandler);
 	if (argc > 1)
-		return (ft_runscript(argc, argv, envp));
-	shell =	ft_initstruct(envp);
+	{
+		if (ft_strncmp(argv[1], "-d\0", 3) == 0)
+			shell =	ft_initstruct(envp, 1);
+		else
+			return (ft_runscript(argc, argv, envp));
+	}
+	else
+		shell =	ft_initstruct(envp, 0);
 	while (1)
 		ft_mainloop(shell);
 	return (0);

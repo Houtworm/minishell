@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/05 00:26:45 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 01:47:10 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	ft_outputfile(char *file, int append)
 
 int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
-	ft_printdup(cmds, cmdnbr, forknbr); // prints input source and output destination
+	if (shell->debug)
+		ft_printdup(cmds, cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		dup2(shell->pipes[forknbr][0], 0);
 	else if (cmds.redirect[0].delimiter)

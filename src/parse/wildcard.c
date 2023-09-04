@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/05 00:13:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 01:44:29 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ void	ft_parsewildcard(t_cmds cmd, t_globs *globs)
 	{
 		globs->matches = ft_vastrjoin(4, globs->gstart, "*", globs->gend);
 	}
-	ft_printglobs(*globs, "end of parsewildcard");
+	if (cmd.debug == 1)
+		ft_printglobs(*globs, "end of parsewildcard");
 }

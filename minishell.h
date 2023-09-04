@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/05 00:41:31 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 01:45:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_cmds
 	int			pid;
 	int			code;
 	int			lastcode;
+	int			debug;
 	int			cmdamount;
 	int			forkamount;
 	t_redirect	*redirect;
@@ -88,6 +89,7 @@ typedef struct s_shell
 	char		**envp;
 	long long	starttime;
 	int			code;
+	int			debug;
 	int			**pipes;
 	int			tempfdin;
 	int			tempfdout;
@@ -122,7 +124,7 @@ int			ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
 
 // INIT
 // init
-t_shell		*ft_initstruct(char **envp);
+t_shell		*ft_initstruct(char **envp, int debugmode);
 // prompt
 void		ft_printprompt(t_shell *strct, char **envp);
 // script

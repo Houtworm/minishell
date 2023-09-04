@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/23 14:59:51 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/30 18:19:38 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/05 01:40:36 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_runscript(int argc, char **argv, char **envp)
 	i = 1;
 	ret = 1;
 	code = 0;
-	shell = *ft_initstruct(envp);
+	shell = *ft_initstruct(envp, 0);
 	shell.envp = ft_fdtocharpp(shell.envpfd);
 	if (ft_strncmp(argv[1], "-c\0", 3) == 0)
 	{

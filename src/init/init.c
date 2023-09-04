@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:28 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/02 05:33:55 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/05 01:35:30 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_alias	*ft_parsemshrc(char **envp)
 	return (alias);
 }
 
-t_shell	*ft_initstruct(char **envp)
+t_shell	*ft_initstruct(char **envp, int debugmode)
 {
 	t_shell	*shell;
 	int		shlvlint;
@@ -99,6 +99,9 @@ t_shell	*ft_initstruct(char **envp)
 	ft_charpptofd(envp, shell->envpfd);
 	shell->starttime = ft_gettimems(shell->envp);
 	shell->code = 256;
+	shell->debug = 0;
+	if (debugmode)
+		shell->debug = 1;
 	close(shell->envpfd);
 	return (shell);
 }
