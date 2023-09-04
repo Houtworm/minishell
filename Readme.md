@@ -2,6 +2,49 @@
 is a lightweight implementation of bash
 
 ---
+## Features
+#### Mandatory
+- CTRL + C
+- CTRL + \
+- CTRL + D
+- Handle History
+- SHLVL +1 at launch
+- | pipes
+- > trunctuate
+- >> append
+- <
+- << heredoc
+- "" quotes
+- '' quotes
+- echo
+- env
+- pwd
+- cd
+- export
+- unset
+- exit
+#### Bonus
+- &&
+- ||
+- *
+#### Extra
+- Prompt with return code, execution time, and other cool things :)
+- ~/.mshrc parsing
+- handle -c argument
+- handle script as argument
+- CTRL + Z
+- handling non closed quotes
+- handling conditions with no command
+- ;
+- &
+- $()
+- ``
+- ?
+- []
+- #
+- alias
+
+---
 ## Todo
 #### Environment
 - Show prompt
