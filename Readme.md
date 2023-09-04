@@ -4,29 +4,30 @@ is a lightweight implementation of bash
 ---
 ## Features
 #### Mandatory
-- CTRL + C
-- CTRL + \
-- CTRL + D
-- Handle History
-- SHLVL +1 at launch
-- | pipes
-- > trunctuate
-- >> append
-- <
-- << heredoc
-- "" quotes
-- '' quotes
-- echo
-- env
-- pwd
-- cd
-- export
-- unset
-- exit
+- ```CTRL + C```
+- ```CTRL + \```
+- ```CTRL + D```
+- ```Handle History```
+- ```SHLVL +1 at launch```
+- ```| pipes```
+- ```> trunctuate```
+- ```>> append```
+- ```<```
+- ```<< heredoc```
+- ```"" quotes```
+- ```'' quotes```
+- ```$VAR```
+- ```echo```
+- ```env```
+- ```pwd```
+- ```cd```
+- ```export```
+- ```unset```
+- ```exit```
 #### Bonus
-- &&
-- ||
-- *
+- ```&&```
+- ```||```
+- ```*```
 #### Extra
 - Prompt with return code, execution time, and other cool things :)
 - ~/.mshrc parsing
