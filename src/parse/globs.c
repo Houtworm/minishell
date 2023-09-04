@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   globs.c                                         |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/04 03:45:46 by houtworm     \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   globs.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: houtworm <codam@houtworm.net>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/09/03 09:12:54 by houtworm      #+#    #+#                 */
+/*   Updated: 2023/09/04 09:27:18 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	ft_wildcardmatch(t_cmds *cmd, t_globs *globs, int startpos)
 
 	endpos = 0;
 	globs->period = 0;
+	//Yuka added i = 0 to silence the compilation error
+	i = 0;
 	if (globs->pipeline[globs->linecount + startpos - 1] == '.')
 		globs->period = 1;
 	globs->gstart[startpos] = '\0';
