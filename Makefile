@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/04 21:06:54 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/04 22:25:12 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,11 @@ SRC		=src/main/main.c\
 		 src/parse/redirect.c\
 		 src/parse/wildcard.c\
 		 src/parse/tools.c\
-		 src/exec/verify.c\
-		 src/exec/exec.c\
 		 src/exec/fork.c\
+		 src/exec/priority.c\
+		 src/exec/exec.c\
 		 src/exec/dupmachine.c\
+		 src/exec/verify.c\
 		 src/builtin/exit.c\
 		 src/builtin/chdir.c\
 		 src/builtin/unset.c\

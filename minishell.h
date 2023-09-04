@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/04 21:08:01 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/04 22:26:41 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,8 @@ char		**split_not_quote(char *s, int c);
 // EXEC
 // fork
 int			ft_forktheforks(t_shell *shell);
+// priority
+int			ft_executepriority(t_forks forks);
 // exec
 int			ft_executeforks(t_forks forks, int forknbr, t_shell *shell);
 // dupmachine
