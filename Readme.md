@@ -29,21 +29,21 @@ is a lightweight implementation of bash
 - ```||```
 - ```*```
 #### Extra
-- Prompt with return code, execution time, and other cool things :)
-- ~/.mshrc parsing
-- handle -c argument
-- handle script as argument
-- CTRL + Z
-- handling non closed quotes
-- handling conditions with no command
-- ;
-- &
-- $()
-- ``
-- ?
-- []
-- #
-- alias
+- ```Prompt with return code, execution time, and other cool things :)```
+- ```~/.mshrc parsing```
+- ```handle -c argument```
+- ```handle script as argument```
+- ```CTRL + Z```
+- ```handling non closed quotes```
+- ```handling conditions with no command```
+- ```;```
+- ```&```
+- ```$()```
+- ````````
+- ```?```
+- ```[]```
+- ```#```
+- ```alias```
 
 ---
 ## Todo
