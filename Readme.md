@@ -30,6 +30,7 @@ is a lightweight implementation of bash
 - ```*```
 #### Extra
 - ```Prompt with return code, execution time, and other cool things :)```
+- ```Multiline History```
 - ```~/.mshrc parsing```
 - ```handle -c argument```
 - ```handle script as argument```
@@ -44,6 +45,7 @@ is a lightweight implementation of bash
 - ```[]```
 - ```#```
 - ```alias```
+- ```z```
 
 ---
 ## Todo
