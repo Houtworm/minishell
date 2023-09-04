@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                        |o_o || |                 #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/03 11:02:32 by yitoh         ########   odam.nl          #
+#    Updated: 2023/09/04 21:06:54 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC		=src/main/main.c\
 		 src/init/script.c\
 		 src/parse/parse.c\
 		 src/parse/parse_utils.c\
+		 src/parse/hashtag.c\
 		 src/parse/pipe.c\
 		 src/parse/alias.c\
 		 src/parse/quote.c\

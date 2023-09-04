@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   globs.c                                            :+:    :+:            */
+/*   globs.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/03 09:12:54 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/04 09:27:18 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/04 20:34:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	ft_wildcardmatch(t_cmds *cmd, t_globs *globs, int startpos)
 
 	endpos = 0;
 	globs->period = 0;
-	//Yuka added i = 0 to silence the compilation error
 	i = 0;
 	if (globs->pipeline[globs->linecount + startpos - 1] == '.')
 		globs->period = 1;

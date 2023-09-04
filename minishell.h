@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/04 03:26:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/04 21:08:01 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ int			ft_runscript(int argc, char **argv, char **envp);
 // PARSE
 //parse
 t_shell		ft_parseline(char *line, t_shell shell);
+//hashtag
+char		*ft_parsehashtag(char *line);
 //pipe
 t_shell 	ft_parsepipe(char *line, t_shell shell);
 //alias

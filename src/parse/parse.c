@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/04 09:43:24 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/04 21:35:32 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_shell	ft_parseline(char *line, t_shell shell)
 	int	forknumber;
 	int	cmdnumber;
 	line = ft_closequote(line);
+	line = ft_parsehashtag(line);
 	shell = ft_parsepipe(line, shell);
 	/*ft_printshell(shell); // printing contents of shellstruct*/
 	forknumber = 0;
