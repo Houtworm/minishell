@@ -6,49 +6,36 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/04 21:58:08 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/04 23:34:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
-void	ft_setcmddefaults(t_shell shell, int forknumber, int cmdnumber)
+t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 {
+	char	**paths;
+
 	shell.forks[forknumber].cmds[cmdnumber].envp = shell.envp;
 	shell.forks[forknumber].cmds[cmdnumber].detatch = 0;
 	shell.forks[forknumber].cmds[cmdnumber].forkamount = shell.forkamount;
 	shell.forks[forknumber].cmds[cmdnumber].redirect = ft_calloc(10 * sizeof(t_redirect), 1);
-}
-
-void	ft_finalparsing(t_forks forks, int cmdnumber)
-{
-	char	**paths;
-
-	paths = ft_getpaths(forks.cmds[0].envp, 1);
-	forks.cmds[cmdnumber].arguments = split_not_quote(forks.cmds[cmdnumber].pipeline, ' ');
-	forks.cmds[cmdnumber].arguments = ft_remove_quote(forks.cmds[cmdnumber].arguments, 0);
-	forks.cmds[cmdnumber].cmdamount = forks.cmdamount;
-	forks.cmds[cmdnumber].absolute = ft_abspathcmd(paths, forks.cmds[cmdnumber].arguments[0]);
-	ft_frearr(paths);
-}
-
-
-t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
-{
-	ft_setcmddefaults(shell, forknumber, cmdnumber);
 	ft_parsealiases(&shell.forks[forknumber].cmds[cmdnumber], shell);
 	ft_parsevariable(&shell.forks[forknumber].cmds[cmdnumber], shell);
 	ft_parseglobs(&shell.forks[forknumber].cmds[cmdnumber]);
 	//ft_check_redirect(&shell.forks[forknumber].cmds[cmdnumber]);
-	ft_finalparsing(shell.forks[forknumber], cmdnumber);
+	paths = ft_getpaths(shell.forks[forknumber].cmds[0].envp, 1);
+	shell.forks[forknumber].cmds[cmdnumber].arguments = split_not_quote(shell.forks[forknumber].cmds[cmdnumber].pipeline, ' ');
+	shell.forks[forknumber].cmds[cmdnumber].arguments = ft_remove_quote(shell.forks[forknumber].cmds[cmdnumber].arguments, 0);
+	shell.forks[forknumber].cmds[cmdnumber].cmdamount = shell.forks[forknumber].cmdamount;
+	shell.forks[forknumber].cmds[cmdnumber].absolute = ft_abspathcmd(paths, shell.forks[forknumber].cmds[cmdnumber].arguments[0]);
+	ft_frearr(paths);
 	return (shell);
 }
 
 t_shell	ft_parseline(char *line, t_shell shell)
 {
 	int	forknumber;
-	int	cmdnumber;
 	line = ft_closequote(line);
 	line = ft_parsehashtag(line);
 	shell = ft_parsepipe(line, shell);
@@ -58,13 +45,6 @@ t_shell	ft_parseline(char *line, t_shell shell)
 	{
 		shell.forks[forknumber] = ft_parseendcondition(shell.forks[forknumber]);
 		ft_printforks(shell.forks[forknumber], forknumber); //printing contents of forkstruct
-		cmdnumber = 0;
-		while (shell.forks[forknumber].cmdamount > cmdnumber)
-		{
-			shell = ft_parsecmds(shell, forknumber, cmdnumber);
-			ft_printcmds(shell.forks[forknumber].cmds[cmdnumber], cmdnumber); // printing content of cmdstruct
-			cmdnumber++;
-		}
 		forknumber++;
 	}
 	return (shell);
