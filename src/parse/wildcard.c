@@ -6,14 +6,14 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/03 22:19:58 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/04 01:12:41 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 void	ft_checkglobmatch(t_globs *globs, char *dir)
-{
+{	// should check if it actually matches with parent and sub dir
 	globs->matches = ft_vastrjoin(4, globs->matches, dir, globs->subdir, " ");
 }
 

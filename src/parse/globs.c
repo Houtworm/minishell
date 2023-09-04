@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/03 21:54:23 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/04 02:08:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,74 +34,74 @@ t_globs *ft_initglobstruct(char *pipeline)
 int	ft_parseglobs(t_cmds *cmd)
 {
 	t_globs			*globs;
+	int				ipipe;
+	int				igend;
+	int				igbeg;
 	int				i;
-	int				j;
-	int				k;
-	int				l;
 
+	ipipe = 0;
+	igbeg = 0;
+	igend = 0;
 	i = 0;
-	j = 0;
-	k = 0;
-	l = 0;
 	globs = ft_initglobstruct(cmd->pipeline);
-	while (globs->pipeline[i + j + k + l])
+	while (globs->pipeline[ipipe + igbeg + igend + i])
 	{
-		k = 0;
-		if (globs->pipeline[i + j] == '\'')
+		igend = 0;
+		if (globs->pipeline[ipipe + igbeg] == '\'')
 		{
-			j++;
-			while (globs->pipeline[i + j] != '\'' && globs->pipeline[i + j])
+			igbeg++;
+			while (globs->pipeline[ipipe + igbeg] != '\'' && globs->pipeline[ipipe + igbeg])
 			{
-				globs->gstart[j] = globs->pipeline[i + j];
-				j++;
+				globs->gstart[igbeg] = globs->pipeline[ipipe + igbeg];
+				igbeg++;
 			}
-			j++;
+			igbeg++;
 		}
-		if (globs->pipeline[i + j] == '\"')
+		if (globs->pipeline[ipipe + igbeg] == '\"')
 		{
-			j++;
-			while (globs->pipeline[i + j] != '\"' && globs->pipeline[i + j])
+			igbeg++;
+			while (globs->pipeline[ipipe + igbeg] != '\"' && globs->pipeline[ipipe + igbeg])
 			{
-				globs->gstart[j] = globs->pipeline[i + j];
-				j++;
+				globs->gstart[igbeg] = globs->pipeline[ipipe + igbeg];
+				igbeg++;
 			}
-			j++;
+			igbeg++;
 		}
-		if (globs->pipeline[i + j] == ' ')
+		if (globs->pipeline[ipipe + igbeg] == ' ')
 		{
-			i = i + j + 1;
-			j = 0;
+			ipipe = ipipe + igbeg + 1;
+			igbeg = 0;
 		}
-		if (globs->pipeline[i + j] == '*')
+		if (globs->pipeline[ipipe + igbeg] == '*')
 		{
 			globs->period = 0;
-			if (globs->pipeline[i + j - 1] == '.')
+			if (globs->pipeline[ipipe + igbeg - 1] == '.')
 				globs->period = 1;
-			globs->gstart[j] = '\0';
-			j++;
-			while (globs->pipeline[i + j + k] && !ft_strchr(" /", globs->pipeline[i + j + k]))
+			globs->gstart[igbeg] = '\0';
+			igbeg++;
+			while (globs->pipeline[ipipe + igbeg + igend] && !ft_strchr(" /", globs->pipeline[ipipe + igbeg + igend]))
 			{
-				globs->gend[k] = globs->pipeline[i + j + k];
-				k++;
+				globs->gend[igend] = globs->pipeline[ipipe + igbeg + igend];
+				igend++;
 			}
-			globs->gend[k] = '\0';
-			if (globs->pipeline[i + j + k] == '/')
+			globs->gend[igend] = '\0';
+			if (globs->pipeline[ipipe + igbeg + igend] == '/')
 			{
-				l = 0;
-				while (globs->pipeline[i + j + k + l] && globs->pipeline[i + j + k + l] != ' ')
+				i = 0;
+				while (globs->pipeline[ipipe + igbeg + igend + i] && globs->pipeline[ipipe + igbeg + igend + i] != ' ')
 				{
-					globs->subdir[l] = globs->pipeline[i + j + k + l];
-					l++;
+					globs->subdir[i] = globs->pipeline[ipipe + igbeg + igend + i];
+					i++;
 				}
-				globs->subdir[l] = '\0';
+				globs->subdir[i] = '\0';
 			}
 			/*j++;*/
-			globs->start = ft_substr(globs->pipeline, 0, i);
+			globs->start = ft_substr(globs->pipeline, 0, ipipe);
 			ft_parsewildcard(*cmd, globs);
-			cmd->pipeline = ft_vastrjoin(3, globs->start, globs->matches, &cmd->pipeline[i + j + k + l]);
+			cmd->pipeline = ft_vastrjoin(3, globs->start, globs->matches, &cmd->pipeline[ipipe + igbeg + igend + i]);
 		}
-		globs->gstart[j] = globs->pipeline[i + j + k];
-		j++;
+		globs->gstart[igbeg] = globs->pipeline[ipipe + igbeg + igend];
+		igbeg++;
 	}
 	return (0);
 }
