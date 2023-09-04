@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   tools.c                                            :+:    :+:            */
+/*   tools.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/26 03:50:51 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/03 12:22:26 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/04 03:26:31 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,19 @@ void	ft_printcmds(t_cmds cmds, int cmdnbr)
 	 printf("\e[1;36mredirect->delimiter: %s\e[0;00m\n", cmds.redirect->delimiter);
 	 printf("\e[1;36mredirect->append: %d\e[0;00m\n", cmds.redirect->append);
 
+}
+
+void	ft_printglobs(t_globs globs, char *function)
+{
+	printf("\e[1;31mglobs struct in %s\e[0;00m\n", function);
+	printf("\e[1;31mgstart: %s\e[0;00m\n", globs.gstart);
+	printf("\e[1;31mgend: %s\e[0;00m\n", globs.gend);
+	printf("\e[1;31mperiod: %d\e[0;00m\n", globs.period);
+	printf("\e[1;31mstart: %s\e[0;00m\n", globs.start);
+	printf("\e[1;31mglob: %s\e[0;00m\n", globs.glob);
+	printf("\e[1;31mend: %s\e[0;00m\n", globs.end);
+	printf("\e[1;31msubdir: %s\e[0;00m\n", globs.subdir);
+	printf("\e[1;31mpardir: %s\e[0;00m\n", globs.pardir);
+	printf("\e[1;31mmatches: %s\e[0;00m\n", globs.matches);
+	printf("\e[1;31mpipeline: %s\e[0;00m\n", globs.pipeline);
 }
