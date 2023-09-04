@@ -39,7 +39,7 @@ is a lightweight implementation of bash
 - ```;```
 - ```&```
 - ```$(command)```
-- ````command````
+- ``` `command` ```
 - ```?```
 - ```[]```
 - ```#```
