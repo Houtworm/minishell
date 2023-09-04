@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/04 23:34:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 00:42:07 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 	shell.forks[forknumber].cmds[cmdnumber].detatch = 0;
 	shell.forks[forknumber].cmds[cmdnumber].forkamount = shell.forkamount;
 	shell.forks[forknumber].cmds[cmdnumber].redirect = ft_calloc(10 * sizeof(t_redirect), 1);
+	ft_executepriority(&shell.forks[forknumber].cmds[cmdnumber]);
 	ft_parsealiases(&shell.forks[forknumber].cmds[cmdnumber], shell);
 	ft_parsevariable(&shell.forks[forknumber].cmds[cmdnumber], shell);
 	ft_parseglobs(&shell.forks[forknumber].cmds[cmdnumber]);
 	//ft_check_redirect(&shell.forks[forknumber].cmds[cmdnumber]);
-	paths = ft_getpaths(shell.forks[forknumber].cmds[0].envp, 1);
+	paths = ft_getpaths(shell.envp, 1);
 	shell.forks[forknumber].cmds[cmdnumber].arguments = split_not_quote(shell.forks[forknumber].cmds[cmdnumber].pipeline, ' ');
 	shell.forks[forknumber].cmds[cmdnumber].arguments = ft_remove_quote(shell.forks[forknumber].cmds[cmdnumber].arguments, 0);
 	shell.forks[forknumber].cmds[cmdnumber].cmdamount = shell.forks[forknumber].cmdamount;

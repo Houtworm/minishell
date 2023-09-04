@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/03 22:39:34 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 00:26:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,42 +72,26 @@ int	ft_outputfile(char *file, int append)
 
 int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
+	ft_printdup(cmds, cmdnbr, forknbr); // prints input source and output destination
 	if (cmdnbr == 0 && forknbr > 0)
-	{
-		/*ft_putendl_fd("input from pipe", 2);*/
 		dup2(shell->pipes[forknbr][0], 0);
-	}
 	else if (cmds.redirect[0].delimiter)
-	{
-		/*ft_putendl_fd("input from heredoc", 2);*/
 		dup2(ft_heredoc(cmds.redirect[0].delimiter), 0);
-	}
 	else if (cmds.redirect[0].infilename)
 	{
-		/*ft_putendl_fd("input from file", 2);*/
 		if (ft_inputfile(cmds.redirect[0].infilename))
 			return (1);
 	}
 	else
-	{
-		/*ft_putendl_fd("input from stdin", 2);*/
 		dup2(shell->tempfdin, 0);
-	}
 	if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount)
-	{
-		/*ft_putendl_fd("output to pipe", 2);*/
 		dup2(shell->pipes[forknbr + 1][1], 1);
-	}
 	else if (cmds.redirect[0].outfilename)
 	{
-		/*ft_putendl_fd("output to file", 2);*/
 		if (ft_outputfile(cmds.redirect[0].infilename, cmds.redirect[0].append))
 			return (1);
 	}
 	else
-	{
-		/*ft_putendl_fd("output to stdout", 2);*/
 		dup2(shell->tempfdout, 1);
-	}
 	return (0);
 }
