@@ -38,8 +38,8 @@ is a lightweight implementation of bash
 - ```handling conditions with no command```
 - ```;```
 - ```&```
-- ```$()```
-- ````````
+- ```$(command)```
+- ````command````
 - ```?```
 - ```[]```
 - ```#```
