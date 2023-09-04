@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/04 03:33:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/04 03:45:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ int	ft_wildcardmatch(t_cmds *cmd, t_globs *globs, int startpos)
 		globs->subdir[i] = '\0';
 	}
 	globs->start = ft_substr(globs->pipeline, 0, globs->linecount);
+	globs->end = ft_strdup(&cmd->pipeline[globs->linecount + startpos + endpos + i]);
 	ft_parsewildcard(*cmd, globs);
-	cmd->pipeline = ft_vastrjoin(3, globs->start, globs->matches, &cmd->pipeline[globs->linecount + startpos + endpos + i]);
-	ft_printglobs(*globs, "end of wildcardmatch");
+	cmd->pipeline = ft_vastrjoin(3, globs->start, globs->matches, globs->end);
 	return (endpos);
 }
 
