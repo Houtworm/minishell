@@ -31,6 +31,7 @@ is a lightweight implementation of bash
 #### Extra
 - ```Prompt with return code, execution time, and other cool things :)```
 - ```Multiline History```
+- ```History file```
 - ```~/.mshrc parsing```
 - ```handle -c argument```
 - ```handle script as argument```
