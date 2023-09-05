@@ -55,12 +55,14 @@ int	ft_outputfile(char *file, int append)
 {
 	int	fdo;
 
+	printf("file name is =%s\n", file);
 	if (ft_checkoutputfile(file))
 		return (1);
 	if (append)
 		fdo = open(file, O_RDWR | O_CREAT | O_APPEND, 0666);
 	else
 		fdo = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	printf("fd = %d\n", fdo);
 	if (fdo == -1)
 	{
 		ft_errorexit("Is a directory", file, 0);
@@ -89,7 +91,7 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		dup2(shell->pipes[forknbr + 1][1], 1);
 	else if (cmds.redirect[0].outfilename)
 	{
-		if (ft_outputfile(cmds.redirect[0].infilename, cmds.redirect[0].append))
+		if (ft_outputfile(cmds.redirect[0].outfilename, cmds.redirect[0].append))
 			return (1);
 	}
 	else
