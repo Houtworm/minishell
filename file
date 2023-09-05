@@ -1,0 +1,36 @@
+en.subject.pdf
+file
+getnextline
+libft
+LICENSE
+Makefile
+minishell
+minishell.h
+minishell.pdf
+obj
+printf
+Readme.md
+script.sh
+src
+test.sh
+total 2804
+drwxr-xr-x  9 houtworm houtworm    4096 Sep  5 18:55 .
+drwxr-xr-x 26 houtworm houtworm    4096 Aug 29 21:45 ..
+drwxr-x---  4 houtworm houtworm    4096 Jun 23 18:57 .ccls-cache
+-rw-r--r--  1 houtworm houtworm 1307414 May 21 14:20 en.subject.pdf
+-rw-r--r--  1 houtworm houtworm     134 Sep  5 18:54 file
+drwxr-xr-x  5 houtworm houtworm    4096 Sep  5 06:42 getnextline
+drwxr-xr-x  8 houtworm houtworm    4096 Sep  5 18:45 .git
+-rw-r--r--  1 houtworm houtworm      65 May 21 14:20 .gitignore
+drwxr-xr-x  5 houtworm houtworm    4096 Sep  5 06:42 libft
+-rw-r--r--  1 houtworm houtworm   35150 May 21 14:20 LICENSE
+-rw-r--r--  1 houtworm houtworm    2743 Sep  5 00:34 Makefile
+-rwxr-xr-x  1 houtworm houtworm  158312 Sep  5 18:55 minishell
+-rw-r--r--  1 houtworm houtworm    5473 Sep  5 18:52 minishell.h
+-rw-r--r--  1 houtworm houtworm 1275582 May 21 14:20 minishell.pdf
+drwxr-xr-x  8 houtworm houtworm    4096 Sep  5 06:42 obj
+drwxr-xr-x  6 houtworm houtworm    4096 Sep  5 06:42 printf
+-rw-r--r--  1 houtworm houtworm    4916 Sep  5 06:31 Readme.md
+-rw-r--r--  1 houtworm houtworm      51 Sep  4 18:17 script.sh
+drwxr-xr-x  8 houtworm houtworm    4096 Aug 26 19:58 src
+-rwxr-xr-x  1 houtworm houtworm   16044 Sep  5 06:51 test.sh

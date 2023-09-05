@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/05 18:39:49 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 18:55:47 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,14 @@ void	ft_sighandler(int sig)
 	}
 }
 
-int	ft_mainloop(t_shell *shell)
+int	ft_mainloop(t_shell *shell, int tempfdout, int tempfdin)
 {
 	char	*line;
 	int		forknumber;
 	int		status;
 
+	dup2(tempfdout, 1);
+	dup2(tempfdin, 0);
 	forknumber = 0;
 	shell->envp = ft_fdtocharpp(shell->envpfd);
 	ft_printprompt(shell, shell->envp);
@@ -57,7 +59,13 @@ int	ft_mainloop(t_shell *shell)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
+	int		tempfdin;
+	int		tempfdout;
 
+	tempfdout = 0;
+	tempfdin = 0;
+	dup2(1, tempfdout);
+	dup2(1, tempfdin);
 	signal(SIGINT, ft_sighandler);
 	signal(SIGQUIT, ft_sighandler);
 	if (argc > 1)
@@ -70,6 +78,6 @@ int	main(int argc, char **argv, char **envp)
 	else
 		shell =	ft_initstruct(envp, 0);
 	while (1)
-		ft_mainloop(shell);
+		ft_mainloop(shell, tempfdout, tempfdin);
 	return (0);
 }
