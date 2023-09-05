@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/05 06:40:52 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/05 06:50:30 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -158,10 +158,19 @@ environmentfunction()
 printf "\e[1;36mTesting basics\e[0;00m\n"
 testfunction ""
 testfunction "\"\""
-testfunction "<><>"
+testfunction "<"
+testfunction ">"
+testfunction "<<"
+testfunction ">>"
 testfunction "<>"
 testfunction "><"
+testfunction "#"
 testfunction "$"
+testfunction ";"
+testfunction "|"
+testfunction "||"
+testfunction "&"
+testfunction "&&"
 testfunction "\$NONEXISTANT"
 testfunction ".."
 testfunction "hallo"
