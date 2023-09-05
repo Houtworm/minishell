@@ -103,9 +103,9 @@ t_redirect *ft_redrc_out(t_redirect *redirect, char *line)
 	}
 	new->outfilename = ft_strdup(file[0]);
 	if (line[i - 2] == '>')
-		new->append = 0;
-	else
 		new->append = 1;
+	else
+		new->append = 0;
 	ft_frearr(tmp);
 	ft_frearr(file);
 	if (new != redirect)

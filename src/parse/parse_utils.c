@@ -101,8 +101,12 @@ int	count_wd(char *s, int c)
 	while (s[i + wd])
 	{
 		wd = ft_skipquote(s, wd);
-		if (s[i + wd] == c && s[i + wd + 1] != c && s[i + wd - 1] != c)
-			break ;
+		if (s[i + wd] == c)
+		{
+			if ((c == '|' && s[i + wd + 1] != c && s[i + wd - 1] != c)
+				|| (c != '|' && s[i + wd - 1] != c))
+				break ;	
+		}
 		wd++;
 	}
 	return (wd);
