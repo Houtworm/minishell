@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                     |o_o || |                */
+/*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/05 05:23:13 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 09:05:48 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ char		*ft_closequote(char *line);
 char	**ft_remove_quote(char	**cmd, int count);
 //redirect
 void		ft_check_redirect(t_cmds *cmds);
-t_redirect *ft_redrc_in(t_redirect *redirect, char *meta, char *file);
-t_redirect *ft_redrc_out(t_redirect *redirect, char *meta, char *file);
+t_redirect *ft_redrc_in(t_redirect *redirect, char *file);
+t_redirect *ft_redrc_out(t_redirect *redirect, char *file);
 void		ft_rdrct_add_back(t_redirect **lst, t_redirect *new);
 //condition
 t_forks		ft_parseendcondition(t_forks forks);

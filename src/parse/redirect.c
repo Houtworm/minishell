@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/04 09:43:12 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/05 09:15:07 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,44 +22,25 @@
 //ls > r2 > r3 will copy the result of ls to file3, while skipping r2
 //cat < r3 << EOF > r1 will copy the content of heredoc to r1 while skipping r3
 
-// char	*ft_removeredirect(char *line, char meta)
-// {
-// 	if (count_str(line, meta) > 1)
-// 	{
-		
-// 	}
-	
-// }
 
 void	ft_check_redirect(t_cmds *cmds)
 {
-	// char		**tmp;
-	// char		*newline;
-	// int			k;
-	// t_redirect	*p;
+	char		**tmp;
+	char		**newline;
 
-	if (ft_strnstr((*cmds).pipeline, "<<", 2))
-	{
-		(*cmds).redirect = ft_redrc_in((*cmds).redirect, "<<", (*cmds).pipeline);
-//still need to parse line without redirection symbol
-//		(*cmds).pipeline = ft_removeredirect()
-	}
-	else if (ft_strchr((*cmds).pipeline, '<'))
-	{
-		(*cmds).redirect = ft_redrc_in((*cmds).redirect, "<", (*cmds).pipeline);
-	}
-	if (ft_strnstr((*cmds).pipeline, ">>", 2))
-	{
-		(*cmds).redirect = ft_redrc_out((*cmds).redirect, ">>", (*cmds).pipeline);
-	}
-	else if (ft_strchr((*cmds).pipeline, '>'))
-	{
-		(*cmds).redirect = ft_redrc_out((*cmds).redirect, ">", (*cmds).pipeline);
-	}
+	if (ft_strchr((*cmds).pipeline, '<'))
+		(*cmds).redirect = ft_redrc_in((*cmds).redirect, (*cmds).pipeline);
+	if (ft_strchr((*cmds).pipeline, '>'))
+		(*cmds).redirect = ft_redrc_out((*cmds).redirect, (*cmds).pipeline);
+	tmp = split_not_quote((*cmds).pipeline, '>');
+	newline = split_not_quote(tmp[0], '<');
+	free((*cmds).pipeline);
+	(*cmds).pipeline = ft_strdup(newline[0]);
+	ft_frearr(tmp);
+	ft_frearr(newline);
 }
 
-//delimiter is not worling
-t_redirect *ft_redrc_in(t_redirect *redirect, char *meta, char *line)
+t_redirect *ft_redrc_in(t_redirect *redirect, char *line)
 {
 	t_redirect	*new;
 	char		**file;
@@ -83,10 +64,9 @@ t_redirect *ft_redrc_in(t_redirect *redirect, char *meta, char *line)
 		}
 		i--;
 	}
-	printf("file = %s\n", file[0]);
-	if (ft_strnstr(meta, "<<", 2))
+	if (line[i - 2] == '<')
 		new->delimiter = ft_strdup(file[0]);
-	if (!ft_strncmp(meta, "<", 1))
+	else
 		new->infilename = ft_strdup(file[0]);
 	ft_frearr(tmp);
 	ft_frearr(file);
@@ -94,7 +74,7 @@ t_redirect *ft_redrc_in(t_redirect *redirect, char *meta, char *line)
 	return (redirect);
 }
 
-t_redirect *ft_redrc_out(t_redirect *redirect, char *meta, char *line)
+t_redirect *ft_redrc_out(t_redirect *redirect, char *line)
 {
 	t_redirect	*new;
 	char		**tmp;
@@ -121,11 +101,10 @@ t_redirect *ft_redrc_out(t_redirect *redirect, char *meta, char *line)
 		}
 		i--;
 	}
-	printf("file = %s\n", file[0]);
 	new->outfilename = ft_strdup(file[0]);
-	if (!ft_strncmp(meta, ">>", 2))
+	if (line[i - 2] == '>')
 		new->append = 0;
-	if (!ft_strncmp(meta, ">", 1))
+	else
 		new->append = 1;
 	ft_frearr(tmp);
 	ft_frearr(file);

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/03 16:50:22 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/05 08:54:35 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,76 +129,3 @@ t_forks ft_parseendcondition(t_forks forks)
 	}
 	return (forks);
 }
-
-// t_forks ft_parseendcondition(t_forks forks)
-// {
-// 	int		icmd;
-// 	int		ifpip;
-// 	int		icpip;
-// 	int		check;
-
-// 	forks.cmdamount = ft_countendconditions(forks.pipeline, 0, 0);
-// 	forks.cmds = ft_calloc(10000 * sizeof(t_cmds), 1);
-// 	icmd = 0;
-// 	ifpip = 0;
-// 	while (forks.pipeline[ifpip])
-// 	{
-// 		icpip = 0;
-// 		forks.cmds[icmd].pipeline = ft_calloc(1000 * 8, 1);
-// 		while (!ft_strchr("&|;\"\'", forks.pipeline[ifpip]))
-// 		{
-// 			forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
-// 			ifpip++;
-// 			icpip++;
-// 		}
-// 		if (forks.pipeline[ifpip] == '\"' || forks.pipeline[ifpip] == '\'')
-// 		{
-// 			forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
-// 			check = ifpip;
-// 			ifpip++;
-// 			icpip++;
-// 			while (forks.pipeline[check] != forks.pipeline[ifpip])
-// 			{
-// 				forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
-// 				ifpip++;
-// 				icpip++;
-// 			}
-// 			forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
-// 			ifpip++;
-// 			icpip++;
-// 			if (forks.pipeline[ifpip] && !ft_strchr("&|\'\"", forks.pipeline[ifpip]))
-// 			{
-// 				while (forks.pipeline[ifpip] && forks.pipeline[ifpip]!= ' ')
-// 				{
-// 					forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
-// 					ifpip++;
-// 					icpip++;
-// 				}
-// 			}
-// 		}
-// 		forks.cmds[icmd].pipeline[icpip] = '\0';
-// 		if (forks.pipeline[ifpip] == '|')
-// 		{
-// 			ifpip = ifpip + 2;
-// 			forks.cmds[icmd + 1].condition = 2;
-// 		}
-// 		else if (forks.pipeline[ifpip] == '&')
-// 		{
-// 			ifpip++;
-// 			if (forks.pipeline[ifpip] == '&')
-// 			{
-// 				ifpip++;
-// 				forks.cmds[icmd + 1].condition = 1;
-// 			}
-// 			else
-// 				forks.cmds[icmd].detatch = 1;
-// 		}
-// 		else
-// 		{
-// 			ifpip++;
-// 			forks.cmds[icmd + 1].condition = 0;
-// 		}
-// 		icmd++;
-// 	}
-// 	return (forks);
-// }
