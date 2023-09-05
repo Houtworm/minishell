@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/06 00:28:38 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/06 00:54:56 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ t_shell	ft_parseline(char *line, t_shell shell)
 	line = ft_closequote(line);
 	line = ft_parsehashtag(line);
 	shell = ft_parsepipe(line, shell);
-	if (shell.debug == 1)
+	if (shell.debug)
 		ft_printshell(shell);
 	forknumber = 0;
 	while (shell.forkamount > forknumber)
 	{
 		shell.forks[forknumber] = ft_parseendcondition(shell.forks[forknumber]);
-		if (shell.debug == 1)
+		if (shell.debug)
 			ft_printforks(shell.forks[forknumber], forknumber);
 		forknumber++;
 	}
