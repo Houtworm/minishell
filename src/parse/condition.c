@@ -98,7 +98,7 @@ t_forks ft_parseendcondition(t_forks forks)
 			if (forks.pipeline[ifpip] && !ft_strchr("&|", forks.pipeline[ifpip]))
 			{
 				while ((ft_strnstr(forks.cmds[icmd].pipeline, "echo", 4) && forks.pipeline[ifpip] == ' ')
-					|| (forks.pipeline[ifpip] && forks.pipeline[ifpip]!= ' '))
+					|| (forks.pipeline[ifpip] && !ft_strchr("&|; ", forks.pipeline[ifpip])))
 				{
 					forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
 					ifpip++;
@@ -114,13 +114,13 @@ t_forks ft_parseendcondition(t_forks forks)
 		}
 		else if (forks.pipeline[ifpip] == '&')
 		{
-			if (forks.pipeline[ifpip] == '&')
+			if (forks.pipeline[ifpip + 1] == '&')
 			{
 				ifpip++;
 				forks.cmds[icmd + 1].condition = 1;
 			}
 			else
-				forks.cmds[icmd].detatch = 1;
+				forks.cmds[icmd].detatch++;
 		}
 		else
 			forks.cmds[icmd + 1].condition = 0;

@@ -18,7 +18,6 @@ t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 
 	shell.forks[forknumber].cmds[cmdnumber].envp = shell.envp;
 	shell.forks[forknumber].cmds[cmdnumber].debug = shell.debug;
-	shell.forks[forknumber].cmds[cmdnumber].detatch = 0;
 	shell.forks[forknumber].cmds[cmdnumber].forkamount = shell.forkamount;
 	shell.forks[forknumber].cmds[cmdnumber].redirect = ft_calloc(10 * sizeof(t_redirect), 1);
 	ft_executepriority(&shell.forks[forknumber].cmds[cmdnumber]);
