@@ -30,6 +30,7 @@ is a lightweight implementation of bash
 - ```*```
 #### Extra
 - ```Prompt with return code, execution time, and other cool things :)```
+- ```debug mode```
 - ```Multiline History```
 - ```History file```
 - ```~/.mshrc parsing```

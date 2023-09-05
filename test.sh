@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/03 22:34:40 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/05 02:20:57 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -352,6 +352,68 @@ printf "\e[1;36mTesting * Wildcards\e[0;00m\n"
 testfunction "ls *rc"
 testfunction "ls *r*"
 testfunction "ls *rc/b*"
+
+# ? joker
+printf "\e[1;36mTesting ? Jokers\e[0;00m\n"
+testfunction "ls ?rc"
+testfunction "ls ?r?"
+testfunction "ls ?rc/???????"
+
+# [] anyof
+printf "\e[1;36mTesting [] anyof\e[0;00m\n"
+testfunction "ls [s]rc"
+testfunction "ls [so][rb][cj]"
+
+# # comments
+printf "\e[1;36mTesting # comments\e[0;00m\n"
+testfunction "#"
+testfunction "printf \"hallo hallo\" #&& echo hallo"
+testfunction "printf \"hallo hallo\"# && echo hallo"
+testfunction "printf \"hallo hallo\"#&& echo hallo"
+testfunction "printf \"hallo hallo\" # && echo hallo"
+testfunction "printf \"hallo hallo\" #|| echo hallo"
+testfunction "printf \"hallo hallo\"# || echo hallo"
+testfunction "printf \"hallo hallo\"#|| echo hallo"
+testfunction "printf \"hallo hallo\" # || echo hallo"
+testfunction "printf \"hallo hallo\" #| echo hallo"
+testfunction "printf \"hallo hallo\"# | echo hallo"
+testfunction "printf \"hallo hallo\"#| echo hallo"
+testfunction "printf \"hallo hallo\" # | echo hallo"
+testfunction "printf \"hallo hallo\" #; echo hallo"
+testfunction "printf \"hallo hallo\"# ; echo hallo"
+testfunction "printf \"hallo hallo\"#; echo hallo"
+testfunction "printf \"hallo hallo\" # ; echo hallo"
+testfunction "printf \"hallo hallo # hallo\"; echo hallo"
+testfunction "printf 'hallo hallo # hallo'; echo hallo"
+testfunction "echo hallo hallo # hallo; echo hallo"
+
+# `` backticks
+printf "\e[1;36mTesting \`\` backticks\e[0;00m\n"
+testfunction "printf \`echo hallo\`"
+testfunction "printf \"\`echo hallo\`\""
+testfunction "printf '\`echo hallo\`'"
+testfunction "printf '\`echo hallo\`e'"
+testfunction "printf '\`echo hallo\`'e"
+testfunction "printf 'e\`echo hallo\`'"
+testfunction "printf e'\`echo hallo\`'"
+testfunction "printf \"\`echo hallo\`e\""
+testfunction "printf \"\`echo hallo\`\"e"
+testfunction "printf \"e\`echo hallo\`\""
+testfunction "printf e\"\`echo hallo\`\""
+
+# $() Command Substitution
+printf "\e[1;36mTesting \$() command substitution \e[0;00m\n"
+testfunction "printf \$(echo hallo)"
+testfunction "printf \"\$(echo hallo)\""
+testfunction "printf '\$(echo hallo)'"
+testfunction "printf '\$(echo hallo)e'"
+testfunction "printf '\$(echo hallo)'e"
+testfunction "printf 'e\$(echo hallo)'"
+testfunction "printf e'\$(echo hallo)'"
+testfunction "printf \"\$(echo hallo)e\""
+testfunction "printf \"\$(echo hallo)\"e"
+testfunction "printf \"e\$(echo hallo)\""
+testfunction "printf e\"\$(echo hallo)\""
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO's and $PASSES OK's\e[0;00m\n"
