@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/05 01:46:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 04:06:39 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_executeforks(t_forks forks, int forknbr, t_shell *shell)
 	{
 		*shell = ft_parsecmds(*shell, forknbr, cmdnbr);
 		if (shell->debug == 1)
-			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr);
+			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(forks.cmds[cmdnbr], cmdnbr, forknbr, shell);
 		cmdnbr++;
 		forks.cmds[cmdnbr].lastcode = status;
