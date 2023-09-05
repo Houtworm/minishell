@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/05 03:42:39 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 05:13:17 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	ft_parsewildcard(t_cmds cmd, t_globs *globs)
 			}
 		}
 	}
+	closedir(dir);
 	if (!globs->matches)
 		globs->matches = ft_vastrjoin(4, globs->gstart, "*", globs->gend);
 	if (cmd.debug == 1)

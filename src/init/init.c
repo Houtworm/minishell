@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:28 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/05 04:33:29 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 05:11:10 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_alias	*ft_parsemshrc(char **envp)
 		i++;
 	}
 	alias[i].var = NULL;
+	close(mshrcfile);
 	return (alias);
 }
 

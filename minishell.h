@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/05 04:34:11 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 05:23:13 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ typedef struct s_shell
 	int			code;
 	int			debug;
 	int			**pipes;
-	int			tempfdin;
-	int			tempfdout;
 	int			forkamount;
 	char		*line;
 }	t_shell;

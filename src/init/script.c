@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/23 14:59:51 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/05 01:40:36 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/05 05:12:38 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	ft_runscript(int argc, char **argv, char **envp)
 				code = ft_forktheforks(&shell);
 				free(line);
 			}
+			close(fd);
 			i++;
 		}
 	}
