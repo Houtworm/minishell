@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/05 00:27:40 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/05 04:41:06 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/06 00:40:13 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ void	ft_printdup(t_cmds cmds, int cmdnbr, int forknbr)
 	else if (cmds.redirect[0].delimiter)
 		printf("\e[1;32minput from heredoc\e[0;00m\n");
 	else if (cmds.redirect[0].infilename)
-		printf("\e[1;32minput from file\e[0;00m\n");
+		printf("\e[1;32minput from file %s\e[0;00m\n", cmds.redirect[0].infilename);
 	else
 		printf("\e[1;32minput from stdin\e[0;00m\n");
 	if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount)
 		printf("\e[1;32moutput to pipe\e[0;00m\n");
 	else if (cmds.redirect[0].outfilename)
-		printf("\e[1;32moutput to file\e[0;00m\n");
+		printf("\e[1;32moutput to file %s\e[0;00m\n", cmds.redirect[0].outfilename);
 	else
 		printf("\e[1;32moutput to stdout\e[0;00m\n");
 }
