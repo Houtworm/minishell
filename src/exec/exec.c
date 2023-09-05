@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/05 18:46:08 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/06 00:24:42 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	status;
 
+	ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 	cmds.code = ft_builtincheck(cmds);
 	if (cmds.code == -1111)
 	{
@@ -46,7 +47,6 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			return (status);
 		if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
 			return (cmds.lastcode);
-		ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 		cmds.pid = fork();
 		if (cmds.pid == 0)
 		{
@@ -59,20 +59,20 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	return (cmds.code);
 }
 
-int	ft_executeforks(t_forks forks, int forknbr, t_shell *shell)
+int	ft_executeforks(int forknbr, t_shell *shell)
 {
 	int	status;
 	int	cmdnbr;
 
 	cmdnbr = 0;
-	while (forks.cmdamount > cmdnbr)
+	while (shell->forks[forknbr].cmdamount > cmdnbr)
 	{
 		*shell = ft_parsecmds(*shell, forknbr, cmdnbr);
 		if (shell->debug == 1)
 			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
-		status = ft_executecommand(forks.cmds[cmdnbr], cmdnbr, forknbr, shell);
+		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
 		cmdnbr++;
-		forks.cmds[cmdnbr].lastcode = status;
+		shell->forks[forknbr].cmds[cmdnbr].lastcode = status;
 	}
 	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/05 18:52:03 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/06 00:24:22 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,6 @@ typedef struct s_shell
 // MAIN
 // main
 int			main(int argc, char **argv, char **envp);
-//int			ft_mainloop(t_shell *shell);
-void		ft_sighandler(int sig);
 
 // TOOLS
 // tools
@@ -180,7 +178,7 @@ int			ft_forktheforks(t_shell *shell);
 // priority
 void		ft_executepriority(t_cmds *cmd);
 // exec
-int			ft_executeforks(t_forks forks, int forknbr, t_shell *shell);
+int			ft_executeforks(int forknbr, t_shell *shell);
 // dupmachine
 int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
 //verify

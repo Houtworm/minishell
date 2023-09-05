@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/05 06:50:30 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/06 00:11:15 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -248,7 +248,7 @@ testfunction "export _bla"
 environmentfunction "export _bla" "_bla"
 testfunction "export PATH=bahbah"
 environmentfunction "export PATH=bahbah" "PATH"
-testfunction "export arg=\"-la\" && ls $arg"
+testfunction "export arg=\"-la\" && ls \$arg"
 testfunction "export arg=a && export \$var=test && echo \$var \$a"
 testfunction "export \$abc=a && unset abc"
 environmentfunction "export \$abc=a && unset abc" "abc"
