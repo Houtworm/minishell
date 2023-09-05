@@ -139,6 +139,9 @@ is a lightweight implementation of bash
 #### crashes when giving proper memory and a lot of arguments
 #### Overwrites line when typing past the terminal width at first command
 #### piping fails when echo is the first arg
+#### cat | cat | cat | ls // should exit when enter is pressed 3 times
+#### cat /dev/random | head -n 1 // keeps running forever
+#### Test the signals from prompt and from cat
 ---
 ## Extras
 #### Handle scripts from stdin or argument (very handy for testing)
