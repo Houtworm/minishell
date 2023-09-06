@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/09/03 22:26:01 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/06 16:50:19 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,40 @@ int	ft_echo(t_cmds cmds)
 	char	*print;
 	int		i;
 	int		j;
+	int		l;
 	int		flag;
 
 	i = 0;
 	j = 1;
+	l = 0;
 	flag = 0;
 	if (cmds.arguments[1])
 	{
 		print = ft_calloc(512, 1);
-		if (cmds.arguments[1][0] == '-')
+		if (cmds.arguments[j][0] == '-')
 		{
-			i++;
-			while (cmds.arguments[1][i] == 'n')
-				i++;
-			if (cmds.arguments[1][i] == '\0')
+			l++;
+			while (cmds.arguments[j][l] == 'n')
+				l++;
+			if (cmds.arguments[j][l] == '\0')
 			{
+				i = i + l;
 				flag = 1;
-				ft_echorecursion(cmds, print, 0, 2);
 			}
-			else
+			j++;
+			while (cmds.arguments[j] && cmds.arguments[j][0] == '-')
 			{
-				i = 0;
-				j = ft_echorecursion(cmds, print, i, j);
+				l = 1;
+				while (cmds.arguments[j] && cmds.arguments[j][l] == 'n')
+					l++;
+				if (cmds.arguments[j][l] == '\0')
+					i = i + l;
+				else
+					break ;
+				j++;
 			}
 		}
-		else
-			ft_echorecursion(cmds, print, i, j);
+		ft_echorecursion(cmds, print, 0, j);
 		if (flag == 0)
 			ft_putendl(print);
 		else
