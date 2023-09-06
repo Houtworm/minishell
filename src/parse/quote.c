@@ -66,16 +66,31 @@ char	**ft_remove_quote(char	**cmd, int count)
 		k = 0;
 		while (tmp[i])
 		{
-			while (tmp[i] == '\"' || tmp[i] == '\'')
+			while ((!check || check == tmp[i]) && (tmp[i] == '\"' || tmp[i] == '\''))
 			{
-				check = tmp[i];
+				if (check == tmp[i])
+					check = '\0';
+				else
+					check = tmp[i];
 				i++;
 			}
-			while (tmp[i] && tmp[i] != check)
+			if (check)
 			{
-				cmd[count][k] = tmp[i];
-				i++;
-				k++;
+				while (tmp[i] && tmp[i] != check)
+				{
+					cmd[count][k] = tmp[i];
+					i++;
+					k++;
+				}
+			}
+			else
+			{
+				while (tmp[i] && tmp[i] != '\"' && tmp[i] != '\'')
+				{
+					cmd[count][k] = tmp[i];
+					i++;
+					k++;
+				}
 			}
 		}
 		while (cmd[count][k])

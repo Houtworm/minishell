@@ -450,7 +450,6 @@ printf "\e[1;36mTesting quotes\e[0;00m\n"
 testfunction "''"
 testfunction "printf \"hallo\""
 testfunction "printf 'hallo'"
-testfunction "printf '\"hallo'\""
 testfunction "printf ''\"hallo\"''"
 testfunction "printf \"'\"hallo\"'\""
 testfunction "printf '\"'\"hallo\"'\"'"
@@ -471,6 +470,8 @@ testfunction "printf \"hallo
 testfunction "printf \"hallo
 \"\"hallo
 \"   \"hallo
+\""
+testfunction "printf '\"hallo'\"
 \""
 
 # open ' quotes

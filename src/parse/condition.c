@@ -23,9 +23,9 @@ int		ft_countendconditions(char *line, int count, int i)
 			i = ft_skipquote(line, i) + 1;
 			while (line[i] == ' ')
 				i++;
+			while (!ft_strchr("&|;\'\"", line[i]))
+				i++;
 		}
-		while (!ft_strchr("&|;\'\"", line[i]))
-			i++;
 		count++;
 		if (line[i] == '&')
 		{

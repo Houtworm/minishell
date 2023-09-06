@@ -66,9 +66,9 @@ int	count_str(char *s, int c)
 
 	str_count = 0;
 	i = 0;
-	while (s[i] && s[i] == c)
+	while (s && s[i] && s[i] == c)
 		i++;
-	while (s[i])
+	while (s && s[i])
 	{
 		while (s[i] && s[i] != c)
 		{
