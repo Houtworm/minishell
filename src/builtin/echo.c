@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/09/06 16:50:19 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/06 16:53:54 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,18 @@ int	ft_echo(t_cmds cmds)
 			{
 				i = i + l;
 				flag = 1;
-			}
-			j++;
-			while (cmds.arguments[j] && cmds.arguments[j][0] == '-')
-			{
-				l = 1;
-				while (cmds.arguments[j] && cmds.arguments[j][l] == 'n')
-					l++;
-				if (cmds.arguments[j][l] == '\0')
-					i = i + l;
-				else
-					break ;
 				j++;
+				while (cmds.arguments[j] && cmds.arguments[j][0] == '-')
+				{
+					l = 1;
+					while (cmds.arguments[j] && cmds.arguments[j][l] == 'n')
+						l++;
+					if (cmds.arguments[j][l] == '\0')
+						i = i + l;
+					else
+						break ;
+					j++;
+				}
 			}
 		}
 		ft_echorecursion(cmds, print, 0, j);
