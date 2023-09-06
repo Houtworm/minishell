@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/06 00:24:22 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/06 04:38:31 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef struct s_redirect
 {
 	char				*infilename;
 	char				*outfilename;
-	int					append; //0 for trunc, 1 for append, 2 for just touch (if it should remain empty)
-	char				*delimiter; // the EOF thingy in heredoc :)
+	int					append;
+	char				*delimiter;
 	struct s_redirect	*nxt;
 }	t_redirect;
 
@@ -63,7 +63,7 @@ typedef struct s_cmds
 	char		**arguments;
 	int			detatch;
 	char		*pipeline;
-	int			condition; // 0 for non, 1 for &&, 2 for || 
+	int			condition;
 	int			pid;
 	int			code;
 	int			lastcode;
@@ -92,6 +92,8 @@ typedef struct s_shell
 	int			debug;
 	int			**pipes;
 	int			forkamount;
+	int			fdin;
+	int			fdout;
 	char		*line;
 }	t_shell;
 
@@ -153,7 +155,7 @@ int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
 //globs
 int			ft_parseglobs(t_cmds *cmd);
 //wildcard
-void		ft_parsewildcard(t_cmds cmd, t_globs *globs);
+//void		ft_parsewildcard(t_cmds cmd, t_globs *globs);
 //tools
 int			ft_checkoutquote(char *line, char target, int mode);
 //parse_utils
@@ -162,15 +164,6 @@ int			ft_skipquote(char *s, int i);
 int			count_str(char *s, int c);
 int			count_wd(char *s, int c);
 char		**split_not_quote(char *s, int c);
-//struct
-//t_forks		*ft_parsespchr(t_forks *forks, t_shell *shell);
-//t_forks 	*ft_parsepipe(char *line, t_shell *shell);
-//t_forks		ft_fill_teststrct(t_forks forks, t_shell *shell, char *cmd, int cmdamount);
-//exec_strct
-//int			symbol_check(char	*s);
-//int			count_str2(char *s);
-//int			count_wd2(char *s);
-//char		**split_spchr(char *s);
 
 // EXEC
 // fork

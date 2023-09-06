@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/06 00:11:15 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/06 02:49:09 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -158,20 +158,6 @@ environmentfunction()
 printf "\e[1;36mTesting basics\e[0;00m\n"
 testfunction ""
 testfunction "\"\""
-testfunction "<"
-testfunction ">"
-testfunction "<<"
-testfunction ">>"
-testfunction "<>"
-testfunction "><"
-testfunction "#"
-testfunction "$"
-testfunction ";"
-testfunction "|"
-testfunction "||"
-testfunction "&"
-testfunction "&&"
-testfunction "\$NONEXISTANT"
 testfunction ".."
 testfunction "hallo"
 testfunction "perm"
@@ -230,6 +216,10 @@ testfunction "echo \"hey\"\"hey\""
  # variable
 printf "\e[1;36mTesting \$VAR variable\e[0;00m\n"
 testfunction "echo \$SHLVL\"\$SHLVL\"\$SHLVL'\$SHLVL'\$SHLVL"
+testfunction "printf \$FAKEVAR"
+testfunction "printf \$SHLVL"
+testfunction "printf \$PWD"
+testfunction "printf \$?"
 
 # export
 printf "\e[1;36mTesting export\e[0;00m\n"
@@ -326,30 +316,94 @@ testfunction "pwd"
 testfunction "pwd bla"
 testfunction "pwd -wat"
 
-# redirections
-printf "\e[1;36mTesting redirections\e[0;00m\n"
-redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
+# > trunctuate
+printf "\e[1;36mTesting > trunctuate \e[0;00m\n"
+testfunction ">"
 redirectfunction "cat r1 > r2 > r3" "cat m1 > m2 > m3"
-redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
 redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > r3" "printf 'blabla' > m1; printf 'blabla' > m2; printf 'blabla' > m3"
 redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
-redirectfunction "echo "hoi" > | r1" "echo "hoi" > | m1"
-redirectfunction "echo "hoi" >| r1" "echo "hoi" > | m1"
+redirectfunction "echo \"hoi\" > | r1" "echo \"hoi\" > | m1"
+redirectfunction "echo \"hoi\" >| r1" "echo \"hoi\" > | m1"
 redirectfunction "> r1 | echo blabla" "> m1 | echo blabla"
 redirectfunction "exit > r1" "exit > m1"
 redirectfunction "cd .. > r1" "cd .. > m1"
 redirectfunction "> r1" "> m1"
-redirectfunction "cat -e > r1 < r2" "cat -e > m1 < m2"
-redirectfunction "cat < r1" "cat < m1"
-redirectfunction "echo 2 > r1 >> r2" "echo 2 > m1 >> m2"
-redirectfunction "echo 2 >> r1 > r2" "echo 2 >> m1 > m2"
+redirectfunction "echo 2 > r1 > r2" "echo 2 > m1 > m2"
+redirectfunction "echo 2 > r1 > r2" "echo 2 > m1 > m2"
 redirectfunction "echo test > r1 r2" "echo test > m1 m2"
 redirectfunction "Non_exist_cmd > r1" "Non_exist_cmd > m1"
+
+# >> append
+printf "\e[1;36mTesting >> append \e[0;00m\n"
+testfunction ">>"
+redirectfunction "cat r1 >> r2 >> r3" "cat m1 >> m2 >> m3"
+redirectfunction "printf 'blabla' >> r1; printf 'blabla' >> r2; printf 'blabla' >> r3" "printf 'blabla' >> m1; printf 'blabla' >> m2; printf 'blabla' >> m3"
+redirectfunction "printf 'blabla' >> r1 && printf 'blabla' >> r2 && printf 'blabla' >> r3" "printf 'blabla' >> m1 && printf 'blabla' >> m2 && printf 'blabla' >> m3"
+redirectfunction "echo \"hoi\" >> | r1" "echo \"hoi\" >> | m1"
+redirectfunction "echo \"hoi\" >>| r1" "echo \"hoi\" >> | m1"
+redirectfunction ">> r1 | echo blabla" ">> m1 | echo blabla"
+redirectfunction "exit >> r1" "exit >> m1"
+redirectfunction "cd .. >> r1" "cd .. >> m1"
+redirectfunction ">> r1" ">> m1"
+redirectfunction "echo 2 >> r1 >> r2" "echo 2 >> m1 >> m2"
+redirectfunction "echo 2 >> r1 >> r2" "echo 2 >> m1 >> m2"
+redirectfunction "echo test >> r1 r2" "echo test >> m1 m2"
+redirectfunction "Non_exist_cmd >> r1" "Non_exist_cmd >> m1"
+
+# < input from
+printf "\e[1;36mTesting < input from \e[0;00m\n"
+testfunction "<"
+redirectfunction "cat < r1" "cat < m1"
+
+# << heredoc
+printf "\e[1;36mTesting << heredoc \e[0;00m\n"
+testfunction "<<"
+testfunction "echo << EOF
+t e s t
+EOF
+"
+testfunction "echo << EOF
+t e s t
+EOF"
+testfunction "echo << EOF
+t e s t
+EOF 
+EOF
+"
+testfunction "echo << EOF
+t e s t
+ EOF
+EOF
+"
+
+# <<< herestring
+printf "\e[1;36mTesting <<< herestring \e[0;00m\n"
+testfunction "<<<"
+
+# < << >> > redirection combinations
+printf "\e[1;36mTesting < << >> > redirection combinations \e[0;00m\n"
+redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
+redirectfunction "cat -e > r1 < r2" "cat -e > m1 < m2"
+redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
 #redirectfunction "< r1 cat | << EOF cat | cat >> r3" "< m1 cat | << EOF cat | cat >> m3"
 
+# ; Command end
+printf "\e[1;36mTesting ; command end\e[0;00m\n"
+testfunction ";"
+testfunction "echo hello ; echo 'hello'"
+testfunction "echo hello ;echo 'hello'"
+testfunction "echo hello;echo 'hello'"
+testfunction "echo hello;;echo 'hello'"
+testfunction "echo hello; ;echo 'hello'"
+testfunction "echo hello&&;echo 'hello'"
+testfunction "echo hello&& ;echo 'hello'"
+testfunction "echo hello||;echo 'hello'"
+testfunction "echo hello|| ;echo 'hello'"
+testfunction "sleep 1 ; sleep 1 ; sleep 1"
 
-# and operator
-printf "\e[1;36mTesting and operator\e[0;00m\n"
+# && and operator
+printf "\e[1;36mTesting && and operator\e[0;00m\n"
+testfunction "&&"
 testfunction "echo hello && echo 'hello'"
 testfunction "echo hello &&echo 'hello'"
 testfunction "echo hello&&echo 'hello'"
@@ -359,8 +413,9 @@ testfunction "echo hello&&;echo 'hello'"
 testfunction "echo hello&& ;echo 'hello'"
 testfunction "sleep 1 && sleep 1 && sleep 1"
 
-# or operator
-printf "\e[1;36mTesting or operator\e[0;00m\n"
+# || or operator
+printf "\e[1;36mTesting || or operator\e[0;00m\n"
+testfunction "||"
 testfunction "echo hello || echo 'hello'"
 testfunction "echo hello ||echo 'hello'"
 testfunction "echo hello||echo 'hello'"
@@ -370,8 +425,9 @@ testfunction "echo hello||;echo 'hello'"
 testfunction "echo hello|| ;echo 'hello'"
 testfunction "sleep 1 || sleep 1 || sleep 1"
 
-# expansion
-printf "\e[1;36mTesting expansion\e[0;00m\n"
+# $VAR variables
+printf "\e[1;36mTesting \$VAR variables\e[0;00m\n"
+testfunction "$"
 testfunction "echo \$''"
 testfunction "echo \$PWD"
 testfunction "echo \$?"
@@ -382,6 +438,7 @@ testfunction "ls \$HOME"
 
 # piping
 printf "\e[1;36mTesting piping\e[0;00m\n"
+testfunction "|"
 testfunction "cat /dev/random | head -n 1"
 testfunction "sleep 1 | sleep 1 | sleep 1"
 testfunction "cat Makefile | grep pr | head -n 5 | hello"
@@ -390,6 +447,7 @@ testfunction "ls | exit"
 
 # quotes
 printf "\e[1;36mTesting quotes\e[0;00m\n"
+testfunction "''"
 testfunction "printf \"hallo\""
 testfunction "printf 'hallo'"
 testfunction "printf '\"hallo'\""
@@ -399,8 +457,9 @@ testfunction "printf '\"'\"hallo\"'\"'"
 testfunction "echo '\"abc\"'"
 testfunction "echo \"\" bonjour"
 
-# open quotes
-printf "\e[1;36mTesting open quotes\e[0;00m\n"
+# open " quotes
+printf "\e[1;36mTesting \" open quotes\e[0;00m\n"
+testfunction "\""
 testfunction "printf \"hallo
 hallo\""
 testfunction "printf \"
@@ -409,6 +468,14 @@ testfunction "printf \"hallo
 \"\"hallo
 \"\"hallo
 \""
+testfunction "printf \"hallo
+\"\"hallo
+\"   \"hallo
+\""
+
+# open ' quotes
+printf "\e[1;36mTesting ' open quotes\e[0;00m\n"
+testfunction "'"
 testfunction "printf 'hallo
 hallo'"
 testfunction "printf '
@@ -422,20 +489,68 @@ testfunction "printf 'hallo
 '   'hallo
 '"
 
+# ( open parenthesis
+printf "\e[1;36mTesting ( open parenthesis\e[0;00m\n"
+testfunction "("
+testfunction "printf \$(echo hallo
+hallo)"
+testfunction "printf \$(nfsbgdf
+)"
+testfunction "printf \$(echo hallo
+)"hallo
+testfunction "printf \$(
+)"
+testfunction "printf \$(echo hallo
+) && echo \$(echo hallo
+)"
+
+# ` open backticks
+printf "\e[1;36mTesting \` open backticks\e[0;00m\n"
+testfunction "\`"
+testfunction "printf \`echo hallo
+hallo\`"
+testfunction "printf \`nfsbgdf
+\`"
+testfunction "printf \`echo hallo
+\`"hallo
+testfunction "printf \`
+\`"
+testfunction "printf \`(echo hallo
+\` && echo \`echo hallo
+\`"
+
+# (`"' open combinations
+printf "\e[1;36mTesting (\`\'\" open combinations\e[0;00m\n"
+testfunction "printf \`echo hallo
+hallo\` && \$(echo hallo
+) || echo \"hallo
+\""
+testfunction "printf \`echo 'hallo
+hallo'\`"
+testfunction "printf \$(echo 'hallo
+hallo')"
+testfunction "printf \`echo \"hallo
+hallo\"\`"
+testfunction "printf \$(echo \"hallo
+hallo\")"
+
 # * wildcards
 printf "\e[1;36mTesting * Wildcards\e[0;00m\n"
+testfunction "*"
 testfunction "ls *rc"
 testfunction "ls *r*"
 testfunction "ls *rc/b*"
 
 # ? joker
 printf "\e[1;36mTesting ? Jokers\e[0;00m\n"
+testfunction "?"
 testfunction "ls ?rc"
 testfunction "ls ?r?"
 testfunction "ls ?rc/???????"
 
 # [] anyof
 printf "\e[1;36mTesting [] anyof\e[0;00m\n"
+testfunction "[]"
 testfunction "ls [s]rc"
 testfunction "ls [so][rb][cj]"
 
@@ -464,6 +579,7 @@ testfunction "echo hallo hallo # hallo; echo hallo"
 
 # `` backticks
 printf "\e[1;36mTesting \`\` backticks\e[0;00m\n"
+testfunction "\`\`"
 testfunction "printf \`echo hallo\`"
 testfunction "printf \"\`echo hallo\`\""
 testfunction "printf '\`echo hallo\`'"
@@ -478,6 +594,7 @@ testfunction "printf e\"\`echo hallo\`\""
 
 # $() Command Substitution
 printf "\e[1;36mTesting \$() command substitution \e[0;00m\n"
+testfunction "\$()"
 testfunction "printf \$(echo hallo)"
 testfunction "printf \"\$(echo hallo)\""
 testfunction "printf '\$(echo hallo)'"
@@ -489,6 +606,11 @@ testfunction "printf \"\$(echo hallo)e\""
 testfunction "printf \"\$(echo hallo)\"e"
 testfunction "printf \"e\$(echo hallo)\""
 testfunction "printf e\"\$(echo hallo)\""
+
+# Syntax errors
+printf "\e[1;36mTesting Syntax errors \e[0;00m\n"
+testfunction "<>"
+testfunction "><"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO's and $PASSES OK's\e[0;00m\n"
