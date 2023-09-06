@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/06 11:49:19 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/06 12:43:51 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,6 @@ int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 	return (startpos);
 }
 
-void	ft_checkglobmatch(t_globs *globs, char *dir)
-{	// should check if it actually matches with parent and sub dir
-	/*char	*temp;*/
-
-	globs->pardir = ft_strdup(dir);
-	globs->matches = ft_vastrjoin(4, globs->matches, dir, globs->subdir, " ");
-}
-
 void	ft_parsewildcard(t_cmds cmd, t_globs *globs)
 {
 	DIR				*dir;
@@ -74,7 +66,7 @@ void	ft_parsewildcard(t_cmds cmd, t_globs *globs)
 						globs->matches = ft_vastrjoin(4, globs->matches, dirents->d_name, globs->subdir, " ");
 				if (globs->period == 0)
 					if (dirents->d_name[0] != '.')
-						globs->matches = ft_vastrjoin(4, globs->matches, dirents->d_name, globs->subdir, " ");
+						globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dirents->d_name, globs->subdir, " ");
 			}
 		}
 	}
