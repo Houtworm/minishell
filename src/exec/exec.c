@@ -53,10 +53,10 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			execve(cmds.absolute, cmds.arguments, cmds.envp);
 			exit (-1);
 		}
-		waitpid(cmds.pid, &status, 0);
-		cmds.code = WEXITSTATUS(status);
 		dup2(shell->fdout, 1);
 		dup2(shell->fdin, 0);
+		waitpid(cmds.pid, &status, 0);
+		cmds.code = WEXITSTATUS(status);
 	}
 	return (cmds.code);
 }
