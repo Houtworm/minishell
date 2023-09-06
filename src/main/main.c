@@ -36,7 +36,7 @@ int	ft_mainloop(t_shell *shell)
 	shell->envp = ft_fdtocharpp(shell->envpfd);
 	ft_printprompt(shell, shell->envp);
 	line = readline("❯ ");
-	shell->starttime = ft_gettimems(shell->envp);
+	//shell->starttime = ft_gettimems(shell->envp);
 	if (!line)
 		return (1);
 	if (!ft_isallbyte(line, ' '))

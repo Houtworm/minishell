@@ -38,3 +38,20 @@ int	ft_checkoutquote(char *line, char target, int mode)
 	}
 	return (-1);
 }
+
+
+char	**ft_checkarg(char	**cmd, int count)
+{
+	char	**tmp;
+
+	if (!ft_strncmp(cmd[0], "printf", 6))
+	{
+		tmp = ft_calloc(3, sizeof(char *));
+		tmp[0] = ft_strdup(cmd[0]);
+		tmp[1] = ft_strdup(cmd[1]);
+		ft_frearr(cmd);
+		cmd = tmp;
+	}
+	cmd = ft_remove_quote(cmd, count);
+	return (cmd);
+}

@@ -158,6 +158,8 @@ int			ft_parseglobs(t_cmds *cmd);
 //void		ft_parsewildcard(t_cmds cmd, t_globs *globs);
 //tools
 int			ft_checkoutquote(char *line, char target, int mode);
+char	**ft_checkarg(char	**cmd, int count);
+
 //parse_utils
 int			check_quote_closed(char *s);
 int			ft_skipquote(char *s, int i);

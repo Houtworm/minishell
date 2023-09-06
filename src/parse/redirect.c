@@ -27,7 +27,7 @@ void	ft_check_redirect(t_cmds *cmds)
 {
 	char		**tmp;
 	char		**newline;
-	//printf ("test\n");
+	
 	if (ft_strchr((*cmds).pipeline, '<'))
 		(*cmds).redirect = ft_redrc_in((*cmds).redirect, (*cmds).pipeline);
 	if (ft_strchr((*cmds).pipeline, '>'))
@@ -101,7 +101,6 @@ t_redirect *ft_redrc_out(t_redirect *redirect, char *line)
 		}
 		i--;
 	}
-//	printf ("file name: %s\n", file[0]);
 	new->outfilename = ft_strdup(file[0]);
 	if (line[i - 2] == '>')
 		new->append = 1;

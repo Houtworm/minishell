@@ -27,7 +27,7 @@ t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 	ft_check_redirect(&shell.forks[forknumber].cmds[cmdnumber]);
 	paths = ft_getpaths(shell.envp, 1);
 	shell.forks[forknumber].cmds[cmdnumber].arguments = split_not_quote(shell.forks[forknumber].cmds[cmdnumber].pipeline, ' ');
-	shell.forks[forknumber].cmds[cmdnumber].arguments = ft_remove_quote(shell.forks[forknumber].cmds[cmdnumber].arguments, 0);
+	shell.forks[forknumber].cmds[cmdnumber].arguments = ft_checkarg(shell.forks[forknumber].cmds[cmdnumber].arguments, 0);
 	shell.forks[forknumber].cmds[cmdnumber].cmdamount = shell.forks[forknumber].cmdamount;
 	shell.forks[forknumber].cmds[cmdnumber].absolute = ft_abspathcmd(paths, shell.forks[forknumber].cmds[cmdnumber].arguments[0]);
 	ft_frearr(paths);

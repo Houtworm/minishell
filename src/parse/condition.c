@@ -95,15 +95,11 @@ t_forks ft_parseendcondition(t_forks forks)
 				icpip = ft_strlen(forks.cmds[icmd].pipeline);
 				ifpip = ft_skipquote(forks.pipeline, ifpip) + 1;
 			}
-			if (forks.pipeline[ifpip] && !ft_strchr("&|", forks.pipeline[ifpip]))
+			while (forks.pipeline[ifpip] && !ft_strchr("&|;", forks.pipeline[ifpip]))
 			{
-				while ((ft_strnstr(forks.cmds[icmd].pipeline, "echo", 4) && forks.pipeline[ifpip] == ' ')
-					|| (forks.pipeline[ifpip] && !ft_strchr("&|; ", forks.pipeline[ifpip])))
-				{
 					forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
 					ifpip++;
 					icpip++;
-				}
 			}
 		}
 		forks.cmds[icmd].pipeline[icpip] = '\0';
