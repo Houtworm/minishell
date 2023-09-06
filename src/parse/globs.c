@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/06 07:47:18 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/06 11:49:19 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	ft_parsewildcard(t_cmds cmd, t_globs *globs)
 int	ft_parseglob(t_cmds *cmd, t_globs *globs)
 {
 	ft_parsewildcard(*cmd, globs);
-	globs->pipeline = ft_vastrjoin(3, globs->start, globs->matches, globs->end);
 	return (0);
 }
 
@@ -121,7 +120,8 @@ int	ft_getglob(t_globs *globs, int startpos) //defines the start of pipe, the gl
 
 int	ft_newpipeline(t_globs *globs)
 {
-	globs->pipeline = ft_strdup(globs->pipeline);
+	globs->pipeline = ft_vastrjoin(3, globs->start, globs->matches, globs->end);
+	globs->linecount = globs->linecount + ft_strlen(globs->matches);
 	return (0);
 }
 
@@ -169,10 +169,10 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos)
 		{
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings
 			ft_getparent(globs); //looks in the glob if it contains any extra directories above or below the glob
-			if (cmd->debug)
-				ft_printglobs(*globs, "end of parsewildcard");
 			ft_parseglob(cmd, globs); //parses the glob character by character
 			ft_newpipeline(globs); //constructs the new pipeline, sets the new position in the pipeline right after the parsed glob
+			if (cmd->debug)
+				ft_printglobs(*globs, "end of parsewildcard");
 			startpos++;
 		}
 		else
@@ -208,11 +208,11 @@ int	ft_parseglobs(t_cmds *cmd) //should initialize the globbing
 	t_globs			*globs;
 
 	globs = ft_initglobstruct(cmd->pipeline);
-	if (ft_checkoutquote(cmd->pipeline, '*', 2))
+	if (ft_checkoutquote(cmd->pipeline, '*', 2) >= 0)
 		ft_globlooper(globs, cmd, 0);
-	if (ft_checkoutquote(cmd->pipeline, '?', 2))
+	if (ft_checkoutquote(cmd->pipeline, '?', 2) >= 0)
 		ft_globlooper(globs, cmd, 0);
-	if (ft_checkoutquote(cmd->pipeline, '[', 2))
+	if (ft_checkoutquote(cmd->pipeline, '[', 2) >= 0)
 		ft_globlooper(globs, cmd, 0);
 	cmd->pipeline = ft_strdup(globs->pipeline);
 	// free globs here

@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/06 02:57:26 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/06 11:08:16 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,6 @@
 
 echo Hello World!
 printf "trunc seems to be working\n" > file
-printf "appending too\n" >> file
-echo "piping too\n" | cat >> file
-#cat file
+#printf "appending too\n" >> file
+#echo "piping too\n" | cat >> file
+cat file
