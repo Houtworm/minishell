@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/06 03:23:52 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/06 18:47:51 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_mainloop(t_shell *shell)
 	shell->envp = ft_fdtocharpp(shell->envpfd);
 	ft_printprompt(shell, shell->envp);
 	line = readline("❯ ");
-	//shell->starttime = ft_gettimems(shell->envp);
+	shell->starttime = ft_gettimems(shell->envp);
 	if (!line)
 		return (1);
 	if (!ft_isallbyte(line, ' '))
