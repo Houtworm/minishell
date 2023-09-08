@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/05 00:27:40 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/08 05:05:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/08 07:32:23 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	ft_printglobs(t_globs globs, char *function)
 	printf("\e[1;31mpipeline: %s\e[0;00m\n", globs.pipeline);
 	printf("\e[1;31mpardir: %s\e[0;00m\n", globs.pardir);
 	printf("\e[1;31mgstart: %s\e[0;00m\n", globs.gstart);
+	printf("\e[1;31mglob: %c\e[0;00m\n", globs.glob);
 	printf("\e[1;31mgend: %s\e[0;00m\n", globs.gend);
 	while (globs.subdir[i])
 	{
@@ -94,7 +95,6 @@ void	ft_printglobs(t_globs globs, char *function)
 	}
 	printf("\e[1;31mperiod: %d\e[0;00m\n", globs.period);
 	printf("\e[1;31mstart: %s\e[0;00m\n", globs.start);
-	printf("\e[1;31mglob: %c\e[0;00m\n", globs.glob);
 	printf("\e[1;31mend: %s\e[0;00m\n", globs.end);
 	printf("\e[1;31mmatches: %s\e[0;00m\n", globs.matches);
 }
