@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/09 01:01:34 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/09 01:33:01 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 			if (!ft_strncmp(dirents->d_name, &globs->subdir[i][1], ft_strlen(dirents->d_name))) // if the file matches
 			{
 				j = 0;
-				while (i >= j)
+				while (i >= j) // for every subdirectory so far.
 				{
 					if (dirents->d_type == DT_DIR) // check if it is a directory
 					{
@@ -88,40 +88,32 @@ int	ft_parsewildcard(t_globs *globs, char *dname, int i)
 	int	j;
 
 	j = 0;
-	if (globs->gstart[0] == '.')
-		globs->period = 1;
-	if (i == 0 && globs->gend[i] == dname[j])// if first character of glob end matches
+	if (globs->gstart[0] != '.') // if first character of globstart is not a .
+		if (dname[0] == '.') // and the first character of the file or directory is
+			return (0); // we don't want to parse this one.
+	while (dname[i]) // while there are characters in filename 
 	{
-		if (globs->period == 0)
-			if (dname[0] == '.')
-				return (1);
-		if (globs->period == 1)
-			if (dname[0] != '.')
-				return (1);
-	}
-	while (dname[i])
-	{
-		if (dname[i] == globs->gend[j] || globs->gend[0] == '\0')
+		if (dname[i] == globs->gend[j] || globs->gend[0] == '\0') // if the first character matches or there is no globend
 		{
-			if (globs->gend[0] == '\0')
-				return (1);
-			while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j])
+			if (globs->gend[0] == '\0') // no globend means every end matches
+				return (1); // this one is a match
+			while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j]) //while the first character was a match but globend exists
 				j++;
-			if (dname[i + j] == '\0')
-				return (1);
-			else
+			if (dname[i + j] == '\0') // the whole filename matches
+				return (1); // copy it over.
+			else // we have no match and reset the globend counter.
 				j = 0;
 		}
-		else
+		else // no matching first character means we can move over a character and try to match from there.
 			i++;
 	}
-	return (0);
+	return (0); // no matches found.
 }
 
 int	ft_matchtheglob(t_globs *globs, char *dname, int i)
 {
-	if (globs->glob == '*')
-		if (ft_parsewildcard(globs, dname, i))
+	if (globs->glob == '*') // if we find a wildcard match
+		if (ft_parsewildcard(globs, dname, i)) // parse it
 			return (1);
 	/*if (globs->glob == '?')*/
 		/*if (ft_parsejoker(globs, dname, i))*/
@@ -137,7 +129,7 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 	int i;
 
 	i = 0;
-	while (globs->gstart[i] == dname[i])
+	while (globs->gstart[i] == dname[i]) // while characters match
 		i++;
 	if (globs->gstart[i] == '\0') // Glob start matches
 	{
@@ -161,20 +153,20 @@ int	ft_parseglob(t_cmds *cmd, t_globs *globs)
 	char			*curdir;
 	char			*checkdir;
 
-	curdir = ft_getpwd(cmd->envp, 1);
-	checkdir = ft_vastrjoin(2, curdir, globs->pardir);
+	curdir = ft_getpwd(cmd->envp, 1); // get working directory
+	checkdir = ft_vastrjoin(2, curdir, globs->pardir); // strjoin current directory and any directories before the first glob.
 	dir = opendir(checkdir); // needs to run for every sub directory.
 	if (dir)
 	{	
 		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 		{
-			ft_matchtillglob(globs, dirents->d_name, checkdir, dirents->d_type);
+			ft_matchtillglob(globs, dirents->d_name, checkdir, dirents->d_type); // if it matches till the glob it will branch out from this function.
 		}
 		closedir(dir);
 	}
 	if (globs->matches[0] == '\0')
 	{
-		globs->matches = ft_vastrjoin(5, globs->pardir, globs->gstart, "*", globs->gend, globs->subdir);
+		globs->matches = ft_vastrjoin(5, globs->pardir, globs->gstart, "*", globs->gend, globs->subdir); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
 	}
 	return (0);
 }
@@ -187,27 +179,27 @@ void	ft_getsubdir(t_globs *globs)
 
 	i = 0;
 	k = 0;
-	while (globs->gend[k])
+	while (globs->gend[k]) // looping trough the globend for subdirectories
 	{
-		if (globs->gend[k] == '/')
+		if (globs->gend[k] == '/') // if we find a / it means we found a subdir
 		{
-			globs->gend[k] = '\0';
-			globs->subdir[i] = ft_calloc(ft_strlen(globs->gend), 8);
-			globs->subdir[i][0] = '/';
+			globs->gend[k] = '\0'; // here we set the endpoint for the globend as subdirectories shouldn't be there
+			globs->subdir[i] = ft_calloc(ft_strlen(globs->gend), 8); // malloc
+			globs->subdir[i][0] = '/'; // subdirs start with a / for easy joining
 			j = 1;
-			while(globs->gend[k + j] && globs->gend[k + j] != '/')
+			while(globs->gend[k + j] && globs->gend[k + j] != '/') // we just copy untill we find a next slash
 			{
-				globs->subdir[i][j] = globs->gend[k + j];
+				globs->subdir[i][j] = globs->gend[k + j]; // copy copy copy
 				j++;
 			}
-			globs->subdir[i][j] = '\0';
-			k = k + j;
-			i++;
+			globs->subdir[i][j] = '\0'; // set the end of the subdir
+			k = k + j; // adding the counters
+			i++; // next subdir.
 		}
-		else
+		else // no more subdirs to parse
 			k++;
 	}
-	globs->subdir[i] = ft_calloc(ft_strlen(globs->gend), 8);
+	globs->subdir[i] = ft_calloc(ft_strlen(globs->gend), 8); // NULL terminated char**
 	globs->subdir[i] = NULL;
 }
 
