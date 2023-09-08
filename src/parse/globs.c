@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/06 12:43:51 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/08 03:27:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,50 +38,71 @@ int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 	return (startpos);
 }
 
-void	ft_parsewildcard(t_cmds cmd, t_globs *globs)
+void	ft_endmatches(t_globs *globs, char *dname, char *curdir)
 {
 	DIR				*dir;
 	struct dirent	*dirents;
-	char			*curdir;
-	int				i;
-	int				j;
+	char			*checkdir;
 
-	curdir = ft_getpwd(cmd.envp, 1);
-	dir = opendir(curdir); // needs to run for every sub directory.
-	while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
+	if (globs->subdir[0] == '/') // we need to match against subdirectories.
 	{
-		if (!ft_strncmp(dirents->d_name, globs->gstart, ft_strlen(globs->gstart))) // if start of glob matches
-		{
-			i = ft_strlen(globs->gend);
-			j = ft_strlen(dirents->d_name);
-			while (i && j && globs->gend[i] == dirents->d_name[j]) //while characters match from the end
-			{
-				i--;
-				j--;
-			}
-			if (i == 0 && globs->gend[i] == dirents->d_name[j])// if first character of glob end matches
-			{
-				if (globs->period == 1)
-					if (dirents->d_name[0] == '.')
-						globs->matches = ft_vastrjoin(4, globs->matches, dirents->d_name, globs->subdir, " ");
-				if (globs->period == 0)
-					if (dirents->d_name[0] != '.')
-						globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dirents->d_name, globs->subdir, " ");
-			}
-		}
+		checkdir = ft_vastrjoin(2, curdir, dname);
+		dir = opendir(checkdir); // needs to run for every sub directory.
+		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
+			if (!ft_strncmp(dirents->d_name, &globs->subdir[1], ft_strlen(globs->subdir)))
+				globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, globs->subdir, " ");
 	}
-	closedir(dir);
-	if (!globs->matches)
-		globs->matches = ft_vastrjoin(4, globs->gstart, "*", globs->gend);
+	else // no subdirectories so the matches are good.
+		globs->matches = ft_vastrjoin(4, globs->matches, globs->pardir, dname, " ");
+}
+
+void	ft_startmatches(t_globs *globs, char *dname, char *curdir)
+{
+	int	i;
+	int	j;
+
+	i = ft_strlen(globs->gend);
+	j = ft_strlen(dname);
+	while (i && j && globs->gend[i] == dname[j]) //while characters match from the end
+	{
+		i--;
+		j--;
+	}
+	if (globs->gstart[0] == '.')
+		globs->period = 1;
+	if (i == 0 && globs->gend[i] == dname[j])// if first character of glob end matches
+	{
+		if (globs->period == 1)
+			if (dname[0] == '.')
+				ft_endmatches(globs, dname, curdir);
+		if (globs->period == 0)
+			if (dname[0] != '.')
+				ft_endmatches(globs, dname, curdir);
+	}
 }
 
 int	ft_parseglob(t_cmds *cmd, t_globs *globs)
 {
-	ft_parsewildcard(*cmd, globs);
+	DIR				*dir;
+	struct dirent	*dirents;
+	char			*curdir;
+	char			*checkdir;
+
+	curdir = ft_getpwd(cmd->envp, 1);
+	checkdir = ft_vastrjoin(2, curdir, globs->pardir);
+	dir = opendir(checkdir); // needs to run for every sub directory.
+	while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
+	{
+		if (!ft_strncmp(dirents->d_name, globs->gstart, ft_strlen(globs->gstart))) // if start of glob matches
+			ft_startmatches(globs, dirents->d_name, checkdir);
+	}
+	closedir(dir);
+	if (!globs->matches)
+		globs->matches = ft_vastrjoin(5, globs->pardir, globs->gstart, globs->glob, globs->gend, globs->subdir);
 	return (0);
 }
 
-int	ft_getglob(t_globs *globs, int startpos) //defines the start of pipe, the glob the subdir and the rest
+int	ft_getglob(t_globs *globs, int startpos)
 {
 	int endpos;
 	int	i;
@@ -159,13 +180,14 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos)
 		}
 		if (ft_strchr("*?[", globs->pipeline[globs->linecount + startpos]))
 		{
+			globs->glob = globs->pipeline[globs->linecount + startpos];
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings
 			ft_getparent(globs); //looks in the glob if it contains any extra directories above or below the glob
 			ft_parseglob(cmd, globs); //parses the glob character by character
 			ft_newpipeline(globs); //constructs the new pipeline, sets the new position in the pipeline right after the parsed glob
 			if (cmd->debug)
 				ft_printglobs(*globs, "end of parsewildcard");
-			startpos++;
+			/*startpos++;*/
 		}
 		else
 		{
@@ -185,7 +207,6 @@ t_globs *ft_initglobstruct(char *pipeline)
 	globs->gstart = ft_calloc(linelenght, 8);
 	globs->gend = ft_calloc(linelenght, 8);
 	globs->start = ft_calloc(linelenght, 8);
-	globs->glob = ft_calloc(linelenght, 8);
 	globs->end = ft_calloc(linelenght, 8);
 	globs->subdir = ft_calloc(linelenght, 8);
 	globs->pardir = ft_calloc(linelenght, 8);
@@ -195,7 +216,7 @@ t_globs *ft_initglobstruct(char *pipeline)
 	return (globs);
 }
 
-int	ft_parseglobs(t_cmds *cmd) //should initialize the globbing
+int	ft_parseglobs(t_cmds *cmd)
 {
 	t_globs			*globs;
 
