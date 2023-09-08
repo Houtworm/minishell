@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/08 09:30:56 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/08 09:40:16 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,17 +124,17 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 	int				j;
 
 	i = 0;
+	subdirs = NULL;
 	checkdir = ft_vastrjoin(2, fullpath, dname);
 	while (globs->subdir[i]) // we need to match against subdirectories.
 	{
 		dir = opendir(checkdir); // needs to run for every sub directory.
-		printf("%s\n", checkdir);
 		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 		{
 			if (!ft_strncmp(dirents->d_name, &globs->subdir[i][1], ft_strlen(dirents->d_name)))
 			{
 				j = 0;
-				while (i <= j)
+				while (i >= j)
 				{
 					if (dirents->d_type == DT_DIR)
 					{
