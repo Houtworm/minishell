@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/08 09:40:16 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/08 23:57:59 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,75 +37,6 @@ int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 	globs->linecount = globs->linecount + startpos;
 	return (startpos);
 }
-
-/*void	ft_matchsubdir(t_globs *globs, char *dname, char *curdir)*/
-/*{*/
-	/*DIR				*dir;*/
-	/*struct dirent	*dirents;*/
-	/*char			*checkdir;*/
-	/*char			*subdirs;*/
-	/*int				i;*/
-	/*int				j;*/
-
-	/*i = 0;*/
-	/*if (globs->subdir[i]) // we need to match against subdirectories.*/
-	/*{*/
-		/*checkdir = ft_vastrjoin(2, curdir, dname);*/
-		/*while (globs->subdir[i]) // we need to match against subdirectories.*/
-		/*{*/
-			/*dir = opendir(checkdir); // needs to run for every sub directory.*/
-			/*printf("%s\n", checkdir);*/
-			/*while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory*/
-			/*{*/
-				/*{*/
-					/*if (!ft_strncmp(dirents->d_name, &globs->subdir[i][1], ft_strlen(dirents->d_name)))*/
-					/*{*/
-						/*j = 0;*/
-						/*while (i <= j)*/
-						/*{*/
-							/*if (dirents->d_type == DT_DIR)*/
-							/*{*/
-								/*subdirs = ft_vastrjoin(2, subdirs, globs->subdir[j]);*/
-							/*}*/
-							/*j++;*/
-						/*}*/
-						/*globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, subdirs, " ");*/
-					/*}*/
-				/*}*/
-			/*}*/
-			/*closedir(dir);*/
-			/*checkdir = ft_vastrjoin(2, checkdir, globs->subdir[i]);*/
-			/*i++;*/
-		/*}*/
-	/*}*/
-	/*else // no subdirectories so the matches are good.*/
-		/*globs->matches = ft_vastrjoin(4, globs->matches, globs->pardir, dname, " ");*/
-/*}*/
-
-/*void	ft_matchend(t_globs *globs, char *dname, char *curdir)*/
-/*{*/
-	/*int	i;*/
-	/*int	j;*/
-
-	/*i = ft_strlen(globs->gend);*/
-	/*j = ft_strlen(dname);*/
-	/*while (i && j && globs->gend[i] == dname[j]) //while characters match from the end*/
-	/*{*/
-		/*i--;*/
-		/*j--;*/
-	/*}*/
-	/*if (globs->gstart[0] == '.')*/
-		/*globs->period = 1;*/
-	/*if (i == 0 && globs->gend[i] == dname[j])// if first character of glob end matches*/
-	/*{*/
-		/*if (globs->period == 1)*/
-			/*if (dname[0] == '.')*/
-				/*ft_matchsubdir(globs, dname, curdir);*/
-		/*if (globs->period == 0)*/
-			/*if (dname[0] != '.')*/
-				/*ft_matchsubdir(globs, dname, curdir);*/
-	/*}*/
-/*}*/
 
 int	ft_newpipeline(t_globs *globs)
 {
@@ -152,30 +83,52 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 	dname[0] = type;
 }
 
-int	ft_matchtheglob(t_globs *globs, char *dname, int i)
+int	ft_parsewildcard(t_globs *globs, char *dname, int i)
 {
 	int	j;
 
 	j = 0;
-	if (globs->glob == '*')
+	if (globs->gstart[0] == '.')
+		globs->period = 1;
+	if (i == 0 && globs->gend[i] == dname[j])// if first character of glob end matches
 	{
-		while (dname[i])
-		{
-			if (dname[i] == globs->gend[j] || globs->gend[0] == '\0')
-			{
-				if (globs->gend[0] == '\0')
-					return (1);
-				while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j])
-					j++;
-				if (dname[i + j] == '\0')
-					return (1);
-				else
-					j = 0;
-			}
-			else
-				i++;
-		}
+		if (globs->period == 0)
+			if (dname[0] == '.')
+				return (1);
+		if (globs->period == 1)
+			if (dname[0] != '.')
+				return (1);
 	}
+	while (dname[i])
+	{
+		if (dname[i] == globs->gend[j] || globs->gend[0] == '\0')
+		{
+			if (globs->gend[0] == '\0')
+				return (1);
+			while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j])
+				j++;
+			if (dname[i + j] == '\0')
+				return (1);
+			else
+				j = 0;
+		}
+		else
+			i++;
+	}
+	return (0);
+}
+
+int	ft_matchtheglob(t_globs *globs, char *dname, int i)
+{
+	if (globs->glob == '*')
+		if (ft_parsewildcard(globs, dname, i))
+			return (1);
+	/*if (globs->glob == '?')*/
+		/*if (ft_parsejoker(globs, dname, i))*/
+			/*return (1);*/
+	/*if (globs->glob == '[')*/
+		/*if (ft_parseanyof(globs, dname, i))*/
+			/*return (1);*/
 	return (0);
 }
 
