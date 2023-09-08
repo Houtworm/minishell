@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/08 08:26:12 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/08 09:30:56 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,18 +131,18 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 		printf("%s\n", checkdir);
 		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 		{
-				if (!ft_strncmp(dirents->d_name, &globs->subdir[i][1], ft_strlen(dirents->d_name)))
+			if (!ft_strncmp(dirents->d_name, &globs->subdir[i][1], ft_strlen(dirents->d_name)))
+			{
+				j = 0;
+				while (i <= j)
 				{
-					j = 0;
-					while (i <= j)
+					if (dirents->d_type == DT_DIR)
 					{
-						if (dirents->d_type == DT_DIR)
-						{
-							subdirs = ft_vastrjoin(2, subdirs, globs->subdir[j]);
-						}
-						j++;
+						subdirs = ft_strjoin(subdirs, globs->subdir[j]);
 					}
-					globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, subdirs, " ");
+					j++;
+				}
+				globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, subdirs, " ");
 			}
 		}
 		closedir(dir);
@@ -152,6 +152,33 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 	dname[0] = type;
 }
 
+int	ft_matchtheglob(t_globs *globs, char *dname, int i)
+{
+	int	j;
+
+	j = 0;
+	if (globs->glob == '*')
+	{
+		while (dname[i])
+		{
+			if (dname[i] == globs->gend[j] || globs->gend[0] == '\0')
+			{
+				if (globs->gend[0] == '\0')
+					return (1);
+				while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j])
+					j++;
+				if (dname[i + j] == '\0')
+					return (1);
+				else
+					j = 0;
+			}
+			else
+				i++;
+		}
+	}
+	return (0);
+}
+
 void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char type)
 { // match untill glob
 	int i;
@@ -159,18 +186,19 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 	i = 0;
 	while (globs->gstart[i] == dname[i])
 		i++;
-	if (dname[i] == '\0')
-	{ // this part matches
-		if (globs->subdir[0])
+	if (globs->gstart[i] == '\0') // Glob start matches
+	{
+		if (ft_matchtheglob(globs, dname, i))
 		{
-			if (type == DT_DIR)
-				ft_matchsub(globs, dname, fullpath, type);
+			if (globs->subdir[0]) //check if we need to match subdirs
+			{
+				if (type == DT_DIR) //check if it is an actual directory
+					ft_matchsub(globs, dname, fullpath, type);
+			}
+			else
+				globs->matches = ft_vastrjoin(4, globs->matches, globs->pardir, dname, " ");
 		}
-		else
-			globs->matches = ft_vastrjoin(4, globs->matches, globs->pardir, dname, " ");
 	}
-	/*else*/
-		//we should match the glob in this part
 }
 
 int	ft_parseglob(t_cmds *cmd, t_globs *globs)
@@ -193,7 +221,7 @@ int	ft_parseglob(t_cmds *cmd, t_globs *globs)
 	}
 	if (globs->matches[0] == '\0')
 	{
-		globs->matches = ft_vastrjoin(5, globs->pardir, globs->gstart, &globs->glob, globs->gend, globs->subdir);
+		globs->matches = ft_vastrjoin(5, globs->pardir, globs->gstart, "*", globs->gend, globs->subdir);
 	}
 	return (0);
 }
