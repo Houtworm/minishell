@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/08 03:27:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/08 06:06:03 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,51 @@ int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 	return (startpos);
 }
 
-void	ft_endmatches(t_globs *globs, char *dname, char *curdir)
+void	ft_matchsubdir(t_globs *globs, char *dname, char *curdir)
 {
 	DIR				*dir;
 	struct dirent	*dirents;
 	char			*checkdir;
+	char			*subdirs;
+	int				i;
+	int				j;
 
-	if (globs->subdir[0] == '/') // we need to match against subdirectories.
+	i = 0;
+	if (globs->subdir[i]) // we need to match against subdirectories.
 	{
 		checkdir = ft_vastrjoin(2, curdir, dname);
-		dir = opendir(checkdir); // needs to run for every sub directory.
-		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
-			if (!ft_strncmp(dirents->d_name, &globs->subdir[1], ft_strlen(globs->subdir)))
-				globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, globs->subdir, " ");
+		while (globs->subdir[i]) // we need to match against subdirectories.
+		{
+			dir = opendir(checkdir); // needs to run for every sub directory.
+			printf("%s\n", checkdir);
+			while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
+			{
+				{
+					if (!ft_strncmp(dirents->d_name, &globs->subdir[i][1], ft_strlen(dirents->d_name)))
+					{
+						j = 0;
+						while (i <= j)
+						{
+							if (dirents->d_type == DT_DIR)
+							{
+								subdirs = ft_vastrjoin(2, subdirs, globs->subdir[j]);
+							}
+							j++;
+						}
+						globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, subdirs, " ");
+					}
+				}
+			}
+			closedir(dir);
+			checkdir = ft_vastrjoin(2, checkdir, globs->subdir[i]);
+			i++;
+		}
 	}
 	else // no subdirectories so the matches are good.
 		globs->matches = ft_vastrjoin(4, globs->matches, globs->pardir, dname, " ");
 }
 
-void	ft_startmatches(t_globs *globs, char *dname, char *curdir)
+void	ft_matchend(t_globs *globs, char *dname, char *curdir)
 {
 	int	i;
 	int	j;
@@ -74,10 +100,10 @@ void	ft_startmatches(t_globs *globs, char *dname, char *curdir)
 	{
 		if (globs->period == 1)
 			if (dname[0] == '.')
-				ft_endmatches(globs, dname, curdir);
+				ft_matchsubdir(globs, dname, curdir);
 		if (globs->period == 0)
 			if (dname[0] != '.')
-				ft_endmatches(globs, dname, curdir);
+				ft_matchsubdir(globs, dname, curdir);
 	}
 }
 
@@ -93,42 +119,37 @@ int	ft_parseglob(t_cmds *cmd, t_globs *globs)
 	dir = opendir(checkdir); // needs to run for every sub directory.
 	while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 	{
-		if (!ft_strncmp(dirents->d_name, globs->gstart, ft_strlen(globs->gstart))) // if start of glob matches
-			ft_startmatches(globs, dirents->d_name, checkdir);
+			if (!ft_strncmp(dirents->d_name, globs->gstart, ft_strlen(globs->gstart))) // if start of glob matches
+				ft_matchend(globs, dirents->d_name, checkdir);
 	}
 	closedir(dir);
-	if (!globs->matches)
-		globs->matches = ft_vastrjoin(5, globs->pardir, globs->gstart, globs->glob, globs->gend, globs->subdir);
+	if (globs->matches[0] == '\0')
+	{
+		globs->matches = ft_vastrjoin(5, globs->pardir, globs->gstart, &globs->glob, globs->gend, globs->subdir);
+	}
 	return (0);
 }
 
-int	ft_getglob(t_globs *globs, int startpos)
+void	ft_getsubdir(t_globs *globs)
 {
-	int endpos;
 	int	i;
+	int	j;
+	int	k;
 
-	endpos = 0;
 	i = 0;
-	globs->gstart[startpos] = '\0';
-	startpos++;
-	while (globs->pipeline[globs->linecount + startpos + endpos] && !ft_strchr(" /", globs->pipeline[globs->linecount + startpos + endpos]))
+	j = 0;
+	k = 0;
+	/*while (globs->)*/
+	while (globs->pipeline[globs->linecount + k] && globs->pipeline[globs->linecount + k] != '/')
+		k++;
+	globs->subdir[i] = ft_calloc(ft_strlen(globs->pipeline), 8);
+	while (globs->pipeline[globs->linecount + k] && globs->pipeline[globs->linecount + k] != ' ')
 	{
-		globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos];
-		endpos++;
+		globs->subdir[i][j] = globs->pipeline[globs->linecount + k + j];
+		j++;
 	}
-	globs->gend[endpos] = '\0';
-	if (globs->pipeline[globs->linecount + startpos + endpos] == '/')
-	{
-		while (globs->pipeline[globs->linecount + startpos + endpos + i] && globs->pipeline[globs->linecount + startpos + endpos + i] != ' ')
-		{
-			globs->subdir[i] = globs->pipeline[globs->linecount + startpos + endpos + i];
-			i++;
-		}
-		globs->subdir[i] = '\0';
-	}
-	globs->start = ft_substr(globs->pipeline, 0, globs->linecount);
-	globs->end = ft_strdup(&globs->pipeline[globs->linecount + startpos + endpos + i]);
-	return (endpos);
+	globs->subdir[i][j] = '\0';
+	i++;
 }
 
 int	ft_newpipeline(t_globs *globs)
@@ -167,6 +188,24 @@ int	ft_getparent(t_globs *globs)
 	return (0);
 }
 
+int	ft_getglob(t_globs *globs, int startpos)
+{
+	int endpos;
+
+	endpos = 0;
+	globs->gstart[startpos] = '\0';
+	startpos++;
+	while (globs->pipeline[globs->linecount + startpos + endpos] && globs->pipeline[globs->linecount + startpos + endpos] != ' ')
+	{
+		globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos];
+		endpos++;
+	}
+	globs->gend[endpos] = '\0';
+	globs->start = ft_substr(globs->pipeline, 0, globs->linecount);
+	globs->end = ft_strdup(&globs->pipeline[globs->linecount + startpos + endpos]);
+	return (endpos);
+}
+
 void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos)
 {
 	while (globs->pipeline[globs->linecount + startpos])
@@ -183,11 +222,12 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos)
 			globs->glob = globs->pipeline[globs->linecount + startpos];
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings
 			ft_getparent(globs); //looks in the glob if it contains any extra directories above or below the glob
+			ft_getsubdir(globs);
 			ft_parseglob(cmd, globs); //parses the glob character by character
 			ft_newpipeline(globs); //constructs the new pipeline, sets the new position in the pipeline right after the parsed glob
 			if (cmd->debug)
-				ft_printglobs(*globs, "end of parsewildcard");
-			/*startpos++;*/
+				ft_printglobs(*globs, "globlooper");
+			startpos++;
 		}
 		else
 		{
@@ -208,7 +248,7 @@ t_globs *ft_initglobstruct(char *pipeline)
 	globs->gend = ft_calloc(linelenght, 8);
 	globs->start = ft_calloc(linelenght, 8);
 	globs->end = ft_calloc(linelenght, 8);
-	globs->subdir = ft_calloc(linelenght, 8);
+	globs->subdir = ft_calloc(linelenght, 128);
 	globs->pardir = ft_calloc(linelenght, 8);
 	globs->matches = ft_calloc(linelenght, 8);
 	globs->pipeline = ft_strdup(pipeline);
@@ -231,93 +271,3 @@ int	ft_parseglobs(t_cmds *cmd)
 	// free globs here
 	return (0);
 }
-
-/*int	ft_skipbutcopy(t_globs *globs, int startpos)*/
-/*{*/
-	/*if (globs->pipeline[globs->linecount + startpos] == '\'')*/
-	/*{*/
-		/*startpos++;*/
-		/*while (globs->pipeline[globs->linecount + startpos] != '\'' && globs->pipeline[globs->linecount + startpos])*/
-		/*{*/
-			/*globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos];*/
-			/*startpos++;*/
-		/*}*/
-		/*startpos++;*/
-	/*}*/
-	/*if (globs->pipeline[globs->linecount + startpos] == '\"')*/
-	/*{*/
-		/*startpos++;*/
-		/*while (globs->pipeline[globs->linecount + startpos] != '\"' && globs->pipeline[globs->linecount + startpos])*/
-		/*{*/
-			/*globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos];*/
-			/*startpos++;*/
-		/*}*/
-		/*startpos++;*/
-	/*}*/
-	/*globs->linecount = globs->linecount + startpos;*/
-	/*return (startpos);*/
-/*}*/
-
-/*int	ft_wildcardmatch(t_cmds *cmd, t_globs *globs, int startpos)*/
-/*{*/
-	/*int endpos;*/
-	/*int	i;*/
-
-	/*endpos = 0;*/
-	/*globs->period = 0;*/
-	/*i = 0;*/
-	/*if (globs->pipeline[globs->linecount + startpos - 1] == '.')*/
-		/*globs->period = 1;*/
-	/*globs->gstart[startpos] = '\0';*/
-	/*startpos++;*/
-	/*while (globs->pipeline[globs->linecount + startpos + endpos] && !ft_strchr(" /", globs->pipeline[globs->linecount + startpos + endpos]))*/
-	/*{*/
-		/*globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos];*/
-		/*endpos++;*/
-	/*}*/
-	/*globs->gend[endpos] = '\0';*/
-	/*if (globs->pipeline[globs->linecount + startpos + endpos] == '/')*/
-	/*{*/
-		/*i = 0;*/
-		/*while (globs->pipeline[globs->linecount + startpos + endpos + i] && globs->pipeline[globs->linecount + startpos + endpos + i] != ' ')*/
-		/*{*/
-			/*globs->subdir[i] = globs->pipeline[globs->linecount + startpos + endpos + i];*/
-			/*i++;*/
-		/*}*/
-		/*globs->subdir[i] = '\0';*/
-	/*}*/
-	/*globs->start = ft_substr(globs->pipeline, 0, globs->linecount);*/
-	/*globs->end = ft_strdup(&cmd->pipeline[globs->linecount + startpos + endpos + i]);*/
-	/*ft_parsewildcard(*cmd, globs);*/
-	/*cmd->pipeline = ft_vastrjoin(3, globs->start, globs->matches, globs->end);*/
-	/*return (endpos);*/
-/*}*/
-
-/*int	ft_parseglobs(t_cmds *cmd)*/
-/*{*/
-	/*t_globs			*globs;*/
-	/*int				startpos;*/
-	/*int				endpos;*/
-
-	/*startpos = 0;*/
-	/*endpos = 0;*/
-	/*globs = ft_initglobstruct(cmd->pipeline);*/
-	/*while (globs->pipeline[globs->linecount + startpos + endpos])*/
-	/*{*/
-		/*if (ft_strchr("\'\"", globs->pipeline[globs->linecount]))*/
-			/*startpos = ft_skipbutcopy(globs, startpos);*/
-		/*if (globs->pipeline[globs->linecount + startpos] == ' ')*/
-		/*{*/
-			/*globs->linecount = globs->linecount + startpos + 1;*/
-			/*startpos = 0;*/
-		/*}*/
-		/*if (globs->pipeline[globs->linecount + startpos] == '*')*/
-		/*{*/
-			/*endpos = ft_wildcardmatch(cmd, globs, startpos);*/
-			/*startpos++;*/
-		/*}*/
-		/*globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos + endpos];*/
-		/*startpos++;*/
-	/*}*/
-	/*return (0);*/
-/*}*/
