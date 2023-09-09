@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/05 00:34:15 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/09 16:57:34 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,9 @@ CC		=gcc
 CFLAGS	=-Wall -Werror -Wextra -g #-fsanitize=address
 RM		=rm -f
 SRC		=src/main/main.c\
-		 src/init/init.c\
-		 src/init/prompt.c\
-		 src/init/script.c\
+		 src/main/init.c\
+		 src/main/prompt.c\
+		 src/main/script.c\
 		 src/parse/parse.c\
 		 src/parse/parse_utils.c\
 		 src/parse/hashtag.c\
