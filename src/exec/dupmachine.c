@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   dupmachine.c                                       :+:    :+:            */
+/*   dupmachine.c                                    |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/09 20:18:00 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/09 20:33:24 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_outputfile(char *file, int append)
 
 int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
-	int	heredoc;
+	/*int	heredoc;*/
 
 	
 	if (shell->debug)
@@ -81,9 +81,8 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		dup2(shell->pipes[forknbr][0], 0);
 	else if (cmds.redirect[0].delimiter)
 	{
-		heredoc = ft_heredoc(cmds.redirect[0].delimiter);
-		// printf ("heredoc fd = %d\n", heredoc);
-		dup2(heredoc, 0);
+		ft_heredoc(cmds.redirect[0].delimiter);
+		/*dup2(ft_heredoc(cmds.redirect[0].delimiter), 0);*/
 	}
 	else if (cmds.redirect[0].infilename)
 	{
@@ -101,8 +100,7 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	}
 	else
 	{
-		dup2(shell->fdout, 1);
-		// printf("dupmachine\n");
+		dup2(1, 1);
 	}
 	return (0);
 }
