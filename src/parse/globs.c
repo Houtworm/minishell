@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/09 01:33:01 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/09 16:33:29 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 	char			*checkdir;
 	char			*subdirs;
 	int				i;
-	int				j;
 
 	i = 0;
 	subdirs = NULL;
@@ -60,20 +59,20 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 	while (globs->subdir[i]) // check if there are subdirectories to check
 	{
 		dir = opendir(checkdir); // open the directory
+		if (!dir)
+			return ;
 		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 		{
 			if (!ft_strncmp(dirents->d_name, &globs->subdir[i][1], ft_strlen(dirents->d_name))) // if the file matches
 			{
-				j = 0;
-				while (i >= j) // for every subdirectory so far.
+				/*if (dirents->d_type == DT_DIR) // check if it is a directory*/
+				/*{*/
+					subdirs = ft_strjoin(subdirs, globs->subdir[i]); // add the current dir to subdirs
+				/*}*/
+				if (!globs->subdir[i + 1]) // if it is the last subdir
 				{
-					if (dirents->d_type == DT_DIR) // check if it is a directory
-					{
-						subdirs = ft_strjoin(subdirs, globs->subdir[j]); // add the current dir to subdirs
-					}
-					j++;
+					globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, subdirs, " "); // add the match
 				}
-				globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, subdirs, " "); // adds the match? pretty sure it goes wrong here.
 			}
 		}
 		closedir(dir);
