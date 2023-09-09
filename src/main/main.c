@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/09 20:18:26 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/09 21:14:52 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	ft_mainloop(t_shell *shell)
 		}
 		free(line);
 	}
-	// printf ("end of mainloop\n");
 	return (0);
 }
 

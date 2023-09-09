@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   dupmachine.c                                    |o_o || |                */
+/*   dupmachine.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/09 20:33:24 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/09 21:27:29 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_heredoc(char *delimiter)
 	free(line);
 	close(fdi);
 	fdi = open("/tmp/minishellheredocfile.temp", O_RDONLY);
-	dup2(fdi, 0);
+	// dup2(fdi, 0);
 	return (fdi);
 }
 
@@ -72,18 +72,13 @@ int	ft_outputfile(char *file, int append)
 
 int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
-	/*int	heredoc;*/
-
-	
 	if (shell->debug)
 		ft_printdup(cmds, cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		dup2(shell->pipes[forknbr][0], 0);
 	else if (cmds.redirect[0].delimiter)
-	{
-		ft_heredoc(cmds.redirect[0].delimiter);
-		/*dup2(ft_heredoc(cmds.redirect[0].delimiter), 0);*/
-	}
+		dup2(ft_heredoc(cmds.redirect[0].delimiter), 0);
+		// ft_heredoc(cmds.redirect[0].delimiter);
 	else if (cmds.redirect[0].infilename)
 	{
 		if (ft_inputfile(cmds.redirect[0].infilename))
@@ -99,8 +94,6 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			return (1);
 	}
 	else
-	{
 		dup2(1, 1);
-	}
 	return (0);
 }
