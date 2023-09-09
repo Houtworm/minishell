@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   dupmachine.c                                    |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/08/24 21:59:03 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/06 03:16:59 by djonker      \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   dupmachine.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: houtworm <codam@houtworm.net>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
+/*   Updated: 2023/09/09 20:18:00 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,19 @@ int	ft_outputfile(char *file, int append)
 
 int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
+	int	heredoc;
+
+	
 	if (shell->debug)
 		ft_printdup(cmds, cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		dup2(shell->pipes[forknbr][0], 0);
 	else if (cmds.redirect[0].delimiter)
-		dup2(ft_heredoc(cmds.redirect[0].delimiter), 0);
+	{
+		heredoc = ft_heredoc(cmds.redirect[0].delimiter);
+		// printf ("heredoc fd = %d\n", heredoc);
+		dup2(heredoc, 0);
+	}
 	else if (cmds.redirect[0].infilename)
 	{
 		if (ft_inputfile(cmds.redirect[0].infilename))
@@ -93,6 +100,9 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			return (1);
 	}
 	else
-		dup2(1, 1);
+	{
+		dup2(shell->fdout, 1);
+		// printf("dupmachine\n");
+	}
 	return (0);
 }

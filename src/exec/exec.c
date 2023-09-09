@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   exec.c                                          |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/03/19 04:35:12 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/06 03:23:39 by djonker      \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   exec.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: djonker <djonker@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
+/*   Updated: 2023/09/09 20:20:13 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			execve(cmds.absolute, cmds.arguments, cmds.envp);
 			exit (-1);
 		}
+		// printf ("fdout %d, fdin %d\n", shell->fdout, shell->fdin);
 		dup2(shell->fdout, 1);
 		dup2(shell->fdin, 0);
 		waitpid(cmds.pid, &status, 0);
@@ -73,6 +74,7 @@ int	ft_executeforks(int forknbr, t_shell *shell)
 		if (shell->debug)
 			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
+		// printf ("execution done\n");
 		cmdnbr++;
 		shell->forks[forknbr].cmds[cmdnbr].lastcode = status;
 	}
