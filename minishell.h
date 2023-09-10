@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/08 04:52:11 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/10 02:29:33 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_shell
 	t_forks		*forks;
 	t_alias		*alias;
 	int			envpfd;
+	int			hdfd;
 	char		**envp;
 	long long	starttime;
 	int			code;

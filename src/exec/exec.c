@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                             :+:    :+:            */
+/*   exec.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/09 21:30:42 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/10 02:56:03 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			execve(cmds.absolute, cmds.arguments, cmds.envp);
 			exit (-1);
 		}
-		dup2(shell->fdout, 1);
-		dup2(shell->fdin, 0);
 		waitpid(cmds.pid, &status, 0);
 		cmds.code = WEXITSTATUS(status);
+		/*dup2(shell->fdin, 0);*/
+		/*dup2(shell->fdout, 1);*/
 	}
 	return (cmds.code);
 }

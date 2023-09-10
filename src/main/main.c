@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   main.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/09 21:14:52 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/10 03:30:08 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	ft_mainloop(t_shell *shell)
 
 	forknumber = 0;
 	shell->envp = ft_fdtocharpp(shell->envpfd);
+	dup2(0, 0);
+	dup2(1, 1);
 	ft_printprompt(shell, shell->envp);
 	line = readline("❯ ");
 	shell->starttime = ft_gettimems(shell->envp);
@@ -51,6 +53,8 @@ int	ft_mainloop(t_shell *shell)
 		}
 		free(line);
 	}
+	dup2(0, 0);
+	dup2(1, 1);
 	return (0);
 }
 
