@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   print.c                                         |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/09/05 00:27:40 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/08 07:32:23 by houtworm     \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   print.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: houtworm <codam@houtworm.net>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
+/*   Updated: 2023/09/10 13:53:00 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_printcmds(t_cmds cmds, int cmdnbr, int forknbr)
 	else
 		printf("\e[1;36mcondition: unconditional\e[0;00m\n");
 	if (cmds.detatch)
-	printf("\e[1;36mprogram will detatch\e[0;00m\n");
+		printf("\e[1;36mprogram will detatch\e[0;00m\n");
 	ft_printredirect(cmds.redirect);
 }
 

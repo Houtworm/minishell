@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/05 09:15:07 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/10 14:11:24 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_redirect *ft_redrc_in(t_redirect *redirect, char *line)
 	new = ft_calloc(1, sizeof(t_redirect));
 	if (!new)
 		return (NULL);
+	// filename should be search from the beginning (see notion)
 	i = ft_strlen(line) - 1;
 	tmp = NULL;
 	file = NULL;
