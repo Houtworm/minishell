@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/11 03:14:03 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/11 03:43:07 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,21 +99,17 @@ int	ft_recursivewildcard(t_globs *globs, char *dname, int i, int j)
 			if (dname[i + j + 1] == '\0') // no globend means every end matches
 				return (1); // this one is a match
 			while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j]) //while the first character was a match but globend exists
-			{
 				j++;
-		printf("hanging here\n");
-
-			}
 			if (ft_strchr("*/[", globs->gend[j])) // if we find a new glob
 				return (ft_recursiveglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
 			if (dname[i + j] == '\0') // the whole filename matches
 				return (1); // copy it over.
 			else // we have no match and reset the globend counter.
 			{
-				i++;
 				j = tempj;
 			}
 		}
+		i++;
 	}
 	return (0);
 }
@@ -317,7 +313,6 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos)
 		}
 		if (ft_strchr("*?[", globs->pipeline[globs->linecount + startpos])) // if we find a glob
 		{
-			printf("Looping here\n");
 			globs->glob = globs->pipeline[globs->linecount + startpos]; // set the glob type
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings
 			ft_getparent(globs); //looks in the glob if it contains any extra directories above or below the glob
