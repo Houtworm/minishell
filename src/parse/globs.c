@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/11 03:13:00 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/11 03:14:03 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	ft_recursivewildcard(t_globs *globs, char *dname, int i, int j)
 		return (1); // this one is a match
 	while (dname[i + j]) // while there are characters in filename 
 	{
-		printf("hanging here\n");
 		if (dname[i + j] == globs->gend[j] || globs->gend[j] == '\0') // if the first character matches or there is no globend
 		{
 			if (globs->gend[j] == '\0') // no globend means every end matches
@@ -100,7 +99,11 @@ int	ft_recursivewildcard(t_globs *globs, char *dname, int i, int j)
 			if (dname[i + j + 1] == '\0') // no globend means every end matches
 				return (1); // this one is a match
 			while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j]) //while the first character was a match but globend exists
+			{
 				j++;
+		printf("hanging here\n");
+
+			}
 			if (ft_strchr("*/[", globs->gend[j])) // if we find a new glob
 				return (ft_recursiveglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
 			if (dname[i + j] == '\0') // the whole filename matches
