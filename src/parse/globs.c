@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/11 05:08:31 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/11 06:23:32 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,50 @@ int	ft_newpipeline(t_globs *globs)
 	return (0);
 }
 
+int		ft_recursivesubwildcard(t_globs *globs, char *dname, int i, int j)
+{
+	int	tempj;
+	
+	j++;
+	tempj = j;
+	while (dname[j]) // while there are characters in filename 
+	{
+		if (dname[j] == globs->subdir[i][j + 1] || globs->subdir[i][j + 1] == '\0') // if the first character matches or there is no globend
+		{
+			if (dname[j] == '\0') // no globend means every end matches
+				return (1); // this one is a match
+			while (dname[j] && globs->subdir[i][j] && dname[j] == globs->subdir[i][j + 1]) //while the first character was a match but globend exists
+				j++;
+			if (ft_strchr("*/[", globs->subdir[i][j + 1])) // if we find a new glob
+				return (ft_recursiveglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
+			if (dname[j] == '\0') // the whole filename matches
+				return (1); // copy it over.
+			/*else // we have no match and reset the globend counter.*/
+			/*{*/
+				/*j = tempj;*/
+			/*}*/
+		}
+	}
+	return (0);
+}
+
+int		ft_recursivesubdir(t_globs *globs, char *dname, int i, int j)
+{
+	if (globs->subdir[i][j + 1] == '*')
+	{
+		return (ft_recursivesubwildcard(globs, dname, i, j));
+	}
+	/*if (globs->subdir[i][j + 1] == '?')*/
+	/*{*/
+		/*ft_recursivesubjoker(globs, dname, i, j);*/
+	/*}*/
+	/*if (globs->subdir[i][j + 1] == '[')*/
+	/*{*/
+		/*ft_recursivesubanyof(globs, dname, i, j);*/
+	/*}*/
+	return (0);
+}
+
 void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type)
 { // should match subdirectories recursively
 	DIR				*dir;
@@ -67,9 +111,16 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 			j = 0;
 			while (dirents->d_name[j] && dirents->d_name[j] == globs->subdir[i][j + 1]) //just skip over the non globs
 				j++;
-			/*if (ft_strchr("*?[", globs->subdir[i][j + 1]))*/ // we match the current character with a glob
-				/*i = 0;*/
-			if (globs->subdir[i][j + 1] == '\0') // glob matches completely
+			if (ft_strchr("*?[", globs->subdir[i][j + 1])) // we match the current character with a glob
+			{
+				if (ft_recursivesubdir(globs, dirents->d_name, i, j))
+				{
+					subdirs = ft_strjoin(subdirs, globs->subdir[i]); // add the current dir to subdirs
+					if (!globs->subdir[i + 1]) // if it is the last subdir
+						globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, subdirs, " "); // add the match
+				}	
+			}
+			else if (globs->subdir[i][j + 1] == '\0') // glob matches completely
 			{
 				/*if (dirents->d_type == DT_DIR) // check if it is a directory*/
 				/*{*/
