@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/11 01:00:43 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/11 02:48:19 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,11 @@ int	ft_recursivewildcard(t_globs *globs, char *dname, int i, int j)
 			if (dname[i + j] == '\0') // the whole filename matches
 				return (1); // copy it over.
 			else // we have no match and reset the globend counter.
+			{
+				i++;
 				j = tempj;
+			}
 		}
-		else // no matching first character means we can move over a character and try to match from there.
-			i++;
 	}
 	return (0);
 }
@@ -321,7 +322,7 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos)
 			ft_newpipeline(globs); //constructs the new pipeline, sets the new position in the pipeline right after the parsed glob
 			if (cmd->debug)
 				ft_printglobs(*globs, "globlooper");
-			startpos++;
+			startpos = 0;
 		}
 		else // no glob found yet, copy over the character and restart the loop.
 		{
