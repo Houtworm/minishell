@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/11 05:33:18 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/11 05:37:35 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -557,12 +557,18 @@ testfunction "ls ?rc/???????"
 testfunction "ls g?t?e?t?i?e"
 testfunction "ls ?e?n?x?l?n?"
 testfunction "ls ???/??iltin/echo.?"
+testfunction "ls ???/??iltin/ekho.?"
+testfunction "ls ?rc?/???????"
 
 # [] anyof
 printf "\e[1;36mTesting [] anyof\e[0;00m\n"
 testfunction "[]"
 testfunction "ls [s]rc"
 testfunction "ls [so][rb][cj]"
+testfunction "ls [so][rb][cj]/builtin"
+testfunction "ls [so][rb][cj]/builtin/e[cx][hi][ot].[co]"
+testfunction "ls [so][qa][cj]/builtin"
+testfunction "ls [so][rb][cj]/builtin/echo.[rb]"
 
 # glob combinations
 printf "\e[1;36mTesting glob combinations \e[0;00m\n"
