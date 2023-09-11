@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/09 16:33:29 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/11 01:00:43 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,54 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 	dname[0] = type; // just here to stop warnings
 }
 
+int	ft_recursivewildcard(t_globs *globs, char *dname, int i, int j)
+{
+	int		tempj;
+
+	j++;
+	tempj = j;
+	if (globs->gend[j] == '\0') // no globend means every end matches
+		return (1); // this one is a match
+	while (dname[i + j]) // while there are characters in filename 
+	{
+		if (dname[i + j] == globs->gend[j] || globs->gend[j] == '\0') // if the first character matches or there is no globend
+		{
+			if (globs->gend[j] == '\0') // no globend means every end matches
+				return (1); // this one is a match
+			if (dname[i + j + 1] == '\0') // no globend means every end matches
+				return (1); // this one is a match
+			while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j]) //while the first character was a match but globend exists
+				j++;
+			if (ft_strchr("*/[", globs->gend[j])) // if we find a new glob
+				return (ft_recursiveglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
+			if (dname[i + j] == '\0') // the whole filename matches
+				return (1); // copy it over.
+			else // we have no match and reset the globend counter.
+				j = tempj;
+		}
+		else // no matching first character means we can move over a character and try to match from there.
+			i++;
+	}
+	return (0);
+}
+
+int	ft_recursiveglob(t_globs *globs, char *dname, int i, int j)
+{
+	if (globs->gend[j] == '*')
+	{
+		return (ft_recursivewildcard(globs, dname, i, j));
+	}
+	/*if (globs->gend[j] == '?')*/
+	/*{*/
+		/*ft_recursivejoker(globs, dname, i, j);*/
+	/*}*/
+	/*if (globs->gend[j] == '[')*/
+	/*{*/
+		/*ft_recursiveanyof(globs, dname, i, j);*/
+	/*}*/
+	return (0);
+}
+
 int	ft_parsewildcard(t_globs *globs, char *dname, int i)
 {
 	int	j;
@@ -98,6 +146,8 @@ int	ft_parsewildcard(t_globs *globs, char *dname, int i)
 				return (1); // this one is a match
 			while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j]) //while the first character was a match but globend exists
 				j++;
+			if (ft_strchr("*/[", globs->gend[j])) // if we find a new glob
+				return (ft_recursiveglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
 			if (dname[i + j] == '\0') // the whole filename matches
 				return (1); // copy it over.
 			else // we have no match and reset the globend counter.
@@ -110,7 +160,7 @@ int	ft_parsewildcard(t_globs *globs, char *dname, int i)
 }
 
 int	ft_matchtheglob(t_globs *globs, char *dname, int i)
-{
+{ // maybe put a while loop here to handle multiple globs in the same path dir
 	if (globs->glob == '*') // if we find a wildcard match
 		if (ft_parsewildcard(globs, dname, i)) // parse it
 			return (1);
@@ -198,7 +248,7 @@ void	ft_getsubdir(t_globs *globs)
 		else // no more subdirs to parse
 			k++;
 	}
-	globs->subdir[i] = ft_calloc(ft_strlen(globs->gend), 8); // NULL terminated char**
+	/*globs->subdir[i] = ft_calloc(ft_strlen(globs->gend), 8); // NULL terminated char***/
 	globs->subdir[i] = NULL;
 }
 
@@ -262,6 +312,7 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos)
 		}
 		if (ft_strchr("*?[", globs->pipeline[globs->linecount + startpos])) // if we find a glob
 		{
+			printf("Looping here\n");
 			globs->glob = globs->pipeline[globs->linecount + startpos]; // set the glob type
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings
 			ft_getparent(globs); //looks in the glob if it contains any extra directories above or below the glob

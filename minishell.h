@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/10 02:29:33 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/10 23:51:01 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ int		ft_countendconditions(char *line, int count, int i);
 //variable
 int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
 //globs
+int			ft_recursiveglob(t_globs *globs, char *dname, int i, int j);
 int			ft_parseglobs(t_cmds *cmd);
 //wildcard
 //void		ft_parsewildcard(t_cmds cmd, t_globs *globs);
