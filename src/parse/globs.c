@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/11 04:53:00 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/11 05:08:31 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 		{
 			j = 0;
-			while (dirents->d_name[j] && dirents->d_name[j] == globs->subdir[i][j + 1])
+			while (dirents->d_name[j] && dirents->d_name[j] == globs->subdir[i][j + 1]) //just skip over the non globs
 				j++;
-			/*if (ft_strchr("*?[", globs->subdir[i][j + 1]))*/
+			/*if (ft_strchr("*?[", globs->subdir[i][j + 1]))*/ // we match the current character with a glob
 				/*i = 0;*/
-			if (globs->subdir[i][j + 1] == '\0') // this needs to be checked char by char untill we hit the end or a glob
+			if (globs->subdir[i][j + 1] == '\0') // glob matches completely
 			{
 				/*if (dirents->d_type == DT_DIR) // check if it is a directory*/
 				/*{*/
@@ -87,44 +87,6 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 	}
 	dname[0] = type; // just here to stop warnings
 }
-
-
-/*void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type)*/
-/*{ // should match subdirectories recursively*/
-	/*DIR				*dir;*/
-	/*struct dirent	*dirents;*/
-	/*char			*checkdir;*/
-	/*char			*subdirs;*/
-	/*int				i;*/
-
-	/*i = 0;*/
-	/*subdirs = NULL;*/
-	/*checkdir = ft_vastrjoin(2, fullpath, dname); // create the new directory to open*/
-	/*while (globs->subdir[i]) // check if there are subdirectories to check*/
-	/*{*/
-		/*dir = opendir(checkdir); // open the directory*/
-		/*if (!dir)*/
-			/*return ;*/
-		/*while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory*/
-		/*{*/
-			/*if (!ft_strncmp(dirents->d_name, &globs->subdir[i][1], ft_strlen(dirents->d_name))) // this needs to be checked char by char untill we hit the end or a glob*/
-			/*{*/
-				/*if (dirents->d_type == DT_DIR) // check if it is a directory*/
-				/*{*/
-					/*subdirs = ft_strjoin(subdirs, globs->subdir[i]); // add the current dir to subdirs*/
-				/*}*/
-				/*if (!globs->subdir[i + 1]) // if it is the last subdir*/
-				/*{*/
-					/*globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, subdirs, " "); // add the match*/
-				/*}*/
-			/*}*/
-		/*}*/
-		/*closedir(dir);*/
-		/*checkdir = ft_vastrjoin(2, checkdir, globs->subdir[i]); // create new checkdir for the next loop round*/
-		/*i++;*/
-	/*}*/
-	/*dname[0] = type; // just here to stop warnings*/
-/*}*/
 
 int	ft_recursivewildcard(t_globs *globs, char *dname, int i, int j)
 {

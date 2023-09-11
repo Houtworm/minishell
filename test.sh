@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/06 02:49:09 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/11 05:33:18 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -541,6 +541,12 @@ testfunction "*"
 testfunction "ls *rc"
 testfunction "ls *r*"
 testfunction "ls *rc/b*"
+testfunction "ls g*t*e*t*i*e"
+testfunction "ls *e*n*x*l*n*"
+testfunction "ls ../*/src/*/*.c"
+testfunction "ls ../*/src/doesnotexist/echo.c"
+testfunction "ls ../*/src/builtin/fake.c"
+
 
 # ? joker
 printf "\e[1;36mTesting ? Jokers\e[0;00m\n"
@@ -548,12 +554,19 @@ testfunction "?"
 testfunction "ls ?rc"
 testfunction "ls ?r?"
 testfunction "ls ?rc/???????"
+testfunction "ls g?t?e?t?i?e"
+testfunction "ls ?e?n?x?l?n?"
+testfunction "ls ???/??iltin/echo.?"
 
 # [] anyof
 printf "\e[1;36mTesting [] anyof\e[0;00m\n"
 testfunction "[]"
 testfunction "ls [s]rc"
 testfunction "ls [so][rb][cj]"
+
+# glob combinations
+printf "\e[1;36mTesting glob combinations \e[0;00m\n"
+testfunction "ls [so]?[cj]/b??*/*[.,]?"
 
 # # comments
 printf "\e[1;36mTesting # comments\e[0;00m\n"
