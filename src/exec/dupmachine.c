@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   dupmachine.c                                       :+:    :+:            */
+/*   dupmachine.c                                    |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/10 13:39:11 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/11 07:32:38 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	ft_heredoc(char *delimiter)
 	close(fdi);
 	fdi = open("/tmp/minishellheredocfile.temp", O_RDONLY);
 	dup2(fdi, 0);
-//	close(fdi);
 	return (fdi);
 }
 
@@ -69,7 +68,6 @@ int	ft_outputfile(char *file, int append)
 		return (1);
 	}
 	dup2(fdo, 1);
-//	close (fdo);
 	return (0);
 }
 

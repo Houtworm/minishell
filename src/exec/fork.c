@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fork.c                                             :+:    :+:            */
+/*   fork.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/10 12:46:20 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/11 07:31:17 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,5 @@ int	ft_forktheforks(t_shell *shell)
 	{
 		code = ft_executeforks(forknumber, shell);
 	}
-	/*dup2(1, 1);*/
-	/*dup2(0, 0);*/
-	/*dup2(shell->fdout, 1);*/
-	/*dup2(shell->fdin, 0);*/
 	return (code);
 }

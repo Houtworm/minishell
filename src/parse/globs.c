@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/11 06:23:32 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/11 07:20:17 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ int	ft_newpipeline(t_globs *globs)
 
 int		ft_recursivesubwildcard(t_globs *globs, char *dname, int i, int j)
 {
-	int	tempj;
+	/*int	tempj;*/
 	
 	j++;
-	tempj = j;
+	/*tempj = j;*/
 	while (dname[j]) // while there are characters in filename 
 	{
 		if (dname[j] == globs->subdir[i][j + 1] || globs->subdir[i][j + 1] == '\0') // if the first character matches or there is no globend
