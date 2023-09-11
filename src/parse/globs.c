@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/11 11:09:24 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/11 11:46:46 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 			{
 				if (ft_recursivesubdir(globs, dirents->d_name, i, j))
 				{
-					printf("%s\n", dirents->d_name);
+					printf("dirents dname after recursivesubdir: %s\n", dirents->d_name);
 					subdirs = ft_strjoin(subdirs, globs->subdir[i]); // add the current dir to subdirs
 					if (!globs->subdir[i + 1]) // if it is the last subdir
 						globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, subdirs, " "); // add the match
