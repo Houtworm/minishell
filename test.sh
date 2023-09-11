@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/11 05:37:35 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/11 09:24:09 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -546,7 +546,6 @@ testfunction "ls *e*n*x*l*n*"
 testfunction "ls ../*/src/*/*.c"
 testfunction "ls ../*/src/doesnotexist/echo.c"
 testfunction "ls ../*/src/builtin/fake.c"
-
 
 # ? joker
 printf "\e[1;36mTesting ? Jokers\e[0;00m\n"
