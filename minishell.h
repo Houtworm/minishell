@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                     |o_o || |                */
+/*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/12 10:42:32 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 11:20:28 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_redirect
 	char				*outfilename;
 	int					append;
 	char				*delimiter;
-	int					hdfd;
+	int					*hdfd;
 	struct s_redirect	*nxt;
 }	t_redirect;
 

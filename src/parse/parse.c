@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   parse.c                                         |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/03/19 04:36:04 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/11 14:41:50 by djonker      \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   parse.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: djonker <djonker@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
+/*   Updated: 2023/09/12 11:17:31 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 	return (shell);
 }
 
+
+
+//before the fork, heredoc needs to be parsed
 t_shell	ft_parseline(char *line, t_shell shell)
 {
 	int	forknumber;
