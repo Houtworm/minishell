@@ -6,31 +6,52 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/11 07:32:04 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/12 10:50:30 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_builtincheck(t_cmds cmds)
+int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	ret;
 
 	ret = -1111;
 	if (!ft_strncmp(cmds.arguments[0], "exit\0", 5))
+	{
+		ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 		ret = ft_exit(cmds);
+	}
 	if (!ft_strncmp(cmds.arguments[0], "cd\0", 3))
+	{
+		ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 		ret = ft_chdir(cmds);
+	}
 	if (!ft_strncmp(cmds.arguments[0], "unset\0", 6))
+	{
+		ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 		ret = ft_unset(cmds);
+	}
 	if (!ft_strncmp(cmds.arguments[0], "export\0", 7))
+	{
+		ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 		ret = ft_export(cmds);
+	}
 	if (!ft_strncmp(cmds.arguments[0], "env\0", 4))
+	{
+		ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 		ret = ft_env();
+	}
 	if (!ft_strncmp(cmds.arguments[0], "pwd\0", 4))
+	{
+		ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 		ret = ft_pwd(cmds);
+	}
 	if (!ft_strncmp(cmds.arguments[0], "echo\0", 5))
+	{
+		ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 		ret = ft_echo(cmds);
+	}
 	return (ret);
 }
 
@@ -38,8 +59,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	status;
 
-	ft_dupmachine(cmds, cmdnbr, forknbr, shell);
-	cmds.code = ft_builtincheck(cmds);
+	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);
 	if (cmds.code == -1111)
 	{
 		status = ft_checkcommand(cmds);
@@ -50,6 +70,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		cmds.pid = fork();
 		if (cmds.pid == 0)
 		{
+			ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 			execve(cmds.absolute, cmds.arguments, cmds.envp);
 			exit (-1);
 		}
@@ -68,6 +89,11 @@ int	ft_executeforks(int forknbr, t_shell *shell)
 	while (shell->forks[forknbr].cmdamount > cmdnbr)
 	{
 		*shell = ft_parsecmds(*shell, forknbr, cmdnbr);
+		cmdnbr++;
+	}
+	cmdnbr = 0;
+	while (shell->forks[forknbr].cmdamount > cmdnbr)
+	{
 		if (shell->debug)
 			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);

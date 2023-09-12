@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/11 14:35:11 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/12 10:52:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	ft_printdup(t_cmds cmds, int cmdnbr, int forknbr)
 	printf("\e[1;32mdupmachine cmd %d fork %d\e[0;00m\n", cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		printf("\e[1;32minput from pipe\e[0;00m\n");
-	else if (cmds.redirect[0].delimiter)
+	else if (cmds.redirect[0].hdfd > 0)
 		printf("\e[1;32minput from heredoc\e[0;00m\n");
 	else if (cmds.redirect[0].infilename)
 		printf("\e[1;32minput from file %s\e[0;00m\n", cmds.redirect[0].infilename);

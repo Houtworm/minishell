@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/10 02:26:50 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 10:22:13 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	shell->code = 256;
 	shell->fdout = 1;
 	shell->fdin = 0;
-	/*dup2(1, shell->fdout);*/
-	/*dup2(0, shell->fdin);*/
+	dup2(1, shell->fdout);
+	dup2(0, shell->fdin);
 	shell->debug = 0;
 	if (debugmode)
 		shell->debug = 1;
