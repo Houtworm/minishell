@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/12 04:49:17 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 09:50:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_globs
 	char		glob;
 	char		*end;
 	char		**subdir;
+	char		**tempsubdir;
 	char		*pardir;
 	char		*matches;
 	char		*pipeline;
@@ -155,7 +156,7 @@ int		ft_countendconditions(char *line, int count, int i);
 int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
 //globs
 int			ft_recursiveglob(t_globs *globs, char *dname, int i, int j);
-int			ft_recursivesubdir(t_globs *globs, char *dname, int i, int j);
+int			ft_recursivesubdir(t_globs *globs, struct dirent *dirents, int i, int j);
 int			ft_parseglobs(t_cmds *cmd);
 //wildcard
 //void		ft_parsewildcard(t_cmds cmd, t_globs *globs);
