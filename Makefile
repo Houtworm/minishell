@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/12 11:28:59 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/12 15:12:47 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC		=src/main/main.c\
 		 src/exec/exec.c\
 		 src/exec/dupmachine.c\
 		 src/exec/verify.c\
+		 src/builtin/builtin.c\
 		 src/builtin/exit.c\
 		 src/builtin/chdir.c\
 		 src/builtin/unset.c\

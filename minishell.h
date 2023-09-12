@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/12 11:34:38 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 15:13:16 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef struct s_redirect
 	char				*infilename;
 	char				*outfilename;
 	int					append;
-	char				*delimiter;
 	int					hdfd;
 	struct s_redirect	*nxt;
 }	t_redirect;
@@ -53,7 +52,6 @@ typedef struct s_globs
 	char		*pardir;
 	char		*matches;
 	char		*pipeline;
-	int			period;
 	int			linecount;
 }	t_globs;
 
@@ -189,6 +187,8 @@ int			ft_checkoutputfile(char *outputfile);
 int			ft_checkcommand(t_cmds cmds);
 
 // BUILTINS
+// builtin
+int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
 // chdir
 int			ft_chdir(t_cmds cmds);
 // exit

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 09:00:10 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/01 05:24:26 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 14:57:34 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	ft_checkoutquote(char *line, char target, int mode)
 	}
 	return (-1);
 }
-
 
 char	**ft_checkarg(char	**cmd, int count)
 {

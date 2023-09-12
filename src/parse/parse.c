@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/12 11:29:51 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 14:55:27 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 	ft_frearr(paths);
 	return (shell);
 }
-
-
 
 //before the fork, heredoc needs to be parsed
 t_shell	ft_parseline(char *line, t_shell shell)

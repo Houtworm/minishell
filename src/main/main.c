@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/11 14:11:50 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/12 14:49:23 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,8 @@ int	ft_mainloop(t_shell *shell)
 	char	*line;
 	int		forknumber;
 	int		status;
-	/*int		fdi;*/
-	/*int		fdo;*/
 
 	forknumber = 0;
-	/*fdi = open("/dev/fd/0", O_RDWR);*/
-	/*dup2(fdi, 0);*/
-	//close (fdi);
-	/*fdo = open("/dev/fd/1", O_RDWR | O_TRUNC);*/
-	/*dup2(fdo, 1);*/
-	//close (fdo);
 	shell->envp = ft_fdtocharpp(shell->envpfd);
 	ft_printprompt(shell, shell->envp);
 	line = readline("❯ ");

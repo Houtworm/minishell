@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/12 11:35:13 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 14:56:51 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	ft_rdrct_add_back(t_redirect **lst, t_redirect *new)
 	l = *lst;
 	if (lst && new)
 	{
-		if ((*lst)->infilename || (*lst)->outfilename || (*lst)->delimiter)
+		if ((*lst)->infilename || (*lst)->outfilename || (*lst)->hdfd)
 		{
 			while (l)
 			{

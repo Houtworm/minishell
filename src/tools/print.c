@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/12 11:35:51 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 15:02:07 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	ft_printredirect(t_redirect *redirect)
 		i++;
 	}
 	i = 0;
-	while (redirect[i].delimiter)
+	while (redirect[i].hdfd)
 	{
-		printf("\e[1;36mredirect %d input from heredoc with delimiter: %s\e[0;00m\n", i + 1, redirect[i].delimiter);
+		printf("\e[1;36mredirect %d input from heredoc with file descriptor: %d\e[0;00m\n", i + 1, redirect[i].hdfd);
 		i++;
 	}
 }
@@ -93,7 +93,6 @@ void	ft_printglobs(t_globs globs, char *function)
 		printf("\e[1;31msubdir %d: %s\e[0;00m\n", i, globs.subdir[i]);
 		i++;
 	}
-	printf("\e[1;31mperiod: %d\e[0;00m\n", globs.period);
 	printf("\e[1;31mstart: %s\e[0;00m\n", globs.start);
 	printf("\e[1;31mend: %s\e[0;00m\n", globs.end);
 	printf("\e[1;31mmatches: %s\e[0;00m\n", globs.matches);
