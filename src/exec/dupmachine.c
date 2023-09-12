@@ -6,39 +6,11 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/12 10:44:27 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 11:28:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	ft_heredoc(char *delimiter)
-{
-	int		fdi;
-	char	*line;
-	int		length;
-
-	fdi = open("/tmp/minishellheredocfile.temp", O_RDWR | O_CREAT | O_TRUNC, 0666);
-	length = ft_strlen(delimiter);
-	ft_putstr("minishell heredoc> ");
-	get_next_line(0, &line);
-	if (!line)
-		ft_errorexit("Error allocating memory", "malloc", 1);
-	while (ft_strncmp(line, delimiter, length + 1))
-	{
-		ft_putstr("minishell heredoc> ");
-		ft_putendl_fd(line, fdi);
-		free(line);
-		get_next_line(0, &line);
-		if (!line)
-			ft_errorexit("Error allocating memory", "malloc", 1);
-	}
-	free(line);
-	close(fdi);
-	fdi = open("/tmp/minishellheredocfile.temp", O_RDONLY);
-	/*dup2(fdi, 0);*/
-	return (fdi);
-}
 
 int	ft_inputfile(char *file)
 {
@@ -77,10 +49,10 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		ft_printdup(cmds, cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		dup2(shell->pipes[forknbr][0], 0);
-	else if (cmds.redirect[0].hdfd > 0)
+	else if (cmds.redirect[0].hdfd[0] > 0)
 	{
 		/*ft_heredoc(cmds.redirect[0].delimiter);*/
-		dup2(cmds.redirect[0].hdfd, 0);
+		dup2(cmds.redirect[0].hdfd[0], 0);
 	}
 	else if (cmds.redirect[0].infilename)
 	{
