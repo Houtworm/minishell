@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/12 11:27:32 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 11:35:13 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@
 //ls > r2 > r3 will copy the result of ls to file3, while skipping r2
 //cat < r3 << EOF > r1 will copy the content of heredoc to r1 while skipping r3
 
-
-
-//create heredoc func
-
-// void	ft_parseheredoc()
-//1. create cmd struct 
-//2.int *hdfd to store the fd
 
 void	ft_check_redirect(t_cmds *cmds)
 {
@@ -73,10 +66,7 @@ t_redirect *ft_redrc_in(t_redirect *redirect, char *line)
 		i--;
 	}
 	if (line[i - 2] == '<')
-	{
-		/*new->delimiter = ft_strdup(file[0]);*/
-		new->hdfd[0] = ft_heredoc(file[0]);
-	}
+		new->hdfd = ft_heredoc(file[0]);
 	else
 		new->infilename = ft_strdup(file[0]);
 	ft_frearr(tmp);

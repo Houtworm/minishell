@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/12 11:28:28 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 11:35:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		ft_printdup(cmds, cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		dup2(shell->pipes[forknbr][0], 0);
-	else if (cmds.redirect[0].hdfd[0] > 0)
+	else if (cmds.redirect[0].hdfd > 0)
 	{
 		/*ft_heredoc(cmds.redirect[0].delimiter);*/
-		dup2(cmds.redirect[0].hdfd[0], 0);
+		dup2(cmds.redirect[0].hdfd, 0);
 	}
 	else if (cmds.redirect[0].infilename)
 	{
