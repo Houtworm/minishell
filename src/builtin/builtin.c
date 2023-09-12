@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/12 16:28:13 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 17:51:21 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int	ft_executebuiltin(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell, int 
 			exit (ft_echo(cmds));
 		else if (ret == 4)
 			exit (ft_env());
-		else if (ret == 6)
+		else if (ret == 5)
 			exit (ft_export(cmds));
-		else if (ret == 7)
+		else if (ret == 6)
 			exit (ft_pwd(cmds));
-		else if (ret == 8)
+		else if (ret == 7)
 			exit (ft_unset(cmds));
 	}
 	waitpid(pid, &code, 0);
@@ -47,6 +47,8 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	int	ret;
 
 	ret = 0;
+	if (!ft_strncmp(cmds.arguments[0], "exit\0", 5))
+		ft_exit(cmds);
 	if (!ft_strncmp(cmds.arguments[0], "alias\0", 6))
 		ret = 1;
 	else if (!ft_strncmp(cmds.arguments[0], "cd\0", 3))
@@ -55,15 +57,13 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		ret = 3;
 	else if (!ft_strncmp(cmds.arguments[0], "env\0", 4))
 		ret = 4;
-	else if (!ft_strncmp(cmds.arguments[0], "exit\0", 5))
-		ft_exit(cmds);
 	else if (!ft_strncmp(cmds.arguments[0], "export\0", 7))
-		ret = 6;
+		ret = 5;
 	else if (!ft_strncmp(cmds.arguments[0], "pwd\0", 4))
-		ret = 7;
+		ret = 6;
 	else if (!ft_strncmp(cmds.arguments[0], "unset\0", 6))
-		ret = 8;
-	if (ret)
+		ret = 7;
+	else if (ret)
 		return (ft_executebuiltin(cmds, cmdnbr, forknbr, shell, ret));
 	return (-1111);
 }
