@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   print.c                                         |o_o || |                */
+/*   print.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/12 15:02:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 21:12:24 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ void	ft_printcmds(t_cmds cmds, int cmdnbr, int forknbr)
 		printf("\e[1;36mcondition: unconditional\e[0;00m\n");
 	if (cmds.detatch)
 		printf("\e[1;36mprogram will detatch\e[0;00m\n");
-	ft_printredirect(cmds.redirect);
+	if (cmds.hdfd)
+		printf("\e[1;36mheredoc fd: %d\e[0;00m\n", cmds.hdfd);
+	// ft_printredirect(cmds.redirect);
 }
 
 void	ft_printglobs(t_globs globs, char *function)

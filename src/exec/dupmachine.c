@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   dupmachine.c                                    |o_o || |                */
+/*   dupmachine.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/12 15:29:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 21:11:20 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		ft_printdup(cmds, cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		dup2(shell->pipes[forknbr][0], 0);
-	else if (shell->forks[forknbr].cmds[cmdnbr].redirect[0].hdfd > 0)
-		dup2(cmds.redirect[0].hdfd, 0);
+	else if (shell->forks[forknbr].cmds[cmdnbr].hdfd > 0)
+		dup2(cmds.hdfd, 0);
 	else if (cmds.redirect[0].infilename)
 	{
 		if (ft_inputfile(cmds.redirect[0].infilename))

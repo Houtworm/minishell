@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   redirect.c                                      |o_o || |                */
+/*   redirect.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/12 14:56:51 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/12 20:45:23 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ t_redirect *ft_redrc_in(t_redirect *redirect, char *line)
 		}
 		i--;
 	}
-	if (line[i - 2] == '<')
-		new->hdfd = ft_heredoc(file[0]);
-	else
-		new->infilename = ft_strdup(file[0]);
+	// if (line[i - 2] == '<')
+	// 	// new->hdfd = ft_heredoc(file[0]);
+	// else
+	// 	new->infilename = ft_strdup(file[0]);
 	ft_frearr(tmp);
 	ft_frearr(file);
 	ft_rdrct_add_back(&redirect, new);
