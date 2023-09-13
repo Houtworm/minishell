@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/13 04:33:31 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/13 19:32:49 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int	ft_heredoc(char *delimiter, char *file)
 
 	fdi = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	length = ft_strlen(delimiter);
-	ft_putstr("minishell heredoc> ");
+	ft_putstr_fd("minishell heredoc> ", 1);
 	get_next_line(0, &line);
 	if (!line)
 		ft_errorexit("Error allocating memory", "malloc", 1);
 	while (ft_strncmp(line, delimiter, length + 1))
 	{
-		ft_putstr("minishell heredoc> ");
+		ft_putstr_fd("minishell heredoc> ", 1);
 		ft_putendl_fd(line, fdi);
 		free(line);
 		get_next_line(0, &line);
