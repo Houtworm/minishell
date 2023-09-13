@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/12 20:45:23 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/13 21:56:16 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,18 @@ void	ft_check_redirect(t_cmds *cmds)
 {
 	char		**tmp;
 	char		**newline;
-	
-	if (ft_strchr((*cmds).pipeline, '<'))
-		(*cmds).redirect = ft_redrc_in((*cmds).redirect, (*cmds).pipeline);
-	if (ft_strchr((*cmds).pipeline, '>'))
-		(*cmds).redirect = ft_redrc_out((*cmds).redirect, (*cmds).pipeline);
+
+	(*cmds).infile = NULL;
+	(*cmds).outfile = NULL;
+	(*cmds).append = NULL;
+	printf("start\n");
+	if (ft_checkoutquote((*cmds).pipeline, '<', 2) < 0 
+		&& ft_checkoutquote((*cmds).pipeline, '>', 2) < 0)
+		return ;
+	if (ft_checkoutquote((*cmds).pipeline, '<', 2) >= 0)
+		(*cmds).infile = ft_redrc_in((*cmds).infile, (*cmds).pipeline);
+	if (ft_checkoutquote((*cmds).pipeline, '>', 2) >= 0)
+		(*cmds).outfile = ft_redrc_out((*cmds).outfile, &((*cmds).append), (*cmds).pipeline);
 	tmp = split_not_quote((*cmds).pipeline, '>');
 	newline = split_not_quote(tmp[0], '<');
 	free((*cmds).pipeline);
@@ -40,98 +47,98 @@ void	ft_check_redirect(t_cmds *cmds)
 	ft_frearr(newline);
 }
 
-t_redirect *ft_redrc_in(t_redirect *redirect, char *line)
+char	**ft_redrc_in(char	**infile, char *pipeline)
 {
-	t_redirect	*new;
+	char		**lines;
 	char		**file;
 	char		**tmp;
 	int			i;
 
-	new = ft_calloc(1, sizeof(t_redirect));
-	if (!new)
-		return (NULL);
-	// filename should be search from the beginning (see notion)
-	i = ft_strlen(line) - 1;
+	i = 1;
 	tmp = NULL;
-	file = NULL;
-	while ((int)i > -1)
+	printf("start in\n");
+
+	lines = split_not_quote(pipeline, '<');
+	while (lines[i])
+		i++;
+	infile = ft_calloc(i, sizeof(char *));
+	i = 1;
+	while (lines[i])
 	{
-		if (line[i] == '<')
-		{
-			i++;
-			tmp = split_not_quote(line + i, ' ');
-			file = split_not_quote(tmp[0], '>');
-			break ;
-		}
-		i--;
+		tmp = split_not_quote(lines[i], ' ');
+		file = split_not_quote(tmp[0], '>');
+		printf("infile name = %s\n", file[0]);
+		infile[i - 1] = ft_strdup(file[0]);
+		ft_frearr(tmp);
+		ft_frearr(file);
+		i++;
 	}
-	// if (line[i - 2] == '<')
-	// 	// new->hdfd = ft_heredoc(file[0]);
-	// else
-	// 	new->infilename = ft_strdup(file[0]);
-	ft_frearr(tmp);
-	ft_frearr(file);
-	ft_rdrct_add_back(&redirect, new);
-	return (redirect);
+	ft_frearr(lines);
+	printf("endofredirect in\n");
+	return (infile);
 }
 
-t_redirect *ft_redrc_out(t_redirect *redirect, char *line)
+char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 {
-	t_redirect	*new;
-	char		**tmp;
+	char		**lines;
 	char		**file;
+	char		**tmp;
 	int			i;
+	int			k;
+	char		quote;
 
-	if (redirect && !redirect->outfilename)
-		new = redirect;
-	else
-		new = ft_calloc(1, sizeof(t_redirect));
-	if (!new)
-		return (NULL);
-	i = (int)ft_strlen(line) - 1;
+	i = 1;
 	tmp = NULL;
-	file = NULL;
-	while ((int)i > -1)
+	printf("start out\n");
+
+	lines = split_not_quote(pipeline, '>');
+	while (lines[i])
 	{
-		if (line[i] == '>')
-		{
-			i++;
-			tmp = split_not_quote(line + i, ' ');
-			file = split_not_quote(tmp[0], '<');
-			break ;
-		}
-		i--;
+		printf ("line = %s\n", lines[i]);
+		i++;
 	}
-	new->outfilename = ft_strdup(file[0]);
-	if (line[i - 2] == '>')
-		new->append = 1;
-	else
-		new->append = 0;
-	ft_frearr(tmp);
-	ft_frearr(file);
-	if (new != redirect)
-		ft_rdrct_add_back(&redirect, new);
-	return (redirect);
-}
-
-void	ft_rdrct_add_back(t_redirect **lst, t_redirect *new)
-{
-	t_redirect	*l;
-
-	l = *lst;
-	if (lst && new)
+	printf ("how many outfile? %d\n", i - 1);
+	outfile = ft_calloc(i - 1, sizeof(char *));
+	(*append) = ft_calloc(i - 1, sizeof(int));
+	i = 1;
+	quote = '\0';
+	while (lines[i])
 	{
-		if ((*lst)->infilename || (*lst)->outfilename || (*lst)->hdfd)
+		tmp = split_not_quote(lines[i], ' ');
+		file = split_not_quote(tmp[0], '>');
+		printf("outfile name = %s, i = %d\n", file[0], i);
+		outfile[0] = ft_strdup(file[0]);
+		ft_frearr(tmp);
+		ft_frearr(file);
+		i++;
+	}
+	ft_frearr(lines);
+	i = 0;
+	k = 0;
+	while (pipeline[i])
+	{
+	printf(" out of while\n");
+		if (pipeline[i] == '\'' || pipeline[i] == '\"')
 		{
-			while (l)
+			quote = pipeline[i];
+			while (pipeline[i] != quote)
+				i++;
+			i++;
+		}
+		if (pipeline[i] && pipeline[i] == '>')
+		{
+			if (pipeline[i + 1] == '>')
 			{
-				if (!l->nxt)
-					break ;
-				l = l->nxt;
+				(*append)[k] = 1;
+				i++;
+				printf("append 1\n");
 			}
-			l->nxt = new;
+			else
+				(*append)[k] = 0;
 		}
-		else
-			*lst = new;
+		i++;
 	}
+	printf("endofredirect out\n");
+
+	return (outfile);
 }

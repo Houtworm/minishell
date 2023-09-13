@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                     |o_o || |                */
+/*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/13 03:21:49 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/13 21:31:48 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,9 @@ int			ft_heredoc(char *delimiter, char *file);
 char		*ft_delimeter(char *line);
 t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
 //redirect
-//void		ft_check_redirect(t_cmds *cmds);
-//t_redirect *ft_redrc_in(t_redirect *redirect, char *file);
-//t_redirect *ft_redrc_out(t_redirect *redirect, char *file);
-//void		ft_rdrct_add_back(t_redirect **lst, t_redirect *new);
+void	ft_check_redirect(t_cmds *cmds);
+char	**ft_redrc_in(char	**infile, char *pipeline);
+char	**ft_redrc_out(char **outfile, int	**append, char *pipeline);
 //condition
 t_forks		ft_parseendcondition(t_forks forks);
 void		ft_copyquote(char **cmdline, char	*forkline, int icpip, int ifpip);
