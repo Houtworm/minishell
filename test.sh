@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/13 04:39:38 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/13 17:34:01 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -371,6 +371,23 @@ EOF
 EOF
 "
 testfunction "cat << EOF
+t e s t
+ EOF
+EOF
+"
+testfunction "echo << EOF
+t e s t
+EOF
+"
+testfunction "echo << EOF
+t e s t
+EOF"
+testfunction "echo << EOF
+t e s t
+EOF 
+EOF
+"
+testfunction "echo << EOF
 t e s t
  EOF
 EOF
