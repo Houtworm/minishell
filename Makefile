@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                        |o_o || |                 #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/13 21:56:52 by yitoh         ########   odam.nl          #
+#    Updated: 2023/09/13 22:07:57 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC		=src/main/main.c\
 		 src/parse/heredoc.c\
 		 src/parse/quote.c\
 		 src/parse/condition.c\
+		 src/parse/redirect.c\
 		 src/parse/variable.c\
 		 src/parse/globs.c\
 		 src/parse/wildcard.c\
@@ -47,8 +48,6 @@ SRC		=src/main/main.c\
 		 src/tools/error.c\
 		 src/tools/print.c\
 		 src/tools/env.c
-		 
-#	src/parse/redirect.c
 OBJ		=$(SRC:src/%.c=obj/%.o)
 LIB		=printf/ft_printf.a getnextline/get_next_line.a libft/libft.a
 

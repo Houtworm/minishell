@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/13 21:57:10 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/13 22:38:08 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,11 @@ t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 	shell.forks[forknumber].cmds[cmdnumber].envp = shell.envp;
 	shell.forks[forknumber].cmds[cmdnumber].debug = shell.debug;
 	shell.forks[forknumber].cmds[cmdnumber].forkamount = shell.forkamount;
-	shell.forks[forknumber].cmds[0].infile = ft_calloc(1000 * 8, 1);
-	shell.forks[forknumber].cmds[0].outfile = ft_calloc(1000 * 8, 1);
-	/*shell.forks[forknumber].cmds[0].hdfd = 0;*/
 	ft_parsealiases(&shell.forks[forknumber].cmds[cmdnumber], shell);
 	ft_parsevariable(&shell.forks[forknumber].cmds[cmdnumber], shell);
 	ft_executepriority(&shell.forks[forknumber].cmds[cmdnumber]);
 	ft_parseglobs(&shell.forks[forknumber].cmds[cmdnumber]);
-	//ft_check_redirect(&shell.forks[forknumber].cmds[cmdnumber]);
+	ft_check_redirect(&shell.forks[forknumber].cmds[cmdnumber]);
 	paths = ft_getpaths(shell.envp, 1);
 	shell.forks[forknumber].cmds[cmdnumber].arguments = split_not_quote(shell.forks[forknumber].cmds[cmdnumber].pipeline, ' ');
 	shell.forks[forknumber].cmds[cmdnumber].arguments = ft_checkarg(shell.forks[forknumber].cmds[cmdnumber].arguments, 0);

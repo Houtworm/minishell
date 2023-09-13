@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   redirect.c                                         :+:    :+:            */
+/*   redirect.c                                      |o_o || |                */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/13 21:56:16 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/13 22:45:04 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,12 @@ void	ft_check_redirect(t_cmds *cmds)
 	char		**tmp;
 	char		**newline;
 
-	(*cmds).infile = NULL;
-	(*cmds).outfile = NULL;
-	(*cmds).append = NULL;
-	printf("start\n");
+	cmds->infile = ft_calloc(1000 * 8, 1);
+	cmds->outfile = ft_calloc(1000 * 8, 1);
 	if (ft_checkoutquote((*cmds).pipeline, '<', 2) < 0 
 		&& ft_checkoutquote((*cmds).pipeline, '>', 2) < 0)
 		return ;
+	printf("start\n");
 	if (ft_checkoutquote((*cmds).pipeline, '<', 2) >= 0)
 		(*cmds).infile = ft_redrc_in((*cmds).infile, (*cmds).pipeline);
 	if (ft_checkoutquote((*cmds).pipeline, '>', 2) >= 0)
@@ -73,6 +72,8 @@ char	**ft_redrc_in(char	**infile, char *pipeline)
 		ft_frearr(file);
 		i++;
 	}
+	infile[i] = ft_calloc(8, 1);
+	infile[i] = NULL;
 	ft_frearr(lines);
 	printf("endofredirect in\n");
 	return (infile);
@@ -108,6 +109,7 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 		file = split_not_quote(tmp[0], '>');
 		printf("outfile name = %s, i = %d\n", file[0], i);
 		outfile[0] = ft_strdup(file[0]);
+		outfile[1] = ft_calloc(8, 1);
 		ft_frearr(tmp);
 		ft_frearr(file);
 		i++;
