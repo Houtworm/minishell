@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
+/*   minishell.h                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/12 20:44:53 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/13 03:21:49 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,6 @@
 # include <readline/history.h>
 
 // Structs
-
-typedef struct s_redirect
-{
-	char				*infilename;
-	char				*outfilename;
-	int					append;
-	int					hdfd;
-	struct s_redirect	*nxt;
-}	t_redirect;
 
 typedef struct s_alias
 {
@@ -70,11 +61,10 @@ typedef struct s_cmds
 	int			debug;
 	int			cmdamount;
 	int			forkamount;
-	int			*fdin;
-	int			*fdout;
+	char		**infile;
+	char		**outfile;
 	int			*append;
 	int			hdfd;	
-	t_redirect	*redirect;
 }	t_cmds;
 
 typedef struct s_forks
@@ -149,12 +139,12 @@ char		**ft_remove_quote(char	**cmd, int count);
 //heredoc
 int			ft_heredoc(char *delimiter, char *file);
 char		*ft_delimeter(char *line);
-void		ft_parseheredoc(t_forks forks, int cmdnum);
+t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
 //redirect
-void		ft_check_redirect(t_cmds *cmds);
-t_redirect *ft_redrc_in(t_redirect *redirect, char *file);
-t_redirect *ft_redrc_out(t_redirect *redirect, char *file);
-void		ft_rdrct_add_back(t_redirect **lst, t_redirect *new);
+//void		ft_check_redirect(t_cmds *cmds);
+//t_redirect *ft_redrc_in(t_redirect *redirect, char *file);
+//t_redirect *ft_redrc_out(t_redirect *redirect, char *file);
+//void		ft_rdrct_add_back(t_redirect **lst, t_redirect *new);
 //condition
 t_forks		ft_parseendcondition(t_forks forks);
 void		ft_copyquote(char **cmdline, char	*forkline, int icpip, int ifpip);
@@ -187,7 +177,6 @@ void		ft_executepriority(t_cmds *cmd);
 int			ft_executeforks(int forknbr, t_shell *shell);
 // dupmachine
 int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
-// int			ft_heredoc(char *delimiter);
 
 //verify
 int			ft_checkinputfile(char *inputfile);

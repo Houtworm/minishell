@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/12 17:57:47 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/13 04:39:38 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -358,19 +358,19 @@ redirectfunction "cat < r1" "cat < m1"
 # << heredoc
 printf "\e[1;36mTesting << heredoc \e[0;00m\n"
 testfunction "<<"
-testfunction "echo << EOF
+testfunction "cat << EOF
 t e s t
 EOF
 "
-testfunction "echo << EOF
+testfunction "cat << EOF
 t e s t
 EOF"
-testfunction "echo << EOF
+testfunction "cat << EOF
 t e s t
 EOF 
 EOF
 "
-testfunction "echo << EOF
+testfunction "cat << EOF
 t e s t
  EOF
 EOF

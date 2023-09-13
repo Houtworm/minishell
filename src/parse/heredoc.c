@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   heredoc.c                                          :+:    :+:            */
+/*   heredoc.c                                       |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/12 21:03:10 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/13 04:33:31 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,55 +39,118 @@ int	ft_heredoc(char *delimiter, char *file)
 	return (fdi);
 }
 
-char	*ft_delimeter(char *line)
-{
-	char		**delimeter;
-	char		**tmp;
-	int			i;
+/*char	*ft_delimeter(char *line)*/
+/*{*/
+	/*char		**delimeter;*/
+	/*char		**tmp;*/
+	/*int			i;*/
 
-	i = 0;
-	delimeter = NULL;
-	tmp = NULL;
-	while (line[i])
-	{
-		if (line[i] == '<' && line[i - 1] == '<')
-		{
-			i++;
-			tmp = split_not_quote(line + i, ' ');
-			delimeter = split_not_quote(tmp[0], '>');
-			break ;
-		}
-		i++;
-	}
-	return (delimeter[0]);
-}
+	/*i = 0;*/
+	/*delimeter = NULL;*/
+	/*tmp = NULL;*/
+	/*while (line[i])*/
+	/*{*/
+		/*if (line[i] == '<' && line[i - 1] == '<')*/
+		/*{*/
+			/*i++;*/
+			/*tmp = split_not_quote(line + i, ' ');*/
+			/*delimeter = split_not_quote(tmp[0], '>');*/
+			/*break ;*/
+		/*}*/
+		/*i++;*/
+	/*}*/
+	/*return (delimeter[0]);*/
+/*}*/
 
-
-void	ft_parseheredoc(t_forks forks, int cmdnum)
+t_forks ft_parseheredoc(t_forks forks, int cmdnum)
 {
 	int		icmd;
 	int		hdid;
 	int		i;
+	int		j;
 	char	*tmp;
+	char	*start;
+	char	*end;
+	char	*delimiter;
 
 	hdid = 1;
 	icmd = 0;
 	i = 0;
 	while (icmd < cmdnum)
 	{
-		if (ft_strchr(forks.cmds[icmd].pipeline, '<'))
+		forks.cmds[icmd].hdfd = 0;
+		if (ft_checkoutquote(forks.cmds[icmd].pipeline, '<', 2) >= 0)
 		{
-			while (forks.cmds[icmd].pipeline[i] && forks.cmds[icmd].pipeline[i] != '<')
-				i++;
-			if (!forks.cmds[icmd].pipeline[i])
-				return ;
-			i += 2;
-			if (forks.cmds[icmd].pipeline[i - 2] != '<' && forks.cmds[icmd].pipeline[i - 1] != '<')
-				return ;
-			tmp = ft_strjoin("/tmp/minishellheredocfile", ft_itoa(hdid));
-			forks.cmds[icmd].hdfd = ft_heredoc(ft_delimeter(forks.cmds[icmd].pipeline), ft_strjoin(tmp, ".tmp"));
+			start = ft_calloc(ft_strlen(forks.cmds[icmd].pipeline), 8);
+			end = ft_calloc(ft_strlen(forks.cmds[icmd].pipeline), 8);
+			while (forks.cmds[icmd].pipeline[i])
+			{
+				if (forks.cmds[icmd].pipeline[i] == '\'')
+				{
+					start[i] = forks.cmds[icmd].pipeline[i];
+					i++;
+					while (forks.cmds[icmd].pipeline[i] != '\'' && forks.cmds[icmd].pipeline[i])
+					{
+						start[i] = forks.cmds[icmd].pipeline[i];
+						i++;
+					}
+					i++;
+				}
+				else if (forks.cmds[icmd].pipeline[i] == '\"')
+				{
+					start[i] = forks.cmds[icmd].pipeline[i];
+					i++;
+					while (forks.cmds[icmd].pipeline[i] != '\"' && forks.cmds[icmd].pipeline[i])
+					{
+						start[i] = forks.cmds[icmd].pipeline[i];
+						i++;
+					}
+					i++;
+				}
+				else if (forks.cmds[icmd].pipeline[i] == '<' && forks.cmds[icmd].pipeline[i + 1] == '<')
+				{
+					delimiter = ft_calloc(ft_strlen(forks.cmds[icmd].pipeline), 8);
+					start[j] = '\0';
+					i = i + 2;
+					if (forks.cmds[icmd].pipeline[i] == '<')
+						ft_errorexit("wtf?", "syntax error", 1);
+					while (forks.cmds[icmd].pipeline[i] == ' ')
+						i++;
+					j = 0;
+					while (forks.cmds[icmd].pipeline[i] && forks.cmds[icmd].pipeline[i] != ' ')
+					{
+						delimiter[j] = forks.cmds[icmd].pipeline[i];
+						i++;
+						j++;
+					}
+					delimiter[j] = '\0';
+					j = 0;
+					while (forks.cmds[icmd].pipeline[i] == ' ')
+						i++;
+					while (forks.cmds[icmd].pipeline[i])
+					{
+						end[j] = forks.cmds[icmd].pipeline[i];
+						i++;
+						j++;
+					}
+					end[j] = '\0';
+					tmp = ft_vastrjoin(3, "/tmp/minishellheredocfile", ft_itoa(hdid), ".tmp");
+					forks.cmds[icmd].hdfd = ft_heredoc(delimiter, tmp);
+					forks.cmds[icmd].pipeline = ft_strjoin(start, end);
+					free(tmp);
+					free(delimiter);
+					free(start);
+					free(end);
+				}
+				else
+				{
+					start[i] = forks.cmds[icmd].pipeline[i];
+					i++;
+				}
+			}
 			hdid++;
 		}
 		icmd++;
 	}
+	return (forks);
 }

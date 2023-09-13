@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   print.c                                            :+:    :+:            */
+/*   print.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/12 21:12:24 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/13 04:29:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,27 @@ void	ft_printforks(t_forks forks, int forknumber)
 	printf("\e[1;35mcmdamount: %d\e[0;00m\n", forks.cmdamount);
 }
 
-void	ft_printredirect(t_redirect *redirect)
+void	ft_printredirect(t_cmds cmd)
 {
 	int	i;
 
 	i = 0;
-	while (redirect[i].infilename)
+	while (cmd.infile[i])
 	{
-		printf("\e[1;36mredirect %d input from file: %s\e[0;00m\n", i, redirect[i].infilename);
+		printf("\e[1;36mredirect %d input from file: %s\e[0;00m\n", i, cmd.infile[i]);
 		i++;
 	}
 	i = 0;
-	while (redirect[i].outfilename)
+	while (cmd.outfile[i])
 	{
-		if (redirect[i].append)
-			printf("\e[1;36mredirect %d output appended to: %s \e[0;00m\n", i, redirect[i].outfilename);
+		if (cmd.append[i])
+			printf("\e[1;36mredirect %d output appended to: %s \e[0;00m\n", i, cmd.outfile[i]);
 		else
-			printf("\e[1;36mredirect %d output trunctuating: %s \e[0;00m\n", i, redirect[i].outfilename);
+			printf("\e[1;36mredirect %d output trunctuating: %s \e[0;00m\n", i, cmd.outfile[i]);
 		i++;
 	}
-	i = 0;
-	while (redirect[i].hdfd)
-	{
-		printf("\e[1;36mredirect %d input from heredoc with file descriptor: %d\e[0;00m\n", i + 1, redirect[i].hdfd);
-		i++;
-	}
+	if (cmd.hdfd)
+		printf("\e[1;36mredirect %d input from heredoc with file descriptor: %d\e[0;00m\n", i + 1, cmd.hdfd);
 }
 
 void	ft_printcmds(t_cmds cmds, int cmdnbr, int forknbr)
@@ -74,9 +70,7 @@ void	ft_printcmds(t_cmds cmds, int cmdnbr, int forknbr)
 		printf("\e[1;36mcondition: unconditional\e[0;00m\n");
 	if (cmds.detatch)
 		printf("\e[1;36mprogram will detatch\e[0;00m\n");
-	if (cmds.hdfd)
-		printf("\e[1;36mheredoc fd: %d\e[0;00m\n", cmds.hdfd);
-	// ft_printredirect(cmds.redirect);
+	 ft_printredirect(cmds);
 }
 
 void	ft_printglobs(t_globs globs, char *function)
@@ -105,16 +99,16 @@ void	ft_printdup(t_cmds cmds, int cmdnbr, int forknbr)
 	printf("\e[1;32mdupmachine cmd %d fork %d\e[0;00m\n", cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		printf("\e[1;32minput from pipe\e[0;00m\n");
-	else if (cmds.redirect[0].hdfd > 0)
+	else if (cmds.hdfd > 0)
 		printf("\e[1;32minput from heredoc\e[0;00m\n");
-	else if (cmds.redirect[0].infilename)
-		printf("\e[1;32minput from file %s\e[0;00m\n", cmds.redirect[0].infilename);
+	else if (cmds.infile[0])
+		printf("\e[1;32minput from file %s\e[0;00m\n", cmds.infile[0]);
 	else
 		printf("\e[1;32minput from stdin\e[0;00m\n");
 	if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount)
 		printf("\e[1;32moutput to pipe\e[0;00m\n");
-	else if (cmds.redirect[0].outfilename)
-		printf("\e[1;32moutput to file %s\e[0;00m\n", cmds.redirect[0].outfilename);
+	else if (cmds.outfile[0])
+		printf("\e[1;32moutput to file %s\e[0;00m\n", cmds.outfile[0]);
 	else
 		printf("\e[1;32moutput to stdout\e[0;00m\n");
 }
