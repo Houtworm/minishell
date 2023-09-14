@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                         |o_o || |                 #
+#    test.sh                                            :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/14 11:47:56 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/14 19:49:44 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -402,6 +402,9 @@ printf "\e[1;36mTesting < << >> > redirection combinations \e[0;00m\n"
 redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
 redirectfunction "cat -e > r1 < r2" "cat -e > m1 < m2"
 redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
+redirectfunction "echo hey <> r1" "echo hey <> r1"
+redirectfunction "echo hey >< r1" "echo hey >< r1"
+
 #redirectfunction "< r1 cat | << EOF cat | cat >> r3" "< m1 cat | << EOF cat | cat >> m3"
 
 # ; Command end

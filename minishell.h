@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/13 21:31:48 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/14 20:21:38 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,8 @@ int			ft_heredoc(char *delimiter, char *file);
 char		*ft_delimeter(char *line);
 t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
 //redirect
-void	ft_check_redirect(t_cmds *cmds);
+void	ft_redirection(t_cmds *cmds);
+int		ft_check_redirect(char	*line);
 char	**ft_redrc_in(char	**infile, char *pipeline);
 char	**ft_redrc_out(char **outfile, int	**append, char *pipeline);
 //condition

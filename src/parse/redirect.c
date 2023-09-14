@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   redirect.c                                      |o_o || |                */
+/*   redirect.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 14:58:24 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/13 22:45:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/14 20:46:27 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 //cat < r3 << EOF > r1 will copy the content of heredoc to r1 while skipping r3
 
 
-void	ft_check_redirect(t_cmds *cmds)
+void	ft_redirection(t_cmds *cmds)
 {
 	char		**tmp;
 	char		**newline;
@@ -33,7 +33,9 @@ void	ft_check_redirect(t_cmds *cmds)
 	if (ft_checkoutquote((*cmds).pipeline, '<', 2) < 0 
 		&& ft_checkoutquote((*cmds).pipeline, '>', 2) < 0)
 		return ;
-	printf("start\n");
+	if (ft_check_redirect((*cmds).pipeline) != 0)
+		exit(0);
+	 // need to do sth for <> cmd case ^
 	if (ft_checkoutquote((*cmds).pipeline, '<', 2) >= 0)
 		(*cmds).infile = ft_redrc_in((*cmds).infile, (*cmds).pipeline);
 	if (ft_checkoutquote((*cmds).pipeline, '>', 2) >= 0)
@@ -46,6 +48,44 @@ void	ft_check_redirect(t_cmds *cmds)
 	ft_frearr(newline);
 }
 
+int	ft_check_redirect(char	*line)
+{
+	char	check;
+	int		i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '<' || line[i] == '>')
+		{
+			check = line[i];
+			i++;
+
+			if ((line[i] == '<' || line[i] == '>') && (line[i + 1] == '<' || line[i + 1] == '>'))
+				ft_errorexit("syntax error near expected token", &(line[i + 1]), 258);
+			if (check == '>' && line[i] == '<')
+				ft_errorexit("syntax error near expected token", "<", 258);
+			if (line[i] == ' ')
+			{
+				while (line[i] == ' ')
+					i++;
+				if (line[i] == '>' || line[i] == '<')
+					ft_errorexit("syntax error near expected token", &(line[i + 1]), 258);
+				// if (line[i] == '\'' || line[i] == "\"" )
+				// {
+					
+				// }
+			}
+
+			//if (check == '<' && line[i] == '>')
+				// -> parse file name but we don't use it
+				// return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 char	**ft_redrc_in(char	**infile, char *pipeline)
 {
 	char		**lines;
@@ -55,8 +95,6 @@ char	**ft_redrc_in(char	**infile, char *pipeline)
 
 	i = 1;
 	tmp = NULL;
-	printf("start in\n");
-
 	lines = split_not_quote(pipeline, '<');
 	while (lines[i])
 		i++;
@@ -66,7 +104,6 @@ char	**ft_redrc_in(char	**infile, char *pipeline)
 	{
 		tmp = split_not_quote(lines[i], ' ');
 		file = split_not_quote(tmp[0], '>');
-		printf("infile name = %s\n", file[0]);
 		infile[i - 1] = ft_strdup(file[0]);
 		ft_frearr(tmp);
 		ft_frearr(file);
@@ -75,7 +112,6 @@ char	**ft_redrc_in(char	**infile, char *pipeline)
 	infile[i] = ft_calloc(8, 1);
 	infile[i] = NULL;
 	ft_frearr(lines);
-	printf("endofredirect in\n");
 	return (infile);
 }
 
@@ -90,24 +126,17 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 
 	i = 1;
 	tmp = NULL;
-	printf("start out\n");
-
 	lines = split_not_quote(pipeline, '>');
-	while (lines[i])
-	{
-		printf ("line = %s\n", lines[i]);
+	while (lines[i] && lines[i][0])
 		i++;
-	}
-	printf ("how many outfile? %d\n", i - 1);
 	outfile = ft_calloc(i - 1, sizeof(char *));
 	(*append) = ft_calloc(i - 1, sizeof(int));
 	i = 1;
 	quote = '\0';
-	while (lines[i])
+	while (lines[i] && lines[i][0])
 	{
 		tmp = split_not_quote(lines[i], ' ');
 		file = split_not_quote(tmp[0], '>');
-		printf("outfile name = %s, i = %d\n", file[0], i);
 		outfile[0] = ft_strdup(file[0]);
 		outfile[1] = ft_calloc(8, 1);
 		ft_frearr(tmp);
@@ -119,7 +148,6 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 	k = 0;
 	while (pipeline[i])
 	{
-	printf(" out of while\n");
 		if (pipeline[i] == '\'' || pipeline[i] == '\"')
 		{
 			quote = pipeline[i];
@@ -133,14 +161,11 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 			{
 				(*append)[k] = 1;
 				i++;
-				printf("append 1\n");
 			}
 			else
 				(*append)[k] = 0;
 		}
 		i++;
 	}
-	printf("endofredirect out\n");
-
 	return (outfile);
 }
