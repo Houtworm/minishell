@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/14 03:33:06 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/14 07:38:04 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,15 @@ int		ft_recursivesubwildcard(t_globs *globs, struct dirent *dirents, int i, int 
 				}
 				else
 				{
-					if (!globs->subdir[i + 1])
+					if (globs->subdir[i + 1])
 					{
 						printf("%s matches but is not a dir and not the final subdir so no match\n", dirents->d_name);
 						return (0);
 					}
 					else
 					{
-						printf("%s matches but is not a dir but it is the final so it will be added as a match\n", dirents->d_name);
+						globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+						printf("%s matches but is not a dir but it is the final subdir so it will be added as a match\n", dirents->d_name);
 						return (1);
 					}
 
@@ -88,7 +89,7 @@ int		ft_recursivesubwildcard(t_globs *globs, struct dirent *dirents, int i, int 
 			if (ft_strchr("*?[", globs->subdir[i][j + 1])) // if we find a new glob
 			{
 				printf("recursivesubwildcard recursion\n");
-				/*globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);*/
+				globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 				return (ft_recursivesubdir(globs, dirents, i + 1, j)); // recursive glob function returns 1 if it eventually matches
 			}
 			j++;
@@ -313,7 +314,8 @@ int	ft_parseglob(t_cmds *cmd, t_globs *globs)
 	}
 	if (globs->matches[0] == '\0')
 	{
-		globs->matches = ft_vastrjoin(5, globs->pardir, globs->gstart, "*", globs->gend, globs->subdir); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
+		printf("parseglob no matches matches\n");
+		globs->matches = ft_vastrjoin(5, globs->pardir, globs->gstart, "*", globs->gend, globs->subdir[0]); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
 	}
 	return (0);
 }
