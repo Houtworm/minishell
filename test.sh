@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/13 17:34:01 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/14 11:47:56 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,9 +55,9 @@ testfunction()
 redirectfunction()
 {
 	echo 1 > m1; echo 1 > r1; echo 2 > m2; echo 2 > r2; echo 3 > r3; echo 3 > m3;
-	bash -c "$1" > realstdoutfile 2> realstderrfile
+	timeout bash -c "$1" > realstdoutfile 2> realstderrfile
 	REALRETURN=$?
-	./minishell -c "$2" > ministdoutfile 2> ministderrfile
+	timeout ./minishell -c "$2" > ministdoutfile 2> ministderrfile
 	MINIRETURN=$?
 	diff realstdoutfile ministdoutfile > /dev/null
 	if [ $? -eq 0 ]

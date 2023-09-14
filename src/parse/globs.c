@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/14 11:42:33 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/14 15:33:07 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int		ft_recursivesubwildcard(t_globs *globs, struct dirent *dirents, int i, int 
 	printf("starting in recursivesubwildcard\n");
 	if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 	{
-		if (dirents->d_name[j] == '\0') // the whole filename matches
+		printf("periods match\n");
+		if (globs->subdir[i][j] == '\0' || dirents->d_name[j] == '\0') // the whole filename matches
 		{
 			printf("just a * so %s matches too\n", dirents->d_name);
 			globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
@@ -58,6 +59,7 @@ int		ft_recursivesubwildcard(t_globs *globs, struct dirent *dirents, int i, int 
 		}
 		while (dirents->d_name[j]) // while there are characters in filename 
 		{
+			printf("going into dirents dname loop, %d, %d, %c, %c\n", i, j, globs->subdir[i][j + 1], dirents->d_name[j]);
 			while (dirents->d_name[j] && globs->subdir[i][j + 1] && dirents->d_name[j] == globs->subdir[i][j + 1]) //while the first character was a match but globend exists
 			{
 				printf("fast match in recsubwc: %d, %c, %c\n", j, globs->subdir[i][j + 1], dirents->d_name[j]);
@@ -128,7 +130,6 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 
 	printf("Start matching subdirs for %s\n", dname);
 	i = 0;
-	subdirs = NULL;
 	checkdir = ft_vastrjoin(2, fullpath, dname); // create the new directory to open
 	while (globs->subdir[i]) // check if there are subdirectories to check
 	{
@@ -137,6 +138,7 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 			return ;
 		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 		{
+			subdirs = NULL;
 			printf("ft_matchsub trying to match %s in %s\n", dirents->d_name, dname);
 			if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 			{
@@ -152,19 +154,18 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 					printf("ft_matchsub glob found in %s in %s\n", dirents->d_name, dname);
 					if (ft_recursivesubdir(globs, dirents, i, j + 1)) // returns a 1 if the glob matches
 					{
-						subdirs = ft_strjoin(subdirs, globs->tempsubdir[i]); // add the current dir to subdirs
 						printf("ft_matchsub subdirs after recursive glob match: %s\n", subdirs);
+						subdirs = ft_strjoin(subdirs, globs->tempsubdir[i]); // add the current dir to subdirs
 						if (!globs->subdir[i + 1]) // if it is the last subdir
 						{
 							printf("no subdirectory remaining,adding to matches\n");
 							globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, subdirs, " "); // add the match
-							subdirs = NULL;
 						}
-						else
-						{
-							printf("need to do next subdirectory\n");
-							globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
-						}
+						/*else*/
+						/*{*/
+							/*printf("need to do next subdirectory\n");*/
+							/*globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);*/
+						/*}*/
 					}	
 				}
 				if (globs->subdir[i][j + 1] == '\0') // glob matches completely
@@ -186,6 +187,7 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 		}
 		closedir(dir);
 		checkdir = ft_vastrjoin(2, checkdir, globs->tempsubdir[i]); // create new checkdir for the next loop round
+		printf("ft_matchsub checkdir new loop %s\n", checkdir);
 		i++;
 	}
 	printf("finished matching subdirs for %s\n", dname);
