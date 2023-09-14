@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/14 07:38:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/14 10:14:34 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,21 +234,32 @@ int	ft_parsewildcard(t_globs *globs, char *dname, int i)
 	int	j;
 
 	j = 0;
-	if (globs->gstart[0] != '.') // if first character of globstart is not a .
-		if (dname[0] == '.') // and the first character of the file or directory is
+	if (globs->gstart[0] != '.' && dname[0] == '.') // if there is a period mismatch
 			return (0); // we don't want to parse this one.
 	while (dname[i]) // while there are characters in filename 
 	{
 		if (dname[i] == globs->gend[j] || globs->gend[0] == '\0') // if the first character matches or there is no globend
 		{
 			if (globs->gend[0] == '\0') // no globend means every end matches
+			{
+				printf("no characters after glob so this matches\n");
 				return (1); // this one is a match
+			}
 			while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j]) //while the first character was a match but globend exists
+			{
+				printf("fastmatch %c\n", dname[i + j]);
 				j++;
-			if (ft_strchr("*/[", globs->gend[j])) // if we find a new glob
-				return (ft_recursiveglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
+			}
 			if (dname[i + j] == '\0') // the whole filename matches
+			{
+				printf("whole filename matches\n");
 				return (1); // copy it over.
+			}
+			if (ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+			{
+				printf("recursive glob found\n");
+				return (ft_recursiveglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
+			}
 			else // we have no match and reset the globend counter.
 				j = 0;
 		}
@@ -281,15 +292,24 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 		i++;
 	if (globs->gstart[i] == '\0') // Glob start matches
 	{
+		printf("globs start matches with %s\n", dname);
 		if (ft_matchtheglob(globs, dname, i)) // check if the rest of the glob also matches
 		{
+			printf("glob matches with %s\n", dname);
 			if (globs->subdir[0]) //check if we need to match subdirs
 			{
+				printf("Match found, checking if dir\n");
 				if (type == DT_DIR) //check if it is an actual directory
+				{
+					printf("%s is a dir, going to match the subdirectory\n", dname);
 					ft_matchsub(globs, dname, fullpath, type); // match the subdirectories recursively
+				}
 			}
 			else
+			{
+				printf("no subdirectory found, %s matches\n", dname);
 				globs->matches = ft_vastrjoin(4, globs->matches, globs->pardir, dname, " "); // no subdir, so match is valid :)
+			}
 		}
 	}
 }
@@ -308,13 +328,14 @@ int	ft_parseglob(t_cmds *cmd, t_globs *globs)
 	{	
 		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 		{
+			printf("trying to match %s\n", dirents->d_name);
 			ft_matchtillglob(globs, dirents->d_name, checkdir, dirents->d_type); // if it matches till the glob it will branch out from this function.
 		}
 		closedir(dir);
 	}
 	if (globs->matches[0] == '\0')
 	{
-		printf("parseglob no matches matches\n");
+		printf("parseglob no matches found\n");
 		globs->matches = ft_vastrjoin(5, globs->pardir, globs->gstart, "*", globs->gend, globs->subdir[0]); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
 	}
 	return (0);
