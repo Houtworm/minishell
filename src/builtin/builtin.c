@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/15 15:33:18 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/15 15:40:11 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,6 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		i++;
 	}
 	ret = 0;
-	/*if (!ft_strncmp(cmds.arguments[0], "alias\0", 6))*/
-		/*ret = 1;*/
-	/*else if (!ft_strncmp(cmds.arguments[0], "echo\0", 5))*/
-		/*ret = 2;*/
-	/*else if (!ft_strncmp(cmds.arguments[0], "env\0", 4))*/
-		/*ret = 3;*/
-	/*else if (!ft_strncmp(cmds.arguments[0], "export\0", 7))*/
-		/*ret = 4;*/
-	/*else if (!ft_strncmp(cmds.arguments[0], "pwd\0", 4))*/
-		/*ret = 5;*/
-	/*else if (!ft_strncmp(cmds.arguments[0], "unset\0", 6))*/
-		/*ret = 6;*/
 	if (!ft_strncmp(cmds.arguments[0], "exit\0", 5))
 		ft_exit(cmds);
 	else if (!ft_strncmp(cmds.arguments[0], "cd\0", 3))
