@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/15 15:48:38 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/15 15:56:15 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	int	pid;
 	int	ret;
 	int i;
-	struct builtin	bui[5] = {
+	struct builtin	bui[7] = {
 	{"alias\0", ft_echo},
 	{"echo\0", ft_echo},
 	{"env\0", ft_env},
 	{"export\0", ft_export},
-	{"unset\0", ft_unset}
+	{"unset\0", ft_unset},
+	{"cd\0", ft_chdir},
+	{"exit\0", ft_exit}
 	};
 
 	i = 0;
@@ -49,9 +51,14 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		}
 		i++;
 	}
-	if (!ft_strncmp(cmds.arguments[0], "exit\0", 5))
-		ft_exit(cmds);
-	else if (!ft_strncmp(cmds.arguments[0], "cd\0", 3))
-		return (ft_chdir(cmds));
+	while (i < 7)
+	{
+		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare) + 1))
+		{
+			shell->code = bui[i].func(cmds);
+			return (shell->code);
+		}
+		i++;
+	}
 	return (-1111);
 }
