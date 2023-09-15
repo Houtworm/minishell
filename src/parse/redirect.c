@@ -33,9 +33,7 @@ void	ft_redirection(t_cmds *cmds)
 	if (ft_checkoutquote((*cmds).pipeline, '<', 2) < 0 
 		&& ft_checkoutquote((*cmds).pipeline, '>', 2) < 0)
 		return ;
-	if (ft_check_redirect((*cmds).pipeline) != 0)
-		exit(0);
-	 // need to do sth for <> cmd case ^
+	ft_check_redirect((*cmds).pipeline);
 	if (ft_checkoutquote((*cmds).pipeline, '<', 2) >= 0)
 		(*cmds).infile = ft_redrc_in((*cmds).infile, (*cmds).pipeline);
 	if (ft_checkoutquote((*cmds).pipeline, '>', 2) >= 0)
@@ -48,7 +46,7 @@ void	ft_redirection(t_cmds *cmds)
 	ft_frearr(newline);
 }
 
-int	ft_check_redirect(char	*line)
+void	ft_check_redirect(char	*line)
 {
 	char	check;
 	int		i;
@@ -71,15 +69,10 @@ int	ft_check_redirect(char	*line)
 					i++;
 				if (line[i] == '>' || line[i] == '<')
 					ft_errorexit("syntax error near expected token", &(line[i + 1]), 258);
-				// if (line[i] == '\'' || line[i] == "\"" )
-				// {
-					
-				// }
 			}
 		}
 		i++;
 	}
-	return (0);
 }
 
 char	**ft_redrc_in(char	**infile, char *pipeline)

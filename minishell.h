@@ -142,7 +142,7 @@ char		*ft_delimeter(char *line);
 t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
 //redirect
 void	ft_redirection(t_cmds *cmds);
-int		ft_check_redirect(char	*line);
+void	ft_check_redirect(char	*line);
 char	**ft_redrc_in(char	**infile, char *pipeline);
 char	**ft_redrc_out(char **outfile, int	**append, char *pipeline);
 //condition
