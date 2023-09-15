@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
+/*   minishell.h                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/14 20:21:38 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/15 15:31:54 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ int			ft_unset(t_cmds cmds);
 // export
 int			ft_export(t_cmds cmds);
 // env
-int			ft_env(void);
+int			ft_env(t_cmds cmds);
 // pwd
 int			ft_pwd(t_cmds cmds);
 // echo

@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:16 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/27 08:07:43 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/15 15:33:55 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_env(void)
+int	ft_env(t_cmds cmds)
 {
 	int		status;
 	int		fd;
@@ -28,4 +28,5 @@ int	ft_env(void)
 	}
 	close(fd);
 	return (0);
+	printf("%s", cmds.absolute);
 }

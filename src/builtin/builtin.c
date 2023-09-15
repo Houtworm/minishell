@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/15 15:17:14 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/15 15:33:18 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_executebuiltin(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell, int 
 		else if (ret == 2)
 			exit (ft_echo(cmds));
 		else if (ret == 3)
-			exit (ft_env());
+			exit (ft_env(cmds));
 		else if (ret == 4)
 			exit (ft_export(cmds));
 		else if (ret == 5)
@@ -40,49 +40,44 @@ int	ft_executebuiltin(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell, int 
 	return (code);
 }
 
-/*struct	builtin*/
-/*{*/
-	/*char	*compare;*/
-	/*int		(*func)(t_cmds cmds);*/
-/*};*/
-
-/*int	ft_builtinselector(t_shell shell, t_cmds cmds, int	(*func)(char *cmd, char *))*/
-/*{*/
-	
-/*}*/
+struct	builtin
+{
+	char	*compare;
+	int		(*func)(t_cmds cmds);
+};
 
 int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	ret;
-	/*int i;*/
-	/*struct builtin	bui[5] = {*/
-	/*{"alias\0", ft_echo},*/
-	/*{"echo\0", ft_echo},*/
-	/*{"env\0", ft_echo},*/
-	/*{"export\0", ft_echo},*/
-	/*{"unset\0", ft_echo}*/
-	/*};*/
+	int i;
+	struct builtin	bui[5] = {
+	{"alias\0", ft_echo},
+	{"echo\0", ft_echo},
+	{"env\0", ft_env},
+	{"export\0", ft_export},
+	{"unset\0", ft_unset}
+	};
 
-	/*i = 0;*/
-	/*while (i < 6)*/
-	/*{*/
-		/*if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare) + 1))*/
-			/*bui[i].func(cmds);*/
-		/*i++;*/
-	/*}*/
+	i = 0;
+	while (i < 5)
+	{
+		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare) + 1))
+			exit (bui[i].func(cmds));
+		i++;
+	}
 	ret = 0;
-	if (!ft_strncmp(cmds.arguments[0], "alias\0", 6))
-		ret = 1;
-	else if (!ft_strncmp(cmds.arguments[0], "echo\0", 5))
-		ret = 2;
-	else if (!ft_strncmp(cmds.arguments[0], "env\0", 4))
-		ret = 3;
-	else if (!ft_strncmp(cmds.arguments[0], "export\0", 7))
-		ret = 4;
-	else if (!ft_strncmp(cmds.arguments[0], "pwd\0", 4))
-		ret = 5;
-	else if (!ft_strncmp(cmds.arguments[0], "unset\0", 6))
-		ret = 6;
+	/*if (!ft_strncmp(cmds.arguments[0], "alias\0", 6))*/
+		/*ret = 1;*/
+	/*else if (!ft_strncmp(cmds.arguments[0], "echo\0", 5))*/
+		/*ret = 2;*/
+	/*else if (!ft_strncmp(cmds.arguments[0], "env\0", 4))*/
+		/*ret = 3;*/
+	/*else if (!ft_strncmp(cmds.arguments[0], "export\0", 7))*/
+		/*ret = 4;*/
+	/*else if (!ft_strncmp(cmds.arguments[0], "pwd\0", 4))*/
+		/*ret = 5;*/
+	/*else if (!ft_strncmp(cmds.arguments[0], "unset\0", 6))*/
+		/*ret = 6;*/
 	if (!ft_strncmp(cmds.arguments[0], "exit\0", 5))
 		ft_exit(cmds);
 	else if (!ft_strncmp(cmds.arguments[0], "cd\0", 3))
