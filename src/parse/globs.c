@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/15 16:44:24 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/15 16:55:57 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,10 @@ int	ft_parsewildcard(t_globs *globs, char *dname, int i)
 
 	j = 0;
 	if (globs->gstart[0] != '.' && dname[0] == '.') // if there is a period mismatch
-			return (0); // we don't want to parse this one.
+	{
+		ft_printf("ft_parsewildcard Periods don't match\n");
+		return (0); // we don't want to parse this one.
+	}
 	while (dname[i]) // while there are characters in filename 
 	{
 		if (dname[i] == globs->gend[j] || globs->gend[0] == '\0') // if the first character matches or there is no globend
