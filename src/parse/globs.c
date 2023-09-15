@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/15 16:55:57 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/15 20:54:57 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,8 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 					printf("ft_matchsub glob found in %s in %s\n", dirents->d_name, dname);
 					if (ft_recursivesubdir(globs, dirents, i, j + 1)) // returns a 1 if the glob matches
 					{
-						printf("ft_matchsub subdirs after recursive glob match: %s\n", subdirs);
 						subdirs = ft_strjoin(subdirs, globs->tempsubdir[i]); // add the current dir to subdirs
+						printf("ft_matchsub subdirs after recursive glob match: %s\n", subdirs);
 						if (!globs->subdir[i + 1]) // if it is the last subdir
 						{
 							printf("ft_matchsub no subdirectory remaining,adding to matches\n");
@@ -163,8 +163,12 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 						}
 						/*else*/
 						/*{*/
+							// we have to put like a function here or something?
 							/*printf("ft_matchsub need to do next subdirectory\n");*/
+							/*printf("%s, %s, %c\n", dname, fullpath, type);*/
 							/*globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);*/
+							/*ft_recursivesubdir(globs, dirents, i, j);*/
+
 						/*}*/
 					}	
 				}
