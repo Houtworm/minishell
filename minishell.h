@@ -145,6 +145,7 @@ void	ft_redirection(t_cmds *cmds);
 void	ft_check_redirect(char	*line);
 char	**ft_redrc_in(char	**infile, char *pipeline);
 char	**ft_redrc_out(char **outfile, int	**append, char *pipeline);
+void	ft_append(int **append, int count, char *pipeline);
 //condition
 t_forks		ft_parseendcondition(t_forks forks);
 void		ft_copyquote(char **cmdline, char	*forkline, int icpip, int ifpip);

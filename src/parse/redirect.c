@@ -12,17 +12,6 @@
 
 #include "../../minishell.h"
 
-//ex sort < a.txt > b.txt
-//problem when there is two redirection 
-//ex. wc -l > file 2 > file3 then the file name will be ' file2 > file3'
-//split before ft_redrc_in / _out
-
-//wc-l>file1>file2
-//cat < r1 < r2 > r3 will copy the content from r2 to r3 while skipping r1 (r1 is empty)
-//ls > r2 > r3 will copy the result of ls to file3, while skipping r2
-//cat < r3 << EOF > r1 will copy the content of heredoc to r1 while skipping r3
-
-
 void	ft_redirection(t_cmds *cmds)
 {
 	char		**tmp;
@@ -111,8 +100,6 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 	char		**file;
 	char		**tmp;
 	int			i;
-	int			k;
-	char		quote;
 
 	i = 1;
 	tmp = NULL;
@@ -120,9 +107,8 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 	while (lines[i] && lines[i][0])
 		i++;
 	outfile = ft_calloc(i - 1, sizeof(char *));
-	(*append) = ft_calloc(i - 1, sizeof(int));
+	ft_append(append, i - 1, pipeline);
 	i = 1;
-	quote = '\0';
 	while (lines[i] && lines[i][0])
 	{
 		tmp = split_not_quote(lines[i], ' ');
@@ -135,8 +121,19 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 	}
 	outfile[i - 1] = NULL;
 	ft_frearr(lines);
+	return (outfile);
+}
+
+void	ft_append(int **append, int count, char *pipeline)
+{
+	char		quote;
+	int	i;
+	int	k;
+
 	i = 0;
 	k = 0;
+	quote = '\0';
+	(*append) = ft_calloc(count, sizeof(int));
 	while (pipeline[i])
 	{
 		if (pipeline[i] == '\'' || pipeline[i] == '\"')
@@ -159,5 +156,4 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 		}
 		i++;
 	}
-	return (outfile);
 }
