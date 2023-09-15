@@ -6,24 +6,24 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/15 15:56:15 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/15 16:19:27 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-struct	builtin
+typedef struct	s_builtin
 {
 	char	*compare;
 	int		(*func)(t_cmds cmds);
-};
+}	t_builtin;
 
 int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	pid;
 	int	ret;
 	int i;
-	struct builtin	bui[7] = {
+	t_builtin	bui[7] = {
 	{"alias\0", ft_echo},
 	{"echo\0", ft_echo},
 	{"env\0", ft_env},
@@ -45,9 +45,8 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 				exit (bui[i].func(cmds));
 			}
 			waitpid(pid, &ret, 0);
-			ret = WEXITSTATUS(ret);
-			shell->code = ret;
-			return (ret);
+			shell->code = WEXITSTATUS(ret);
+			return (shell->code);
 		}
 		i++;
 	}

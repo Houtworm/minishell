@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/15 16:01:25 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/15 16:35:55 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	int	status;
 
 	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);
-	/*cmds.code = -1111;*/
 	if (cmds.code == -1111)
 	{
 		status = ft_checkcommand(cmds);
