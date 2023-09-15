@@ -63,7 +63,7 @@ int	ft_check_redirect(char	*line)
 
 			if ((line[i] == '<' || line[i] == '>') && (line[i + 1] == '<' || line[i + 1] == '>'))
 				ft_errorexit("syntax error near expected token", &(line[i + 1]), 258);
-			if (check == '>' && line[i] == '<')
+			if ((check == '>' && line[i] == '<') || (check == '<' && line[i] == '>'))
 				ft_errorexit("syntax error near expected token", "<", 258);
 			if (line[i] == ' ')
 			{
@@ -76,10 +76,6 @@ int	ft_check_redirect(char	*line)
 					
 				// }
 			}
-
-			//if (check == '<' && line[i] == '>')
-				// -> parse file name but we don't use it
-				// return (1);
 		}
 		i++;
 	}
@@ -104,6 +100,7 @@ char	**ft_redrc_in(char	**infile, char *pipeline)
 	{
 		tmp = split_not_quote(lines[i], ' ');
 		file = split_not_quote(tmp[0], '>');
+		file = ft_remove_quote(file, 0);
 		infile[i - 1] = ft_strdup(file[0]);
 		ft_frearr(tmp);
 		ft_frearr(file);
@@ -136,13 +133,14 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 	while (lines[i] && lines[i][0])
 	{
 		tmp = split_not_quote(lines[i], ' ');
-		file = split_not_quote(tmp[0], '>');
-		outfile[0] = ft_strdup(file[0]);
-		outfile[1] = ft_calloc(8, 1);
+		file = split_not_quote(tmp[0], '<');
+		file = ft_remove_quote(file, 0);
+		outfile[i - 1] = ft_strdup(file[0]);
 		ft_frearr(tmp);
 		ft_frearr(file);
 		i++;
 	}
+	outfile[i - 1] = NULL;
 	ft_frearr(lines);
 	i = 0;
 	k = 0;
@@ -164,6 +162,7 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 			}
 			else
 				(*append)[k] = 0;
+			k++;
 		}
 		i++;
 	}
