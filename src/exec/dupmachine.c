@@ -28,13 +28,14 @@ int	ft_outputfile(char *file, int append)
 {
 	int	fdo;
 
-	if (ft_checkoutputfile(file))
-		return (1);
-	if (append)
+	if (ft_checkoutputfile(file)) // we have to make this a loop and maybe move it to the parser
+	return (1);
+	if (append) // this should be done in the later function
 		fdo = open(file, O_RDWR | O_CREAT | O_APPEND, 0666);
-	else
+	else // this too
 		fdo = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
-	if (fdo == -1)
+	// fdo = open("/tmp/minishelloutputfile.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666); we should use this for output
+	if (fdo == -1) 
 	{
 		ft_errorexit("Is a directory", file, 0);
 		return (1);

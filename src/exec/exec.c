@@ -47,14 +47,13 @@ int	ft_executeforks(int forknbr, t_shell *shell)
 	while (shell->forks[forknbr].cmdamount > cmdnbr)
 	{
 		*shell = ft_parsecmds(*shell, forknbr, cmdnbr);
-		cmdnbr++;
-	}
-	cmdnbr = 0;
-	while (shell->forks[forknbr].cmdamount > cmdnbr)
-	{
 		if (shell->debug)
 			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
+		// if redirection exists write output to files
+		// below should be in funciton above somewhere
+		// outputfd = open("/tmp/minishelloutputfile.tmp", O_RDONLY); we should use this for output
+		// while line from getnextline write it to every outputfile in a while loop for every redirection
 		cmdnbr++;
 		shell->forks[forknbr].cmds[cmdnbr].lastcode = status;
 	}
