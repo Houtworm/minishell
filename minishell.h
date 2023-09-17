@@ -177,6 +177,8 @@ int			ft_forktheforks(t_shell *shell);
 void		ft_executepriority(t_cmds *cmd);
 // exec
 int			ft_executeforks(int forknbr, t_shell *shell);
+void	ft_executeredirect(char **outfile, int *append, int forknbr);
+
 // dupmachine
 int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
 

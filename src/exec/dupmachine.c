@@ -24,23 +24,34 @@ int	ft_inputfile(char *file)
 	return (0);
 }
 
-int	ft_outputfile(char *file, int append)
+int	ft_outputfile(char **file, int forknbr)
 {
-	int	fdo;
+	int		fdo;
+	int		i;
+	char	*tmpnbr;
+	char	*outtmp;
 
-	if (ft_checkoutputfile(file)) // we have to make this a loop and maybe move it to the parser
-	return (1);
-	if (append) // this should be done in the later function
-		fdo = open(file, O_RDWR | O_CREAT | O_APPEND, 0666);
-	else // this too
-		fdo = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
-	// fdo = open("/tmp/minishelloutputfile.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666); we should use this for output
+	i = 0;
+	while (file[i])
+	{
+		if (ft_checkoutputfile(file[i])) // maybe move it to the parser
+			return (1);
+		i++;
+	}
+	tmpnbr = ft_itoa(forknbr);
+	if (!tmpnbr)
+		return (1);
+	outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", tmpnbr, ".tmp");
+	// printf ("tmpfile= %s\n", outtmp);
+	fdo = open(outtmp, O_RDWR | O_CREAT | O_TRUNC, 0666); //we should use this for output
 	if (fdo == -1) 
 	{
-		ft_errorexit("Is a directory", file, 0);
+		ft_errorexit("Is a directory", outtmp, 0);
 		return (1);
 	}
 	dup2(fdo, 1);
+	close(fdo);
+	free(outtmp);
 	return (0);
 }
 
@@ -63,7 +74,7 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		dup2(shell->pipes[forknbr + 1][1], 1);
 	else if (cmds.outfile[0])
 	{
-		if (ft_outputfile(cmds.outfile[0], cmds.append[0]))
+		if (ft_outputfile(cmds.outfile, forknbr))
 			return (1);
 	}
 	else
