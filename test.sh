@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                            :+:    :+:             #
+#    test.sh                                         |o_o || |                 #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/14 19:49:44 by yitoh         ########   odam.nl          #
+#    Updated: 2023/09/17 10:30:52 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,26 +18,26 @@ SLEEP=0
 
 testfunction()
 {
-	timeout 2 bash -c "$1" > realstdoutfile 2> realstderrfile
+	timeout 2 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
 	REALRETURN=$?
-	timeout 2 ./minishell -c "$1" > ministdoutfile 2> ministderrfile
+	timeout 2 ./minishell -c "$1" > /tmp/ministdoutfile 2> /tmp/ministderrfile
 	MINIRETURN=$?
-	diff realstdoutfile ministdoutfile > /dev/null
+	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstdout OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat realstdoutfile 2> /dev/null)\nmini: $(cat ministdoutfile 2> /dev/null)\e[0;00m\n"
+		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff realstderrfile ministderrfile > /dev/null
+	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat realstderrfile)\nmini: $(cat ministderrfile)\e[0;00m\n"
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
@@ -48,33 +48,33 @@ testfunction()
 		printf "\e[1;32mreturn OK\n\e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	rm realstdoutfile realstderrfile ministdoutfile ministderrfile
+	rm /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile
 	sleep $SLEEP
 }
 
 redirectfunction()
 {
 	echo 1 > m1; echo 1 > r1; echo 2 > m2; echo 2 > r2; echo 3 > r3; echo 3 > m3;
-	timeout bash -c "$1" > realstdoutfile 2> realstderrfile
+	timeout bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
 	REALRETURN=$?
-	timeout ./minishell -c "$2" > ministdoutfile 2> ministderrfile
+	timeout ./minishell -c "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
 	MINIRETURN=$?
-	diff realstdoutfile ministdoutfile > /dev/null
+	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstdout OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat realstdoutfile 2> /dev/null)\nmini: $(cat ministdoutfile 2> /dev/null)\e[0;00m\n"
+		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff realstderrfile ministderrfile > /dev/null
+	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat realstderrfile 2> /dev/null)\nmini: $(cat ministderrfile 2> /dev/null)\e[0;00m\n"
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile 2> /dev/null)\nmini: $(cat /tmp/ministderrfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
@@ -112,32 +112,32 @@ redirectfunction()
 		printf "\e[1;32mFile 3 OK\n\e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	rm realstdoutfile realstderrfile ministdoutfile ministderrfile r1 r2 r3 m1 m2 m3 2> /dev/null
+	rm /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile r1 r2 r3 m1 m2 m3 2> /dev/null
 	sleep $SLEEP
 }
 
 environmentfunction()
 {
-	timeout 2 bash -c "$1" | grep "$2" > realstdoutfile 2> realstderrfile
+	timeout 2 bash -c "$1" | grep "$2" > /tmp/realstdoutfile 2> /tmp/realstderrfile
 	REALRETURN=$?
-	timeout 2 ./minishell -c "$1" | grep "$2" > ministdoutfile 2> ministderrfile
+	timeout 2 ./minishell -c "$1" | grep "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
 	MINIRETURN=$?
-	diff realstdoutfile ministdoutfile > /dev/null
+	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstdout OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat realstdoutfile 2> /dev/null)\nmini: $(cat ministdoutfile 2> /dev/null)\e[0;00m\n"
+		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff realstderrfile ministderrfile > /dev/null
+	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat realstderrfile)\nmini: $(cat ministderrfile)\e[0;00m\n"
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
@@ -148,7 +148,7 @@ environmentfunction()
 		printf "\e[1;32mreturn OK\n\e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	rm realstdoutfile realstderrfile ministdoutfile ministderrfile
+	rm /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile
 	sleep $SLEEP
 }
 
