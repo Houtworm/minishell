@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/13 19:32:49 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/17 19:13:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,6 @@ int	ft_heredoc(char *delimiter, char *file)
 	fdi = open(file, O_RDONLY); // 1 file for multiple heredocs will fail ofc
 	return (fdi);
 }
-
-/*char	*ft_delimeter(char *line)*/
-/*{*/
-	/*char		**delimeter;*/
-	/*char		**tmp;*/
-	/*int			i;*/
-
-	/*i = 0;*/
-	/*delimeter = NULL;*/
-	/*tmp = NULL;*/
-	/*while (line[i])*/
-	/*{*/
-		/*if (line[i] == '<' && line[i - 1] == '<')*/
-		/*{*/
-			/*i++;*/
-			/*tmp = split_not_quote(line + i, ' ');*/
-			/*delimeter = split_not_quote(tmp[0], '>');*/
-			/*break ;*/
-		/*}*/
-		/*i++;*/
-	/*}*/
-	/*return (delimeter[0]);*/
-/*}*/
 
 t_forks ft_parseheredoc(t_forks forks, int cmdnum)
 {

@@ -6,12 +6,45 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/15 16:35:55 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/17 19:09:33 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+void	ft_executeredirect(char **outfile, int *append, int forknbr)
+{
+	int		fdread;
+	int		fdo;
+	int		i;
+	char	*line;
+	char	*outtmp;
+
+	outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", ft_itoa(forknbr), ".tmp");
+	i = 0;
+	while (outfile[i])
+	{
+		fdread = open(outtmp, O_RDONLY);
+		if (append[i])
+			fdo = open(outfile[i], O_RDWR | O_CREAT | O_APPEND, 0666);
+		else
+			fdo = open(outfile[i], O_RDWR | O_CREAT | O_TRUNC, 0666);
+		get_next_line(fdread, &line);
+		if (!line)
+			ft_errorexit("Error allocating memory", "malloc", 1);
+		while (line[0])
+		{
+			ft_putendl_fd(line, fdo);
+			free(line);
+			get_next_line(fdread, &line);
+		}
+		free(line);
+		close (fdo);
+		close(fdread);
+		i++;
+	}
+	free(outtmp);
+}
 
 int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
@@ -60,45 +93,4 @@ int	ft_executeforks(int forknbr, t_shell *shell)
 		shell->forks[forknbr].cmds[cmdnbr].lastcode = status;
 	}
 	return (status);
-}
-
-
-
-void	ft_executeredirect(char **outfile, int *append, int forknbr)
-{
-	int		fdread;
-	int		fdo;
-	int		i;
-	char	*line;
-	char	*outtmp;
-
-	outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", ft_itoa(forknbr), ".tmp");
-//	printf("exec:outtmp = %s\n", outtmp);
-	fdread = open(outtmp, O_RDONLY);
-	i = 0;
-	while (outfile[i])
-	{
-		if (append[i])
-			fdo = open(outfile[i], O_RDWR | O_CREAT | O_APPEND, 0666);
-		else
-			fdo = open(outfile[i], O_RDWR | O_CREAT | O_TRUNC, 0666);
-		get_next_line(fdread, &line);
-		if (!line)
-			ft_errorexit("Error allocating memory", "malloc", 1);
-		while (line)
-		{
-			ft_putendl_fd(line, fdo);
-			free(line);
-			get_next_line(fdread, &line);
-			if (!line)
-				ft_errorexit("Error allocating memory", "malloc", 1);
-			//ft_putendl_fd("loop", 2);
-		}
-		free(line);
-		close (fdo);
-		i++;
-	}
-	// printf("end of exec redirect\n");
-	free(outtmp);
-	close(fdread);
 }

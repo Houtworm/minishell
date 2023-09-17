@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/17 10:30:52 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/17 19:36:52 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -284,7 +284,7 @@ testfunction "exit -9223372036854775809"
 # cd and pwd
 printf "\e[1;36mTesting cd and pwd\e[0;00m\n"
 testfunction "cd"
-testfunction "mkdir a && mkdir a/b && cd a/b && rm -fr ../../a && cd .."
+testfunction "mkdir a && mkdir a/b && cd a/b && rm -r ../../a && cd .."
 testfunction "cd && pwd"
 testfunction "cd .."
 testfunction "cd .. && pwd"

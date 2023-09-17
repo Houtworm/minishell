@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/15 16:35:43 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/17 19:26:50 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ int	ft_forktheforks(t_shell *shell)
 				ft_executeforks(forknumber, shell);
 				exit (-1);
 			}
+			/*if (last fork has a condition bigger than 0)*/
+			/*{*/ // this should fix the pipe and condition errors we had.
+				/*call waitpid in the last fork*/
+				/*if condition = 1 and code = 0 or condition is 2 and code != 0*/
+					/*continue*/
+				/*else*/
+					/*break ;*/
+			/*}*/
 			forknumber++;
 			close(shell->pipes[forknumber][1]);
 		}

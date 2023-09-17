@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/13 00:57:48 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/17 18:27:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_inputfile(char *file)
 		return (1);
 	fdi = open(file, O_RDONLY);
 	dup2(fdi, 0);
-	close (fdi);
+	/*close (fdi);*/
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/16 16:48:36 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/17 19:33:15 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,12 @@ typedef struct s_shell
 // MAIN
 // main
 int			main(int argc, char **argv, char **envp);
+// init
+t_shell		*ft_initstruct(char **envp, int debugmode);
+// prompt
+void		ft_printprompt(t_shell *strct, char **envp);
+// script
+int			ft_runscript(int argc, char **argv, char **envp);
 
 // TOOLS
 // tools
@@ -116,14 +122,6 @@ void		ft_charpptofd(char **array, int fd);
 int			ft_errorexit(char *reason, char *cmd, int code);
 int			ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
 
-// INIT
-// init
-t_shell		*ft_initstruct(char **envp, int debugmode);
-// prompt
-void		ft_printprompt(t_shell *strct, char **envp);
-// script
-int			ft_runscript(int argc, char **argv, char **envp);
-
 // PARSE
 //parse
 t_shell		ft_parseline(char *line, t_shell shell);
@@ -138,19 +136,11 @@ void		ft_parsealiases(t_cmds *cmds, t_shell shell);
 char		*ft_closequote(char *line);
 char		**ft_remove_quote(char	**cmd, int count);
 //heredoc
-int			ft_heredoc(char *delimiter, char *file);
-char		*ft_delimeter(char *line);
 t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
 //redirect
-void	ft_redirection(t_cmds *cmds);
-void	ft_check_redirect(char	*line);
-char	**ft_redrc_in(char	**infile, char *pipeline);
-char	**ft_redrc_out(char **outfile, int	**append, char *pipeline);
-void	ft_append(int **append, int count, char *pipeline);
+void		ft_redirection(t_cmds *cmds);
 //condition
 t_forks		ft_parseendcondition(t_forks forks);
-void		ft_copyquote(char **cmdline, char	*forkline, int icpip, int ifpip);
-int			ft_countendconditions(char *line, int count, int i);
 //variable
 int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
 //globs
@@ -177,7 +167,6 @@ int			ft_forktheforks(t_shell *shell);
 void		ft_executepriority(t_cmds *cmd);
 // exec
 int			ft_executeforks(int forknbr, t_shell *shell);
-void	ft_executeredirect(char **outfile, int *append, int forknbr);
 
 // dupmachine
 int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
@@ -189,7 +178,7 @@ int			ft_checkcommand(t_cmds cmds);
 
 // BUILTINS
 // builtin
-int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
+int			ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
 // chdir
 int			ft_chdir(t_cmds cmds);
 // exit
