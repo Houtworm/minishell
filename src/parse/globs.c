@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/18 10:53:11 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/18 11:56:55 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, int i)
 							{
 								printf("ft_recursivematchsub no subdirectory remaining,adding to matches i: %d j: %d\n", i, j);
 								/*globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, ft_cpptostr(globs->tempsubdir), " "); // add the match*/
-								ft_cppbzero(globs->tempsubdir);
+								/*ft_cppbzero(globs->tempsubdir);*/
 							}
 							else
 							{
@@ -253,7 +253,6 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 	DIR				*dir;
 	struct dirent	*dirents;
 	char			*checkdir;
-	char			*subdirs;
 	int				i;
 	int				j;
 
@@ -268,7 +267,6 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 		{
 			while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 			{
-				subdirs = NULL;
 				printf("ft_matchsub trying to match %s in %s i: %d j: %d\n", dirents->d_name, dname, i, j);
 				if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 				{
@@ -286,13 +284,11 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 						{
 							globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 							printf("matchsub 1 %s\n", ft_cpptostr(globs->tempsubdir));
-							/*subdirs = ft_strjoin(subdirs, globs->tempsubdir[i]); // add the current dir to subdirs*/
-							/*printf("ft_matchsub subdirs after recursive glob match: %s i: %d j: %d\n", subdirs, i, j);*/
 							if (!globs->subdir[i + 1]) // if it is the last subdir
 							{
 								printf("ft_matchsub no subdirectory remaining,adding to matches i: %d j: %d\n", i, j);
 								globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, ft_cpptostr(globs->tempsubdir), " "); // add the match
-								ft_cppbzero(globs->tempsubdir);
+								/*ft_cppbzero(globs->tempsubdir);*/
 							}
 							else
 							{
@@ -317,13 +313,9 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 						if (dirents->d_type == DT_DIR) // check if it is a directory
 						{
 							globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
-							printf("matchsub 3 %s\n", ft_cpptostr(globs->tempsubdir));
-							subdirs = ft_strjoin(subdirs, globs->tempsubdir[i]); // add the current dir to subdirs
-							printf("ft_matchsub subdirs after non recursive glob match: %s i: %d j: %d\n", subdirs, i, j);
 						}
 						if (!globs->subdir[i + 1]) // if it is the last subdir
 						{
-							printf("ft_matchsub found final subdir: %s%s%s i: %d j: %d\n", globs->pardir, dname, subdirs, i, j);
 							globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, ft_cpptostr(globs->tempsubdir), " "); // add the match
 							ft_cppbzero(globs->tempsubdir);
 						}
@@ -538,7 +530,6 @@ void	ft_getsubdir(t_globs *globs)
 		else // no more subdirs to parse
 			k++;
 	}
-	/*globs->subdir[i] = ft_calloc(ft_strlen(globs->gend), 8); // NULL terminated char***/
 	globs->subdir[i] = NULL;
 }
 
@@ -604,7 +595,7 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos)
 		{
 			globs->glob = globs->pipeline[globs->linecount + startpos]; // set the glob type
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings
-			ft_getparent(globs); //looks in the glob if it contains any extra directories above or below the glob
+			ft_getparent(globs); //looks in the glob if it contains any extra directories above the glob
 			ft_getsubdir(globs); //looks in the glob for any subdirs and puts them in their own char **
 			ft_parseglob(cmd, globs); //parses the glob character by character
 			ft_newpipeline(globs); //constructs the new pipeline, sets the new position in the pipeline right after the parsed glob
@@ -645,7 +636,6 @@ int	ft_parseglobs(t_cmds *cmd)
 	t_globs			*globs;
 
 	globs = ft_initglobstruct(cmd->pipeline); //init the struct
-	// only one of the following will run, there is probably a more elegant solution for this.
 	if (ft_checkoutquote(globs->pipeline, '*', 2) >= 0)
 		ft_globlooper(globs, cmd, 0);
 	if (ft_checkoutquote(globs->pipeline, '?', 2) >= 0)
@@ -653,6 +643,5 @@ int	ft_parseglobs(t_cmds *cmd)
 	if (ft_checkoutquote(globs->pipeline, '[', 2) >= 0)
 		ft_globlooper(globs, cmd, 0);
 	cmd->pipeline = ft_strdup(globs->pipeline); // writes the glob pipeline to the cmd pipeline
-	// free globs here
 	return (0);
 }
