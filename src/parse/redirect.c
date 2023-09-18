@@ -20,7 +20,7 @@ char	**ft_redrc_in(char	**infile, char *pipeline)
 	int			i;
 
 	i = 1;
-	tmp = NULL;
+	// tmp = NULL;
 	lines = split_not_quote(pipeline, '<');
 	while (lines[i])
 		i++;
@@ -32,7 +32,7 @@ char	**ft_redrc_in(char	**infile, char *pipeline)
 		file = split_not_quote(tmp[0], '>');
 		file = ft_remove_quote(file, 0);
 		infile[i - 1] = ft_strdup(file[0]);
-		ft_frearr(tmp);
+		// ft_frearr(tmp);
 		ft_frearr(file);
 		i++;
 	}
@@ -84,7 +84,7 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 	int			i;
 
 	i = 1;
-	tmp = NULL;
+	// tmp = NULL;
 	lines = split_not_quote(pipeline, '>');
 	while (lines[i] && lines[i][0])
 		i++;
@@ -97,7 +97,7 @@ char	**ft_redrc_out(char **outfile, int	**append, char *pipeline)
 		file = split_not_quote(tmp[0], '<');
 		file = ft_remove_quote(file, 0);
 		outfile[i - 1] = ft_strdup(file[0]);
-		ft_frearr(tmp);
+		// ft_frearr(tmp);
 		ft_frearr(file);
 		i++;
 	}
@@ -135,11 +135,36 @@ void	ft_check_redirect(char	*line)
 	}
 }
 
+char	*ft_parserdrct(char *pipeline)
+{
+	int		i;
+	char	check;
+	char	*line;
+
+	i = 0;
+	while (pipeline[i] && (pipeline[i] != '<') && (pipeline[i] != '>'))
+	{
+		if ((pipeline[i] == '\'') && (pipeline[i] == '\"'))
+		{
+			check = pipeline[i];
+			i++;
+			while (pipeline[i] && pipeline[i] != check)
+				i++;
+			i++;
+		}
+		if (pipeline[i] == ' ')
+			i++;
+		else
+			i++;
+
+	}
+	line = ft_substr(pipeline, 0, i);
+	free(pipeline);
+	return (line);
+}
+
 void	ft_redirection(t_cmds *cmds)
 {
-	char		**tmp;
-	char		**newline;
-
 	cmds->infile = ft_calloc(1000 * 8, 1);
 	cmds->outfile = ft_calloc(1000 * 8, 1);
 	if (ft_checkoutquote((*cmds).pipeline, '<', 2) < 0 
@@ -150,10 +175,5 @@ void	ft_redirection(t_cmds *cmds)
 		(*cmds).infile = ft_redrc_in((*cmds).infile, (*cmds).pipeline);
 	if (ft_checkoutquote((*cmds).pipeline, '>', 2) >= 0)
 		(*cmds).outfile = ft_redrc_out((*cmds).outfile, &((*cmds).append), (*cmds).pipeline);
-	tmp = split_not_quote((*cmds).pipeline, '>');
-	newline = split_not_quote(tmp[0], '<');
-	free((*cmds).pipeline);
-	(*cmds).pipeline = ft_strdup(newline[0]);
-	ft_frearr(tmp);
-	ft_frearr(newline);
+	(*cmds).pipeline = ft_parserdrct((*cmds).pipeline);
 }

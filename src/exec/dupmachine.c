@@ -12,13 +12,19 @@
 
 #include "../../minishell.h"
 
-int	ft_inputfile(char *file)
+int	ft_inputfile(char **file)
 {
 	int	fdi;
+	int	i;
 
-	if (ft_checkinputfile(file))
-		return (1);
-	fdi = open(file, O_RDONLY);
+	i = 0;
+	while (file[i])
+	{
+		if (ft_checkinputfile(file[i])) // maybe move it to the parser
+			return (1);
+		i++;
+	}
+	fdi = open(file[i - 1], O_RDONLY);
 	dup2(fdi, 0);
 	/*close (fdi);*/
 	return (0);
@@ -42,7 +48,6 @@ int	ft_outputfile(char **file, int forknbr)
 	if (!tmpnbr)
 		return (1);
 	outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", tmpnbr, ".tmp");
-	// printf ("tmpfile= %s\n", outtmp);
 	fdo = open(outtmp, O_RDWR | O_CREAT | O_TRUNC, 0666); //we should use this for output
 	if (fdo == -1) 
 	{
@@ -65,7 +70,7 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		dup2(cmds.hdfd, 0);
 	else if (cmds.infile[0])
 	{
-		if (ft_inputfile(cmds.infile[0]))
+		if (ft_inputfile(cmds.infile))
 			return (1);
 	}
 	else

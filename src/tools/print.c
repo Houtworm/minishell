@@ -96,13 +96,20 @@ void	ft_printglobs(t_globs globs, char *function)
 
 void	ft_printdup(t_cmds cmds, int cmdnbr, int forknbr)
 {
+	int	i;
+
+	i = 0;
 	printf("\e[1;32mdupmachine cmd %d fork %d\e[0;00m\n", cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		printf("\e[1;32minput from pipe\e[0;00m\n");
 	else if (cmds.hdfd > 0)
 		printf("\e[1;32minput from heredoc\e[0;00m\n");
 	else if (cmds.infile[0])
-		printf("\e[1;32minput from file %s\e[0;00m\n", cmds.infile[0]);
+	{
+		while (cmds.infile[i])
+			i++;
+		printf("\e[1;32minput from file %s\e[0;00m\n", cmds.infile[i - 1]);
+	}
 	else
 		printf("\e[1;32minput from stdin\e[0;00m\n");
 	if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount)
