@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/18 09:52:41 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/18 10:53:11 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,90 @@ int		ft_recursivesubdir(t_globs *globs, struct dirent *dirents, int i, int j)
 	return (0);
 }
 
+int		ft_recursivematchsub(t_globs *globs, char *fullpath, int i)
+{
+	int				j;
+	DIR				*dir;
+	struct dirent	*dirents;
+
+	j = 0;
+	while (globs->subdir[i])
+	{
+		dir = opendir(fullpath);
+		if (dir)
+		{
+			while ((dirents = readdir(dir)))
+			{
+				printf("starting in recursivematchsub\n");
+				if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
+				{
+					j = 0;
+					while (dirents->d_name[j] && dirents->d_name[j] == globs->subdir[i][j + 1]) //just skip over the non globs
+					{
+						printf("ft_recursivematchsub fast match before glob: %d, %c, %c i: %d j: %d\n", j, globs->subdir[i][j + 1], dirents->d_name[j], i, j);
+						j++;
+					}
+					printf("ft_recursivematchsub fast match broken: %d, %c, %c i: %d j: %d\n", j, globs->subdir[i][j + 1], dirents->d_name[j], i, j);
+					if (ft_strchr("*?[", globs->subdir[i][j + 1])) // we match the current character with a glob
+					{
+						/*printf("ft_recursivematchsub glob found in %s in %s i: %d j: %d\n", dirents->d_name, dname, i, j);*/
+						if (ft_recursivesubdir(globs, dirents, i, j + 1)) // returns a 1 if the glob matches
+						{
+							globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+							printf("recursivematchsub 1 %s\n", ft_cpptostr(globs->tempsubdir));
+							/*subdirs = ft_strjoin(subdirs, globs->tempsubdir[i]); // add the current dir to subdirs*/
+							/*printf("ft_matchsub subdirs after recursive glob match: %s i: %d j: %d\n", subdirs, i, j);*/
+							if (!globs->subdir[i + 1]) // if it is the last subdir
+							{
+								printf("ft_recursivematchsub no subdirectory remaining,adding to matches i: %d j: %d\n", i, j);
+								/*globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, ft_cpptostr(globs->tempsubdir), " "); // add the match*/
+								ft_cppbzero(globs->tempsubdir);
+							}
+							else
+							{
+								printf("ft_recursivematchsub not the final subdirectory i: %d j: %d\n", i, j);
+								if (dirents->d_type == DT_DIR) // check if it is a directory
+								{
+									printf("ft_recursivematchsub is a directory i: %d j: %d\n", i, j);
+									globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+									printf("matchsub 2 %s\n", ft_cpptostr(globs->tempsubdir));
+									ft_recursivematchsub(globs, ft_vastrjoin(3, fullpath, "/", dirents->d_name), i + 1);
+								}
+								else
+									printf("ft_recursivematchsub is not a directory i: %d j: %d\n", i, j);
+
+
+							}	
+						}
+					}
+					if (globs->subdir[i][j + 1] == '\0') // glob matches completely
+					{
+						printf("ft_recursivematchsub glob matches completely i: %d j: %d\n", i, j);
+						if (dirents->d_type == DT_DIR) // check if it is a directory
+						{
+							globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+							printf("recursivematchsub 3 %s\n", ft_cpptostr(globs->tempsubdir));
+							/*subdirs = ft_strjoin(subdirs, globs->tempsubdir[i]); // add the current dir to subdirs*/
+							/*printf("ft_recursivematchsub subdirs after non recursive glob match: %s i: %d j: %d\n", subdirs, i, j);*/
+						}
+						if (!globs->subdir[i + 1]) // if it is the last subdir
+						{
+							/*printf("ft_recursivematchsub found final subdir: %s%s%s i: %d j: %d\n", globs->pardir, dname, subdirs, i, j);*/
+							/*globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, ft_cpptostr(globs->tempsubdir), " "); // add the match*/
+							/*ft_cppbzero(globs->tempsubdir);*/
+						}
+					}
+				}
+			}
+		}
+		closedir(dir);
+		fullpath = ft_vastrjoin(2, fullpath, globs->tempsubdir[i]); // create new checkdir for the next loop round
+		/*printf("ft_matchsub checkdir new loop %s i: %d j: %d\n", checkdir, i, j);*/
+		i++;
+	}
+	return (0);	
+}
+
 void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type)
 { // should match subdirectories recursively
 	DIR				*dir;
@@ -180,69 +264,69 @@ void	ft_matchsub(t_globs *globs, char *dname, char *fullpath, unsigned char type
 	while (globs->subdir[i]) // check if there are subdirectories to check
 	{
 		dir = opendir(checkdir); // open the directory
-		if (!dir)
-			return ;
-		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
+		if (dir)
 		{
-			subdirs = NULL;
-			printf("ft_matchsub trying to match %s in %s i: %d j: %d\n", dirents->d_name, dname, i, j);
-			if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
+			while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 			{
-				j = 0;
-				while (dirents->d_name[j] && dirents->d_name[j] == globs->subdir[i][j + 1]) //just skip over the non globs
+				subdirs = NULL;
+				printf("ft_matchsub trying to match %s in %s i: %d j: %d\n", dirents->d_name, dname, i, j);
+				if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 				{
-					printf("ft_matchsub fast match before glob: %d, %c, %c i: %d j: %d\n", j, globs->subdir[i][j + 1], dirents->d_name[j], i, j);
-					j++;
-				}
-				printf("ft_matchsub fast match broken: %d, %c, %c i: %d j: %d\n", j, globs->subdir[i][j + 1], dirents->d_name[j], i, j);
-				if (ft_strchr("*?[", globs->subdir[i][j + 1])) // we match the current character with a glob
-				{
-					printf("ft_matchsub glob found in %s in %s i: %d j: %d\n", dirents->d_name, dname, i, j);
-					if (ft_recursivesubdir(globs, dirents, i, j + 1)) // returns a 1 if the glob matches
+					j = 0;
+					while (dirents->d_name[j] && dirents->d_name[j] == globs->subdir[i][j + 1]) //just skip over the non globs
 					{
-						globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
-						printf("matchsub 1 %s\n", ft_cpptostr(globs->tempsubdir));
-						/*subdirs = ft_strjoin(subdirs, globs->tempsubdir[i]); // add the current dir to subdirs*/
-						/*printf("ft_matchsub subdirs after recursive glob match: %s i: %d j: %d\n", subdirs, i, j);*/
+						printf("ft_matchsub fast match before glob: %d, %c, %c i: %d j: %d\n", j, globs->subdir[i][j + 1], dirents->d_name[j], i, j);
+						j++;
+					}
+					printf("ft_matchsub fast match broken: %d, %c, %c i: %d j: %d\n", j, globs->subdir[i][j + 1], dirents->d_name[j], i, j);
+					if (ft_strchr("*?[", globs->subdir[i][j + 1])) // we match the current character with a glob
+					{
+						printf("ft_matchsub glob found in %s in %s i: %d j: %d\n", dirents->d_name, dname, i, j);
+						if (ft_recursivesubdir(globs, dirents, i, j + 1)) // returns a 1 if the glob matches
+						{
+							globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+							printf("matchsub 1 %s\n", ft_cpptostr(globs->tempsubdir));
+							/*subdirs = ft_strjoin(subdirs, globs->tempsubdir[i]); // add the current dir to subdirs*/
+							/*printf("ft_matchsub subdirs after recursive glob match: %s i: %d j: %d\n", subdirs, i, j);*/
+							if (!globs->subdir[i + 1]) // if it is the last subdir
+							{
+								printf("ft_matchsub no subdirectory remaining,adding to matches i: %d j: %d\n", i, j);
+								globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, ft_cpptostr(globs->tempsubdir), " "); // add the match
+								ft_cppbzero(globs->tempsubdir);
+							}
+							else
+							{
+								printf("ft_matchsub not the final subdirectory i: %d j: %d\n", i, j);
+								if (dirents->d_type == DT_DIR) // check if it is a directory
+								{
+									printf("ft_matchsub is a directory i: %d j: %d\n", i, j);
+									globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+									printf("matchsub 2 %s\n", ft_cpptostr(globs->tempsubdir));
+									ft_recursivematchsub(globs, ft_vastrjoin(3, fullpath, "/", dirents->d_name), i + 1);
+								}
+								else
+									printf("ft_matchsub is not a directory i: %d j: %d\n", i, j);
+
+
+							}	
+						}
+					}
+					if (globs->subdir[i][j + 1] == '\0') // glob matches completely
+					{
+						printf("ft_matchsub glob matches completely i: %d j: %d\n", i, j);
+						if (dirents->d_type == DT_DIR) // check if it is a directory
+						{
+							globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+							printf("matchsub 3 %s\n", ft_cpptostr(globs->tempsubdir));
+							subdirs = ft_strjoin(subdirs, globs->tempsubdir[i]); // add the current dir to subdirs
+							printf("ft_matchsub subdirs after non recursive glob match: %s i: %d j: %d\n", subdirs, i, j);
+						}
 						if (!globs->subdir[i + 1]) // if it is the last subdir
 						{
-							printf("ft_matchsub no subdirectory remaining,adding to matches i: %d j: %d\n", i, j);
-							// I would need some kind of cpptostr function here to combine all the subs into 1 string.
+							printf("ft_matchsub found final subdir: %s%s%s i: %d j: %d\n", globs->pardir, dname, subdirs, i, j);
 							globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, ft_cpptostr(globs->tempsubdir), " "); // add the match
 							ft_cppbzero(globs->tempsubdir);
 						}
-						else
-						{
-							printf("ft_matchsub not the final subdirectory i: %d j: %d\n", i, j);
-							if (dirents->d_type == DT_DIR) // check if it is a directory
-							{
-								printf("ft_matchsub is a directory i: %d j: %d\n", i, j);
-								globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
-								printf("matchsub 2 %s\n", ft_cpptostr(globs->tempsubdir));
-								ft_recursivesubdir(globs, dirents, i + 1, 0);
-							}
-							else
-								printf("ft_matchsub is not a directory i: %d j: %d\n", i, j);
-								
-
-						}	
-					}
-				}
-				if (globs->subdir[i][j + 1] == '\0') // glob matches completely
-				{
-					printf("ft_matchsub glob matches completely i: %d j: %d\n", i, j);
-					if (dirents->d_type == DT_DIR) // check if it is a directory
-					{
-						globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
-						printf("matchsub 3 %s\n", ft_cpptostr(globs->tempsubdir));
-						subdirs = ft_strjoin(subdirs, globs->tempsubdir[i]); // add the current dir to subdirs
-						printf("ft_matchsub subdirs after non recursive glob match: %s i: %d j: %d\n", subdirs, i, j);
-					}
-					if (!globs->subdir[i + 1]) // if it is the last subdir
-					{
-						printf("ft_matchsub found final subdir: %s%s%s i: %d j: %d\n", globs->pardir, dname, subdirs, i, j);
-						globs->matches = ft_vastrjoin(5, globs->matches, globs->pardir, dname, ft_cpptostr(globs->tempsubdir), " "); // add the match
-						ft_cppbzero(globs->tempsubdir);
 					}
 				}
 			}
