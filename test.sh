@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/17 19:36:52 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/18 16:47:50 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -559,13 +559,23 @@ hallo\")"
 printf "\e[1;36mTesting * Wildcards\e[0;00m\n"
 testfunction "*"
 testfunction "ls *rc"
+testfunction "ls sr*"
 testfunction "ls *r*"
 testfunction "ls *rc/b*"
+testfunction "ls ../*/*r*/b*i*"
 testfunction "ls g*t*e*t*i*e"
 testfunction "ls *e*n*x*l*n*"
 testfunction "ls ../*/src/*/*.c"
 testfunction "ls ../*/src/doesnotexist/echo.c"
 testfunction "ls ../*/src/builtin/fake.c"
+testfunction "ls *"
+testfunction "ls */*"
+testfunction "ls */*/*"
+testfunction "ls */*/*/*"
+testfunction "ls */*/*/*/*"
+testfunction "ls */*/*/*/*/*"
+testfunction "ls */*/*/*/*/*/*"
+testfunction "ls /"
 
 # ? joker
 printf "\e[1;36mTesting ? Jokers\e[0;00m\n"
