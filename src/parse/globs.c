@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/18 18:19:30 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/18 18:30:05 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_addglobmatch(t_globs *globs, char *match)
 	globs->matches[globs->matchcount] = ft_strjoin(match, " "); // add the match
 	printf("ft_addglobmatch added %s as a match\n", match);
 	globs->matchcount++;
-
 }
 
 int	ft_skipbutcopygstart(t_globs *globs, int startpos)
