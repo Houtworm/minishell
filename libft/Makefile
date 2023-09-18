@@ -6,7 +6,7 @@
 #    By: djonker <marvin@codam.nl>                    +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/10/27 15:02:02 by djonker       #+#    #+#                  #
-#    Updated: 2023/05/29 21:39:26 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/18 12:20:26 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -147,7 +147,9 @@ SRC			=src/ft_atoi.c \
 			src/ft_system.c \
 			src/ft_getpaths.c \
 			src/ft_getenvval.c \
-			src/ft_abspathcmd.c
+			src/ft_abspathcmd.c \
+			src/ft_cppbzero.c \
+			src/ft_cpptostr.c
 BSRC		=src/ft_lstadd_back.c \
 			src/ft_lstadd_front.c \
 			src/ft_lstclear.c \

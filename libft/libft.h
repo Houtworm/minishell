@@ -6,7 +6,7 @@
 /*   By: djonker <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/11 16:02:53 by djonker       #+#    #+#                 */
-/*   Updated: 2023/05/29 21:39:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/18 12:19:58 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,5 +171,7 @@ char				*ft_system(char *command, char **envp);
 char				**ft_getpaths(char **envp, int i);
 char				*ft_getenvval(char **envp, char *var);
 char				*ft_abspathcmd(char **paths, char *command);
+void				ft_cppbzero(char **cpp);
+char				*ft_cpptostr(char **cpp);
 
 #endif
