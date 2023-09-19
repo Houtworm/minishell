@@ -6,25 +6,11 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/19 14:12:43 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 00:01:50 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	ft_sighandler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		// stop it from printing ^C on the prompt
-		//somehow break the mainloop
-	}
-	if (sig == SIGQUIT)
-	{
-		// stop it from printing ^\ on the prompt
-		// quit the current child
-	}
-}
 
 int	ft_mainloop(t_shell *shell)
 {

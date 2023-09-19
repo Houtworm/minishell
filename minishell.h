@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/19 13:56:52 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 00:43:41 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,10 @@ t_shell		*ft_initstruct(char **envp, int debugmode);
 void		ft_printprompt(t_shell *strct, char **envp);
 // script
 int			ft_runscript(int argc, char **argv, char **envp);
+// signal
+void		ft_sighandler(int sig);
+// mshrc
+t_alias		*ft_parsemshrc(char **envp);
 
 // TOOLS
 // tools
@@ -124,39 +128,40 @@ int			ft_errorexit(char *reason, char *cmd, int code);
 int			ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
 
 // PARSE
-//parse
+// parse
 int			ft_parseline(char *line, t_shell *shell);
 t_shell 	ft_parsecmds(t_shell shell, int forknumber, int cmdnumber);
-//hashtag
+// hashtag
 char		*ft_parsehashtag(char *line);
-//syntax
+// syntax
 int			ft_checksyntax(t_shell *shell, char *line);
-//pipe
+// pipe
 t_shell 	ft_parsepipe(char *line, t_shell shell);
-//alias
+// alias
 void		ft_parsealiases(t_cmds *cmds, t_shell shell);
-//quote
+// quote
 char		*ft_closequote(char *line);
 char		**ft_remove_quote(char	**cmd, int count);
-//heredoc
+// heredoc
 t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
-//redirect
+// redirect
 void		ft_parseredirection(t_cmds *cmds);
-//condition
+// condition
 t_forks		ft_parseendcondition(t_forks forks);
-//variable
+// variable
 int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
-//globs
+// globs
 int			ft_recursiveglob(t_globs *globs, char *dname, int i, int j);
 int			ft_recursivesubdir(t_globs *globs, struct dirent *dirents, int i, int j);
 int			ft_parseglobs(t_cmds *cmd);
-//wildcard
-//void		ft_parsewildcard(t_cmds cmd, t_globs *globs);
-//tools
+// wildcard
+// void		ft_parsewildcard(t_cmds cmd, t_globs *globs);
+// joker
+// anyof
+// tools
 int			ft_checkoutquote(char *line, char target, int mode);
 char		**ft_checkarg(char	**cmd, int count);
-
-//parse_utils
+// parse_utils
 int			check_quote_closed(char *s);
 int			ft_skipquote(char *s, int i);
 int			count_str(char *s, int c);
@@ -170,10 +175,8 @@ int			ft_forktheforks(t_shell *shell);
 void		ft_executepriority(t_cmds *cmd);
 // exec
 int			ft_executeforks(int forknbr, t_shell *shell);
-
 // dupmachine
 int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
-
 //verify
 int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);
@@ -182,6 +185,8 @@ int			ft_checkcommand(t_cmds cmds);
 // BUILTINS
 // builtin
 int			ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
+// alias
+int			ft_alias(t_cmds cmd);
 // chdir
 int			ft_chdir(t_cmds cmds);
 // exit
@@ -196,5 +201,7 @@ int			ft_env(t_cmds cmds);
 int			ft_pwd(t_cmds cmds);
 // echo
 int			ft_echo(t_cmds cmds);
+// z
+int			ft_z(t_cmds cmds);
 
 #endif

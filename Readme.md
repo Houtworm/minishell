@@ -11,6 +11,7 @@ is a lightweight implementation of bash
 Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 
 #### Parser
+$$ should translate to PID of shell
 maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
 Syntax checking can be improved a lot
 globbing should be moved to before redirection parsing because echo hallo > * should work.
@@ -24,6 +25,7 @@ heredoc should not print "minishell heredoc>" if there is input waiting already
 forks should not run if there is a mismatching condition before in the pipeline
 somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
 return codes are not always working correctly.
+push & to the background
 
 ### Builtins
 #### cd

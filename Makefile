@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/19 13:51:03 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/20 00:44:18 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ SRC		=src/main/main.c\
 		 src/main/init.c\
 		 src/main/prompt.c\
 		 src/main/script.c\
+		 src/main/signal.c\
+		 src/main/mshrc.c\
 		 src/parse/parse.c\
 		 src/parse/parse_utils.c\
 		 src/parse/hashtag.c\
@@ -31,6 +33,8 @@ SRC		=src/main/main.c\
 		 src/parse/variable.c\
 		 src/parse/globs.c\
 		 src/parse/wildcard.c\
+		 src/parse/joker.c\
+		 src/parse/anyof.c\
 		 src/parse/tools.c\
 		 src/exec/fork.c\
 		 src/exec/priority.c\
@@ -38,6 +42,7 @@ SRC		=src/main/main.c\
 		 src/exec/dupmachine.c\
 		 src/exec/verify.c\
 		 src/builtin/builtin.c\
+		 src/builtin/alias.c\
 		 src/builtin/exit.c\
 		 src/builtin/chdir.c\
 		 src/builtin/unset.c\
@@ -45,6 +50,7 @@ SRC		=src/main/main.c\
 		 src/builtin/env.c\
 		 src/builtin/pwd.c\
 		 src/builtin/echo.c\
+		 src/builtin/z.c\
 		 src/tools/tools.c\
 		 src/tools/error.c\
 		 src/tools/print.c\
