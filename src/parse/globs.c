@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/19 08:34:40 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 11:27:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@ int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 int	ft_newpipeline(t_globs *globs)
 { // simply parses the results into the new pipeline
   	char	*temp;
+	int		i;
+	int		j;
+	int		k;
 
+	temp = ft_calloc(100000, 8);
 	if (!globs->matches[0])
 	{
 		printf("ft_parseglob no matches found\n");
@@ -57,10 +61,22 @@ int	ft_newpipeline(t_globs *globs)
 	}
 	else
 	{
-		temp = ft_cpptostr(globs->matches);
-		ft_frearr(globs->matches);
+		k = 0;
+		i = 0;
+		while (globs->matches[i])
+		{
+			j = 0;
+			while (globs->matches[i][j])
+			{
+				temp[k] = globs->matches[i][j];
+				j++;
+				k++;
+			}
+			i++;
+		}
+		/*ft_frearr(globs->matches);*/
 		globs->pipeline = ft_vastrjoin(3, globs->start, temp, globs->end); // new pipeline
-		globs->linecount = globs->linecount + ft_strlen(temp); // new linecount
+		globs->linecount = globs->linecount + k; // new linecount
 	}
 	free(temp);
 	return (0);
