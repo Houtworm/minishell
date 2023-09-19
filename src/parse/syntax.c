@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 13:48:26 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/19 14:12:16 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 15:01:38 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,61 @@ int		ft_syntaxerror(t_shell *shell, char s1, char s2)
 	return (1);
 }
 
+int		ft_checksymbol(char *line, int i, char symbol)
+{
+	i++;
+	if (line[i] == symbol)
+		i++;
+	while (line[i] == ' ')
+		i++;
+	if (ft_strchr("<>&|", line[i]))
+		return (0);
+	return (i);
+}
+
 int		ft_checksyntax(t_shell *shell, char *line)
 {
 	int	i;
+	int	t;
 
 	i = 0;
 	while (line[i])
 	{
 		if (ft_strchr("<>&|", line[i]))
+		{
 			if (line[i] == '<')
 			{
-				i++;
-				if (line[i] == '<')
-					i++;
-				while (line[i] == ' ')
-					i++;
-				if (ft_strchr("<>&|", line[i]))
+				t = ft_checksymbol(line, i, '<');
+				if (t)
+					i = i + t;
+				else
 					return (ft_syntaxerror(shell, '<', line[i]));
 			}
+			if (line[i] == '>')
+			{
+				t = ft_checksymbol(line, i, '>');
+				if (t)
+					i = i + t;
+				else
+					return (ft_syntaxerror(shell, '>', line[i]));
+			}
+			if (line[i] == '&')
+			{
+				t = ft_checksymbol(line, i, '&');
+				if (t)
+					i = i + t;
+				else
+					return (ft_syntaxerror(shell, '&', line[i]));
+			}
+			if (line[i] == '|')
+			{
+				t = ft_checksymbol(line, i, '|');
+				if (t)
+					i = i + t;
+				else
+					return (ft_syntaxerror(shell, '|', line[i]));
+			}
+		}
 		i++;
 	}
 	return (0);
