@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 13:48:26 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/19 15:06:13 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 15:16:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,32 +65,28 @@ int		ft_checksyntax(t_shell *shell, char *line)
 		{
 			if (line[i] == '<')
 			{
-				t = ft_checksymbol(line, i, '<');
-				if (t)
+				if ((t = ft_checksymbol(line, i, '<')))
 					i = i + t;
 				else
 					return (ft_syntaxerror(shell, '<', line[i]));
 			}
 			if (line[i] == '>')
 			{
-				t = ft_checksymbol(line, i, '>');
-				if (t)
+				if ((t = ft_checksymbol(line, i, '>')))
 					i = i + t;
 				else
 					return (ft_syntaxerror(shell, '>', line[i]));
 			}
 			if (line[i] == '&')
 			{
-				t = ft_checksymbol(line, i, '&');
-				if (t)
+				if ((t = ft_checksymbol(line, i, '&')))
 					i = i + t;
 				else
 					return (ft_syntaxerror(shell, '&', line[i]));
 			}
 			if (line[i] == '|')
 			{
-				t = ft_checksymbol(line, i, '|');
-				if (t)
+				if ((t = ft_checksymbol(line, i, '|')))
 					i = i + t;
 				else
 					return (ft_syntaxerror(shell, '|', line[i]));
