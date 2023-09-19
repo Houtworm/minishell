@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 13:48:26 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/19 15:01:38 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 15:06:13 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,25 @@ int		ft_syntaxerror(t_shell *shell, char s1, char s2)
 
 	random = ft_gettimems(shell->envp) % 10;
 	if (random == 0)
-		printf("Are you drunk? you can't follow %c with %c\n", s1, s2);
+		printf("Syntax Error: Are you drunk? you can't follow %c with %c\n", s1, s2);
 	if (random == 1)
-		printf("Where did you learn how to type? you can't follow %c with %c\n", s1, s2);
+		printf("Syntax Error: Where did you learn how to type? you can't follow %c with %c\n", s1, s2);
 	if (random == 2)
-		printf("Is your keyboard broken? you can't follow %c with %c\n", s1, s2);
+		printf("Syntax Error: Is your keyboard broken? you can't follow %c with %c\n", s1, s2);
 	if (random == 3)
-		printf("Why don't you try a GUI? you can't follow %c with %c\n", s1, s2);
+		printf("Syntax Error: Why don't you try a GUI? you can't follow %c with %c\n", s1, s2);
 	if (random == 4)
-		printf("What are you trying to do Yuka? you can't follow %c with %c\n", s1, s2);
+		printf("Syntax Error: What are you trying to do Yuka? you can't follow %c with %c\n", s1, s2);
 	if (random == 5)
-		printf("This is not a searchbar... you can't follow %c with %c\n", s1, s2);
+		printf("Syntax Error: This is not a searchbar... you can't follow %c with %c\n", s1, s2);
 	if (random == 6)
-		printf("Monkeys shouldn't use this computer. you can't follow %c with %c\n", s1, s2);
+		printf("Syntax Error: Monkeys shouldn't use this computer. you can't follow %c with %c\n", s1, s2);
 	if (random == 7)
-		printf("Why don't you go read the manual? you can't follow %c with %c\n", s1, s2);
+		printf("Syntax Error: Why don't you go read the manual? you can't follow %c with %c\n", s1, s2);
 	if (random == 8)
-		printf("Even I know you can't follow %c with %c\n", s1, s2);
+		printf("Syntax Error: Even I know you can't follow %c with %c\n", s1, s2);
 	if (random == 9)
-		printf("Shell Licence revoked. you can't follow %c with %c\n", s1, s2);
+		printf("Syntax Error: Shell Licence revoked. you can't follow %c with %c\n", s1, s2);
 	shell->code = 2;
 	return (1);
 }
