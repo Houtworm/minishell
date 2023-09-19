@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/19 14:05:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 14:32:24 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 	ft_parsevariable(&shell.forks[forknumber].cmds[cmdnumber], shell);
 	ft_executepriority(&shell.forks[forknumber].cmds[cmdnumber]);
 	ft_parseredirection(&shell.forks[forknumber].cmds[cmdnumber]);
-	ft_parseglobs(&shell.forks[forknumber].cmds[cmdnumber]);
+	ft_parseglobs(&shell.forks[forknumber].cmds[cmdnumber]); //should be moved to ft_parseline()
 	paths = ft_getpaths(shell.envp, 1);
 	shell.forks[forknumber].cmds[cmdnumber].arguments = split_not_quote(shell.forks[forknumber].cmds[cmdnumber].pipeline, ' ');
 	shell.forks[forknumber].cmds[cmdnumber].arguments = ft_checkarg(shell.forks[forknumber].cmds[cmdnumber].arguments, 0);

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/17 19:09:33 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 14:42:54 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr)
 	char	*outtmp;
 
 	outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", ft_itoa(forknbr), ".tmp");
+	i = open(outtmp, O_RDWR | O_CREAT | O_APPEND, 0666);
+	ft_putchar_fd(25, i);
+	close(i);
 	i = 0;
 	while (outfile[i])
 	{
@@ -32,7 +35,7 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr)
 		get_next_line(fdread, &line);
 		if (!line)
 			ft_errorexit("Error allocating memory", "malloc", 1);
-		while (line[0])
+		while (line[0] != 25)
 		{
 			ft_putendl_fd(line, fdo);
 			free(line);

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/17 19:13:45 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 14:32:42 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_heredoc(char *delimiter, char *file)
 	}
 	free(line);
 	close(fdi);
-	fdi = open(file, O_RDONLY); // 1 file for multiple heredocs will fail ofc
+	fdi = open(file, O_RDONLY);
 	return (fdi);
 }
 
