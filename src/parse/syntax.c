@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 13:48:26 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/19 16:31:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 16:45:37 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,15 @@ int		ft_syntaxerror(t_shell *shell, char s1, char *line, int i)
 
 int		ft_checksymbol(char *line, int i, char symbol)
 {
-	i++;
-	if (line[i] == symbol)
-		i++;
-	while (line[i] == ' ')
-		i++;
-	if (ft_strchr("<>&|", line[i]))
+	int		j;
+	j = 1;
+	if (line[i + j] == symbol)
+		j++;
+	while (line[i + j] == ' ')
+		j++;
+	if (ft_strchr("<>&|", line[i + j]))
 		return (0);
-	return (i);
+	return (j);
 }
 
 int		ft_checksyntax(t_shell *shell, char *line)
