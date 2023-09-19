@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/18 18:16:53 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 10:38:53 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ char		**ft_remove_quote(char	**cmd, int count);
 //heredoc
 t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
 //redirect
-void		ft_redirection(t_cmds *cmds);
+void		ft_parseredirection(t_cmds *cmds);
 //condition
 t_forks		ft_parseendcondition(t_forks forks);
 //variable

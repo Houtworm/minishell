@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/18 22:16:03 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 08:34:40 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int		ft_recursivesubwildcard(t_globs *globs, struct dirent *dirents, int i, int 
 				printf("ft_recursivesubwildcard fastmatch: %c, %c\n", globs->subdir[i][j + 1], dirents->d_name[j]);
 				j++;
 			}
+			printf("ft_recursivesubwildcard fastmatch broken: %c, %c\n", globs->subdir[i][j + 1], dirents->d_name[j]);
 			if (globs->subdir[i][j + 1] == '\0') // if the end matches too
 			{
 				if (dirents->d_type == DT_DIR) // check if it is a directory
@@ -91,6 +92,7 @@ int		ft_recursivesubwildcard(t_globs *globs, struct dirent *dirents, int i, int 
 					printf("ft_recursivesubwildcard glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[i], dirents->d_name, i);
 					globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 					return (1); // this one is a match
+					// I think we should branch out here, match all the following subdirs....
 				}
 				else
 				{
@@ -109,7 +111,7 @@ int		ft_recursivesubwildcard(t_globs *globs, struct dirent *dirents, int i, int 
 			}
 			if (ft_strchr("*?[", globs->subdir[i][j + 1])) // if we find a new glob
 			{
-				printf("ft_recursivesubwildcard going into recursion\n");
+				printf("ft_recursivesubwildcard found glob going into recursion\n");
 				globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 				return (ft_recursivesubdir(globs, dirents, i, j)); // recursive glob function returns 1 if it eventually matches
 			}
@@ -150,7 +152,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 	{
 		while ((dirents = readdir(dir)))
 		{
-			printf("starting in recursivematchsub with the following path %s\n", fullpath);
+			printf("starting in recursivematchsub with the following path %s trying to match %s\n", fullpath, dirents->d_name);
 			if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 			{
 				j = 0;
@@ -162,7 +164,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 				printf("ft_recursivematchsub fast match broken: %c, %c\n", globs->subdir[i][j + 1], dirents->d_name[j]);
 				if (ft_strchr("*?[", globs->subdir[i][j + 1])) // we match the current character with a glob
 				{
-					/*printf("ft_recursivematchsub glob found for %s in %s\n", dirents->d_name, ft_cpptostr(globs->tempsubdir));*/
+					printf("ft_recursivematchsub glob found for %s\n", dirents->d_name);
 					if (ft_recursivesubdir(globs, dirents, i, j + 1)) // returns a 1 if the glob matches
 					{
 						globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
