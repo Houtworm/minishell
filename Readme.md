@@ -46,7 +46,7 @@ then when z is called just cd to the first match :)
 ## Bugs
 #### crashes when giving proper memory and a lot of arguments
 #### crashes when giving a very very long pipeline
-#### Overwrites line when typing past the terminal width at first command
+#### Overwrites line when typing past the terminal width at first command // maybe just write that it can't find or parsed ~/.mshrc ?
 #### cat | cat | cat | ls // should exit when enter is pressed 3 times
 #### Test the signals from prompt and from cat
 ---
