@@ -10,8 +10,6 @@ is a lightweight implementation of bash
 ```^Z``` should suspend running application
 Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 
-
-
 #### Parser
 maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
 Syntax checking can be improved a lot
