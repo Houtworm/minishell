@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:25:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 00:27:59 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 00:50:04 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_alias ft_aliastostruct(char *line)
 	i = 0;
 	j = 0;
 	if (ft_strncmp(line, "alias ", 6))
-		ft_errorexit("Error in ~/.mshrc file", "mshrc", 1);
+		ft_errorexit("Error in ~/.mshrc file, only alias accepted", "mshrc", 1);
 	aliasstruct.var = ft_calloc(ft_strlen(line), 8);
 	aliasstruct.val = ft_calloc(ft_strlen(line), 8);
 	while (line[i + 6] && line[i + 6] != '=')
