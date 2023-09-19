@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/20 01:15:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 01:19:27 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_mainloop(t_shell *shell)
 	ft_printprompt(shell, shell->envp);
 	line = readline("❯ ");
 	if (!line)
-		exit (0); // should probably be done in a clean way.
+		ft_cleanexit();
 	shell->starttime = ft_gettimems(shell->envp);
 	if (!line)
 		return (1);
