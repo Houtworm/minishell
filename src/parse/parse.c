@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/19 10:38:39 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 14:05:44 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,25 @@ t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 	return (shell);
 }
 
-t_shell	ft_parseline(char *line, t_shell shell)
+int	ft_parseline(char *line, t_shell *shell)
 {
 	int	forknumber;
+
 	line = ft_closequote(line);
 	line = ft_parsehashtag(line);
-	shell = ft_parsepipe(line, shell);
-	if (shell.debug)
-		ft_printshell(shell);
+	if (ft_checksyntax(shell, line))
+		return (1);
+	*shell = ft_parsepipe(line, *shell);
+	if (shell->debug)
+		ft_printshell(*shell);
 	forknumber = 0;
-	while (shell.forkamount > forknumber)
+	while (shell->forkamount > forknumber)
 	{
-		shell.forks[forknumber] = ft_parseendcondition(shell.forks[forknumber]);
-		shell.forks[forknumber] = ft_parseheredoc(shell.forks[forknumber], shell.forks[forknumber].cmdamount);
-		if (shell.debug)
-			ft_printforks(shell.forks[forknumber], forknumber);
+		shell->forks[forknumber] = ft_parseendcondition(shell->forks[forknumber]);
+		shell->forks[forknumber] = ft_parseheredoc(shell->forks[forknumber], shell->forks[forknumber].cmdamount);
+		if (shell->debug)
+			ft_printforks(shell->forks[forknumber], forknumber);
 		forknumber++;
 	}
-	return (shell);
+	return (0);
 }

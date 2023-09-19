@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/19 10:38:53 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 13:56:52 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,12 @@ int			ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
 
 // PARSE
 //parse
-t_shell		ft_parseline(char *line, t_shell shell);
+int			ft_parseline(char *line, t_shell *shell);
 t_shell 	ft_parsecmds(t_shell shell, int forknumber, int cmdnumber);
 //hashtag
 char		*ft_parsehashtag(char *line);
+//syntax
+int			ft_checksyntax(t_shell *shell, char *line);
 //pipe
 t_shell 	ft_parsepipe(char *line, t_shell shell);
 //alias
