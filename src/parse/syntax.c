@@ -6,46 +6,52 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 13:48:26 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/19 16:45:37 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 17:24:31 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_printinsult(t_shell *shell, char s1)
+char	**ft_getinsults(void)
 {
-	int		random;
+	char	**insults;
 
-	random = ft_gettimems(shell->envp) % 10;
-	if (random == 0)
-		printf("Syntax Error: Are you drunk? ");
-	if (random == 1)
-		printf("Syntax Error: Where did you learn how to type? ");
-	if (random == 2)
-		printf("Syntax Error: Is your keyboard broken? ");
-	if (random == 3)
-		printf("Syntax Error: Why don't you try a GUI? ");
-	if (random == 4)
-		printf("Syntax Error: What are you trying to do Yuka? ");
-	if (random == 5)
-		printf("Syntax Error: This is not a searchbar... ");
-	if (random == 6)
-		printf("Syntax Error: Monkeys shouldn't use this computer. ");
-	if (random == 7)
-		printf("Syntax Error: Why don't you go read the manual? ");
-	if (random == 8)
-		printf("Syntax Error: Even I know ");
-	if (random == 9)
-		printf("Syntax Error: Shell Licence revoked. ");
-	printf("you can't follow up this %c like that\n", s1);
+	insults = ft_calloc(100, 80);
+	insults[0] = ft_strdup("Are you drunk or something? ");
+	insults[1] = ft_strdup("Where did you learn how to type? ");
+	insults[2] = ft_strdup("Is your keyboard broken? ");
+	insults[3] = ft_strdup("Why don't you try a GUI? ");
+	insults[4] = ft_strdup("What are you trying to do Yuka? ");
+	insults[5] = ft_strdup("This is not a searchbar... ");
+	insults[6] = ft_strdup("Monkeys shouldn't use this computer. ");
+	insults[7] = ft_strdup("Why don't you go read the manual? ");
+	insults[8] = ft_strdup("Even I know ");
+	insults[9] = ft_strdup("Shell Licence revoked. ");
+	insults[10] = ft_strdup("Adolf Hitler would be proud ");
+	insults[11] = ft_strdup("Why don't you go back to your Mac? ");
+	insults[12] = ft_strdup("You know Cocaine is bad for you right? ");
+	insults[13] = ft_strdup("Your syntax illiteracy makes me a sad shell... ");
+	insults[14] = ft_strdup("Everytime you do this a puppy dies a horrible death ");
+	insults[15] = ft_strdup("Mi Inglash us coparible toe yoer sienthax ");
+	insults[16] = ft_strdup("RTFM https://gnu.org/software/bash/manual ");
+	insults[17] = ft_strdup("You just made me drown another kitten ");
+	insults[18] = ft_strdup("I think a tamagotchi is better suited for you. ");
+	insults[19] = ft_strdup("You are just wasting your time... ");
+	return (insults);
 }
 
 int		ft_syntaxerror(t_shell *shell, char s1, char *line, int i)
 {
 	int		j;
 	char	*help;
+	char	**insults;
+	int		random;
 
-	ft_printinsult(shell, s1);
+	printf("Syntax Error: ");
+	insults = ft_getinsults();
+	random = ft_gettimems(shell->envp) % 20;
+	printf("%s", insults[random]);
+	printf("\nyou can't follow up this %c like that\n", s1);
 	help = ft_calloc(ft_strlen(line), 8);
 	j = 0;
 	while (j < i)
@@ -58,6 +64,8 @@ int		ft_syntaxerror(t_shell *shell, char s1, char *line, int i)
 	printf("%s\n", line);
 	printf("%s\n", help);
 	shell->code = 2;
+	ft_frearr(insults);
+	free(help);
 	return (1);
 }
 
