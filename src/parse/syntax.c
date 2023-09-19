@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 13:48:26 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/19 17:24:31 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/19 17:43:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int		ft_syntaxerror(t_shell *shell, char s1, char *line, int i)
 	}
 	help[j] = '^';
 	help[j + 1] = '\0';
-	printf("%s\n", line);
-	printf("%s\n", help);
+	printf("❯ %s\n", line);
+	printf("  %s\n", help);
 	shell->code = 2;
 	ft_frearr(insults);
 	free(help);
