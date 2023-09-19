@@ -4,12 +4,17 @@ is a lightweight implementation of bash
 ---
 ## Todo
 #### Environment
-- ```^C``` should print ^C and restart the mainloop
-- ```^\``` shouldn't print anything
-- ```^D``` should quit the shell if line is empty
-- ```^Z``` should suspend running application
+```^C``` should print ^C and restart the mainloop
+```^\``` shouldn't print anything
+```^D``` should quit the shell if line is empty
+```^Z``` should suspend running application
+Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
+
+
 
 #### Parser
+maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
+Syntax checking can be improved a lot
 globbing should be moved to before redirection parsing because echo hallo > * should work.
 globbing is removing quotes...
 globbing has some errors like ```ls ../*/*r*/b*i*```
@@ -17,6 +22,7 @@ after wildcards are working 100%, we can expand into ? and []
 quotes in quotes have some issues here and there
 
 #### Exec
+forks should not run if there is a mismatching condition before in the pipeline
 somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
 return codes are not always working correctly.
 
@@ -40,12 +46,14 @@ then when z is called just cd to the first match :)
 ---
 ## Bugs
 #### crashes when giving proper memory and a lot of arguments
+#### crashes when giving a very very long pipeline
 #### Overwrites line when typing past the terminal width at first command
 #### cat | cat | cat | ls // should exit when enter is pressed 3 times
 #### Test the signals from prompt and from cat
 ---
 ## Extras
 //// is the same as / or /////////////////////////////
+Make the -c command read multiple lines so the tester will work with those
 
 ---
 ### Cleanup
