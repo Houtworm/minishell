@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/20 00:43:41 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 00:57:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "getnextline/get_next_line.h"
 # include <stdio.h>
 # include <dirent.h>
+#include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
