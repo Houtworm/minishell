@@ -20,6 +20,7 @@ globbing is removing quotes...
 globbing has some errors like ```ls ../*/*r*/b*i*```
 after wildcards are working 100%, we can expand into ? and []
 quotes in quotes have some issues here and there
+heredoc should not print "minishell heredoc>" if there is input waiting already
 
 #### Exec
 forks should not run if there is a mismatching condition before in the pipeline
