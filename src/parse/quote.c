@@ -12,7 +12,32 @@
 
 #include "../../minishell.h"
 
-char	*ft_closequote(char *line)
+char	check_quote_closed(char *s)
+{
+	int		i;
+	char	check;
+
+	i = 0;
+	check = '\0';
+	while (s[i])
+	{
+		while (s[i] && !check)
+		{
+			if (s[i] == '\'' || s[i] == '\"' || s[i] == '`' || s[i] == '(')
+				check = s[i];
+			i++;
+		}
+		while (s[i] && check)
+		{
+			if ((s[i] == check) || (s[i] == ')' && check == '('))
+				check = '\0';
+			i++;
+		}
+	}
+	return (check);
+}
+
+char	*ft_closeline(char *line)
 {
 	int		quote;
 	char	*temp;
@@ -29,9 +54,13 @@ char	*ft_closequote(char *line)
 			ret = get_next_line(0, &gnl);
 			if (ret == 0)
 				break;
-			if (quote == 1 && ft_strchr(gnl, '\''))
+			if (quote == '\'' && ft_strchr(gnl, '\''))
 				break ;
-			else if (quote == 2 && ft_strchr(gnl, '\"'))
+			else if (quote == '\"' && ft_strchr(gnl, '\"'))
+				break ;
+			else if (quote == '`' && ft_strchr(gnl, '`'))
+				break ;
+			else if (quote == '(' && ft_strchr(gnl, ')'))
 				break ;
 			else
 			{

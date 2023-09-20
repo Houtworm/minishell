@@ -37,7 +37,7 @@ int	ft_parseline(char *line, t_shell *shell)
 {
 	int	forknumber;
 
-	line = ft_closequote(line);
+	line = ft_closeline(line);
 	line = ft_parsehashtag(line);
 	if (ft_checksyntax(shell, line))
 		return (1);

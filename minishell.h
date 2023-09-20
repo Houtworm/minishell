@@ -144,7 +144,7 @@ t_shell 	ft_parsepipe(char *line, t_shell shell);
 // alias
 void		ft_parsealiases(t_cmds *cmds, t_shell shell);
 // quote
-char		*ft_closequote(char *line);
+char		*ft_closeline(char *line);
 char		**ft_remove_quote(char	**cmd, int count);
 // heredoc
 t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
@@ -188,7 +188,6 @@ int			ft_recursiveanyof(t_globs *globs, char *dname, int i, int j);
 int			ft_checkoutquote(char *line, char target, int mode);
 char		**ft_checkarg(char	**cmd, int count);
 // parse_utils
-int			check_quote_closed(char *s);
 int			ft_skipquote(char *s, int i);
 int			count_str(char *s, int c);
 int			count_wd(char *s, int c);
