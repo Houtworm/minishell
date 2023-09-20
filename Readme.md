@@ -11,9 +11,11 @@ is a lightweight implementation of bash
 Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 
 #### Parser
+ft_closequote should be expanded to ft_closeline including ' " ` and (
+if the pipeline ends with || && or | we should probably we should call ft_completeline right after ft_closeline
 $$ should translate to PID of shell
 maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
-Syntax checking can be improved a lot
+Syntax checking can be improved a lot we need an exemption for < as it can be the first symbol on a new cmd line
 globbing should be moved to before redirection parsing because echo hallo > * should work.
 globbing is removing quotes...
 globbing has some errors like ```ls ../*/*r*/b*i*```
@@ -26,6 +28,7 @@ forks should not run if there is a mismatching condition before in the pipeline
 somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
 return codes are not always working correctly.
 push & to the background
+if the output is redirected it shouldn't be passed to a pipe too. probably an easy if else statement in the dupmachine
 
 ### Builtins
 #### cd
