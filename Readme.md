@@ -59,6 +59,7 @@ z can also be improved by focussing on the lowest directory as/in/thisone and on
 ## Extras
 //// is the same as / or /////////////////////////////
 Make the -c command read multiple lines so the tester will work with those
+builtins, which, jobs, fg, exec
 
 ---
 ### Cleanup
