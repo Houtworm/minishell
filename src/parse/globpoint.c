@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 21:28:37 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/21 01:51:49 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ int		ft_recursivesubdir(t_globs *globs, struct dirent *dirents, int i, int j)
 {
 	if (globs->subdir[i][j] == '*')
 	{
-		printf("ft_recursivesubdir found * glob going into recursivesubwildcard i: %d j: %d\n", i, j);
+		/*printf("ft_recursivesubdir found * glob going into recursivesubwildcard i: %d j: %d\n", i, j);*/
 		return (ft_recursivesubwildcard(globs, dirents, i, j + 1));
 	}
 	if (globs->subdir[i][j] == '?')
 	{
-		printf("ft_recursivesubdir found ? glob going into recursivesubjoker i: %d j: %d\n", i, j);
+		/*printf("ft_recursivesubdir found ? glob going into recursivesubjoker i: %d j: %d\n", i, j);*/
 		return (ft_recursivesubjoker(globs, dirents, i, j + 1));
 	}
 	if (globs->subdir[i][j] == '[')
 	{
-		printf("ft_recursivesubdir found [ glob going into recursivesubanyof i: %d j: %d\n", i, j);
+		/*printf("ft_recursivesubdir found [ glob going into recursivesubanyof i: %d j: %d\n", i, j);*/
 		return (ft_recursivesubanyof(globs, dirents, i, j + 1));
 	}
 	return (0);

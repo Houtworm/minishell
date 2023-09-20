@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 03:36:31 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/21 01:49:55 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	ft_addglobmatch(t_globs *globs, char *match)
 {
 	globs->matches[globs->matchcount] = ft_strdup(match); // add the match
-	printf("ft_addglobmatch added %s as a match\n", match);
+	/*printf("ft_addglobmatch added %s as a match\n", match);*/
 	globs->matchcount++;
 }
 
@@ -30,8 +30,11 @@ int	ft_newpipeline(t_globs *globs)
 	temp = ft_calloc(100000, 8);
 	if (!globs->matches[0])
 	{
-		printf("ft_parseglob no matches found\n");
-		temp = ft_vastrjoin(5, globs->pardir, globs->gstart, globs->glob, globs->gend, ft_cpptostr(globs->subdir)); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
+		/*printf("ft_parseglob no matches found\n");*/
+		if (globs->subdir[0])
+			temp = ft_vastrjoin(5, globs->pardir, globs->gstart, globs->glob, globs->gend, ft_cpptostr(globs->subdir)); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
+		else
+			temp = ft_vastrjoin(4, globs->pardir, globs->gstart, globs->glob, globs->gend); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
 		globs->linecount = globs->linecount + ft_strlen(temp);
 	}
 	else
