@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 22:27:48 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 03:15:23 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 03:19:33 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_sighandler(int sig)
 	}
 	if (sig == SIGTSTP) // Z //
 	{
+		// should suspend the current child
 		sigset_t mask;
 		int		mpid;
 

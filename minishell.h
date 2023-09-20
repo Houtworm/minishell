@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/20 03:12:55 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 03:49:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,24 @@ int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
 int			ft_recursiveglob(t_globs *globs, char *dname, int i, int j);
 int			ft_recursivesubdir(t_globs *globs, struct dirent *dirents, int i, int j);
 int			ft_parseglobs(t_cmds *cmd);
+// globinit
+void		ft_getsubdir(t_globs *globs);
+int			ft_getparent(t_globs *globs);
+int			ft_getglob(t_globs *globs, int startpos);
+t_globs 	*ft_initglobstruct(char *pipeline);
+// globsub
+int			ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i);
+// globpoint
+int			ft_recursivesubdir(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_recursiveglob(t_globs *globs, char *dname, int i, int j);
+int			ft_matchglob(t_globs *globs, char *dname, int i);
+// globtools
+int			ft_newpipeline(t_globs *globs);
+void		ft_addglobmatch(t_globs *globs, char *match);
 // wildcard
-// void		ft_parsewildcard(t_cmds cmd, t_globs *globs);
+int			ft_recursivesubwildcard(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_recursivewildcard(t_globs *globs, char *dname, int i, int j);
+ int		ft_parsewildcard(t_globs *globs, char *dname, int i);
 // joker
 // anyof
 // tools
