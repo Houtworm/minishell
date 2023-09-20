@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 03:38:32 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 23:54:21 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 			{
 				printf("ft_matchtillglob no subdirectory found, %s matches\n", dname);
 				ft_addglobmatch(globs, ft_vastrjoin(2, globs->pardir, dname)); // add the match
-				/*globs->tempsubdir[0] = NULL;*/
-				/*ft_cppbzero(globs->tempsubdir);*/
 			}
 		}
 	}

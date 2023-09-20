@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 22:27:40 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/21 00:27:40 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,13 @@ int	ft_recursivewildcard(t_globs *globs, char *dname, int i, int j)
 		return (1); // this one is a match
 	while (dname[i + j]) // while there are characters in filename 
 	{
-		if (dname[i + j] == globs->gend[j] || globs->gend[j] == '\0') // if the first character matches or there is no globend
+		if (dname[i + j] == globs->gend[j]) // if the first character matches or there is no globend
 		{
-			if (globs->gend[j] == '\0') // no globend means every end matches
-				return (1); // this one is a match
-			if (dname[i + j + 1] == '\0') // no globend means every end matches
-				return (1); // this one is a match
+			/*if (dname[i + j] == '\0') // no globend means every end matches*/
+				/*return (1); // this one is a match*/
 			while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j]) //while the first character was a match but globend exists
 				j++;
-			if (ft_strchr("*/[", globs->gend[j])) // if we find a new glob
+			if (ft_strchr("*?[", globs->gend[j])) // if we find a new glob
 				return (ft_recursiveglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
 			if (dname[i + j] == '\0') // the whole filename matches
 				return (1); // copy it over.
@@ -123,7 +121,8 @@ int	ft_parsewildcard(t_globs *globs, char *dname, int i)
 				printf("ft_parsewildcard fastmatch %c\n", dname[i + j]);
 				j++;
 			}
-			if (dname[i + j] == '\0') // the whole filename matches
+			printf("loop %s %c %s %c\n", dname, dname[i + j], globs->gend, globs->gend[j]);
+			if (dname[i + j] == '\0' && globs->gend[j] == '\0') // the whole filename matches
 			{
 				printf("ft_parsewildcard whole filename matches\n");
 				return (1); // copy it over.

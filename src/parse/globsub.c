@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:24 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 22:22:42 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/21 00:33:02 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 					j++;
 				}
 				printf("ft_recursivematchsub fast match broken: %c, %c\n", globs->subdir[i][j + 1], dirents->d_name[j]);
-				if (ft_strchr("*?[", globs->subdir[i][j + 1])) // we match the current character with a glob
+				if (globs->subdir[i][j + 1] && ft_strchr("*?[", globs->subdir[i][j + 1])) // we match the current character with a glob
 				{
 					printf("ft_recursivematchsub glob found for %s\n", dirents->d_name);
 					if (ft_recursivesubdir(globs, dirents, i, j + 1)) // returns a 1 if the glob matches
@@ -45,9 +45,6 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 						{
 							printf("ft_recursivematchsub no subdirectory remaining,adding %s%s to matches\n", dname, ft_cpptostr(globs->tempsubdir));
 							ft_addglobmatch(globs, ft_vastrjoin(3, globs->pardir, dname, ft_cpptostr(globs->tempsubdir))); // add the match
-							/*ft_cppbzero(globs->tempsubdir);*/
-							/*globs->tempsubdir[i + 1] = NULL;*/
-							/*globs->tempsubdir[i] = NULL;*/
 						}
 						else
 						{
@@ -64,7 +61,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 						}	
 					}
 				}
-				if (globs->subdir[i][j + 1] == '\0') // glob matches completely
+				if (globs->subdir[i][j + 1] == '\0' && dirents->d_name[j] == '\0') // glob matches completely
 				{
 					printf("ft_recursivematchsub %s matches completely\n", dirents->d_name);
 					if (!globs->subdir[i + 1]) // if it is the last subdir
