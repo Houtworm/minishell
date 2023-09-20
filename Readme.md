@@ -4,47 +4,47 @@ is a lightweight implementation of bash
 ---
 ## Todo
 #### Environment
-```^C``` should print ^C and restart the mainloop
-```^\``` shouldn't print anything
-```^D``` should quit the shell if line is empty
-```^Z``` should suspend running application
-Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
+- ```^C``` should print ^C and restart the mainloop
+- ```^\``` shouldn't print anything
+- ```^D``` should quit the shell if line is empty
+- ```^Z``` should suspend running application
+- Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 
 #### Parser
-$$ should translate to PID of shell
-maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
-Syntax checking can be improved a lot we need an exemption for < as it can be the first symbol on a new cmd line
-globbing should be moved to before redirection parsing because echo hallo > * should work.
-globbing is removing quotes...
-globbing has some errors like ```ls ../*/*r*/b*i*```
-after wildcards are working 100%, we can expand into ? and []
-quotes in quotes have some issues here and there
-heredoc should not print "minishell heredoc>" if there is input waiting already
+- $$ should translate to PID of shell
+- maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
+- Syntax checking can be improved a lot we need an exemption for < as it can be the first symbol on a new cmd line
+- globbing should be moved to before redirection parsing because echo hallo > * should work.
+- globbing is removing quotes...
+- globbing has some errors like ```ls ../*/*r*/b*i*```
+- after wildcards are working 100%, we can expand into ? and []
+- quotes in quotes have some issues here and there
+- heredoc should not print "minishell heredoc>" if there is input waiting already
 
 #### Exec
-forks should not run if there is a mismatching condition before in the pipeline
-somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
-return codes are not always working correctly.
-push & to the background
+- forks should not run if there is a mismatching condition before in the pipeline
+- somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
+- return codes are not always working correctly.
+- push & to the background
 
 
 ### Builtins
 #### cd
-```cd - is having issues if oldpwd is not set.```
-if getcwd fails we can get strange behavior, lets say we delete the parent directory
+- ```cd - is having issues if oldpwd is not set.```
+- if getcwd fails we can get strange behavior, lets say we delete the parent directory
 #### export
-make sure variables can only start with a A or _
-somehow it is adding empty lines to env file.
+- make sure variables can only start with a A or _
+- somehow it is adding empty lines to env file.
 #### env
-with arguments it should print an error.
+- with arguments it should print an error.
 #### exit
 - exit 123 should exit with 123
 - exit blabla should exit with a warning and code -1
 #### alias
-is already implemented and used during init, it just can't be called from the shell yet
+- is already implemented and used during init, it just can't be called from the shell yet
 #### z
-z could be improved by only storing unique directories
-z can also be improved by focussing on the lowest directory as/in/thisone and only match the whole path if nothing is found.
+- z could be improved by only storing unique directories
+- z can also be improved by focussing on the lowest directory as/in/thisone and only match the whole path if nothing is found.
 
 ---
 ## Bugs
@@ -55,9 +55,9 @@ z can also be improved by focussing on the lowest directory as/in/thisone and on
 #### Test the signals from prompt and from cat
 ---
 ## Extras
-//// is the same as / or /////////////////////////////
-Make the -c command read multiple lines so the tester will work with those
-builtins, which, jobs, fg, exec
+- //// is the same as / or /////////////////////////////
+- Make the -c command read multiple lines so the tester will work with those
+- builtins, which, jobs, fg, exec
 
 ---
 ### Cleanup
