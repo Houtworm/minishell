@@ -75,13 +75,13 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	}
 	else
 		dup2(shell->fdin, 0);
-	if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount)
-		dup2(shell->pipes[forknbr + 1][1], 1);
-	else if (cmds.outfile[0])
+	if (cmds.outfile[0])
 	{
 		if (ft_outputfile(cmds.outfile, forknbr))
 			return (1);
 	}
+	else if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount)
+		dup2(shell->pipes[forknbr + 1][1], 1);
 	else
 		dup2(shell->fdout, 1);
 	return (0);
