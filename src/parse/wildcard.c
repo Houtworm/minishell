@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 03:25:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 22:27:40 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ int		ft_recursivesubwildcard(t_globs *globs, struct dirent *dirents, int i, int 
 					}
 				}
 			}
-			if (ft_strchr("*?[", globs->subdir[i][j + 1])) // if we find a new glob
+			else if (ft_strchr("*?[", globs->subdir[i][j + 1])) // if we find a new glob
 			{
 				printf("ft_recursivesubwildcard found glob going into recursion\n");
 				globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 				return (ft_recursivesubdir(globs, dirents, i, j)); // recursive glob function returns 1 if it eventually matches
 			}
+			else
+				return (0);
 			j++;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 03:57:23 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 21:28:37 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int		ft_recursivesubdir(t_globs *globs, struct dirent *dirents, int i, int j)
 	}
 	return (0);
 }
-
 
 int	ft_recursiveglob(t_globs *globs, char *dname, int i, int j)
 {

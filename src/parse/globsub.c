@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:24 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 03:32:23 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 22:22:42 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,18 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 				if (globs->subdir[i][j + 1] == '\0') // glob matches completely
 				{
 					printf("ft_recursivematchsub %s matches completely\n", dirents->d_name);
-					if (dirents->d_type == DT_DIR) // check if it is a directory
-					{
-						globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
-					}
 					if (!globs->subdir[i + 1]) // if it is the last subdir
 					{
 						ft_addglobmatch(globs, ft_vastrjoin(3, globs->pardir, dname, ft_cpptostr(globs->tempsubdir))); // add the match
-						/*ft_cppbzero(globs->tempsubdir);*/
-						/*globs->tempsubdir[i + 1] = NULL;*/
-						/*globs->tempsubdir[i] = NULL;*/
+					}
+					else
+					{
+						if (dirents->d_type == DT_DIR) // check if it is a directory
+						{
+							globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+							printf("We need to go deeper here!!!\n");
+							ft_recursivematchsub(globs, ft_vastrjoin(3, fullpath, "/", dirents->d_name), dname, i + 1);
+						}
 					}
 				}
 			}
