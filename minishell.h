@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/20 03:49:14 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 03:57:04 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,13 @@ int			ft_recursivesubwildcard(t_globs *globs, struct dirent *dirents, int i, int
 int			ft_recursivewildcard(t_globs *globs, char *dname, int i, int j);
  int		ft_parsewildcard(t_globs *globs, char *dname, int i);
 // joker
+int			ft_recursivesubjoker(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_recursivejoker(t_globs *globs, char *dname, int i, int j);
+ int		ft_parsejoker(t_globs *globs, char *dname, int i);
 // anyof
+int			ft_recursivesubanyof(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_recursiveanyof(t_globs *globs, char *dname, int i, int j);
+ int		ft_parseanyof(t_globs *globs, char *dname, int i);
 // tools
 int			ft_checkoutquote(char *line, char target, int mode);
 char		**ft_checkarg(char	**cmd, int count);
