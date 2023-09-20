@@ -41,6 +41,9 @@ with arguments it should print an error.
 - exit blabla should exit with a warning and code -1
 #### alias
 is already implemented and used during init, it just can't be called from the shell yet
+#### z
+z could be improved by only storing unique directories
+z can also be improved by focussing on the lowest directory as/in/thisone and only match the whole path if nothing is found.
 
 ---
 ## Bugs
