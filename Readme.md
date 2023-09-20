@@ -30,6 +30,7 @@ push & to the background
 ### Builtins
 #### cd
 ```cd - is having issues if oldpwd is not set.```
+if getcwd fails we can get strange behavior, lets say we delete the parent directory
 #### export
 make sure variables can only start with a A or _
 somehow it is adding empty lines to env file.
@@ -40,9 +41,6 @@ with arguments it should print an error.
 - exit blabla should exit with a warning and code -1
 #### alias
 is already implemented and used during init, it just can't be called from the shell yet
-#### z
-would be very cool to implement this, we just need to store every dir in a file in chdir.c or something
-then when z is called just cd to the first match :)
 
 ---
 ## Bugs
