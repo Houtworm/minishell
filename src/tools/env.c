@@ -84,7 +84,7 @@ char	**ft_fdtocharpp(int	fd)
 
 	fd = open("/tmp/minishellenvpfile.tmp", O_RDONLY);
 	i = 0;
-	ret = ft_calloc(sizeof(ret) * 1024, 1);
+	ret = ft_calloc(sizeof(ret) * 2048, 1);
 	status = get_next_line(fd, &line);
 	while (status > 0)
 	{

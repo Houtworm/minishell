@@ -38,6 +38,12 @@ int	ft_parseline(char *line, t_shell *shell)
 	int	forknumber;
 
 	line = ft_closeline(line);
+	line = ft_completeline(line, 0);
+	while (check_quote_closed(line))
+	{
+		line = ft_closeline(line);
+		line = ft_completeline(line, 0);
+	}
 	line = ft_parsehashtag(line);
 	if (ft_checksyntax(shell, line))
 		return (1);

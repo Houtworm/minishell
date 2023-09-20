@@ -11,7 +11,6 @@ is a lightweight implementation of bash
 Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 
 #### Parser
-if the pipeline ends with || && or | we should probably we should call ft_completeline right after ft_closeline
 $$ should translate to PID of shell
 maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
 Syntax checking can be improved a lot we need an exemption for < as it can be the first symbol on a new cmd line

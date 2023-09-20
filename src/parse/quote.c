@@ -12,6 +12,7 @@
 
 #include "../../minishell.h"
 
+
 char	check_quote_closed(char *s)
 {
 	int		i;
@@ -76,6 +77,42 @@ char	*ft_closeline(char *line)
 		line = ft_strdup(temp);
 		free (temp);
 		quote = check_quote_closed(line);
+	}
+	return (line);
+}
+
+char	*ft_completeline(char *line, int k)
+{	
+	char	*temp;
+	int		ret;
+	char	*gnl;
+	int		i;
+
+	i = 0;
+	while (line[i])
+		i++;
+	i--;
+	while (line[i] == ' ')
+		i--;
+	if (line[i] != '&' && line[i] != '|')
+		return (line);
+	while (line[i] == '&' || line[i] == '|')
+	{
+		ft_putstr("> ");
+		ret = get_next_line(0, &gnl);
+		if (ret == 0)
+			break;
+		// gnl = ft_closeline(gnl);
+		while (gnl[k])
+			k++;
+		while (gnl[k] == ' ')
+			k--;
+		temp = ft_strjoin(line, gnl);
+		free(gnl);
+		free(line);
+		line = ft_strdup(temp);
+		free (temp);
+		i += k;
 	}
 	return (line);
 }

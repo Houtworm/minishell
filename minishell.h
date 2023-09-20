@@ -144,7 +144,9 @@ t_shell 	ft_parsepipe(char *line, t_shell shell);
 // alias
 void		ft_parsealiases(t_cmds *cmds, t_shell shell);
 // quote
+char		check_quote_closed(char *s);
 char		*ft_closeline(char *line);
+char		*ft_completeline(char *line, int k);
 char		**ft_remove_quote(char	**cmd, int count);
 // heredoc
 t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
