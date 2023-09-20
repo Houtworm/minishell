@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/15 16:19:27 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/20 02:27:58 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	int	pid;
 	int	ret;
 	int i;
-	t_builtin	bui[7] = {
+	t_builtin	bui[8] = {
 	{"alias\0", ft_echo},
 	{"echo\0", ft_echo},
 	{"env\0", ft_env},
 	{"export\0", ft_export},
 	{"unset\0", ft_unset},
 	{"cd\0", ft_chdir},
-	{"exit\0", ft_exit}
+	{"exit\0", ft_exit},
+	{"z\0", ft_z}
 	};
 
 	i = 0;
@@ -50,7 +51,7 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		}
 		i++;
 	}
-	while (i < 7)
+	while (i < 8)
 	{
 		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare) + 1))
 		{

@@ -6,11 +6,42 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 17:21:02 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/08/27 12:22:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/20 02:25:11 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	ft_adddirtoz(t_cmds cmd, char *cwd)
+{
+	int		mshzfd;
+	int		tempfd;
+	char	*line;
+	char	*home;
+
+	line = ft_gethome(cmd.envp);
+	home = ft_strjoin(line, "/.mshz");
+	mshzfd = open(home, O_RDONLY);
+	tempfd = open("/tmp/minishelltempz.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+	free(line);
+	ft_putendl_fd(cwd, tempfd);
+	while (get_next_line(mshzfd, &line) > 0)
+	{
+		ft_putendl_fd(line, tempfd);
+		free(line);
+	}
+	close(tempfd);
+	close(mshzfd);
+	tempfd = open("/tmp/minishelltempz.tmp", O_RDONLY);
+	mshzfd = open(home, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	while (get_next_line(tempfd, &line) > 0)
+	{
+		ft_putendl_fd(line, mshzfd);
+		free(line);
+	}
+	close(mshzfd);
+	close(tempfd);
+}
 
 int	ft_chdir(t_cmds cmds)
 {
@@ -35,6 +66,7 @@ int	ft_chdir(t_cmds cmds)
 	ft_setenv(cmds.envp, "OLDPWD", cwd);
 	getcwd(cwd, 512);
 	ft_setenv(cmds.envp, "PWD", cwd);
+	ft_adddirtoz(cmds, cwd);
 	free(cwd);
 	ft_charpptofd(cmds.envp, cmds.envpfd);
 	return (0);

@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/20 00:44:18 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/20 02:20:09 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,8 @@ SRC		=src/main/main.c\
 		 src/tools/tools.c\
 		 src/tools/error.c\
 		 src/tools/print.c\
-		 src/tools/env.c
+		 src/tools/env.c\
+		 src/tools/cleanup.c
 OBJ		=$(SRC:src/%.c=obj/%.o)
 LIB		=printf/ft_printf.a getnextline/get_next_line.a libft/libft.a
 
