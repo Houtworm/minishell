@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/21 01:49:48 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/21 06:14:27 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,23 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 		i++;
 	if (globs->gstart[i] == '\0') // Glob start matches
 	{
-		/*printf("ft_matchtillglob globs start matches with %s\n", dname);*/
-		if (ft_matchglob(globs, dname, i)) // check if the rest of the glob also matches
+		printf("ft_matchtillglob globs start matches with %s\n", dname);
+		if (ft_firstglob(globs, dname, i)) // check if the rest of the glob also matches
 		{
-			/*printf("ft_matchtillglob glob matches with %s\n", dname);*/
+			printf("ft_matchtillglob glob matches with %s\n", dname);
 			if (globs->subdir[0]) //check if we need to match subdirs
 			{
-				/*printf("ft_matchtillglob Match found, checking if dir\n");*/
+				printf("ft_matchtillglob Match found, checking if dir\n");
 				if (type == DT_DIR) //check if it is an actual directory
 				{
-					/*printf("ft_matchtillglob %s is a dir, going to match the subdirectory\n", dname);*/
+					printf("ft_matchtillglob %s is a dir, going to match the subdirectory\n", dname);
 					globs->tempsubdir[0] = ft_strjoin("/", dname);
 					ft_recursivematchsub(globs, ft_vastrjoin(2, fullpath, dname), dname, 0); // match the subdirectories recursively
 				}
 			}
 			else
 			{
-				/*printf("ft_matchtillglob no subdirectory found, %s matches\n", dname);*/
+				printf("ft_matchtillglob no subdirectory found, %s matches\n", dname);
 				ft_addglobmatch(globs, ft_vastrjoin(2, globs->pardir, dname)); // add the match
 			}
 		}
@@ -84,7 +84,7 @@ int	ft_parseglob(t_cmds *cmd, t_globs *globs)
 	{	
 		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 		{
-			/*printf("ft_parseglob trying to match %s\n", dirents->d_name);*/
+			printf("ft_parseglob trying to match %s\n", dirents->d_name);
 			ft_matchtillglob(globs, dirents->d_name, checkdir, dirents->d_type); // if it matches till the glob it will branch out from this function.
 		}
 		closedir(dir);

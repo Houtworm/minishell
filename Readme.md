@@ -17,6 +17,7 @@ is a lightweight implementation of bash
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
 - globbing is removing quotes...
 - globbing has some errors like ```ls ../*/*r*/b*i*```
+- wildcard can be nothing ***s**r**c*** can parse to src
 - after wildcards are working 100%, we can expand into ? and []
 - quotes in quotes have some issues here and there
 - heredoc should not print "minishell heredoc>" if there is input waiting already

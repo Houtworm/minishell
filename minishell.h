@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/20 03:57:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/21 05:01:42 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef struct s_globs
 	char		*end;
 	char		**subdir;
 	char		**tempsubdir;
+	char		*tempdname;
+	int		temptype;
 	char		*pardir;
 	char		**matches;
 	char		*pipeline;
@@ -157,8 +159,6 @@ t_forks		ft_parseendcondition(t_forks forks);
 // variable
 int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
 // globs
-int			ft_recursiveglob(t_globs *globs, char *dname, int i, int j);
-int			ft_recursivesubdir(t_globs *globs, struct dirent *dirents, int i, int j);
 int			ft_parseglobs(t_cmds *cmd);
 // globinit
 void		ft_getsubdir(t_globs *globs);
@@ -168,24 +168,20 @@ t_globs 	*ft_initglobstruct(char *pipeline);
 // globsub
 int			ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i);
 // globpoint
-int			ft_recursivesubdir(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_recursiveglob(t_globs *globs, char *dname, int i, int j);
-int			ft_matchglob(t_globs *globs, char *dname, int i);
+int			ft_nextsubglob(t_globs *globs, int i, int j, int k);
+int			ft_firstsubglob(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_nextglob(t_globs *globs, char *dname, int i, int j);
+int			ft_firstglob(t_globs *globs, char *dname, int i);
 // globtools
 int			ft_newpipeline(t_globs *globs);
 void		ft_addglobmatch(t_globs *globs, char *match);
 // wildcard
-int			ft_recursivesubwildcard(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_recursivewildcard(t_globs *globs, char *dname, int i, int j);
- int		ft_parsewildcard(t_globs *globs, char *dname, int i);
+int			ft_nextsubwildcard(t_globs *globs, int i, int j, int k);
+int			ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_nextwildcard(t_globs *globs, char *dname, int i, int j);
+ int		ft_firstwildcard(t_globs *globs, char *dname, int i);
 // joker
-int			ft_recursivesubjoker(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_recursivejoker(t_globs *globs, char *dname, int i, int j);
- int		ft_parsejoker(t_globs *globs, char *dname, int i);
 // anyof
-int			ft_recursivesubanyof(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_recursiveanyof(t_globs *globs, char *dname, int i, int j);
- int		ft_parseanyof(t_globs *globs, char *dname, int i);
 // tools
 int			ft_checkoutquote(char *line, char target, int mode);
 char		**ft_checkarg(char	**cmd, int count);

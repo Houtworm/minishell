@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/18 16:47:50 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/21 04:03:11 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -558,6 +558,12 @@ hallo\")"
 # * wildcards
 printf "\e[1;36mTesting * Wildcards\e[0;00m\n"
 testfunction "*"
+testfunction "ls *src"
+testfunction "ls ***src"
+testfunction "ls src*"
+testfunction "ls src***"
+testfunction "ls s*r*c"
+testfunction "*s*r*c*"
 testfunction "ls *rc"
 testfunction "ls sr*"
 testfunction "ls *r*"
