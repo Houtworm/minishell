@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/21 05:01:42 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/21 07:50:26 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ typedef struct s_globs
 	char		*end;
 	char		**subdir;
 	char		**tempsubdir;
-	char		*tempdname;
-	int		temptype;
+	int			temptype;
 	char		*pardir;
 	char		**matches;
 	char		*pipeline;

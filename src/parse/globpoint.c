@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/21 06:14:13 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/21 07:52:00 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int		ft_nextsubglob(t_globs *globs, int i, int j, int k)
 {
 	if (globs->subdir[i][j] == '*')
 	{
-		printf("ft_nextsubglob found * glob going into nextsubwildcard i: %d j: %d k: %d\n", i, j, k);
-		return (ft_nextsubwildcard(globs, i, j + 1, k));
+		/*printf("ft_nextsubglob found * glob going into nextsubwildcard i: %d j: %d k: %d\n", i, j, k);*/
+		return (ft_nextsubwildcard(globs, i, j, k - 1));
 	}
 	/*if (globs->subdir[i][j] == '?')*/
 	/*{*/
@@ -36,7 +36,7 @@ int		ft_firstsubglob(t_globs *globs, struct dirent *dirents, int i, int j)
 {
 	if (globs->subdir[i][j] == '*')
 	{
-		printf("ft_firstsubglob found * glob going into firstsubwildcard i: %d j: %d\n", i, j);
+		/*printf("ft_firstsubglob found * glob going into firstsubwildcard i: %d j: %d\n", i, j);*/
 		return (ft_firstsubwildcard(globs, dirents, i, j + 1));
 	}
 	/*if (globs->subdir[i][j] == '?')*/
@@ -56,7 +56,7 @@ int	ft_nextglob(t_globs *globs, char *dname, int i, int j)
 {
 	if (globs->gend[j] == '*')
 	{
-		printf("ft_nextglob found * glob going into nextwildcard i: %d j: %d\n", i, j);
+		/*printf("ft_nextglob found * glob going into nextwildcard i: %d j: %d\n", i, j);*/
 		return (ft_nextwildcard(globs, dname, i, j + 1));
 	}
 	/*if (globs->gend[j] == '?')*/
