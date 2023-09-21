@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/21 07:50:26 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/21 10:58:56 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_globs
 	char		*end;
 	char		**subdir;
 	char		**tempsubdir;
+	char		*curdir;
 	int			temptype;
 	char		*pardir;
 	char		**matches;
@@ -180,7 +181,15 @@ int			ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int j);
 int			ft_nextwildcard(t_globs *globs, char *dname, int i, int j);
  int		ft_firstwildcard(t_globs *globs, char *dname, int i);
 // joker
+int			ft_nextsubjoker(t_globs *globs, int i, int j, int k);
+int			ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_nextjoker(t_globs *globs, char *dname, int i, int j);
+ int		ft_firstjoker(t_globs *globs, char *dname, int i);
 // anyof
+int			ft_nextsubanyof(t_globs *globs, int i, int j, int k);
+int			ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_nextanyof(t_globs *globs, char *dname, int i, int j);
+ int		ft_firstanyof(t_globs *globs, char *dname, int i);
 // tools
 int			ft_checkoutquote(char *line, char target, int mode);
 char		**ft_checkarg(char	**cmd, int count);

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/21 07:51:39 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/21 11:17:14 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,14 @@ int		ft_nextsubwildcard(t_globs *globs, int i, int j, int k)
 	return (0);
 }
 
-int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int j)
+int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int itar)
 {
+	int	ipos;
+
+	ipos = 0;
+	while (globs->subdir[i][ipos] != '*')
+		ipos++;
+	/*ipos++;*/
 	if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 	{
 		/*printf("ft_firstsubwildcard periods match for %s\n", dirents->d_name);*/
@@ -79,21 +85,22 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int j)
 			/*globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);*/
 			/*return (1); // copy it over.*/
 		/*}*/
-		while (dirents->d_name[j]) // while there are characters in filename 
+		while (dirents->d_name[ipos]) // while there are characters in filename 
 		{
-			if (globs->subdir[i][j] == '\0') // the whole filename matches
+			if (globs->subdir[i][itar] == '\0') // the whole filename matches
 			{
 				/*printf("ft_firstsubwildcard just a * so %s is an easy match\n", dirents->d_name);*/
 				globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 				return (1); // copy it over.
 			}
-			while (dirents->d_name[j] && globs->subdir[i][j + 1] && dirents->d_name[j] == globs->subdir[i][j + 1]) //while the characters match we skip them
+			while (dirents->d_name[ipos] && globs->subdir[i][itar] && dirents->d_name[ipos] == globs->subdir[i][itar]) //while the characters match we skip them
 			{
-				/*printf("ft_firstsubwildcard fastmatch: %c, %c\n", globs->subdir[i][j + 1], dirents->d_name[j]);*/
-				j++;
+				/*printf("ft_firstsubwildcard fastmatch: %c, %c\n", globs->subdir[i][itar], dirents->d_name[ipos]);*/
+				itar++;
+				ipos++;
 			}
-			/*printf("ft_firstsubwildcard fastmatch broken: %c, %c\n", globs->subdir[i][j + 1], dirents->d_name[j]);*/
-			if (globs->subdir[i][j + 1] == '\0') // if the end matches too
+			/*printf("ft_firstsubwildcard fastmatch broken: %c, %c\n", globs->subdir[i][itar], dirents->d_name[ipos]);*/
+			if (globs->subdir[i][itar] == '\0') // if the end matches too
 			{
 				if (dirents->d_type == DT_DIR) // check if it is a directory
 				{
@@ -116,12 +123,12 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int j)
 					}
 				}
 			}
-			else if (globs->subdir[i][j + 1] && ft_strchr("*?[", globs->subdir[i][j + 1])) // if we find a new glob
+			else if (globs->subdir[i][itar] && ft_strchr("*?[", globs->subdir[i][itar])) // if we find a new glob
 			{
 				/*printf("ft_firstsubwildcard found glob going into recursion\n");*/
 				globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 				globs->temptype = dirents->d_type;
-				if (ft_nextsubglob(globs, i, j + 1, j - 1)) // recursive glob function returns 1 if it eventually matches
+				if (ft_nextsubglob(globs, i, itar, ipos)) // recursive glob function returns 1 if it eventually matches
 				{
 					if (dirents->d_type == DT_DIR) // check if it is a directory
 					{
@@ -147,7 +154,7 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int j)
 				else
 					return (0);
 			}
-			j++;
+			ipos++;
 		}
 	}
 	/*printf("ft_firstsubwildcard return 0?\n");*/
