@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/21 11:14:23 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/21 12:36:23 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	ft_firstglob(t_globs *globs, char *dname, int i)
 		if (ft_firstwildcard(globs, dname, i)) // parse it
 			return (1);
 	if (globs->glob[0] == '?') // if we find a joker match
-		if (ft_firstjoker(globs, dname, i)) // parse it
+		if (ft_firstjoker(globs, dname, i + 1)) // parse it
 			return (1);
 	if (globs->glob[0] == '[') // if we find a anyof match
 		if (ft_firstanyof(globs, dname, i)) // parse it

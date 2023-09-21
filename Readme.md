@@ -16,11 +16,12 @@ is a lightweight implementation of bash
 - Syntax checking can be improved a lot we need an exemption for < as it can be the first symbol on a new cmd line
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
 - globbing is removing quotes...
-- globbing has some errors like ```ls ../*/*r*/b*i*```
 - wildcard can be nothing ***s**r**c*** can parse to src
-- after wildcards are working 100%, we can expand into ? and []
+- fix []
+- fix ?
 - quotes in quotes have some issues here and there
 - heredoc should not print "minishell heredoc>" if there is input waiting already
+- heredoc should parse all but only input the last heredoc file
 
 #### Exec
 - forks should not run if there is a mismatching condition before in the pipeline
