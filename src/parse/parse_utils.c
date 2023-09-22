@@ -52,7 +52,7 @@ int	count_str(char *s, int c)
 			i++;    
 		}
 		str_count++;
-		if (s[i] && s[i] == c)
+		while (s[i] && s[i] == c)
 			i++;
 	}
 	return (str_count);

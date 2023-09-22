@@ -69,7 +69,18 @@ int		ft_syntaxerror(t_shell *shell, char s1, char *line, int i)
 	return (1);
 }
 
-int		ft_checksymbol(char *line, int i, char symbol)
+int		ft_checksymbol(char *line, int i)
+{
+	int		j;
+	j = 1;
+	while (line[i + j] == ' ')
+		j++;
+	if (line[i + j] && ft_strchr(";>&|", line[i + j]))
+		return (0);
+	return (j);
+}
+
+int		ft_checksymbols(char *line, int i, char symbol)
 {
 	int		j;
 	j = 1;
@@ -77,7 +88,7 @@ int		ft_checksymbol(char *line, int i, char symbol)
 		j++;
 	while (line[i + j] == ' ')
 		j++;
-	if (ft_strchr("<>&|", line[i + j]))
+	if (line[i + j] && ft_strchr(";>&|", line[i + j]))
 		return (0);
 	return (j);
 }
@@ -90,35 +101,42 @@ int		ft_checksyntax(t_shell *shell, char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (ft_strchr("<>&|", line[i]))
+		if (ft_strchr("<>&|;", line[i]))
 		{
 			if (line[i] == '<')
 			{
-				t = ft_checksymbol(line, i, '<');
+				t = ft_checksymbols(line, i, '<');
 				i = i + t;
 				if (!t)
 					return (ft_syntaxerror(shell, '<', line, i));
 			}
 			if (line[i] == '>')
 			{
-				t = ft_checksymbol(line, i, '>');
+				t = ft_checksymbols(line, i, '>');
 				i = i + t;
 				if (!t)
 					return (ft_syntaxerror(shell, '>', line, i));
 			}
 			if (line[i] == '&')
 			{
-				t = ft_checksymbol(line, i, '&');
+				t = ft_checksymbols(line, i, '&');
 				i = i + t;
 				if (!t)
 					return (ft_syntaxerror(shell, '&', line, i));
 			}
 			if (line[i] == '|')
 			{
-				t = ft_checksymbol(line, i, '|');
+				t = ft_checksymbols(line, i, '|');
 				i = i + t;
 				if (!t)
 					return (ft_syntaxerror(shell, '|', line, i));
+			}
+			if (line[i] == ';')
+			{
+				t = ft_checksymbol(line, i);
+				i = i + t;
+				if (!t)
+					return (ft_syntaxerror(shell, ';', line, i));
 			}
 		}
 		i++;

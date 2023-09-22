@@ -60,7 +60,10 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		if (status)
 			return (status);
 		if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
+		{
+			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
 			return (cmds.lastcode);
+		}
 		cmds.pid = fork();
 		if (cmds.pid == 0)
 		{
@@ -70,6 +73,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		}
 		waitpid(cmds.pid, &status, 0);
 		cmds.code = WEXITSTATUS(status);
+		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.code;
 	}
 	return (cmds.code);
 }

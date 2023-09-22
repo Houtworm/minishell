@@ -43,6 +43,8 @@ int		ft_countendconditions(char *line, int count, int i)
 		{
 			i++;
 		}
+		while (line[i] == ' ')
+			i++;
 	}
 	return (count);
 }
