@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:24 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/22 14:50:44 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/22 15:09:20 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 				if (globs->subdir[i][j + 1] && ft_strchr("*?[", globs->subdir[i][j + 1])) // we match the current character with a glob
 				{
 					printf("ft_recursivematchsub glob found for %s\n", dirents->d_name);
-					if (ft_firstsubglob(globs, dirents, i, j + 1)) // returns a 1 if the glob matches
+					if (ft_firstsubglob(globs, dirents, i, j + 1)) // returns a 1 if the glob matches eventually
 					{
 						globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 						printf("ft_recursivematchsub subdirs after recursive glob match: %s\n", ft_cpptostr(globs->tempsubdir));

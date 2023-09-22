@@ -19,7 +19,6 @@ is a lightweight implementation of bash
 - globbing is removing quotes...
 - wildcard can be nothing ***s**r**c*** can parse to src
 - fix []
-- fix ?
 - quotes in quotes have some issues here and there
 - heredoc should not print "minishell heredoc>" if there is input waiting already
 - heredoc should parse all but only input the last heredoc file
