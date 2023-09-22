@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/21 12:36:23 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/22 14:50:14 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_nextsubglob(t_globs *globs, int i, int j, int k)
 	}
 	if (globs->subdir[i][j] == '?')
 	{
-		/*printf("ft_nextsubglob found * glob going into nextsubjoker i: %d j: %d k: %d\n", i, j + 1, k);*/
+		printf("ft_nextsubglob found * glob going into nextsubjoker i: %d j: %d k: %d\n", i, j + 1, k);
 		return (ft_nextsubjoker(globs, i, j + 1, k));
 	}
 	if (globs->subdir[i][j] == '[')
@@ -41,7 +41,7 @@ int		ft_firstsubglob(t_globs *globs, struct dirent *dirents, int i, int j)
 	}
 	if (globs->subdir[i][j] == '?')
 	{
-		/*printf("ft_firstsubglob found * glob going into firstsubjoker i: %d j: %d\n", i, j + 1);*/
+		printf("ft_firstsubglob found * glob going into firstsubjoker i: %d j: %d\n", i, j + 1);
 		return (ft_firstsubjoker(globs, dirents, i, j + 1));
 	}
 	if (globs->subdir[i][j] == '[')
@@ -61,7 +61,7 @@ int	ft_nextglob(t_globs *globs, char *dname, int i, int j)
 	}
 	if (globs->gend[j] == '?')
 	{
-		/*printf("ft_nextglob found * glob going into nextjoker i: %d j: %d\n", i, j);*/
+		printf("ft_nextglob found * glob going into nextjoker i: %d j: %d\n", i, j);
 		return (ft_nextjoker(globs, dname, i, j + 1));
 	}
 	if (globs->gend[j] == '[')
