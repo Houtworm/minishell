@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/23 11:14:38 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/23 13:59:13 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,18 +135,46 @@ int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int itar)
 
 int	ft_nextanyof(t_globs *globs, char *dname, int i, int j)
 {
-	while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j]) //while the characters match
+	char	match;
+	int		k;
+
+	k = 0;
+	match = dname[i];
+	while (globs->gend[j] && globs->gend[j] != ']')
 	{
-		printf("ft_nextanyof fastmatch %c\n", dname[i + j]);
+		globs->anyof[k] = globs->gend[j];
 		j++;
+		k++;
 	}
-	printf("ft_nextanyof fastmatch break %c %c\n", dname[i + j], globs->gend[j]);
-	if (dname[i + j] && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+	if (!globs->gend[j])
+		return (0);
+	globs->anyof[k] = '\0';
+	printf("gend: %s\n", globs->gend);
+	printf("anyof: %s\n", globs->anyof);
+	printf("dname: %s\n", dname);
+	printf("i: %d, j: %d\n", i, j);
+	/*j++;*/
+	/*j++;*/
+	printf("ft_nextanyof starting with dname: %c and anyof: %s\n", dname[i], globs->anyof);
+	if (ft_strchr(globs->anyof, match)) // if any of the characters in the anyof match
+	{
+		printf("ft_nextanyof anyof matches %c\n", match);
+		j = j + ft_strlen(globs->anyof);
+		i++;
+	}
+	while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j])
+	{
+		printf("ft_firstanyof fastmatch %c\n", dname[i]);
+		j++;
+		i++;
+	}
+	printf("ft_nextanyof fastmatch break %c %c %d, %d\n", dname[i], globs->gend[j], i, j);
+	if (dname[i] && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
 	{
 		printf("ft_nextanyof glob found going into recursion\n");
 		return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
 	}
-	if (globs->gend[j] == '\0' && dname[i + j] == '\0') // the whole filename matches
+	if (globs->gend[j] == '\0' && dname[i] == '\0') // the whole filename matches
 	{
 		printf("ft_nextwilcard reached end of dname\n");
 		return (1); // copy it over.
@@ -177,29 +205,33 @@ int	ft_firstanyof(t_globs *globs, char *dname, int i)
 	printf("dname: %s\n", dname);
 	j = 0;
 	printf("ft_firstanyof starting with dname: %c and anyof: %s\n", dname[i + j], globs->anyof);
-	if (ft_strchr(globs->anyof, dname[i + j])) //while the first character was a match but globend exists
+	if (ft_strchr(globs->anyof, dname[i])) // if any of the characters in the anyof match
 	{
 		printf("ft_firstanyof matches %c\n", dname[i + j]);
-		j++;
-		while (dname[i + j] && globs->gend[j - 1] && dname[i + j] == globs->gend[j - 1])
+		j = j + ft_strlen(globs->anyof);
+		i++;
+		/*j++;*/
+		while (dname[i] && globs->gend[j - 1] && dname[i] == globs->gend[j - 1])
 		{
-			printf("ft_firstanyof fastmatch %c\n", dname[i + j]);
+			printf("ft_firstanyof fastmatch %c\n", dname[i]);
 			j++;
+			i++;
 		}
-		if (dname[i + j] == '\0' && globs->gend[j - 1] == '\0') // the whole filename matches
+		printf("ft_firstanyof fastmatch break %c\n", dname[i]);
+		if (dname[i] == '\0' && globs->gend[j - 1] == '\0') // the whole filename matches
 		{
 			printf("ft_firstanyof whole filename matches\n");
 			return (1); // copy it over.
 		}
-		if (dname[i + j] == '\0' || globs->gend[j - 1] == '\0') // mismatch
+		if (dname[i] == '\0' || globs->gend[j - 1] == '\0') // mismatch
 		{
-			printf("ft_firstanyof mistmatch i: %d, j: %d, nam: %c, end: %c\n", i, j, dname[i + j], globs->gend[j - 1]);
+			printf("ft_firstanyof mistmatch i: %d, j: %d, nam: %c, end: %c\n", i, j, dname[i], globs->gend[j - 1]);
 			return (0);
 		}
 		if (ft_strchr("*?[", globs->gend[j - 1])) // if we find a new glob
 		{
 			printf("ft_firstanyof recursive glob found\n");
-			return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
+			return (ft_nextglob(globs, dname, i, j - 1)); // recursive glob function returns 1 if it eventually matches
 		}
 	}
 	printf("ft_firstanyof return 0\n");
