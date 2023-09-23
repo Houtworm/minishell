@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/22 19:24:21 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/23 11:14:38 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,27 +169,39 @@ int	ft_firstanyof(t_globs *globs, char *dname, int i)
 		return (0);
 	globs->anyof[j] = '\0';
 	globs->glob[j + 1] = ']';
-	globs->gend = ft_substr(globs->gend, j, ft_strlen(globs->gend));
+	globs->gend = ft_substr(globs->gend, j + 1, ft_strlen(globs->gend));
+	printf("gend: %s\n", globs->gend);
+	printf("glob: %s\n", globs->glob);
+	printf("gstart: %s\n", globs->gstart);
+	printf("anyof: %s\n", globs->anyof);
+	printf("dname: %s\n", dname);
 	j = 0;
-	printf("ft_firstanyof starting with dname: %c and gend: %c\n", dname[i + j], globs->gend[j]);
-	while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j]) //while the first character was a match but globend exists
+	printf("ft_firstanyof starting with dname: %c and anyof: %s\n", dname[i + j], globs->anyof);
+	if (ft_strchr(globs->anyof, dname[i + j])) //while the first character was a match but globend exists
 	{
-		printf("ft_firstanyof fastmatch %c\n", dname[i + j]);
+		printf("ft_firstanyof matches %c\n", dname[i + j]);
 		j++;
+		while (dname[i + j] && globs->gend[j - 1] && dname[i + j] == globs->gend[j - 1])
+		{
+			printf("ft_firstanyof fastmatch %c\n", dname[i + j]);
+			j++;
+		}
+		if (dname[i + j] == '\0' && globs->gend[j - 1] == '\0') // the whole filename matches
+		{
+			printf("ft_firstanyof whole filename matches\n");
+			return (1); // copy it over.
+		}
+		if (dname[i + j] == '\0' || globs->gend[j - 1] == '\0') // mismatch
+		{
+			printf("ft_firstanyof mistmatch i: %d, j: %d, nam: %c, end: %c\n", i, j, dname[i + j], globs->gend[j - 1]);
+			return (0);
+		}
+		if (ft_strchr("*?[", globs->gend[j - 1])) // if we find a new glob
+		{
+			printf("ft_firstanyof recursive glob found\n");
+			return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
+		}
 	}
-	if (dname[i + j] == '\0' && globs->gend[j] == '\0') // the whole filename matches
-	{
-		printf("ft_firstanyof whole filename matches\n");
-		return (1); // copy it over.
-	}
-	if (dname[i + j] == '\0' || globs->gend[j] == '\0') // mismatch
-	{
-		return (0);
-	}
-	if (ft_strchr("*?[", globs->gend[j])) // if we find a new glob
-	{
-		printf("ft_firstanyof recursive glob found\n");
-		return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
-	}
+	printf("ft_firstanyof return 0\n");
 	return (0); // no matches found.
 }
