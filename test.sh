@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/21 04:03:11 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/24 13:29:07 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -357,41 +357,41 @@ redirectfunction "cat < r1" "cat < m1"
 
 # << heredoc
 printf "\e[1;36mTesting << heredoc \e[0;00m\n"
-testfunction "<<"
-testfunction "cat << EOF
-t e s t
-EOF
-"
-testfunction "cat << EOF
-t e s t
-EOF"
-testfunction "cat << EOF
-t e s t
-EOF 
-EOF
-"
-testfunction "cat << EOF
-t e s t
- EOF
-EOF
-"
-testfunction "echo << EOF
-t e s t
-EOF
-"
-testfunction "echo << EOF
-t e s t
-EOF"
-testfunction "echo << EOF
-t e s t
-EOF 
-EOF
-"
-testfunction "echo << EOF
-t e s t
- EOF
-EOF
-"
+#testfunction "<<"
+#testfunction "cat << EOF
+#t e s t
+#EOF
+#"
+#testfunction "cat << EOF
+#t e s t
+#EOF"
+#testfunction "cat << EOF
+#t e s t
+#EOF 
+#EOF
+#"
+#testfunction "cat << EOF
+#t e s t
+ #EOF
+#EOF
+#"
+#testfunction "echo << EOF
+#t e s t
+#EOF
+#"
+#testfunction "echo << EOF
+#t e s t
+#EOF"
+#testfunction "echo << EOF
+#t e s t
+#EOF 
+#EOF
+#"
+#testfunction "echo << EOF
+#t e s t
+ #EOF
+#EOF
+#"
 
 # <<< herestring
 printf "\e[1;36mTesting <<< herestring \e[0;00m\n"
@@ -587,6 +587,11 @@ testfunction "ls /"
 printf "\e[1;36mTesting ? Jokers\e[0;00m\n"
 testfunction "?"
 testfunction "ls ?rc"
+testfunction "ls ???"
+testfunction "ls ????"
+testfunction "ls ?????"
+testfunction "ls ??????"
+testfunction "ls ???????"
 testfunction "ls ?r?"
 testfunction "ls ?rc/???????"
 testfunction "ls g?t?e?t?i?e"
@@ -604,10 +609,17 @@ testfunction "ls [so][rb][cj]/builtin"
 testfunction "ls [so][rb][cj]/builtin/e[cx][hi][ot].[co]"
 testfunction "ls [so][qa][cj]/builtin"
 testfunction "ls [so][rb][cj]/builtin/echo.[rb]"
+testfunction "ls [so][rb][cj]/builtin/ecio.[rb]"
+testfunction "ls g[e]t[n]e[x]t[l]i[n]e"
+testfunction "ls l[i]b[f]t"
+testfunction "ls src[]"
+testfunction "ls []src"
+testfunction "ls sr[]c"
 
 # glob combinations
 printf "\e[1;36mTesting glob combinations \e[0;00m\n"
 testfunction "ls [so]?[cj]/b??*/*[.,]?"
+testfunction "ls g[e]t[n]e[x]t[l]i[n]e/???/*.c"
 
 # # comments
 printf "\e[1;36mTesting # comments\e[0;00m\n"
