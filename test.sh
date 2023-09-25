@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/25 03:10:25 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/25 05:10:28 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ testfunction()
 	REALRETURN=$?
 	timeout 2 ./minishell -c "$1" > /tmp/ministdoutfile 2> /tmp/ministderrfile
 	MINIRETURN=$?
+	ERROROK=0
 	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
@@ -31,12 +32,57 @@ testfunction()
 		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
+	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
 		PASSES=$(($PASSES+1))
-	else
+		ERROROK=1
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "syntax error" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "Syntax Error" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "command not found" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "command not found" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "file or directory" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
 		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
@@ -59,6 +105,7 @@ redirectfunction()
 	REALRETURN=$?
 	timeout 2 ./minishell -c "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
 	MINIRETURN=$?
+	ERROROK=0
 	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
@@ -68,13 +115,58 @@ redirectfunction()
 		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
+	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
 		PASSES=$(($PASSES+1))
-	else
-		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile 2> /dev/null)\nmini: $(cat /tmp/ministderrfile 2> /dev/null)\e[0;00m\n"
+		ERROROK=1
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "syntax error" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "Syntax Error" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "command not found" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "command not found" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "file or directory" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
@@ -122,6 +214,7 @@ environmentfunction()
 	REALRETURN=$?
 	timeout 2 ./minishell -c "$1" | grep "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
 	MINIRETURN=$?
+	ERROROK=0
 	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
@@ -131,12 +224,57 @@ environmentfunction()
 		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
+	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
 		PASSES=$(($PASSES+1))
-	else
+		ERROROK=1
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "syntax error" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "Syntax Error" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "command not found" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "command not found" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "file or directory" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
 		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi

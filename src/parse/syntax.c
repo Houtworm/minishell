@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 13:48:26 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/19 17:43:46 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/25 04:02:44 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ int		ft_syntaxerror(t_shell *shell, char s1, char *line, int i)
 	char	**insults;
 	int		random;
 
-	printf("Syntax Error: ");
+	ft_putstr_fd("Syntax Error: ", 2);
 	insults = ft_getinsults();
 	random = ft_gettimems(shell->envp) % 20;
-	printf("%s", insults[random]);
-	printf("\nyou can't follow up this %c like that\n", s1);
+	ft_putendl_fd(insults[random], 2);
+	ft_putstr_fd("\nyou can't follow up this ", 2);
+	ft_putchar_fd(s1, 2);
+	ft_putendl_fd(" like that..", 2);
 	help = ft_calloc(ft_strlen(line), 8);
 	j = 0;
 	while (j < i)
@@ -61,8 +63,8 @@ int		ft_syntaxerror(t_shell *shell, char s1, char *line, int i)
 	}
 	help[j] = '^';
 	help[j + 1] = '\0';
-	printf("❯ %s\n", line);
-	printf("  %s\n", help);
+	ft_putendl_fd(line, 2);
+	ft_putendl_fd(help, 2);
 	shell->code = 2;
 	ft_frearr(insults);
 	free(help);
