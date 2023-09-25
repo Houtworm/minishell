@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/22 19:08:37 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/25 19:47:22 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int			ft_runscript(int argc, char **argv, char **envp);
 void		ft_sighandler(int sig);
 // mshrc
 t_alias		*ft_parsemshrc(char **envp);
+// insults
+void		ft_printinsult(t_shell *shell);
 
 // TOOLS
 // tools
