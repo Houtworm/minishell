@@ -19,7 +19,7 @@ is a lightweight implementation of bash
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
 - globbing is removing quotes...
 - wildcard can be nothing ***s**r**c*** can parse to src
-- fix []
+- jokers mess up following globs sometimes (probably a misaligned int sent to one of the globpoint functions)
 - quotes in quotes have some issues here and there
 - heredoc should not print "minishell heredoc>" if there is input waiting already
 - heredoc should parse all but only input the last heredoc file
@@ -30,7 +30,6 @@ is a lightweight implementation of bash
 - somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
 - return codes are not always working correctly.
 - push & to the background
-
 
 ### Builtins
 #### cd

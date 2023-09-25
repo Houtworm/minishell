@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/24 13:29:07 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/25 02:15:24 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -604,12 +604,18 @@ testfunction "ls ?rc?/???????"
 printf "\e[1;36mTesting [] anyof\e[0;00m\n"
 testfunction "[]"
 testfunction "ls [s]rc"
+testfunction "ls sr[c]"
+testfunction "ls s[r]c"
+testfunction "ls s[r]c/m[a]in"
+testfunction "ls s[r]c/[m]ain"
+testfunction "ls s[r]c/mai[n]"
 testfunction "ls [so][rb][cj]"
 testfunction "ls [so][rb][cj]/builtin"
 testfunction "ls [so][rb][cj]/builtin/e[cx][hi][ot].[co]"
 testfunction "ls [so][qa][cj]/builtin"
 testfunction "ls [so][rb][cj]/builtin/echo.[rb]"
 testfunction "ls [so][rb][cj]/builtin/ecio.[rb]"
+testfunction "ls s[r]c/m[asds][idf]n/m[asdf][ijn]n.c"
 testfunction "ls g[e]t[n]e[x]t[l]i[n]e"
 testfunction "ls l[i]b[f]t"
 testfunction "ls src[]"
