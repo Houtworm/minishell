@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                     |o_o || |                */
+/*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/25 19:47:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/26 22:58:47 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ typedef struct s_cmds
 	char		**infile;
 	char		**outfile;
 	int			*append;
-	int			hdfd;	
+	int			hdfd;
+	int			prio;	
 }	t_cmds;
 
 typedef struct s_forks
@@ -111,10 +112,10 @@ void		ft_printprompt(t_shell *strct, char **envp);
 int			ft_runscript(int argc, char **argv, char **envp);
 // signal
 void		ft_sighandler(int sig);
-// mshrc
+// mshrcft_countpipe(line, 0, 0) + 1
 t_alias		*ft_parsemshrc(char **envp);
 // insults
-void		ft_printinsult(t_shell *shell);
+void	ft_printinsult(t_shell *shell);
 
 // TOOLS
 // tools
@@ -158,7 +159,10 @@ t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
 // redirect
 void		ft_parseredirection(t_cmds *cmds);
 // condition
+void		ft_copyquote(char **cmdline, char	*forkline, int icpip, int ifpip);
 t_forks		ft_parseendcondition(t_forks forks);
+//priority
+int 		ft_priority(t_cmds *cmds, int cmdnbr);
 // variable
 int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
 // globs

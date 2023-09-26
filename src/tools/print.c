@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   print.c                                         |o_o || |                */
+/*   print.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/18 18:18:17 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/26 21:47:54 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	ft_printcmds(t_cmds cmds, int cmdnbr, int forknbr)
 		printf("\e[1;36mcondition: unconditional\e[0;00m\n");
 	if (cmds.detatch)
 		printf("\e[1;36mprogram will detatch\e[0;00m\n");
+	if (cmds.prio)
+		printf("\e[1;36mcmd gets priority\e[0;00m\n");
 	 ft_printredirect(cmds);
 }
 

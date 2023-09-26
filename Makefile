@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                        |o_o || |                 #
+#    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/25 19:46:46 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/26 21:49:03 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC		=src/main/main.c\
 		 src/parse/heredoc.c\
 		 src/parse/quote.c\
 		 src/parse/condition.c\
+		 src/parse/priority.c\
 		 src/parse/redirect.c\
 		 src/parse/variable.c\
 		 src/parse/globs.c\
