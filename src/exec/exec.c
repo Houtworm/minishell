@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/25 03:52:56 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/26 19:40:11 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	status;
 
+	if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
+	{
+		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
+		return (cmds.lastcode);
+	}
 	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);
 	if (cmds.code == -1111)
 	{
 		status = ft_checkcommand(cmds);
 		if (status)
 			return (status);
-		if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
-		{
-			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
-			return (cmds.lastcode);
-		}
 		cmds.pid = fork();
 		if (cmds.pid == 0)
 		{
