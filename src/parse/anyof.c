@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/25 02:46:46 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/26 17:07:29 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,18 @@ int		ft_nextsubanyof(t_globs *globs, int i, int j, int k)
 			}
 		}
 	}
-	if (globs->tempsubdir[i][j] == '\0' || globs->tempsubdir[i][k] == '\0') // mismatch
+	if (globs->subdir[i][j] == '\0' || globs->tempsubdir[i][k] == '\0') // mismatch
 	{
 		return (0);
 	}
-	if (globs->subdir[i][j + 1] == '\0' && globs->tempsubdir[i][j + 1] == '\0') // if there is a mismatch
+	if (globs->subdir[i][j + 1] == '\0' && globs->tempsubdir[i][j + 1] == '\0') // we are at the end
 	{
 		return (1);
 	}
 	else if (globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
 	{
 		/*printf("ft_nextsubanyof found glob going into recursion\n");*/
-		return (ft_nextsubglob(globs, i, j + 1, k)); // recursive glob function returns 1 if it eventually matches
+		return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
 	}
 	return (0);
 }
@@ -119,7 +119,7 @@ int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int itar)
 			itar++;
 			k++;
 		}
-		/*printf("ft_firstanyof fastmatch break %c %c\n", dirents->d_name[k], globs->subdir[i][itar]);*/
+		/*printf("ft_firstsubanyof fastmatch break %c %c\n", dirents->d_name[k], globs->subdir[i][itar]);*/
 		if (dirents->d_name[k] == '\0' && globs->subdir[i][itar] == '\0') // the whole filename matches
 		{
 			/*printf("ft_firstsubanyof whole filename matches\n");*/
@@ -149,9 +149,10 @@ int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int itar)
 			/*printf("ft_firstsubanyof mistmatch k: %d, itar: %d, nam: %c, end: %c\n", itar, k, dirents->d_name[k], globs->subdir[i][itar]);*/
 			return (0);
 		}
-		if (globs->subdir[i][k] && ft_strchr("*?[", globs->subdir[i][k])) // if we find a new glob
+		if (globs->subdir[i][itar] && ft_strchr("*?[", globs->subdir[i][itar])) // if we find a new glob
 		{
 			/*printf("ft_firstsubanyof recursive glob found\n");*/
+			globs->temptype = dirents->d_type;
 			globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 			return (ft_nextsubglob(globs, i, itar, k + 1)); // recursive glob function returns 1 if it eventually matches
 		}
@@ -213,17 +214,23 @@ int	ft_firstanyof(t_globs *globs, char *dname, int i)
 	int	j;
 
 	j = 0;
-	while (globs->gend[j] && globs->gend[j] != ']')
+	if (!globs->anyof[0])
 	{
-		globs->glob[j + 1] = globs->gend[j];
-		globs->anyof[j] = globs->gend[j];
-		j++;
+		while (globs->gend[j] && globs->gend[j] != ']')
+		{
+			globs->glob[j + 1] = globs->gend[j];
+			globs->anyof[j] = globs->gend[j];
+			j++;
+		}
+		if (!globs->gend[j])
+		{
+			/*printf("no globs->gend[j]\n");*/
+			return (0);
+		}
+		globs->anyof[j] = '\0';
+		globs->glob[j + 1] = ']';
+		globs->gend = ft_substr(globs->gend, j + 1, ft_strlen(globs->gend));
 	}
-	if (!globs->gend[j])
-		return (0);
-	globs->anyof[j] = '\0';
-	globs->glob[j + 1] = ']';
-	globs->gend = ft_substr(globs->gend, j + 1, ft_strlen(globs->gend));
 	/*printf("gend: %s\n", globs->gend);*/
 	/*printf("glob: %s\n", globs->glob);*/
 	/*printf("gstart: %s\n", globs->gstart);*/
