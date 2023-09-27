@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 00:03:54 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 05:37:36 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_shell
 	int			forkamount;
 	int			fdin;
 	int			fdout;
+	int			stop;
 	char		*line;
 }	t_shell;
 
@@ -140,7 +141,7 @@ void		ft_cleanexit(t_shell *shell);
 // PARSE
 // parse
 int			ft_parseline(char *line, t_shell *shell);
-t_shell 	ft_parsecmds(t_shell shell, int forknumber, int cmdnumber);
+t_shell 	*ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber);
 // hashtag
 char		*ft_parsehashtag(char *line);
 // syntax

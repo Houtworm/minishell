@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 05:10:24 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 05:37:30 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ int	ft_executeforks(int forknbr, t_shell *shell)
 	cmdnbr = 0;
 	while (shell->forks[forknbr].cmdamount > cmdnbr)
 	{
-		*shell = ft_parsecmds(*shell, forknbr, cmdnbr);
+		shell = ft_parsecmds(shell, forknbr, cmdnbr);
+		if (shell->stop)
+			return (0);
 		if (shell->debug)
 			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
