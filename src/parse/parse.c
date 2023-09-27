@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 07:14:22 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 09:30:38 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_parseline(char *line, t_shell *shell)
 	int	forknumber;
 
 	if (ft_startsyntax(shell, line))
-		return (1);
+		return (2);
 	line = ft_closeline(line);
 	line = ft_completeline(line, 0);
 	while (check_quote_closed(line))
@@ -54,7 +54,7 @@ int	ft_parseline(char *line, t_shell *shell)
 	}
 	line = ft_parsehashtag(line);
 	if (ft_checksyntax(shell, line))
-		return (1);
+		return (2);
 	*shell = ft_parsepipe(line, *shell);
 	if (shell->debug)
 		ft_printshell(*shell);

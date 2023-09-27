@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 13:48:26 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/27 07:23:41 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 09:47:30 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,37 +35,80 @@ int		ft_syntaxerror(t_shell *shell, char s1, char *line, int i)
 	ft_putendl_fd(help, 2);
 	shell->code = 2;
 	free(help);
-	return (1);
+	return (2);
 }
 
-int		ft_checksymbol(char *line, int i)
+int		ft_checksmallerthan(t_shell *shell, char *line, int i)
 {
 	int		j;
-	j = 1;
-	while (line[i + j] == ' ')
-		j++;
-	if (line[i + j] && ft_strchr(";>&|", line[i + j]))
-		return (0);
-	return (j);
-}
 
-int		ft_checksymbols(char *line, int i, char symbol)
-{
-	int		j;
 	j = 1;
-	if (line[i + j] == symbol)
+	if (line[i + j] == '<' || line[i + j] == '>')
 		j++;
 	while (line[i + j] == ' ')
 		j++;
-	if (line[i + j] && ft_strchr(";>&|", line[i + j]))
-		return (0);
-	return (j);
+	if (!line[i + j] || ft_strchr(";<&|", line[i + j]))
+		return (ft_syntaxerror(shell, '<', line, i));
+	return (0);
+}
+
+int		ft_checkgreaterthan(t_shell *shell, char *line, int i)
+{
+	int		j;
+
+	j = 1;
+	if (line[i + j] == '>')
+		j++;
+	while (line[i + j] == ' ')
+		j++;
+	if (!line[i + j] || ft_strchr(";<>&|", line[i + j]))
+		return (ft_syntaxerror(shell, '>', line, i));
+	return (0);
+}
+
+int		ft_checkampersand(t_shell *shell, char *line, int i)
+{
+	int		j;
+
+	j = 1;
+	if (line[i + j] == '&')
+		j++;
+	while (line[i + j] == ' ')
+		j++;
+	if (!line[i + j] || ft_strchr(";&|", line[i + j]))
+		return (ft_syntaxerror(shell, '&', line, i));
+	return (0);
+}
+
+int		ft_checkpipe(t_shell *shell, char *line, int i)
+{
+	int		j;
+
+	j = 1;
+	if (line[i + j] == '|')
+		j++;
+	while (line[i + j] == ' ')
+		j++;
+	if (!line[i + j] || ft_strchr(";&|", line[i + j]))
+		return (ft_syntaxerror(shell, '|', line, i));
+	return (0);
+}
+
+int		ft_checksemicolon(t_shell *shell, char *line, int i)
+{
+	int		j;
+
+	j = 1;
+	while (line[i + j] == ' ')
+		j++;
+	if (line[i + j] && ft_strchr(";&|", line[i + j]))
+		return (ft_syntaxerror(shell, ';', line, i));
+	return (0);
 }
 
 int		ft_checksyntax(t_shell *shell, char *line)
 {
 	int	i;
-	int	t;
 
 	i = 0;
 	while (line[i])
@@ -73,40 +116,20 @@ int		ft_checksyntax(t_shell *shell, char *line)
 		if (ft_strchr("<>&|;", line[i]))
 		{
 			if (line[i] == '<')
-			{
-				t = ft_checksymbols(line, i, '<');
-				i = i + t;
-				if (!t)
-					return (ft_syntaxerror(shell, '<', line, i));
-			}
+				if (ft_checksmallerthan(shell, line, i))
+					return (1);
 			if (line[i] == '>')
-			{
-				t = ft_checksymbols(line, i, '>');
-				i = i + t;
-				if (!t)
-					return (ft_syntaxerror(shell, '>', line, i));
-			}
+				if (ft_checkgreaterthan(shell, line, i))
+					return (1);
 			if (line[i] == '&')
-			{
-				t = ft_checksymbols(line, i, '&');
-				i = i + t;
-				if (!t)
-					return (ft_syntaxerror(shell, '&', line, i));
-			}
+				if (ft_checkampersand(shell, line, i))
+					return (1);
 			if (line[i] == '|')
-			{
-				t = ft_checksymbols(line, i, '|');
-				i = i + t;
-				if (!t)
-					return (ft_syntaxerror(shell, '|', line, i));
-			}
+				if (ft_checkpipe(shell, line, i))
+					return (1);
 			if (line[i] == ';')
-			{
-				t = ft_checksymbol(line, i);
-				i = i + t;
-				if (!t)
-					return (ft_syntaxerror(shell, ';', line, i));
-			}
+				if (ft_checksemicolon(shell, line, i))
+					return (1);
 		}
 		i++;
 	}
@@ -120,9 +143,9 @@ int	ft_startsyntax(t_shell *shell, char *line)
 	char	*help;
 
 	i = 0;
-	/*while (line[i] == ' ')*/
-		/*i++;*/
-	if (line[i] == '|' || line[i] == '&')
+	while (line[i] == ' ')
+		i++;
+	if (line[i] == '|' || line[i] == '&' || line[i] == ';')
 	{
 
 		ft_putstr_fd("Syntax Error: ", 2);

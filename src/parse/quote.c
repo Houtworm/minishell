@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   quote.c                                            :+:    :+:            */
+/*   quote.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/03 16:55:58 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/27 09:41:00 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*ft_completeline(char *line, int k)
 		i--;
 	if (line[i] != '&' && line[i] != '|')
 		return (line);
-	while (line[i] == '&' || line[i] == '|')
+	while ((line[i] == '&' && line[i - 1] == '&') || line[i] == '|')
 	{
 		ft_putstr("> ");
 		ret = get_next_line(0, &gnl);
