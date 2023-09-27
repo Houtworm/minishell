@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 10:47:43 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 11:10:18 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	ft_mainloop(t_shell *shell)
 	if (!line)
 		ft_cleanexit(shell);
 	shell->starttime = ft_gettimems(shell->envp);
-	if (!line)
-		return (1);
 	if (!ft_isallbyte(line, ' '))
 	{
 		add_history(line);

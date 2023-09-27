@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/27 10:21:00 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 11:19:00 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ int	ft_forktheforks(t_shell *shell)
 			pipe(shell->pipes[forknumber + 1]);
 			shell->forks[forknumber].pid = fork();
 			if (shell->forks[forknumber].pid == 0)
-			{
-				ft_executeforks(forknumber, shell);
-				exit (-1);
-			}
+				exit (ft_executeforks(forknumber, shell));
 			forknumber++;
 			close(shell->pipes[forknumber][1]);
 		}
