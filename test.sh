@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/27 11:42:59 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/27 15:43:59 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,8 @@
 ERRORS=0
 PASSES=0
 SLEEP=0
+VALGRIND=1
+SHOWLEAKS=0
 
 testfunction()
 {
@@ -91,8 +93,45 @@ testfunction()
 		printf "\n\e[1;31mKO Return doesn't match with command ${1} \nReal $REALRETURN\nMini $MINIRETURN\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	else
-		printf "\e[1;32mreturn OK\n\e[0;00m"
+		printf "\e[1;32mreturn OK \e[0;00m"
 		PASSES=$(($PASSES+1))
+	fi
+	if [ $VALGRIND -eq 1 ]
+	then
+		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/memorycheck > /dev/null
+		cat /tmp/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			printf "\n\e[1;31mDefinite Memory Leaks with command $1\e[0;00m\n"
+			if [ $SHOWLEAKS -eq 1 ]
+			then
+				cat /tmp/memorycheck
+			fi
+			ERRORS=$(($ERRORS+1))
+			VALGRIND=0
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			cat /tmp/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
+				if [ $SHOWLEAKS -eq 1 ]
+				then
+					cat /tmp/memorycheck
+				fi
+				ERRORS=$(($ERRORS+1))
+				VALGRIND=0
+			fi
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			printf "\e[1;32mMemory OK\e[0;00m\n"
+			PASSES=$(($PASSES+1))
+		fi
+		VALGRIND=1
+	else
+		printf "\n"
 	fi
 	rm /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile
 	sleep $SLEEP
@@ -174,7 +213,7 @@ redirectfunction()
 		printf "\n\e[1;31mKO Return doesn't match with command ${1} \nReal $REALRETURN\nMini $MINIRETURN\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	else
-		printf "\e[1;32mreturn OK\n\e[0;00m"
+		printf "\e[1;32mreturn OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
 	diff r1 m1 > /dev/null
@@ -183,7 +222,7 @@ redirectfunction()
 		printf "\n\e[1;31mKO file 1 doesn't match with command ${1} \nreal: $(cat r1 2> /dev/null)\nmini: $(cat m1 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	else
-		printf "\e[1;32mFile 1 OK\n\e[0;00m"
+		printf "\e[1;32mFile 1 OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
 	diff r2 m2 > /dev/null
@@ -192,7 +231,7 @@ redirectfunction()
 		printf "\n\e[1;31mKO file 2 doesn't match with command ${1} \nreal: $(cat r2 2> /dev/null)\nmini: $(cat m2 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	else
-		printf "\e[1;32mFile 2 OK\n\e[0;00m"
+		printf "\e[1;32mFile 2 OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
 	diff r3 m3 > /dev/null
@@ -201,8 +240,45 @@ redirectfunction()
 		printf "\n\e[1;31mKO file 3 doesn't match with command ${1} \nreal: $(cat r3 2> /dev/null)\nmini: $(cat m3 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	else
-		printf "\e[1;32mFile 3 OK\n\e[0;00m"
+		printf "\e[1;32mFile 3 OK \e[0;00m"
 		PASSES=$(($PASSES+1))
+	fi
+	if [ $VALGRIND -eq 1 ]
+	then
+		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/memorycheck > /dev/null
+		cat /tmp/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			printf "\n\e[1;31mDefinite Memory Leaks with command $1\e[0;00m\n"
+			if [ $SHOWLEAKS -eq 1 ]
+			then
+				cat /tmp/memorycheck
+			fi
+			ERRORS=$(($ERRORS+1))
+			VALGRIND=0
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			cat /tmp/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
+				if [ $SHOWLEAKS -eq 1 ]
+				then
+					cat /tmp/memorycheck
+				fi
+				ERRORS=$(($ERRORS+1))
+				VALGRIND=0
+			fi
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			printf "\e[1;32mMemory OK\e[0;00m\n"
+			PASSES=$(($PASSES+1))
+		fi
+		VALGRIND=1
+	else
+		printf "\n"
 	fi
 	rm /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile r1 r2 r3 m1 m2 m3 2> /dev/null
 	sleep $SLEEP
@@ -283,8 +359,45 @@ environmentfunction()
 		printf "\n\e[1;31mKO Return doesn't match with command ${1} \nReal $REALRETURN\nMini $MINIRETURN\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	else
-		printf "\e[1;32mreturn OK\n\e[0;00m"
+		printf "\e[1;32mreturn OK \e[0;00m"
 		PASSES=$(($PASSES+1))
+	fi
+	if [ $VALGRIND -eq 1 ]
+	then
+		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/memorycheck > /dev/null
+		cat /tmp/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			printf "\n\e[1;31mDefinite Memory Leaks with command $1\e[0;00m\n"
+			if [ $SHOWLEAKS -eq 1 ]
+			then
+				cat /tmp/memorycheck
+			fi
+			ERRORS=$(($ERRORS+1))
+			VALGRIND=0
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			cat /tmp/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
+				if [ $SHOWLEAKS -eq 1 ]
+				then
+					cat /tmp/memorycheck
+				fi
+				ERRORS=$(($ERRORS+1))
+				VALGRIND=0
+			fi
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			printf "\e[1;32mMemory OK\e[0;00m\n"
+			PASSES=$(($PASSES+1))
+		fi
+		VALGRIND=1
+	else
+		printf "\n"
 	fi
 	rm /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile
 	sleep $SLEEP
