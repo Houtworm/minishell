@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 10:37:29 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 10:47:24 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_parseline(char *line, t_shell *shell)
 		line = ft_completeline(line, 0);
 	}
 	line = ft_parsehashtag(line);
-	if (line[0] == '\0')
+	if (!line)
 		return (1);
 	if (ft_checksyntax(shell, line))
 		return (2);
