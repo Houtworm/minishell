@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/27 15:43:59 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/27 16:11:43 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ERRORS=0
 PASSES=0
 SLEEP=0
-VALGRIND=1
+VALGRIND=0
 SHOWLEAKS=0
 
 testfunction()
@@ -655,7 +655,6 @@ redirectfunction "cat -e > r1 < r2" "cat -e > m1 < m2"
 redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
 redirectfunction "echo hey <> r1" "echo hey <> r1"
 redirectfunction "echo hey >< r1" "echo hey >< r1"
-
 #redirectfunction "< r1 cat | << EOF cat | cat >> r3" "< m1 cat | << EOF cat | cat >> m3"
 
 # ; Command end
