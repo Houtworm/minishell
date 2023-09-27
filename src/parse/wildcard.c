@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/27 04:34:41 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 04:47:45 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,6 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int itar
 	if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 	{
 		/*printf("ft_firstsubwildcard periods match for %s\n", dirents->d_name);*/
-		/*if (globs->subdir[i][j] == '\0' || dirents->d_name[j] == '\0') // the whole filename matches*/
-		/*{*/
-			/*printf("ft_recursivesubwildcard just a * so %s is an easy match\n", dirents->d_name);*/
-			/*globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);*/
-			/*return (1); // copy it over.*/
-		/*}*/
 		while (dirents->d_name[ipos]) // while there are characters in filename 
 		{
 			if (globs->subdir[i][itar] == '\0') // the whole filename matches
@@ -181,8 +175,6 @@ int	ft_nextwildcard(t_globs *globs, char *dname, int i, int j)
 	{
 		if (dname[i] == globs->gend[j]) // if the first character matches or there is no globend
 		{
-			/*if (dname[i + j] == '\0') // no globend means every end matches*/
-				/*return (1); // this one is a match*/
 			while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]) //while the first character was a match but globend exists
 			{
 				/*printf("ft_nextwildcard fastmatch %c\n", dname[i]);*/

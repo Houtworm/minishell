@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/27 04:35:03 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 04:49:41 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ int		ft_nextsubjoker(t_globs *globs, int i, int j, int k)
 	{
 		return (0);
 	}
-	/*if (globs->subdir[i][j + 1] == '\0' && globs->tempsubdir[i][j + 1] == '\0') // if there is a mismatch*/
-	/*{*/
-		/*return (1);*/
-	/*}*/
 	else if (globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
 	{
 		/*printf("ft_nextsubjoker found glob going into recursion\n");*/

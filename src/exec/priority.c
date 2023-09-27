@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/04 22:22:12 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/05 01:18:31 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/27 05:14:42 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ void	ft_executedollarsign(t_cmds *cmd)
 			var[j] = '\0';
 			i++;
 		}
-		val = ft_system(var, cmd->envp);
+		if (j == 0)
+			val = ft_strdup("");
+		else
+			val = ft_system(var, cmd->envp);
 		j = 0;
 		while (cmd->pipeline[i])
 		{
@@ -125,7 +128,10 @@ void	ft_executebacktick(t_cmds *cmd)
 			var[j] = '\0';
 			i++;
 		}
-		val = ft_system(var, cmd->envp);
+		if (j == 0)
+			val = ft_strdup("");
+		else
+			val = ft_system(var, cmd->envp);
 		j = 0;
 		while (cmd->pipeline[i])
 		{

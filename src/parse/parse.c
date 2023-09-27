@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/26 23:10:45 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/27 05:24:13 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 	shell.forks[forknumber].cmds[cmdnumber].envp = shell.envp;
 	shell.forks[forknumber].cmds[cmdnumber].debug = shell.debug;
 	shell.forks[forknumber].cmds[cmdnumber].forkamount = shell.forkamount;
-	shell.forks[forknumber].cmds[cmdnumber].prio = 0;  //ft_priority(shell.forks[forknumber].cmds, cmdnumber);
+	shell.forks[forknumber].cmds[cmdnumber].prio = 0;
 	ft_parsealiases(&shell.forks[forknumber].cmds[cmdnumber], shell);
 	ft_parsevariable(&shell.forks[forknumber].cmds[cmdnumber], shell);
 	ft_executepriority(&shell.forks[forknumber].cmds[cmdnumber]);
@@ -28,6 +28,8 @@ t_shell ft_parsecmds(t_shell shell, int forknumber, int cmdnumber)
 	paths = ft_getpaths(shell.envp, 1);
 	shell.forks[forknumber].cmds[cmdnumber].arguments = split_not_quote(shell.forks[forknumber].cmds[cmdnumber].pipeline, ' ');
 	shell.forks[forknumber].cmds[cmdnumber].arguments = ft_checkarg(shell.forks[forknumber].cmds[cmdnumber].arguments, 0);
+	/*if (!shell.forks[forknumber].cmds[cmdnumber].arguments[0])*/
+		/*exit (0);*/
 	shell.forks[forknumber].cmds[cmdnumber].cmdamount = shell.forks[forknumber].cmdamount;
 	shell.forks[forknumber].cmds[cmdnumber].absolute = ft_abspathcmd(paths, shell.forks[forknumber].cmds[cmdnumber].arguments[0]);
 	ft_frearr(paths);

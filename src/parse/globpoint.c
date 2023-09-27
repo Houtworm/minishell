@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/27 04:34:45 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 04:51:17 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,10 @@ int	ft_nextglob(t_globs *globs, char *dname, int i, int j)
 int	ft_firstglob(t_globs *globs, char *dname, int i)
 { // maybe put a while loop here to handle multiple globs in the same path dir
 	if (globs->glob[0] == '*') // if we find a wildcard match
-		if (ft_firstwildcard(globs, dname, i)) // parse it
-			return (1);
+		return (ft_firstwildcard(globs, dname, i)); // parse it
 	if (globs->glob[0] == '?') // if we find a joker match
-		if (ft_firstjoker(globs, dname, i + 1)) // parse it
-			return (1);
+		return (ft_firstjoker(globs, dname, i + 1)); // parse it
 	if (globs->glob[0] == '[') // if we find a anyof match
-		if (ft_firstanyof(globs, dname, i)) // parse it
-			return (1);
+		return (ft_firstanyof(globs, dname, i)); // parse it
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/27 04:35:17 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 04:49:08 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int		ft_nextsubanyof(t_globs *globs, int i, int j, int k)
 		return (0);
 	/*j++;*/
 	globs->anyof[l] = '\0';
+	if (globs->anyof[0] == '\0')
+		return (0);
 	/*printf("subdir: %s\n", globs->subdir[i]);*/
 	/*printf("anyof: %s\n", globs->anyof);*/
 	/*printf("dname: %s\n", globs->tempsubdir[i]);*/
@@ -96,23 +98,17 @@ int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int itar)
 	if (!globs->subdir[i][itar])
 		return (0);
 	globs->anyof[k] = '\0';
+	if (globs->anyof[0] == '\0')
+		return (0);
 	k = 0;
 	itar++;
 	while (globs->subdir[i][k + 1] != '[')
 		k++;
-	/*itar++;*/
-	/*printf("subdir: %s\n", globs->subdir[i]);*/
-	/*printf("anyof: %s\n", globs->anyof);*/
-	/*printf("dname: %s\n", dirents->d_name);*/
-	/*printf("i: %d, j: %d, k: %d\n", i, itar, k);*/
 	/*printf("ft_firstsubanyof starting with dname: %c and anyof: %s\n", dirents->d_name[k], globs->anyof);*/
 	if (ft_strchr(globs->anyof, dirents->d_name[k])) // if any of the characters in the anyof match
 	{
 		/*printf("ft_firstsubanyof anyof matches %c\n", dirents->d_name[k]);*/
-		/*itar = itar + ft_strlen(globs->anyof);*/
-		/*itar--;*/
 		k++;
-	/*printf("i: %d, j: %d, k: %d\n", i, itar, k);*/
 		while (globs->subdir[i][itar] && dirents->d_name[k] && dirents->d_name[k] == globs->subdir[i][itar])
 		{
 			/*printf("ft_firstsubanyof fastmatch %c\n", dirents->d_name[k]);*/
@@ -177,16 +173,13 @@ int	ft_nextanyof(t_globs *globs, char *dname, int i, int j)
 	if (!globs->gend[j])
 		return (0);
 	globs->anyof[k] = '\0';
-	/*printf("gend: %s\n", globs->gend);*/
-	/*printf("anyof: %s\n", globs->anyof);*/
-	/*printf("dname: %s\n", dname);*/
-	/*printf("i: %d, j: %d\n", i, j);*/
+	if (globs->anyof[0] == '\0')
+		return (0);
 	/*printf("ft_nextanyof starting with dname: %c and anyof: %s\n", dname[i], globs->anyof);*/
 	if (ft_strchr(globs->anyof, match)) // if any of the characters in the anyof match
 	{
 		/*printf("ft_nextanyof anyof matches %c\n", match);*/
 		j++;
-		/*j = j + ft_strlen(globs->anyof);*/
 		i++;
 	}
 	while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j])
@@ -246,19 +239,14 @@ int	ft_firstanyof(t_globs *globs, char *dname, int i)
 		}
 		globs->anyof[j] = '\0';
 	}
-	/*printf("gend: %s\n", globs->gend);*/
-	/*printf("glob: %s\n", globs->glob);*/
-	/*printf("gstart: %s\n", globs->gstart);*/
-	/*printf("anyof: %s\n", globs->anyof);*/
-	/*printf("dname: %s\n", dname);*/
-	/*j = 0;*/
+	if (globs->anyof[0] == '\0')
+		return (0);
 	/*printf("ft_firstanyof starting with dname: %c and anyof: %s\n", dname[i], globs->anyof);*/
 	if (ft_strchr(globs->anyof, dname[i])) // if any of the characters in the anyof match
 	{
 		/*printf("ft_firstanyof anyof matches %c\n", dname[i]);*/
 		j = 0;
 		i++;
-		/*printf("ft_firstanyof trying to match %c %c\n", dname[i], globs->gend[j]);*/
 		while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j])
 		{
 			/*printf("ft_firstanyof fastmatch %c\n", dname[i]);*/

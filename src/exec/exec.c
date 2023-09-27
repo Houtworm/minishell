@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/26 19:40:11 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/27 05:10:24 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr)
 	int		ret;
 
 	outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", ft_itoa(forknbr), ".tmp");
-	/*i = open(outtmp, O_RDWR | O_CREAT | O_APPEND, 0666);*/
-	/*close(i);*/
 	i = 0;
 	while (outfile[i])
 	{
@@ -92,10 +90,6 @@ int	ft_executeforks(int forknbr, t_shell *shell)
 		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
 		if (shell->forks[forknbr].cmds[cmdnbr].outfile[0])
 			ft_executeredirect(shell->forks[forknbr].cmds[cmdnbr].outfile, shell->forks[forknbr].cmds[cmdnbr].append, forknbr);
-		// if redirection exists write output to files
-		// below should be in funciton above somewhere
-		// outputfd = open("/tmp/minishelloutputfile.tmp", O_RDONLY); we should use this for output
-		// while line from getnextline write it to every outputfile in a while loop for every redirection
 		cmdnbr++;
 		shell->forks[forknbr].cmds[cmdnbr].lastcode = status;
 	}
