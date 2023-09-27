@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
+/*   minishell.h                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/26 22:58:47 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/27 00:03:54 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,10 @@ void		ft_printprompt(t_shell *strct, char **envp);
 int			ft_runscript(int argc, char **argv, char **envp);
 // signal
 void		ft_sighandler(int sig);
-// mshrcft_countpipe(line, 0, 0) + 1
+// mshrc
 t_alias		*ft_parsemshrc(char **envp);
 // insults
-void	ft_printinsult(t_shell *shell);
+void		ft_printinsult(t_shell *shell);
 
 // TOOLS
 // tools

@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/25 05:10:28 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/27 01:32:04 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -737,6 +737,7 @@ testfunction "ls ?e?n?x?l?n?"
 testfunction "ls ???/??iltin/echo.?"
 testfunction "ls ???/??iltin/ekho.?"
 testfunction "ls ?rc?/???????"
+testfunction "ls sr?/bui????"
 
 # [] anyof
 printf "\e[1;36mTesting [] anyof\e[0;00m\n"

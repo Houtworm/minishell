@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/26 17:07:48 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/27 01:42:51 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ int		ft_nextsubjoker(t_globs *globs, int i, int j, int k)
 			}
 		}
 	}
-	if (globs->tempsubdir[i][j] == '\0' || globs->tempsubdir[i][k] == '\0') // mismatch
+	if (globs->subdir[i][j] == '\0' || globs->tempsubdir[i][k] == '\0') // mismatch
 	{
 		return (0);
 	}
-	if (globs->subdir[i][j + 1] == '\0' && globs->tempsubdir[i][j + 1] == '\0') // if there is a mismatch
-	{
-		return (1);
-	}
+	/*if (globs->subdir[i][j + 1] == '\0' && globs->tempsubdir[i][j + 1] == '\0') // if there is a mismatch*/
+	/*{*/
+		/*return (1);*/
+	/*}*/
 	else if (globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
 	{
 		/*printf("ft_nextsubjoker found glob going into recursion\n");*/
-		return (ft_nextsubglob(globs, i, j + 1, j + 1)); // recursive glob function returns 1 if it eventually matches
+		return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
 	}
 	return (0);
 }
@@ -68,7 +68,7 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 			/*printf("ft_firstsubjoker fastmatch: %c, %c\n", globs->subdir[i][itar], dirents->d_name[itar]);*/
 			itar++;
 		}
-		/*printf("ft_firstsubjoker fastmatch broken: %c, %c\n", globs->subdir[i][itar], dirents->d_name[itar]);*/
+		/*printf("ft_firstsubjoker fastmatch broken: %c, %c\n", globs->subdir[i][itar], dirents->d_name[itar - 1]);*/
 		if (globs->subdir[i][itar] == '\0' && dirents->d_name[itar] == '\0') // if the end matches too
 		{
 			if (dirents->d_type == DT_DIR) // check if it is a directory
@@ -92,13 +92,15 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 				}
 			}
 		}
-		if (globs->subdir[i][itar] == '\0' || dirents->d_name[itar] == '\0') // if there is a mismatch
+		if (globs->subdir[i][itar] == '\0' && dirents->d_name[itar - 1] == '\0') // if both are at their end
 		{
-			return (0);
-		}
-		if (globs->subdir[i][itar + 1] == '\0' && dirents->d_name[itar + 1] == '\0') // if there is a mismatch
-		{
+			/*printf("return 1\n");*/
 			return (1);
+		}
+		if (globs->subdir[i][itar] == '\0' || dirents->d_name[itar - 1] == '\0') // if there is a mismatch
+		{
+			/*printf("return 0\n");*/
+			return (0);
 		}
 		if (globs->subdir[i][itar] && ft_strchr("*?[", globs->subdir[i][itar])) // if we find a new glob
 		{
@@ -129,7 +131,10 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 				}
 			}
 			else
+			{
+				/*printf("return 0 at else\n");*/
 				return (0);
+			}
 		}
 	}
 	/*printf("ft_firstsubjoker return 0?\n");*/
