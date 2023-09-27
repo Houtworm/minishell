@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 05:38:37 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 07:14:22 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 	ft_frearr(paths);
 	return (shell);
 }
-
 int	ft_parseline(char *line, t_shell *shell)
 {
 	int	forknumber;
 
+	if (ft_startsyntax(shell, line))
+		return (1);
 	line = ft_closeline(line);
 	line = ft_completeline(line, 0);
 	while (check_quote_closed(line))

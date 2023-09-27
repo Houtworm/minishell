@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 05:37:30 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 06:39:45 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		}
 		waitpid(cmds.pid, &status, 0);
 		cmds.code = WEXITSTATUS(status);
-		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.code;
 	}
+	shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.code;
 	return (cmds.code);
 }
 

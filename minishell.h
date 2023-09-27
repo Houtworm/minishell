@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 05:37:36 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 07:14:01 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ t_shell 	*ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber);
 char		*ft_parsehashtag(char *line);
 // syntax
 int			ft_checksyntax(t_shell *shell, char *line);
+int			ft_startsyntax(t_shell *shell, char *line);
 // pipe
 t_shell 	ft_parsepipe(char *line, t_shell shell);
 // alias
