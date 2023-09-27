@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                         |o_o || |                */
+/*   parse.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 11:24:08 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 20:34:25 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 	shell->forks[forknumber].cmds[cmdnumber].envp = shell->envp;
 	shell->forks[forknumber].cmds[cmdnumber].debug = shell->debug;
 	shell->forks[forknumber].cmds[cmdnumber].forkamount = shell->forkamount;
-	shell->forks[forknumber].cmds[cmdnumber].prio = 0;
+	shell->forks[forknumber].cmds[cmdnumber].prio = ft_priority(shell->forks[forknumber].cmds, cmdnumber); //0;
 	ft_parsealiases(&shell->forks[forknumber].cmds[cmdnumber], *shell);
 	ft_parsevariable(&shell->forks[forknumber].cmds[cmdnumber], *shell);
 	ft_executepriority(&shell->forks[forknumber].cmds[cmdnumber]);

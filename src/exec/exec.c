@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                          |o_o || |                */
+/*   exec.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 11:37:59 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 21:39:55 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,14 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	status;
 
+	// if (cmds.prio)
+	// {
+	// 	if (!shell->forks[forknbr].cmds[cmdnbr - 1].prio && ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0)))
+	// 	{
+	// 		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
+	// 		return (cmds.lastcode);
+	// 	}
+	// }
 	if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
 	{
 		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
