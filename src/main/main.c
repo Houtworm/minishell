@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 09:34:58 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 10:36:20 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	ft_mainloop(t_shell *shell)
 {
 	char	*line;
+	int		ret;
 
 	shell->stop = 0;
 	shell->envp = ft_fdtocharpp(shell->envpfd);
@@ -28,11 +29,17 @@ int	ft_mainloop(t_shell *shell)
 	if (!ft_isallbyte(line, ' '))
 	{
 		add_history(line);
-		if (ft_parseline(line, shell))
+		ret = ft_parseline(line, shell);
+		if (ret == 2)
 		{
 			free(line);
 			shell->code = 2;
 			return (2);
+		}
+		if (ret == 1)
+		{
+			free(line);
+			return (1);
 		}
 		shell->code = ft_forktheforks(shell);
 		free(line);
