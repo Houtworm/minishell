@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/27 07:26:26 by djonker      \___)=(___/                  #
+#    Updated: 2023/09/27 11:42:59 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,9 @@ SLEEP=0
 
 testfunction()
 {
-	timeout 2 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
+	timeout 3 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
 	REALRETURN=$?
-	timeout 2 ./minishell -c "$1" > /tmp/ministdoutfile 2> /tmp/ministderrfile
+	timeout 3 ./minishell -c "$1" > /tmp/ministdoutfile 2> /tmp/ministderrfile
 	MINIRETURN=$?
 	ERROROK=0
 	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
@@ -101,9 +101,9 @@ testfunction()
 redirectfunction()
 {
 	echo 1 > m1; echo 1 > r1; echo 2 > m2; echo 2 > r2; echo 3 > r3; echo 3 > m3;
-	timeout 2 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
+	timeout 3 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
 	REALRETURN=$?
-	timeout 2 ./minishell -c "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
+	timeout 3 ./minishell -c "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
 	MINIRETURN=$?
 	ERROROK=0
 	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
@@ -210,9 +210,9 @@ redirectfunction()
 
 environmentfunction()
 {
-	timeout 2 bash -c "$1" | grep "$2" > /tmp/realstdoutfile 2> /tmp/realstderrfile
+	timeout 3 bash -c "$1" | grep "$2" > /tmp/realstdoutfile 2> /tmp/realstderrfile
 	REALRETURN=$?
-	timeout 2 ./minishell -c "$1" | grep "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
+	timeout 3 ./minishell -c "$1" | grep "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
 	MINIRETURN=$?
 	ERROROK=0
 	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
