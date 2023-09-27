@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 13:48:26 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/27 09:47:30 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 10:07:55 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,21 @@ int		ft_checksyntax(t_shell *shell, char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (ft_strchr("<>&|;", line[i]))
+		if (line[i] == '\'')
+		{
+			i++;
+			while (line[i] && line[i] != '\'')
+				i++;
+			i++;
+		}
+		else if (line[i] == '\"')
+		{
+			i++;
+			while (line[i] && line[i] != '\"')
+				i++;
+			i++;
+		}
+		else if (line[i] && ft_strchr("<>&|;", line[i]))
 		{
 			if (line[i] == '<')
 				if (ft_checksmallerthan(shell, line, i))
@@ -131,7 +145,10 @@ int		ft_checksyntax(t_shell *shell, char *line)
 				if (ft_checksemicolon(shell, line, i))
 					return (1);
 		}
-		i++;
+		if (line[i] == '#' && line[i - 1] == ' ')
+			return (0);
+		else if (line[i])
+			i++;
 	}
 	return (0);
 }

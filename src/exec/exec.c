@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 06:39:45 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 10:22:38 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,5 @@ int	ft_executeforks(int forknbr, t_shell *shell)
 		cmdnbr++;
 		shell->forks[forknbr].cmds[cmdnbr].lastcode = status;
 	}
-	return (status);
+	exit (status);
 }

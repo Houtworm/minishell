@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/17 19:26:50 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/27 10:21:00 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	ft_forktheforks(t_shell *shell)
 {
 	int	status;
 	int forknumber;
-	int code;
 
 	forknumber = 0;
 	status = 1;
@@ -53,14 +52,6 @@ int	ft_forktheforks(t_shell *shell)
 				ft_executeforks(forknumber, shell);
 				exit (-1);
 			}
-			/*if (last fork has a condition bigger than 0)*/
-			/*{*/ // this should fix the pipe and condition errors we had.
-				/*call waitpid in the last fork*/
-				/*if condition = 1 and code = 0 or condition is 2 and code != 0*/
-					/*continue*/
-				/*else*/
-					/*break ;*/
-			/*}*/
 			forknumber++;
 			close(shell->pipes[forknumber][1]);
 		}
@@ -68,14 +59,13 @@ int	ft_forktheforks(t_shell *shell)
 		while (shell->forkamount > forknumber)
 		{
 			waitpid(shell->forks[forknumber].pid, &status, 0);
-			code = WEXITSTATUS(status);
-			shell->code = code;
+			shell->code = WEXITSTATUS(status);
 			forknumber++;
 		}
 	}
 	else
 	{
-		code = ft_executeforks(forknumber, shell);
+		shell->code = ft_executeforks(forknumber, shell);
 	}
-	return (code);
+	return (shell->code);
 }
