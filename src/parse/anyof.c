@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/26 18:52:10 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/27 04:35:17 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ int	ft_firstanyof(t_globs *globs, char *dname, int i)
 	int	j;
 
 	j = 0;
+	/*printf("ft_firstanyof baby\n");*/
 	if (!globs->anyof[0])
 	{
 		while (globs->gend[j] && globs->gend[j] != ']')

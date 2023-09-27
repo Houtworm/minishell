@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/27 01:44:20 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 04:34:49 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 	int i;
 
 	i = 0;
-	while (globs->gstart[i] == dname[i]) // while characters match
+	while (dname[i] && globs->gstart[i] == dname[i]) // while characters match
+	{
+		/*printf("match %c\n", dname[i]);*/
 		i++;
+	}
 	if (globs->gstart[i] == '\0') // Glob start matches
 	{
 		/*printf("ft_matchtillglob globs start matches with %s\n", dname);*/

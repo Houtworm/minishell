@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/27 01:42:51 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/27 04:35:03 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,18 +143,19 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 
 int	ft_nextjoker(t_globs *globs, char *dname, int i, int j)
 {
-	while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j]) //while the characters match
+	while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]) //while the characters match
 	{
 		/*printf("ft_nextjoker fastmatch %c\n", dname[i + j]);*/
 		j++;
+		i++;
 	}
-	/*printf("ft_nextjoker fastmatch break %c %c\n", dname[i + j], globs->gend[j]);*/
-	if (dname[i + j] && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+	/*printf("ft_nextjoker fastmatch break %c %c\n", dname[i], globs->gend[j]);*/
+	if (dname[i] && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
 	{
 		/*printf("ft_nextjoker glob found going into recursion\n");*/
 		return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
 	}
-	if (globs->gend[j] == '\0' && dname[i + j] == '\0') // the whole filename matches
+	if (globs->gend[j] == '\0' && dname[i] == '\0') // the whole filename matches
 	{
 		/*printf("ft_nextwilcard reached end of dname\n");*/
 		return (1); // copy it over.
@@ -172,17 +173,18 @@ int	ft_firstjoker(t_globs *globs, char *dname, int i)
 	{
 		return (0); // we don't want to parse this one.
 	}
-	while (dname[i + j] && globs->gend[j] && dname[i + j] == globs->gend[j]) //while the first character was a match but globend exists
+	while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]) //while the first character was a match but globend exists
 	{
-		/*printf("ft_firstjoker fastmatch %c\n", dname[i + j]);*/
+		/*printf("ft_firstjoker fastmatch %c\n", dname[i]);*/
 		j++;
+		i++;
 	}
-	if (dname[i + j] == '\0' && globs->gend[j] == '\0') // the whole filename matches
+	if (dname[i] == '\0' && globs->gend[j] == '\0') // the whole filename matches
 	{
 		/*printf("ft_firstjoker whole filename matches\n");*/
 		return (1); // copy it over.
 	}
-	if (dname[i + j] == '\0' || globs->gend[j] == '\0') // mismatch
+	if (dname[i] == '\0' || globs->gend[j] == '\0') // mismatch
 	{
 		return (0);
 	}
