@@ -18,17 +18,14 @@ is a lightweight implementation of bash
 - Syntax checking can be improved a lot we need an exemption for < as it can be the first symbol on a new cmd line
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
 - globbing is removing quotes...
-- wildcard can be nothing ***s**r**c*** can parse to src
 - jokers mess up following globs sometimes (probably a misaligned int sent to one of the globpoint functions)
 - quotes in quotes have some issues here and there
 - heredoc should not print "minishell heredoc>" if there is input waiting already
 - heredoc should parse all but only input the last heredoc file
 
 #### Exec
-- lastcode should update properly so that conditions work properly
 - forks should not run if there is a mismatching condition before in the pipeline
 - somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
-- return codes are not always working correctly.
 - push & to the background
 
 ### Builtins
@@ -41,13 +38,23 @@ is a lightweight implementation of bash
 #### env
 - with arguments it should print an error.
 #### exit
-- exit 123 should exit with 123
+- exit 345768946738584365983 or something
 - exit blabla should exit with a warning and code -1
 #### alias
 - is already implemented and used during init, it just can't be called from the shell yet
 #### z
 - z could be improved by only storing unique directories
 - z can also be improved by focussing on the lowest directory as/in/thisone and only match the whole path if nothing is found.
+#### which
+- easy to implement
+#### exec
+- maybe easy to implement?
+#### jobs and fg
+- might be needed for CTRL + Z
+#### .
+- kind of a nessecity
+#### kill
+- can be handy
 
 ---
 ## Bugs
