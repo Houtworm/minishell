@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/29 22:03:50 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/29 22:31:41 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,9 @@ int	ft_firstwildcard(t_globs *globs, char *dname, int i)
 				/*printf("ft_firstwildcard recursive glob found\n");*/
 				ret = ft_nextglob(globs, dname, i, j); // recursive glob function returns 1 if it eventually matches
 				if (ret == 1)
-					return (1);
+					return (ret);
+				i++;
+				j = 0;
 			}
 			else // we have no match and reset the globend counter.
 			{
@@ -261,7 +263,7 @@ int	ft_firstwildcard(t_globs *globs, char *dname, int i)
 			/*printf("ft_firstwildcard recursive glob found\n");*/
 			ret = ft_nextglob(globs, dname, i, j); // recursive glob function returns 1 if it eventually matches
 			if (ret == 1)
-				return (1);
+				return (ret);
 			temp++;
 			i = temp;
 		}

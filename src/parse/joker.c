@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/29 22:03:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/29 22:31:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,13 @@ int	ft_nextjoker(t_globs *globs, char *dname, int i, int j)
 	}
 	if (globs->gend[j] == '\0' && dname[i] == '\0') // the whole filename matches
 	{
-		/*printf("ft_nextwilcard reached end of dname\n");*/
+		/*printf("ft_nextjoker reached end of dname\n");*/
 		return (1); // copy it over.
+	}
+	if (globs->gend[j] == '\0' || dname[i] == '\0') // the whole filename matches
+	{
+		/*printf("ft_nextjoker mismatch in end\n");*/
+		return (0); //fuck this.
 	}
 	return (0);
 }
