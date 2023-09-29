@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/29 22:31:41 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/29 23:22:54 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int itar
 	ipos = 0;
 	while (globs->subdir[i][ipos] != '*')
 		ipos++;
+	itar++;
 	if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 	{
 		/*printf("ft_firstsubwildcard periods match for %s\n", dirents->d_name);*/
@@ -147,8 +148,8 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int itar
 						}
 					}
 				}
-				else
-					return (0);
+				/*else*/
+					/*return (0);*/
 			}
 			ipos++;
 		}
