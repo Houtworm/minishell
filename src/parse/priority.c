@@ -6,13 +6,27 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/26 21:31:26 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/09/27 21:04:26 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/29 11:55:18 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 //true || (cat -r && cat -z && cat -r && cat -r || false) || echo hallo
-// 0, 1, 1, 1, 1, 2, 0
+// 0, 1, 1, 1, 1, 2, 0 cmds.prio
+// N, 0, 0, 0, 0, 0, 0, cmds.lastcode
+// 0, 2, 1, 1, 1, 2, 2  cmds.condition (1 &&, 2 ||)
+
+//true || cat -r && cat -z && cat -r && cat -r || false || echo hallo
+// 0, 1, 1, 1, 1, 2, 0 cmds.prio
+// N, 0, 0, 1, 1, 1, 1, cmds.lastcode
+// 0, 2, 1, 1, 1, 2, 2  cmds.condition (1 &&, 2 ||)
+
+//true && (cat -r && cat -z && cat -r && cat -r || false) || echo hallo
+// 0, 1, 1, 1, 1, 2, 0 cmds.prio
+// N, 0, 0, 1, 0, 0, 1, cmds.lastcode
+// 0, 1, 1, 1, 1, 2, 2  cmds.condition (1 &&, 2 ||)
+
+
 //printf $(echo 'hey
 // > hello')
 
