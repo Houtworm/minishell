@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/29 12:13:16 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/29 18:05:46 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,37 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr)
 int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	status;
+	int	i;
 
-	// ft_putstr_fd("last code is ", 2);
-	// ft_putnbr_fd(shell->forks[forknbr].cmds[cmdnbr].lastcode, 2);
+	i = 1;
+	if (cmds.prio)
+	{
+		if ( ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0)))
+		{
+			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = 1;
+			return (cmds.lastcode);
+		}
+	}
+	if (!cmds.prio && shell->forks[forknbr].cmds[cmdnbr - 1].prio)
+	{
+		while (shell->forks[forknbr].cmds[cmdnbr - i].prio)
+			i++;
+		cmds.lastcode = shell->forks[forknbr].cmds[cmdnbr - i + 1].lastcode;
+		// ft_putstr_fd("i last code is ", 2);
+		// ft_putnbr_fd(shell->forks[forknbr].cmds[cmdnbr - i + 1].lastcode, 2);
+	}
+	// ft_putstr_fd("  last code is ", 2);
+	// ft_putnbr_fd(cmds.lastcode, 2);
+	// ft_putstr_fd(" condition is", 2);
+	// ft_putnbr_fd(cmds.condition, 2);
 	// ft_putendl_fd("", 2);
-	// if (cmds.prio)
-	// {
-	// 	if ( ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0)))
-	// 	{
-	// 		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = 1;
-	// 		ft_putendl_fd("IN", 2);
-	// 		return (cmds.lastcode);
-	// 	}
-	// }
 	if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
 	{
 		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
-		// ft_putendl_fd("not executed", 2);
 		return (cmds.lastcode);
 	}
+	// ft_putendl_fd("execute", 2);
+
 	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);
 	if (cmds.code == -1111)
 	{
@@ -103,12 +115,9 @@ int	ft_executeforks(int forknbr, t_shell *shell)
 		if (shell->debug)
 			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
-		// ft_putnbr_fd(status, 2);
-		// ft_putendl_fd("", 2);
 		if (shell->forks[forknbr].cmds[cmdnbr].outfile[0])
 			ft_executeredirect(shell->forks[forknbr].cmds[cmdnbr].outfile, shell->forks[forknbr].cmds[cmdnbr].append, forknbr);
 		cmdnbr++;
-		shell->forks[forknbr].cmds[cmdnbr].lastcode = status;
 	}
 	return (status);
 }

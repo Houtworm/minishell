@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                         |o_o || |                 #
+#    test.sh                                            :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/27 16:43:16 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/29 18:04:55 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -694,6 +694,14 @@ testfunction "echo hello|| &echo 'hello'"
 testfunction "echo hello||;echo 'hello'"
 testfunction "echo hello|| ;echo 'hello'"
 testfunction "sleep 1 || sleep 1 || sleep 1"
+
+# && || operator combination
+printf "\e[1;36mTesting && || combination operator\e[0;00m\n"
+testfunction "false && (cat -r && cat -z && cat -r || false) || echo hallo"
+testfunction "true || (cat -r && cat -z && cat -r || false) || echo hallo"
+testfunction "true || cat -r && cat -z && cat -r || false || echo hallo"
+testfunction "false && cat -r && cat -z && cat -r || false || echo hallo"
+
 
 # $VAR variables
 printf "\e[1;36mTesting \$VAR variables\e[0;00m\n"
