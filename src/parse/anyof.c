@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/29 22:17:50 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 00:05:23 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int		ft_nextsubanyof(t_globs *globs, int i, int j, int k)
 	}
 	if (!globs->subdir[i][j])
 		return (0);
-	/*j++;*/
 	globs->anyof[l] = '\0';
 	if (globs->anyof[0] == '\0')
 		return (0);
@@ -37,6 +36,7 @@ int		ft_nextsubanyof(t_globs *globs, int i, int j, int k)
 	if (ft_strchr(globs->anyof, globs->tempsubdir[i][k])) // if any of the characters in the anyof match
 	{
 		/*printf("ft_nextsubanyof anyof matches: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
+		j++;
 		j++;
 		k++;
 	}
@@ -68,10 +68,10 @@ int		ft_nextsubanyof(t_globs *globs, int i, int j, int k)
 			}
 		}
 	}
-	if (globs->subdir[i][j] == '\0' || globs->tempsubdir[i][k] == '\0') // mismatch
-	{
-		return (0);
-	}
+	/*if (globs->subdir[i][j] == '\0' || globs->tempsubdir[i][k] == '\0') // mismatch*/
+	/*{*/
+		/*return (0);*/
+	/*}*/
 	if (globs->subdir[i][j + 1] == '\0' && globs->tempsubdir[i][j + 1] == '\0') // we are at the end
 	{
 		return (1);
@@ -189,7 +189,7 @@ int	ft_nextanyof(t_globs *globs, char *dname, int i, int j)
 		i++;
 	}
 	/*printf("ft_nextanyof fastmatch break %c %c %d, %d\n", dname[i], globs->gend[j], i, j);*/
-	if (dname[i] && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+	if (globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
 	{
 		/*printf("ft_nextanyof glob found going into recursion\n");*/
 		return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
