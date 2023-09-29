@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/27 04:47:45 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/29 22:03:50 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_nextsubwildcard(t_globs *globs, int i, int j, int k)
 		j++;
 	if (globs->subdir[i][j] == '\0') // no globend means every end matches
 	{
-		/*ft_printf("ft_nextsubwildcard end of glob\n");*/
+		/*printf("ft_nextsubwildcard end of glob\n");*/
 		return (1); // this one is a match
 	}
 	tempj = j;
@@ -168,7 +168,7 @@ int	ft_nextwildcard(t_globs *globs, char *dname, int i, int j)
 	tempi = i;
 	if (globs->gend[j] == '\0') // no globend means every end matches
 	{
-		/*ft_printf("ft_nextwildcard end of glob\n");*/
+		/*printf("ft_nextwildcard end of glob\n");*/
 		return (1); // this one is a match
 	}
 	while (dname[i]) // while there are characters in filename 
@@ -207,16 +207,18 @@ int	ft_nextwildcard(t_globs *globs, char *dname, int i, int j)
 int	ft_firstwildcard(t_globs *globs, char *dname, int i)
 {
 	int	j;
+	int	temp;
+	int	ret;
 
+	temp = i;
 	j = 0;
 	if (globs->gstart[0] != '.' && dname[0] == '.') // if there is a period mismatch
 	{
-		/*ft_printf("ft_firstwildcard Periods don't match\n");*/
+		/*printf("ft_firstwildcard Periods don't match\n");*/
 		return (0); // we don't want to parse this one.
 	}
 	while (globs->gend[j] == '*')
 		j++;
-	/*ft_printf("ft_firstwildcard baby i: %d, j: %d\n", i, j);*/
 	if (globs->gend[j] == '\0' && dname[i] == '\0')
 		return (1);
 	while (dname[i]) // while there are characters in filename 
@@ -244,7 +246,9 @@ int	ft_firstwildcard(t_globs *globs, char *dname, int i)
 			if (ft_strchr("*?[", globs->gend[j])) // if we find a new glob
 			{
 				/*printf("ft_firstwildcard recursive glob found\n");*/
-				return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
+				ret = ft_nextglob(globs, dname, i, j); // recursive glob function returns 1 if it eventually matches
+				if (ret == 1)
+					return (1);
 			}
 			else // we have no match and reset the globend counter.
 			{
@@ -252,8 +256,21 @@ int	ft_firstwildcard(t_globs *globs, char *dname, int i)
 				j = 0;
 			}
 		}
+		else if (ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+		{
+			/*printf("ft_firstwildcard recursive glob found\n");*/
+			ret = ft_nextglob(globs, dname, i, j); // recursive glob function returns 1 if it eventually matches
+			if (ret == 1)
+				return (1);
+			temp++;
+			i = temp;
+		}
 		else // no matching first character means we can move over a character and try to match from there.
-			i++;
+		{
+			temp++;
+			i = temp;
+		}
 	}
+	/*printf("return 0\n");*/
 	return (0); // no matches found.
 }
