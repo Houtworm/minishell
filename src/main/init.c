@@ -6,11 +6,37 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 10:48:54 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/29 03:57:55 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	ft_getpid(void)
+{
+	int		fd;
+	int		pid;
+	char	*line;
+	int		i;
+
+	fd = open("/proc/self/status", O_RDONLY);
+	pid = 1;
+	i = 0;
+	while (pid > 0)
+	{
+		pid = get_next_line(fd, &line);
+		if (!ft_strncmp(line, "Pid:", 4))
+		{
+			while (line[i] < 0 || line[i] > 9)
+				i++;
+			pid = ft_atoi(&line[i]);
+			free (line);
+			return (pid);
+		}
+		free (line);
+	}
+	return (-1);
+}
 
 t_shell	*ft_initstruct(char **envp, int debugmode)
 {
@@ -19,6 +45,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	char	*shlvlstr;
 
 	shell = ft_calloc(sizeof(shell), 10);
+	shell->pid = ft_getpid();
 	shell->envp = envp;
 	shell->alias = ft_parsemshrc(envp);
 	shlvlint = ft_atoi(ft_getenvval(shell->envp, "SHLVL"));
