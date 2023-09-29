@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/29 23:22:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/29 23:37:02 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,9 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int itar
 {
 	int	ipos;
 
-	ipos = 0;
-	while (globs->subdir[i][ipos] != '*')
-		ipos++;
-	itar++;
+	ipos = itar;
+	while (globs->subdir[i][itar] == '*')
+		itar++;
 	if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 	{
 		/*printf("ft_firstsubwildcard periods match for %s\n", dirents->d_name);*/
@@ -96,7 +95,7 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int itar
 				itar++;
 				ipos++;
 			}
-			/*printf("ft_firstsubwildcard fastmatch broken: %c, %c\n", globs->subdir[i][itar], dirents->d_name[ipos]);*/
+			/*printf("ft_firstsubwildcard fastmatch broken: %c, %c j: %d, k: %d\n", globs->subdir[i][itar], dirents->d_name[ipos], itar, ipos);*/
 			if (globs->subdir[i][itar] == '\0') // if the end matches too
 			{
 				if (dirents->d_type == DT_DIR) // check if it is a directory
@@ -125,7 +124,7 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int itar
 				/*printf("ft_firstsubwildcard found glob going into recursion\n");*/
 				globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 				globs->temptype = dirents->d_type;
-				if (ft_nextsubglob(globs, i, itar, ipos)) // recursive glob function returns 1 if it eventually matches
+				if (ft_nextsubglob(globs, i, itar, ipos + 1)) // recursive glob function returns 1 if it eventually matches
 				{
 					if (dirents->d_type == DT_DIR) // check if it is a directory
 					{
