@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/30 00:16:10 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 00:21:51 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int itar
 {
 	int	ipos;
 
-	ipos = itar;
+	ipos = itar - 1;
 	while (globs->subdir[i][itar] == '*')
 		itar++;
 	if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
