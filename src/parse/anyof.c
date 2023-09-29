@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/30 00:05:23 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 00:15:49 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int		ft_nextsubanyof(t_globs *globs, int i, int j, int k)
 	if (ft_strchr(globs->anyof, globs->tempsubdir[i][k])) // if any of the characters in the anyof match
 	{
 		/*printf("ft_nextsubanyof anyof matches: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
-		j++;
 		j++;
 		k++;
 	}
