@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/01 00:06:17 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 00:59:15 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,8 @@ int			ft_echo(t_cmds cmds);
 int			ft_z(t_cmds cmds);
 // period
 int			ft_period(t_cmds cmds);
+// exec
+int			ft_exec(t_cmds cmds);
 // which
 int			ft_which(t_cmds cmds);
 

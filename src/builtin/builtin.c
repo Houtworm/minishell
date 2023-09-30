@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/30 23:19:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 00:56:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,23 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	int	pid;
 	int	ret;
 	int i;
-	t_builtin	bui[10] = {
+	t_builtin	bui[12] = {
 	{"alias\0", ft_echo},
 	{"echo\0", ft_echo},
 	{"env\0", ft_env},
 	{"export\0", ft_export},
 	{"unset\0", ft_unset},
 	{".\0", ft_period},
+	{"/\0", ft_period},
 	{"which\0", ft_which},
 	{"cd\0", ft_chdir},
 	{"exit\0", ft_exit},
+	{"exec\0", ft_exec},
 	{"z\0", ft_z}
 	};
 
 	i = 0;
-	while (i < 7)
+	while (i < 8)
 	{
 		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare)))
 		{
@@ -53,7 +55,7 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		}
 		i++;
 	}
-	while (i < 10)
+	while (i < 12)
 	{
 		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare) + 1))
 		{

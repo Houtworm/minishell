@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 07:38:31 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 00:42:01 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,61 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 	shell->forks[forknumber].cmds[cmdnumber].absolute = ft_abspathcmd(paths, shell->forks[forknumber].cmds[cmdnumber].arguments[0]);
 	ft_frearr(paths);
 	return (shell);
+}
+
+char	*ft_parsetilde(char *line, t_shell *shell)
+{
+	int		i;
+	int		j;
+	char	*begin;
+	char	*temp;
+	char	*rest;
+
+	begin = ft_calloc((ft_strlen(line) + 1) * 8, 1);
+	rest = ft_calloc((ft_strlen(line) + 1) * 8, 1);
+	i = 0;
+	while (line[i])
+	{
+		j = 0;
+		while (line[i] && line[i] != '~')
+		{
+			if (line[i] == '\'')
+			{
+				begin[j] = line[i];
+				i++;
+				j++;
+				while (line[i] && line[i] != '\'')
+				{
+					begin[j] = line[i];
+					i++;
+					j++;
+				}
+			}
+			begin[j] = line[i];
+			i++;
+			j++;
+		}
+		if (line[i] == '~')
+		{
+			begin[j] = '\0';
+			i++;
+			j = 0;
+			while (line[i])
+			{
+				rest[j] = line[i];
+				i++;
+				j++;
+			}
+			rest[j] = '\0';
+			/*free (line);*/
+			line = ft_gethome(shell->envp);
+			temp = ft_vastrjoin(3, begin, line, rest);
+			i = 0;
+			free(line);
+		}
+	}
+	ft_vafree(2, begin, rest);
+	return (temp);
 }
 
 char	*ft_parseoldline(char *line, t_shell *shell)
@@ -108,8 +163,10 @@ int	ft_parseline(char *line, t_shell *shell)
 		line = ft_closeline(line);
 		line = ft_completeline(line, 0);
 	}
-	if (ft_parseoldline(line, shell) == NULL)
-		return (127);
+	/*line = ft_parseoldline(line, shell);*/
+	/*if (!line)*/
+		/*return (127);*/
+	line = ft_parsetilde(line, shell);
 	/*free(shell->oldline);*/
 	shell->oldline = ft_strdup(line);
 	line = ft_parsehashtag(line);

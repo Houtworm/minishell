@@ -4,7 +4,6 @@ is a lightweight implementation of bash
 ---
 ## Todo
 #### Environment
-- ^Z should suspend running application
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 
 #### Parser
@@ -38,13 +37,9 @@ is a lightweight implementation of bash
 #### alias
 - is already implemented and used during init, it just can't be called from the shell yet
 #### .
-- kind of a nessecity
+- should handle files properly
 #### exec
-- maybe easy to implement once we did .?
-#### jobs and fg
-- might be needed for CTRL + Z
-#### kill
-- can be handy
+- maybe easy to implement, it is just . but only runs programs and quits afterwards.
 
 ---
 ## Bugs

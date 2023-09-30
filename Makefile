@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/30 04:01:52 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/01 01:00:00 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRC		=src/main/main.c\
 		 src/builtin/echo.c\
 		 src/builtin/z.c\
 		 src/builtin/period.c\
+		 src/builtin/exec.c\
 		 src/builtin/which.c\
 		 src/tools/tools.c\
 		 src/tools/error.c\

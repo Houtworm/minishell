@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:01:18 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 00:07:18 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 01:00:48 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_checkexec(t_cmds cmds)
+int	ft_checkperiod(t_cmds cmds)
 {
 	int		i;
 	DIR		*dir;
@@ -47,9 +47,9 @@ int	ft_period(t_cmds cmds)
 		if (ft_errorexit("filename argument required", ".", 0))
 			return (2);
 	}
-	else if (cmds.arguments[0][1] == '/')
+	else if (cmds.arguments[0][1] == '/' || cmds.arguments[0][0] == '/')
 	{
-		status = ft_checkexec(cmds);
+		status = ft_checkperiod(cmds);
 		if (status)
 			return (status);
 		execve(cmds.absolute, cmds.arguments, cmds.envp);
