@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 22:32:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 22:50:21 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	shell->envpfd = open("/tmp/minishellenvpfile.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	ft_charpptofd(envp, shell->envpfd);
 	shell->starttime = ft_gettimems(shell->envp);
-	shell->code = 0; // should be 0 but we use the 256 value in different places
+	shell->code = 256;
 	shell->fdout = 1;
 	shell->fdin = 0;
 	shell->stop = 0;
@@ -69,5 +69,6 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	if (debugmode)
 		shell->debug = 1;
 	close(shell->envpfd);
+	read_history(shell->historyfile);
 	return (shell);
 }

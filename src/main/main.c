@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 22:43:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 22:47:51 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else
 		shell =	ft_initstruct(envp, 0);
-	read_history("/home/houtworm/.mshhistory");
 	while (1)
 		ft_mainloop(shell);
 	return (0);
