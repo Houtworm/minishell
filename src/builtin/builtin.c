@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/30 04:06:27 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 23:19:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	{"env\0", ft_env},
 	{"export\0", ft_export},
 	{"unset\0", ft_unset},
-	{".", ft_period},
+	{".\0", ft_period},
 	{"which\0", ft_which},
 	{"cd\0", ft_chdir},
 	{"exit\0", ft_exit},
@@ -39,7 +39,7 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	i = 0;
 	while (i < 7)
 	{
-		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare) + 1))
+		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare)))
 		{
 			pid = fork();
 			if (pid == 0)

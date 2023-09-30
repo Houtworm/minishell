@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/30 08:29:07 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/01 00:17:22 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,6 +131,34 @@ testfunction()
 		if [ $? -eq 0 ]
 		then
 			cat /tmp/ministderrfile | grep "Usage" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "Is a directory" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "Is a directory" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "ermission denied" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "ermission denied" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -465,45 +493,99 @@ environmentfunction()
 printf "\e[1;36mTesting basics\e[0;00m\n"
 testfunction ""
 testfunction "\"\""
+testfunction "\'\'"
 testfunction "!!"
 testfunction "~"
 testfunction ".."
-testfunction "hallo"
+testfunction "/home"
+testfunction "/nonexist"
+testfunction "src"
+testfunction "notexist"
+testfunction "./notexist"
+testfunction "cat notexist"
+
+# permissions
+printf "\e[1;36mTesting permissions\e[0;00m\n"
+touch perm
+chmod 000 perm
+printf "\e[1;36mfile 000\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
-touch perm
-chmod 000 perm
+chmod 111 perm
+printf "\e[1;36mfile 111\e[0;00m\n"
+testfunction "perm"
+testfunction "./perm"
+testfunction "cat perm"
+chmod 222 perm
+printf "\e[1;36mfile 222\e[0;00m\n"
+testfunction "perm"
+testfunction "./perm"
+testfunction "cat perm"
+chmod 333 perm
+printf "\e[1;36mfile 333\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
 chmod 444 perm
+printf "\e[1;36mfile 444\e[0;00m\n"
+testfunction "perm"
+testfunction "./perm"
+testfunction "cat perm"
+chmod 555 perm
+printf "\e[1;36mfile 555\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
 chmod 666 perm
+printf "\e[1;36mfile 666\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
 chmod 777 perm
+printf "\e[1;36mfile 777\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
 rm perm
 mkdir perm
 chmod 000 perm
+printf "\e[1;36mdir 000\e[0;00m\n"
+testfunction "perm"
+testfunction "./perm"
+testfunction "cat perm"
+chmod 111 perm
+printf "\e[1;36mdir 111\e[0;00m\n"
+testfunction "perm"
+testfunction "./perm"
+testfunction "cat perm"
+chmod 222 perm
+printf "\e[1;36mdir 222\e[0;00m\n"
+testfunction "perm"
+testfunction "./perm"
+testfunction "cat perm"
+chmod 333 perm
+printf "\e[1;36mdir 333\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
 chmod 444 perm
+printf "\e[1;36mdir 444\e[0;00m\n"
+testfunction "perm"
+testfunction "./perm"
+testfunction "cat perm"
+chmod 555 perm
+printf "\e[1;36mdir 555\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
 chmod 666 perm
+printf "\e[1;36mdir 666\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
 chmod 777 perm
+printf "\e[1;36mdir 777\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"

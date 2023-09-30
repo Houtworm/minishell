@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 22:30:01 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 00:06:17 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "printf/ft_printf.h"
 # include "getnextline/get_next_line.h"
 # include <stdio.h>
+# include <errno.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
 # include <sys/termios.h>
