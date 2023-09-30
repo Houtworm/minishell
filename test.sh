@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/30 04:30:11 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/30 04:55:04 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,6 +103,34 @@ testfunction()
 		if [ $? -eq 0 ]
 		then
 			cat /tmp/ministderrfile | grep "argument required" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "which: no" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "which: no" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "Usage" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "Usage" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
