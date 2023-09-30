@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/30 00:23:23 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/30 02:52:50 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ testfunction()
 		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
+	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
@@ -75,6 +75,34 @@ testfunction()
 		if [ $? -eq 0 ]
 		then
 			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "many arguments" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "many arguments" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "argument required" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "argument required" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -154,7 +182,7 @@ redirectfunction()
 		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
+	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
@@ -195,6 +223,34 @@ redirectfunction()
 		if [ $? -eq 0 ]
 		then
 			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "many arguments" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "many arguments" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "argument required" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "argument required" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -300,7 +356,7 @@ environmentfunction()
 		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
+	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
@@ -341,6 +397,34 @@ environmentfunction()
 		if [ $? -eq 0 ]
 		then
 			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "many arguments" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "many arguments" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "argument required" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "argument required" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -632,41 +716,41 @@ redirectfunction "cat < r1" "cat < m1"
 
 # << heredoc
 printf "\e[1;36mTesting << heredoc \e[0;00m\n"
-#testfunction "<<"
-#testfunction "cat << EOF
-#t e s t
-#EOF
-#"
-#testfunction "cat << EOF
-#t e s t
-#EOF"
-#testfunction "cat << EOF
-#t e s t
-#EOF 
-#EOF
-#"
-#testfunction "cat << EOF
-#t e s t
- #EOF
-#EOF
-#"
-#testfunction "echo << EOF
-#t e s t
-#EOF
-#"
-#testfunction "echo << EOF
-#t e s t
-#EOF"
-#testfunction "echo << EOF
-#t e s t
-#EOF 
-#EOF
-#"
-#testfunction "echo << EOF
-#t e s t
- #EOF
-#EOF
-#"
+testfunction "<<"
+testfunction "cat << EOF
+t e s t
+EOF
+"
+testfunction "cat << EOF
+t e s t
+EOF"
+testfunction "cat << EOF
+t e s t
+EOF 
+EOF
+"
+testfunction "cat << EOF
+t e s t
+ EOF
+EOF
+"
+testfunction "echo << EOF
+t e s t
+EOF
+"
+testfunction "echo << EOF
+t e s t
+EOF"
+testfunction "echo << EOF
+t e s t
+EOF 
+EOF
+"
+testfunction "echo << EOF
+t e s t
+ EOF
+EOF
+"
 
 # <<< herestring
 printf "\e[1;36mTesting <<< herestring \e[0;00m\n"

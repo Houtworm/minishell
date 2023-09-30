@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 20:34:25 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/30 01:47:40 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int	ft_parseline(char *line, t_shell *shell)
 
 	if (ft_startsyntax(shell, line))
 		return (2);
-	line = ft_closeline(line);
-	line = ft_completeline(line, 0);
+	/*line = ft_closeline(line);*/
+	/*line = ft_completeline(line, 0);*/
 	while (check_quote_closed(line))
 	{
 		line = ft_closeline(line);

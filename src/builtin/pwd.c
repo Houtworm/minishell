@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:00 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/27 12:22:39 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 03:08:16 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_pwd(t_cmds cmds)
 {
-	ft_printf("%s", ft_getpwd(cmds.envp, 0));
+	/*if (cmds.arguments[5]) // Why is this 5? split_not_quote?*/
+		/*if (ft_errorexit("ignoring non-option arguments", "pwd", 0)) // still goes here if cd arg is followed by a space*/
+	printf("%s\n", ft_getpwd(cmds.envp, 0));
 	return (0);
 }

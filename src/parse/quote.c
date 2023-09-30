@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/27 09:41:00 by djonker      \___)=(___/                 */
+/*   Updated: 2023/09/30 01:39:11 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ char	*ft_closeline(char *line)
 		while (1)
 		{
 			if (quote)
-				ft_putstr("> ");
+				ft_putstr_fd("> ", 0);
 			ret = get_next_line(0, &gnl);
 			if (ret == 0)
 				break;
+			if (gnl[0] == 23)
+				ft_errorexit("bla", "bla", 2);
 			if (quote == '\'' && ft_strchr(gnl, '\''))
 				break ;
 			else if (quote == '\"' && ft_strchr(gnl, '\"'))
