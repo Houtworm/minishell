@@ -11,15 +11,12 @@ is a lightweight implementation of bash
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 
 #### Parser
-- parentheses for priority // true || (cat -r && cat -z || false) || echo hallo
 - ~ should be parsed to homedir
 - !! should translate to the last shell->line, gotta store the last pipeline somewhere and just strjoin it :)
-- $$ should translate to PID of shell
 - maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
-- Syntax checking can be improved a lot we need an exemption for < as it can be the first symbol on a new cmd line
+- Syntax checking can be improved a lot
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
 - globbing is removing quotes...
-- jokers mess up following globs sometimes (probably a misaligned int sent to one of the globpoint functions)
 - quotes in quotes have some issues here and there
 - heredoc should not print "minishell heredoc>" if there is input waiting already
 - heredoc should parse all but only input the last heredoc file
@@ -37,10 +34,10 @@ is a lightweight implementation of bash
 - make sure variables can only start with a A or _
 - somehow it is adding empty lines to env file.
 #### env
-- with arguments it should print an error.
+- if argument is a valid directory print permission denied, else print no such file or directory.
 #### exit
-- exit 345768946738584365983 or something
-- exit blabla should exit with a warning and code -1
+- if argument is bigger than long long print numeric argument required
+- huge numbers print the wrong return value
 #### alias
 - is already implemented and used during init, it just can't be called from the shell yet
 #### z
@@ -68,7 +65,6 @@ is a lightweight implementation of bash
 ## Extras
 - //// is the same as / or /////////////////////////////
 - Make the -c command read multiple lines so the tester will work with those
-- builtins, which, jobs, fg, exec
 
 ---
 ### Cleanup
@@ -125,6 +121,10 @@ is a lightweight implementation of bash
 - ```#```
 - ```alias```
 - ```z```
+- ```$$```
+- ```!!```
+- ```.```
+- ```which```
 
 ---
 ## Usage

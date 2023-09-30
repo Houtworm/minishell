@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/30 02:52:50 by houtworm     \___)=(___/                  #
+#    Updated: 2023/09/30 04:30:11 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -342,9 +342,9 @@ redirectfunction()
 
 environmentfunction()
 {
-	timeout 3 bash -c "$1" | grep "$2" > /tmp/realstdoutfile 2> /tmp/realstderrfile
+	timeout 3 bash -c "$1" 2> /tmp/realstderrfile | grep "$2" > /tmp/realstdoutfile 2>> /tmp/realstderrfile
 	REALRETURN=$?
-	timeout 3 ./minishell -c "$1" | grep "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
+	timeout 3 ./minishell -c "$1" 2> /tmp/ministderrfile | grep "$2" > /tmp/ministdoutfile 2>> /tmp/ministderrfile
 	MINIRETURN=$?
 	ERROROK=0
 	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
@@ -353,7 +353,7 @@ environmentfunction()
 		printf "\e[1;32mstdout OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
+		printf "\e[1;31mKO stdout doesn't match with command ${1} | grep ${2} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
@@ -365,10 +365,10 @@ environmentfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "syntax error" > /dev/null
+		cat /tmp/realstderrfile | grep "invalid option" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "Syntax Error" > /dev/null
+			cat /tmp/ministderrfile | grep "invalid option" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -379,68 +379,12 @@ environmentfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "command not found" > /dev/null
-		if [ $? -eq 0 ]
-		then
-			cat /tmp/ministderrfile | grep "command not found" > /dev/null
-			if [ $? -eq 0 ]
-			then
-				printf "\e[1;32mstderr OK \e[0;00m"
-				PASSES=$(($PASSES+1))
-				ERROROK=1
-			fi
-		fi
-	fi
-	if [ $ERROROK -eq 0 ]
-	then
-		cat /tmp/realstderrfile | grep "file or directory" > /dev/null
-		if [ $? -eq 0 ]
-		then
-			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
-			if [ $? -eq 0 ]
-			then
-				printf "\e[1;32mstderr OK \e[0;00m"
-				PASSES=$(($PASSES+1))
-				ERROROK=1
-			fi
-		fi
-	fi
-	if [ $ERROROK -eq 0 ]
-	then
-		cat /tmp/realstderrfile | grep "many arguments" > /dev/null
-		if [ $? -eq 0 ]
-		then
-			cat /tmp/ministderrfile | grep "many arguments" > /dev/null
-			if [ $? -eq 0 ]
-			then
-				printf "\e[1;32mstderr OK \e[0;00m"
-				PASSES=$(($PASSES+1))
-				ERROROK=1
-			fi
-		fi
-	fi
-	if [ $ERROROK -eq 0 ]
-	then
-		cat /tmp/realstderrfile | grep "argument required" > /dev/null
-		if [ $? -eq 0 ]
-		then
-			cat /tmp/ministderrfile | grep "argument required" > /dev/null
-			if [ $? -eq 0 ]
-			then
-				printf "\e[1;32mstderr OK \e[0;00m"
-				PASSES=$(($PASSES+1))
-				ERROROK=1
-			fi
-		fi
-	fi
-	if [ $ERROROK -eq 0 ]
-	then
-		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} | grep ${2} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
 	then
-		printf "\n\e[1;31mKO Return doesn't match with command ${1} \nReal $REALRETURN\nMini $MINIRETURN\e[0;00m\n"
+		printf "\n\e[1;31mKO Return doesn't match with command ${1} | grep ${2} \nReal $REALRETURN\nMini $MINIRETURN\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	else
 		printf "\e[1;32mreturn OK \e[0;00m"
@@ -452,7 +396,7 @@ environmentfunction()
 		cat /tmp/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			printf "\n\e[1;31mDefinite Memory Leaks with command $1\e[0;00m\n"
+			printf "\n\e[1;31mDefinite Memory Leaks with command ${1} | grep ${2}\e[0;00m\n"
 			if [ $SHOWLEAKS -eq 1 ]
 			then
 				cat /tmp/memorycheck
@@ -465,7 +409,7 @@ environmentfunction()
 			cat /tmp/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
 			if [ $? -eq 0 ]
 			then
-				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
+				printf "\n\e[1;31mIndirect Memory Leaks with command ${1} | grep ${2}\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
 					cat /tmp/memorycheck
@@ -674,6 +618,17 @@ testfunction "cd nonexistingpath && pwd"
 testfunction "pwd"
 testfunction "pwd bla"
 testfunction "pwd -wat"
+
+# which
+printf "\e[1;36mTesting which\e[0;00m\n"
+testfunction "which"
+testfunction "which cat"
+testfunction "which bleh"
+testfunction "which ."
+testfunction "which ls"
+testfunction "which cd"
+testfunction "which which"
+testfunction "which exit"
 
 # > trunctuate
 printf "\e[1;36mTesting > trunctuate \e[0;00m\n"
