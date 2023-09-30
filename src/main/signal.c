@@ -6,30 +6,30 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 22:27:48 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 03:19:33 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 21:50:32 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+int ft_sighook(void)
+{
+	return (1);
+}
+
 void	ft_sighandler(int sig)
 {
 	if (sig == SIGINT) // C //
 	{
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
-		rl_replace_line("", 2);
-		rl_on_new_line();
-		// stop it from printing ^C on the prompt
-		//somehow break the mainloop
+		rl_replace_line("", 0);
+		rl_done = 1;
 	}
 	if (sig == SIGQUIT) // \ //
 	{
-		// stop it from printing ^\ on the prompt
-		// quit the current child
+		ft_putstr_fd("Quit (core dumped)", 0); // not really printing for some reason?
 	}
 	if (sig == SIGTSTP) // Z //
 	{
-		// should suspend the current child
 		sigset_t mask;
 		int		mpid;
 

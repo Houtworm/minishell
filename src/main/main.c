@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 07:40:59 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 21:54:05 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 
+	rl_event_hook = ft_sighook;
 	signal(SIGINT, ft_sighandler);
-	signal(SIGQUIT, ft_sighandler);
-	signal(SIGTSTP, ft_sighandler);
+	signal(SIGQUIT, SIG_IGN);
 	if (argc > 1)
 	{
 		if (ft_strncmp(argv[1], "-d\0", 3) == 0)

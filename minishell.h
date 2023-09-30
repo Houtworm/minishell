@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 06:13:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 21:30:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
+# include <sys/termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -115,6 +116,7 @@ void		ft_printprompt(t_shell *strct, char **envp);
 int			ft_runscript(int argc, char **argv, char **envp);
 // signal
 void		ft_sighandler(int sig);
+int			ft_sighook(void);
 // mshrc
 t_alias		*ft_parsemshrc(char **envp);
 // insults

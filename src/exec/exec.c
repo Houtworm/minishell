@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                             :+:    :+:            */
+/*   exec.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/29 18:05:46 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/09/30 21:45:12 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		cmds.pid = fork();
 		if (cmds.pid == 0)
 		{
+			signal(SIGQUIT, ft_sighandler);
 			ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 			execve(cmds.absolute, cmds.arguments, cmds.envp);
 			exit (-1);
