@@ -4,12 +4,13 @@ is a lightweight implementation of bash
 ---
 ## Todo
 #### Environment
-- ```^C``` should restart the mainloop
-- ```^\``` shouldn't print anything
-- ```^Z``` should suspend running application
+- ^C should restart the mainloop
+- ^\ shouldn't print anything
+- ^Z should suspend running application
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 
 #### Parser
+- split not quote is not null terminating properly? look in ft_chdir for an example
 - ~ should be parsed to homedir
 - maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
 - Syntax checking can be improved a lot
@@ -26,7 +27,7 @@ is a lightweight implementation of bash
 
 ### Builtins
 #### cd
-- ```cd - is having issues if oldpwd is not set.```
+- cd - is having issues if oldpwd is not set.
 - if getcwd fails we can get strange behavior, lets say we delete the parent directory
 #### export
 - make sure variables can only start with a A or _
