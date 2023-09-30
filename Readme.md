@@ -4,9 +4,8 @@ is a lightweight implementation of bash
 ---
 ## Todo
 #### Environment
-- ```^C``` should print ^C and restart the mainloop
+- ```^C``` should restart the mainloop
 - ```^\``` shouldn't print anything
-- ```^D``` should quit the shell if line is empty
 - ```^Z``` should suspend running application
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 
