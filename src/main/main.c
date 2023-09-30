@@ -6,11 +6,40 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 21:54:05 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 22:43:44 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	ft_addhistory(char *line, char *file)
+{
+		int		histfd;
+		int		tempfd;
+		char	*gnl;
+
+		add_history(line);
+		histfd = open(file, O_RDONLY);
+		tempfd = open("/tmp/minishellhistory.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+		while (get_next_line(histfd, &gnl) > 0)
+		{
+			if (ft_strncmp(line, gnl, 500))
+				ft_putendl_fd(gnl, tempfd);
+			free(gnl);
+		}
+		ft_putendl_fd(line, tempfd);
+		close(tempfd);
+		close(histfd);
+		tempfd = open("/tmp/minishellhistory.tmp", O_RDONLY);
+		histfd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+		while (get_next_line(tempfd, &gnl) > 0)
+		{
+			ft_putendl_fd(gnl, histfd);
+			free(gnl);
+		}
+		close(tempfd);
+		close(histfd);
+}
 
 int	ft_mainloop(t_shell *shell)
 {
@@ -26,7 +55,7 @@ int	ft_mainloop(t_shell *shell)
 	shell->starttime = ft_gettimems(shell->envp);
 	if (!ft_isallbyte(line, ' '))
 	{
-		add_history(line);
+		ft_addhistory(line, shell->historyfile);
 		ret = ft_parseline(line, shell);
 		if (ret == 2)
 		{
@@ -63,6 +92,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else
 		shell =	ft_initstruct(envp, 0);
+	read_history("/home/houtworm/.mshhistory");
 	while (1)
 		ft_mainloop(shell);
 	return (0);

@@ -92,16 +92,15 @@ is a lightweight implementation of bash
 #### Bonus
 - ```&&```
 - ```||```
+- ```()```
 - ```*```
 #### Extra
 - ```Prompt with return code, execution time, and other cool things :)```
 - ```-d debug mode```
-- ```Multiline History```
 - ```History file```
 - ```~/.mshrc parsing```
 - ```handle -c argument```
 - ```handle script as argument```
-- ```CTRL + Z```
 - ```handling non closed quotes```
 - ```handling conditions with no command```
 - ```;```
@@ -109,6 +108,7 @@ is a lightweight implementation of bash
 - ```$(command)```
 - ``` `command` ```
 - ```?```
+- ```~```
 - ```[]```
 - ```#```
 - ```alias```

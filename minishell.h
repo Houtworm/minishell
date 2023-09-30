@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 21:30:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 22:30:01 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_shell
 	int			stop;
 	int			pid;
 	char		*line;
+	char		*historyfile;
 	char		*oldline;
 }	t_shell;
 
