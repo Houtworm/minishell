@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/01 00:17:22 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/01 01:29:41 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,10 +57,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "command not found" > /dev/null
+		cat /tmp/realstderrfile | grep "not found" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "command not found" > /dev/null
+			cat /tmp/ministderrfile | grep "not found" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -261,10 +261,10 @@ redirectfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "command not found" > /dev/null
+		cat /tmp/realstderrfile | grep "not found" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "command not found" > /dev/null
+			cat /tmp/ministderrfile | grep "not found" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -618,6 +618,16 @@ testfunction "echo \"hey\"J"
 testfunction "echo \"hey\"\$PATH"
 testfunction "echo \"hey\"&"
 testfunction "echo \"hey\"\"hey\""
+
+ # exec
+printf "\e[1;36mTesting exec\e[0;00m\n"
+testfunction "exec bla"
+testfunction "exec cat"
+testfunction "exec ls"
+testfunction "exec exit"
+testfunction "exec exit 123"
+testfunction "exec cat -r"
+testfunction "exec echo hallo"
 
  # variable
 printf "\e[1;36mTesting \$VAR variable\e[0;00m\n"
