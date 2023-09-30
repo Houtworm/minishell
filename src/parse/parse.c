@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 01:47:40 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 06:41:19 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,60 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 	ft_frearr(paths);
 	return (shell);
 }
+
+char	*ft_parseoldline(char *line, char *oldline)
+{
+	int		i;
+	int		j;
+	char	*begin;
+	char	*rest;
+
+	begin = ft_calloc((ft_strlen(line) + 1) * 8, 1);
+	rest = ft_calloc((ft_strlen(line) + 1) * 8, 1);
+	i = 0;
+	while (line[i])
+	{
+		j = 0;
+		while (line[i] && (line[i] != '!' || line[i + 1] != '!'))
+		{
+			if (line[i] == '\'')
+			{
+				begin[j] = line[i];
+				i++;
+				j++;
+				while (line[i] && line[i] != '\'')
+				{
+					begin[j] = line[i];
+					i++;
+					j++;
+				}
+			}
+			begin[j] = line[i];
+			i++;
+			j++;
+		}
+		if (line[i] == '!' && line[i + 1] == '!')
+		{
+			begin[j] = '\0';
+			i++;
+			i++;
+			j = 0;
+			while (line[i])
+			{
+				rest[j] = line[i];
+				i++;
+				j++;
+			}
+			rest[j] = '\0';
+			free (line);
+			line = ft_vastrjoin(3, begin, oldline, rest);
+			i = 0;
+		}
+	}
+	ft_vafree(2, begin, rest);
+	return (line);
+}
+
 int	ft_parseline(char *line, t_shell *shell)
 {
 	int	forknumber;
@@ -52,6 +106,9 @@ int	ft_parseline(char *line, t_shell *shell)
 		line = ft_closeline(line);
 		line = ft_completeline(line, 0);
 	}
+	line = ft_parseoldline(line, shell->oldline);
+	/*free(shell->oldline);*/
+	shell->oldline = ft_strdup(line);
 	line = ft_parsehashtag(line);
 	if (line[0] == '\0')
 		return (1);

@@ -12,7 +12,6 @@ is a lightweight implementation of bash
 
 #### Parser
 - ~ should be parsed to homedir
-- !! should translate to the last shell->line, gotta store the last pipeline somewhere and just strjoin it :)
 - maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
 - Syntax checking can be improved a lot
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
