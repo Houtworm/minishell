@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 17:21:02 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/30 03:18:23 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 05:58:15 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	ft_adddirtoz(t_cmds cmd, char *cwd)
 	ft_putendl_fd(cwd, tempfd);
 	while (get_next_line(mshzfd, &line) > 0)
 	{
-		ft_putendl_fd(line, tempfd);
+		if (ft_strncmp(line, cwd, 500))
+			ft_putendl_fd(line, tempfd);
 		free(line);
 	}
 	close(tempfd);
@@ -50,9 +51,9 @@ int	ft_chdir(t_cmds cmds)
 
 	cwd = malloc(512);
 	getcwd(cwd, 512);
-	if (cmds.arguments[5]) // Why is this 5? split_not_quote?
-		if (ft_errorexit("too many arguments", "cd", 0)) // still goes here if cd arg is followed by a space
-			return (1);
+	/*if (cmds.arguments[5]) // Why is this 5? split_not_quote?*/
+		/*if (ft_errorexit("too many arguments", "cd", 0)) // still goes here if cd arg is followed by a space*/
+			/*return (1);*/
 	if (!ft_strncmp(cmds.arguments[1],  "~\0", 2) || !cmds.arguments[1])
 		line = ft_gethome(cmds.envp);
 	else if (!ft_strncmp(cmds.arguments[1],  "-\0", 2))
