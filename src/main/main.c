@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 06:47:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 07:40:59 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,15 @@ int	ft_mainloop(t_shell *shell)
 			shell->code = 2;
 			return (2);
 		}
+		if (ret == 127)
+		{
+			ft_errorexit("command not found", "!!", 0);
+			return (127);
+		}
 		if (ret == 1)
 			return (1);
 		shell->code = ft_forktheforks(shell);
-		/*free(line);*/
+		free(line);
 	}
 	return (0);
 }

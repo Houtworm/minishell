@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 06:41:19 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 07:38:31 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 	return (shell);
 }
 
-char	*ft_parseoldline(char *line, char *oldline)
+char	*ft_parseoldline(char *line, t_shell *shell)
 {
 	int		i;
 	int		j;
@@ -73,6 +73,8 @@ char	*ft_parseoldline(char *line, char *oldline)
 		}
 		if (line[i] == '!' && line[i + 1] == '!')
 		{
+			if (!shell->oldline[0])
+				return (NULL);
 			begin[j] = '\0';
 			i++;
 			i++;
@@ -85,7 +87,7 @@ char	*ft_parseoldline(char *line, char *oldline)
 			}
 			rest[j] = '\0';
 			free (line);
-			line = ft_vastrjoin(3, begin, oldline, rest);
+			line = ft_vastrjoin(3, begin, shell->oldline, rest);
 			i = 0;
 		}
 	}
@@ -106,7 +108,8 @@ int	ft_parseline(char *line, t_shell *shell)
 		line = ft_closeline(line);
 		line = ft_completeline(line, 0);
 	}
-	line = ft_parseoldline(line, shell->oldline);
+	if (ft_parseoldline(line, shell) == NULL)
+		return (127);
 	/*free(shell->oldline);*/
 	shell->oldline = ft_strdup(line);
 	line = ft_parsehashtag(line);

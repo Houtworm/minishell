@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/29 18:53:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/09/30 07:34:37 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	char	*shlvlstr;
 
 	shell = ft_calloc(sizeof(shell), 10);
+	shell->oldline = ft_calloc(2, 8);
 	shell->pid = ft_getpid();
 	shell->envp = envp;
 	shell->alias = ft_parsemshrc(envp);
