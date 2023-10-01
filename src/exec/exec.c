@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 21:45:12 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 03:55:43 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,31 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr)
 	i = 0;
 	while (outfile[i])
 	{
-		fdread = open(outtmp, O_RDONLY);
 		if (append[i])
 			fdo = open(outfile[i], O_RDWR | O_CREAT | O_APPEND, 0666);
 		else
 			fdo = open(outfile[i], O_RDWR | O_CREAT | O_TRUNC, 0666);
-		ret = 1;
-		while (ret)
-		{
-			ret = get_next_line(fdread, &line);
-			if (!line)
-				ft_errorexit("Error allocating memory", "malloc", 1);
-			if (line[0] != '\0')
-				ft_putendl_fd(line, fdo);
-			free(line);
-		}
 		close (fdo);
-		close(fdread);
 		i++;
 	}
+	i--;
+	fdread = open(outtmp, O_RDONLY);
+	if (append[i])
+		fdo = open(outfile[i], O_RDWR | O_CREAT | O_APPEND, 0666);
+	else
+		fdo = open(outfile[i], O_RDWR | O_CREAT | O_TRUNC, 0666);
+	ret = 1;
+	while (ret)
+	{
+		ret = get_next_line(fdread, &line);
+		if (!line)
+			ft_errorexit("Error allocating memory", "malloc", 1);
+		/*if (line[0] != '\0')*/
+		ft_putstr_fd(line, fdo);
+		free(line);
+	}
+	close (fdo);
+	close(fdread);
 	free(outtmp);
 }
 
