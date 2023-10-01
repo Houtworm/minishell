@@ -113,6 +113,7 @@ is a lightweight implementation of bash
 - ```z builtin with unique directory and advanced search```
 - ```which builtin```
 - ```exec builtin```
+- ```improved redirection ala ZSH?```
 
 ---
 ## Usage
