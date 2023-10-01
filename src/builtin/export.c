@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:12:44 by houtworm          #+#    #+#             */
-/*   Updated: 2023/08/27 12:22:31 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 00:42:21 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,12 @@ int	ft_export(t_cmds cmds)
 		var[i] = cmds.arguments[1][i];
 		i++;
 	}
-	if (cmds.arguments[1][i] != '=')
-		return (1);
+	if (!i)
+		if (ft_errorexit("not a valid identifier", "export", 0))
+			return (1);
+	/*if (cmds.arguments[1][i] != '=')*/
+		/*if (ft_errorexit("not a valid identifier", "export", 0))*/
+			/*return (1);*/
 	while (cmds.arguments[1][i + j + 1] != '\0')
 	{
 		val[j] = cmds.arguments[1][1 + j + i];
