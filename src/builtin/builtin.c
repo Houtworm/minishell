@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 01:19:14 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 21:48:09 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	int	pid;
 	int	ret;
 	int i;
+	int	status;
+	int	fd;
+	char	*line;
 	t_builtin	bui[12] = {
 	{"alias\0", ft_echo},
 	{"echo\0", ft_echo},
@@ -47,7 +50,23 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			if (pid == 0)
 			{
 				ft_dupmachine(cmds, cmdnbr, forknbr, shell);
-				exit (bui[i].func(cmds));
+				ret = bui[i].func(cmds);
+				if (ret == 123)
+				{
+					status = 1;
+					fd = open(cmds.absolute, O_RDONLY);
+					while (status > 0)
+					{
+						status = get_next_line(fd, &line);
+						if (line[0] && ft_parseline(line, shell))
+							return (2);
+						if (status > 0)
+							shell->code = ft_forktheforks(shell);
+						free(line);
+					}
+					exit(shell->code);
+				}
+				exit(ret);
 			}
 			waitpid(pid, &ret, 0);
 			shell->code = WEXITSTATUS(ret);

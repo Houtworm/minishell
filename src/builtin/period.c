@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:01:18 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 21:02:36 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 21:26:08 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_period(t_cmds cmds)
 		if (status)
 			return (status);
 		execve(cmds.absolute, cmds.arguments, cmds.envp);
-		exit(-1);
+		return(123);
 	}
 	else
 	{
