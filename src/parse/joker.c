@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/30 00:21:58 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 18:08:03 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ int		ft_nextsubjoker(t_globs *globs, int i, int j, int k)
 				return (1);
 			}
 		}
+	}
+	if (globs->subdir[i][j] == '*' && globs->tempsubdir[i][k] == '\0') // the whole filename matches
+	{
+		/*printf("ft_nextjoker ends with *\n");*/
+		return (ft_nextsubglob(globs, i, j, k)); //fuck this.
 	}
 	if (globs->subdir[i][j] == '\0' || globs->tempsubdir[i][k] == '\0') // mismatch
 	{
@@ -155,6 +160,11 @@ int	ft_nextjoker(t_globs *globs, char *dname, int i, int j)
 	{
 		/*printf("ft_nextjoker reached end of dname\n");*/
 		return (1); // copy it over.
+	}
+	if (globs->gend[j] == '*' && dname[i] == '\0') // the whole filename matches
+	{
+		/*printf("ft_nextjoker ends with *\n");*/
+		return (ft_nextglob(globs, dname, i, j)); //fuck this.
 	}
 	if (globs->gend[j] == '\0' || dname[i] == '\0') // the whole filename matches
 	{
