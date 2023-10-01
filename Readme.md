@@ -8,7 +8,6 @@ is a lightweight implementation of bash
 
 #### Parser
 - split not quote is not null terminating properly? look in ft_chdir for an example
-- ~ should be parsed to homedir
 - maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
 - Syntax checking can be improved a lot
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
@@ -38,8 +37,6 @@ is a lightweight implementation of bash
 - is already implemented and used during init, it just can't be called from the shell yet
 #### .
 - should handle files properly
-#### exec
-- maybe easy to implement, it is just . but only runs programs and quits afterwards.
 
 ---
 ## Bugs
@@ -68,56 +65,64 @@ is a lightweight implementation of bash
 - ```CTRL + \```
 - ```CTRL + D```
 - ```Handle History```
-- ```SHLVL +1 at launch```
-- ```| pipes```
-- ```> trunctuate```
-- ```>> append```
-- ```<```
-- ```<< heredoc```
-- ```"" quotes```
-- ```'' quotes```
-- ```$VAR```
-- ```echo```
-- ```env```
-- ```pwd```
-- ```cd```
-- ```export```
-- ```unset```
-- ```exit```
+- ```parsing |```
+- ```parsing >```
+- ```parsing >>```
+- ```parsing <```
+- ```parsing <<```
+- ```parsing ""```
+- ```parsing ''```
+- ```parsing $VAR```
+- ```echo builtin```
+- ```env builtin```
+- ```pwd builtin```
+- ```cd builtin```
+- ```export builtin```
+- ```unset builtin```
+- ```exit builtin```
 #### Bonus
-- ```&&```
-- ```||```
-- ```()```
-- ```*```
+- ```parsing &&```
+- ```parsing ||```
+- ```parsing ()```
+- ```parsing *```
 #### Extra
-- ```Prompt with return code, execution time, and other cool things :)```
-- ```-d debug mode```
+- ```kernel username and hostname in prompt```
+- ```working directory in prompt```
+- ```execution time in prompt```
+- ```return code in prompt```
 - ```History file```
-- ```~/.mshrc parsing```
-- ```handle -c argument```
+- ```Unique line History file```
+- ```-d debug mode```
+- ```-c command argument```
+- ```Handle SHLVL```
 - ```handle script as argument```
 - ```handling non closed quotes```
-- ```handling conditions with no command```
-- ```;```
-- ```&```
-- ```$(command)```
-- ``` `command` ```
-- ```?```
-- ```~```
-- ```[]```
-- ```#```
-- ```alias```
-- ```z```
-- ```$$```
-- ```!!```
-- ```.```
-- ```which```
+- ```handling non complete lines```
+- ```insults you with syntax errors```
+- ```points to syntax errors on line```
+- ```parsing ~/.mshrc```
+- ```parsing $(command)```
+- ```parsing `command` ```
+- ```parsing ;```
+- ```parsing ?```
+- ```parsing ~```
+- ```parsing []```
+- ```parsing #```
+- ```parsing $$```
+- ```parsing !!```
+- ```. builtin```
+- ```alias builtin```
+- ```z builtin with unique directory and advanced search```
+- ```which builtin```
+- ```exec builtin```
 
 ---
 ## Usage
 1. Simply clone or download the repository
 2. Run `make` in the cloned directory
 3. Start the shell with `./minishell`
+
+    You will need the GNU readline library installed on your system
 
 ---
 [This project is part of the studies at 42](https://42.fr/en/homepage/)
