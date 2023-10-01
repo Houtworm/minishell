@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/02 00:37:41 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/02 00:59:02 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -173,6 +173,20 @@ testfunction()
 		if [ $? -eq 0 ]
 		then
 			cat /tmp/ministderrfile | grep "not a valid identifier" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "invalid option" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "invalid option" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -453,6 +467,20 @@ environmentfunction()
 		if [ $? -eq 0 ]
 		then
 			cat /tmp/ministderrfile | grep "not a valid identifier" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "file or directory" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"

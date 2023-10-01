@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:05 by houtworm          #+#    #+#             */
-/*   Updated: 2023/09/30 04:04:02 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 00:49:52 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ int	ft_unset(t_cmds cmds)
 	int		i;
 
 	i = 0;
+	if (cmds.arguments[1][0] == '-')
+		if (ft_moderrorexit("invalid option", "unset", cmds.arguments[1], 0))
+			return (2);
 	while (cmds.envp[i])
 	{
 		if (!ft_strncmp(cmds.envp[i], cmds.arguments[1], ft_strlen(cmds.arguments[1])))
