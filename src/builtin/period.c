@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:01:18 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 01:00:48 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 21:02:36 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,15 @@ int	ft_checkperiod(t_cmds cmds)
 
 	i = 0;
 	dir = opendir(cmds.arguments[0]);
-	if (dir)
+	if (dir || errno == EACCES)
 	{
 		ft_errorexit("Is a directory", cmds.arguments[0], 0);
 		return (126);
 	}
-	if (errno == EACCES)
-		if (ft_errorexit("permission denied", cmds.arguments[0], 0))
-			return (126);
 	if (access(cmds.arguments[0], F_OK))
 		if (ft_errorexit("No such file or directory", cmds.arguments[0], 0))
 			i = 127;
-	if (access(cmds.arguments[0], X_OK) && i != 127)
+	if ((access(cmds.arguments[0], X_OK) || access(cmds.arguments[0], R_OK)) && i != 127)
 		if (ft_errorexit("permission denied", cmds.arguments[0], 0))
 			i = 126;
 	if (i == 127 || i == 126)
