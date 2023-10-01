@@ -5,12 +5,10 @@ is a lightweight implementation of bash
 ## Todo
 ### Tester
 - we should add a lot of bad syntax to make sure we won't segfault during evaluation.
-- we should test everything with quotes single and double
-- we should test everything without and with extra spaces
-- we should test everything with empty "" arguments
+- add new glob tests with quotes
 - we can add redirection to everything to make sure that works fine
 - we should test everything in a fork too
-- we should test everything in a second or third command too
+- we should test everything in a second and third command too
 - test everything with multiple //// in a path
 ### Environment
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
