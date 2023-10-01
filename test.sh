@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/01 06:17:41 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/01 07:16:22 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -492,6 +492,8 @@ environmentfunction()
 # basic
 printf "\e[1;36mTesting basics\e[0;00m\n"
 testfunction ""
+testfunction "true"
+testfunction "false"
 testfunction "\"\""
 testfunction "\'\'"
 testfunction "!!"
@@ -752,20 +754,42 @@ environmentfunction "unset PWD" "PWD"
 # env
 printf "\e[1;36mTesting env\e[0;00m\n"
 testfunction "env blabla"
+testfunction "env 'blabla'"
+testfunction "env \"blabla\""
+testfunction "'env blabla'"
+testfunction "\"env blabla\""
 testfunction "env -wat"
+testfunction "env '-wat'"
+testfunction "env \"-wat\""
+testfunction "'env -wat'"
+testfunction "\"env -wat\""
 environmentfunction "env" "SHLVL"
+environmentfunction "'env'" "SHLVL"
+environmentfunction "\"env\"" "SHLVL"
 environmentfunction "env blabla" "SHLVL"
 environmentfunction "env -wat" "SHLVL"
 testfunction "env | grep OLDPWD"
+testfunction "env | grep 'OLDPWD'"
+testfunction "env | grep \"OLDPWD\""
 
 # exit
 printf "\e[1;36mTesting exit\e[0;00m\n"
 testfunction "exit"
+testfunction "'exit'"
+testfunction "\"exit\""
 testfunction "exit 1"
+testfunction "exit '1'"
+testfunction "exit \"1\""
+testfunction "'exit 1'"
+testfunction "\"exit 1\""
 testfunction "exit 123"
 testfunction "exit 256"
 testfunction "exit bla"
+testfunction "exit 'bla'"
+testfunction "exit \"bla\""
 testfunction "exit -wat"
+testfunction "exit '-wat'"
+testfunction "exit \"-wat\""
 testfunction "exit 9223372036854775807"
 testfunction "exit 9223372036854775808"
 testfunction "exit -9223372036854775807"
@@ -778,8 +802,14 @@ testfunction "cd"
 testfunction "mkdir a && mkdir a/b && cd a/b && rm -r ../../a && cd .."
 testfunction "cd && pwd"
 testfunction "cd .."
+testfunction "cd '..'"
+testfunction "cd \"..\""
 testfunction "cd .. && pwd"
 testfunction "cd .. bla"
+testfunction "cd '..' bla"
+testfunction "cd \"..\" bla"
+testfunction "cd '.. bla'"
+testfunction "cd \".. bla\""
 testfunction "cd .. bla && pwd"
 testfunction "cd ../../../../../../../../../.."
 testfunction "cd ../../../../../../../../../.. && pwd"
@@ -805,27 +835,44 @@ testfunction "cd nonexistingpath"
 testfunction "cd nonexistingpath && pwd"
 testfunction "pwd"
 testfunction "pwd bla"
+testfunction "pwd 'bla'"
+testfunction "pwd \"bla\""
 testfunction "pwd -wat"
+testfunction "pwd '-wat'"
+testfunction "pwd \"-wat\""
 
 # which
 printf "\e[1;36mTesting which\e[0;00m\n"
 testfunction "which"
 testfunction "which cat"
+testfunction "which 'cat'"
+testfunction "which \"cat\""
 testfunction "which bleh"
 testfunction "which ."
 testfunction "which ls"
 testfunction "which cd"
 testfunction "which which"
+testfunction "'which which'"
+testfunction "\"which which\""
+testfunction "which 'which'"
+testfunction "which \"which\""
 testfunction "which exit"
 
 # > trunctuate
 printf "\e[1;36mTesting > trunctuate \e[0;00m\n"
 testfunction ">"
+redirectfunction "cat '' > '' > ''" "cat '' > '' > ''"
+redirectfunction "cat r1>r2>r3" "cat m1>m2>m3"
+redirectfunction "cat 'r1>r2>r3'" "cat 'm1>m2>m3'"
+redirectfunction "cat \"r1>r2>r3\"" "cat \"m1>m2>m3\""
+redirectfunction "cat r1  >  r2  >  r3" "cat m1  >  m2  >  m3"
 redirectfunction "cat r1 > r2 > r3" "cat m1 > m2 > m3"
+redirectfunction "cat 'r1' > 'r2' > 'r3'" "cat 'm1' > 'm2' > 'm3'"
+redirectfunction "cat \"r1\" > \"r2\" > \"r3\"" "cat \"m1\" > \"m2\" > \"m3\""
 redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > r3" "printf 'blabla' > m1; printf 'blabla' > m2; printf 'blabla' > m3"
 redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
 redirectfunction "echo \"hoi\" > | r1" "echo \"hoi\" > | m1"
-redirectfunction "echo \"hoi\" >| r1" "echo \"hoi\" > | m1"
+redirectfunction "echo \"hoi\" >| r1" "echo \"hoi\" >| m1"
 redirectfunction "> r1 | echo blabla" "> m1 | echo blabla"
 redirectfunction "exit > r1" "exit > m1"
 redirectfunction "cd .. > r1" "cd .. > m1"
@@ -838,11 +885,18 @@ redirectfunction "Non_exist_cmd > r1" "Non_exist_cmd > m1"
 # >> append
 printf "\e[1;36mTesting >> append \e[0;00m\n"
 testfunction ">>"
+redirectfunction "cat '' >> '' >> ''" "cat '' >> '' >> ''"
+redirectfunction "cat r1>>r2>>r3" "cat m1>>m2>>m3"
+redirectfunction "cat 'r1>>r2>>r3'" "cat 'm1>>m2>>m3'"
+redirectfunction "cat \"r1>>r2>>r3\"" "cat \"m1>>m2>>m3\""
+redirectfunction "cat r1  >>  r2  >>  r3" "cat m1  >>  m2  >>  m3"
 redirectfunction "cat r1 >> r2 >> r3" "cat m1 >> m2 >> m3"
+redirectfunction "cat 'r1' >> 'r2' >> 'r3'" "cat 'm1' >> 'm2' >> 'm3'"
+redirectfunction "cat \"r1\" >> \"r2\" >> \"r3\"" "cat \"m1\" >> \"m2\" >> \"m3\""
 redirectfunction "printf 'blabla' >> r1; printf 'blabla' >> r2; printf 'blabla' >> r3" "printf 'blabla' >> m1; printf 'blabla' >> m2; printf 'blabla' >> m3"
 redirectfunction "printf 'blabla' >> r1 && printf 'blabla' >> r2 && printf 'blabla' >> r3" "printf 'blabla' >> m1 && printf 'blabla' >> m2 && printf 'blabla' >> m3"
 redirectfunction "echo \"hoi\" >> | r1" "echo \"hoi\" >> | m1"
-redirectfunction "echo \"hoi\" >>| r1" "echo \"hoi\" >> | m1"
+redirectfunction "echo \"hoi\" >>| r1" "echo \"hoi\" >>| m1"
 redirectfunction ">> r1 | echo blabla" ">> m1 | echo blabla"
 redirectfunction "exit >> r1" "exit >> m1"
 redirectfunction "cd .. >> r1" "cd .. >> m1"
@@ -855,12 +909,39 @@ redirectfunction "Non_exist_cmd >> r1" "Non_exist_cmd >> m1"
 # < input from
 printf "\e[1;36mTesting < input from \e[0;00m\n"
 testfunction "<"
+redirectfunction "cat < ''" "cat < ''"
 redirectfunction "cat < r1" "cat < m1"
+redirectfunction "cat <r1<r2<r3" "cat <m1<m2<m3"
+redirectfunction "cat '<r1<r2<r3'" "cat '<m1<m2<m3'"
+redirectfunction "cat \"<r1<r2<r3\"" "cat \"<m1<m2<m3\""
+redirectfunction "cat <  r1  <  r2  <  r3" "cat <  m1  <  m2  <  m3"
+redirectfunction "cat < r1 < r2 < r3" "cat < m1 < m2 < m3"
+redirectfunction "cat < 'r1' < 'r2' < 'r3'" "cat < 'm1' < 'm2' < 'm3'"
+redirectfunction "cat < \"r1\" < \"r2\" < \"r3\"" "cat < \"m1\" < \"m2\" < \"m3\""
+redirectfunction "< r1 cat < r2 < r3" "< m1 cat < m2 < m3"
+redirectfunction "< r1 < r2 cat < r3" "< m1 < m2 cat < m3"
+redirectfunction "< r1 < r2 < r3 cat" "< m1 < m2 < m3 cat"
 
 # << heredoc
 printf "\e[1;36mTesting << heredoc \e[0;00m\n"
 testfunction "<<"
 testfunction "cat << EOF
+t e s t
+EOF
+"
+testfunction "cat << 'EOF'
+t e s t
+EOF
+"
+testfunction "cat << \"EOF\"
+t e s t
+EOF
+"
+testfunction "cat '<< EOF'
+t e s t
+EOF
+"
+testfunction "cat \"<< EOF\"
 t e s t
 EOF
 "
@@ -878,6 +959,22 @@ t e s t
 EOF
 "
 testfunction "echo << EOF
+t e s t
+EOF
+"
+testfunction "echo << 'EOF'
+t e s t
+EOF
+"
+testfunction "echo << \"EOF\"
+t e s t
+EOF
+"
+testfunction "echo '<< EOF'
+t e s t
+EOF
+"
+testfunction "echo \"<< EOF\"
 t e s t
 EOF
 "
@@ -912,14 +1009,13 @@ redirectfunction "echo hey >< r1" "echo hey >< r1"
 printf "\e[1;36mTesting ; command end\e[0;00m\n"
 testfunction ";"
 testfunction "echo hello ; echo 'hello'"
+testfunction "echo 'hello ; echo 'hello''"
+testfunction "echo \"hello ; echo 'hello'\""
+testfunction "echo 'hello ; echo 'hello''"
+testfunction "'echo hello ; echo hello'"
+testfunction "\"echo hello ; echo hello\""
 testfunction "echo hello ;echo 'hello'"
 testfunction "echo hello;echo 'hello'"
-testfunction "echo hello;;echo 'hello'"
-testfunction "echo hello; ;echo 'hello'"
-testfunction "echo hello&&;echo 'hello'"
-testfunction "echo hello&& ;echo 'hello'"
-testfunction "echo hello||;echo 'hello'"
-testfunction "echo hello|| ;echo 'hello'"
 testfunction "sleep 1 ; sleep 1 ; sleep 1"
 
 # && and operator
@@ -928,10 +1024,6 @@ testfunction "&&"
 testfunction "echo hello && echo 'hello'"
 testfunction "echo hello &&echo 'hello'"
 testfunction "echo hello&&echo 'hello'"
-testfunction "echo hello&&&echo 'hello'"
-testfunction "echo hello&& &echo 'hello'"
-testfunction "echo hello&&;echo 'hello'"
-testfunction "echo hello&& ;echo 'hello'"
 testfunction "sleep 1 && sleep 1 && sleep 1"
 
 # || or operator
@@ -940,10 +1032,6 @@ testfunction "||"
 testfunction "echo hello || echo 'hello'"
 testfunction "echo hello ||echo 'hello'"
 testfunction "echo hello||echo 'hello'"
-testfunction "echo hello|||echo 'hello'"
-testfunction "echo hello|| &echo 'hello'"
-testfunction "echo hello||;echo 'hello'"
-testfunction "echo hello|| ;echo 'hello'"
 testfunction "sleep 1 || sleep 1 || sleep 1"
 
 # && || operator combination
@@ -1344,7 +1432,26 @@ testfunction "printf e\"\$(echo hallo)\""
 printf "\e[1;36mTesting Syntax errors \e[0;00m\n"
 testfunction "<>"
 testfunction "><"
+testfunction "echo hello;;echo 'hello'"
+testfunction "echo hello; ;echo 'hello'"
+testfunction "echo hello|||echo 'hello'"
+testfunction "echo hello|| |echo 'hello'"
+testfunction "echo hello| ||echo 'hello'"
+testfunction "echo hello| | |echo 'hello'"
+testfunction "echo hello||;echo 'hello'"
+testfunction "echo hello|| ;echo 'hello'"
+testfunction "echo hello|| &echo 'hello'"
+testfunction "echo hello||&echo 'hello'"
+testfunction "echo hello&&&echo 'hello'"
+testfunction "echo hello&& &echo 'hello'"
+testfunction "echo hello& &&echo 'hello'"
+testfunction "echo hello& & &echo 'hello'"
+testfunction "echo hello&&;echo 'hello'"
+testfunction "echo hello&& ;echo 'hello'"
+testfunction "echo hello&&|echo 'hello'"
+testfunction "echo hello&& |echo 'hello'"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO's and $PASSES OK's\e[0;00m\n"
+rm *m[123]*
 exit $ERRORS

@@ -6,6 +6,8 @@ is a lightweight implementation of bash
 ### Tester
 - we should add a lot of bad syntax to make sure we won't segfault during evaluation.
 - we should test everything with quotes single and double
+- we should test everything without and with extra spaces
+- we should test everything with empty "" arguments
 - we can add redirection to everything to make sure that works fine
 - we should test everything in a fork too
 - we should test everything in a second or third command too
