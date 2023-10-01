@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 10:16:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 03:44:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 17:16:38 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_parseredirectin(t_cmds *cmd)
 	int		k;
 	char	*begin;
 	char	*rest;
+	char	quote;
 
 	begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	cmd->infile = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
@@ -69,11 +70,26 @@ void	ft_parseredirectin(t_cmds *cmd)
 			while (cmd->pipeline[i] && cmd->pipeline[i] == ' ')
 				i++;
 			j = 0;
-			while (cmd->pipeline[i] && cmd->pipeline[i] != ' ')
+			while (cmd->pipeline[i] && cmd->pipeline[i] != ' ' && cmd->pipeline[i] != '<')
 			{
-				cmd->infile[k][j] = cmd->pipeline[i];
-				i++;
-				j++;
+				if (cmd->pipeline[i] == '\'' || cmd->pipeline[i] == '\"')
+				{
+					quote = cmd->pipeline[i];
+					i++;
+					while (cmd->pipeline[i] != quote)
+					{
+						cmd->infile[k][j] = cmd->pipeline[i];
+						i++;
+						j++;
+					}
+					i++;
+				}
+				else
+				{
+					cmd->infile[k][j] = cmd->pipeline[i];
+					i++;
+					j++;
+				}
 			}
 			cmd->infile[k][j] = '\0';
 			while (cmd->pipeline[i] && cmd->pipeline[i] == ' ')
@@ -101,6 +117,7 @@ void	ft_parseredirectout(t_cmds *cmd)
 	int		k;
 	char	*begin;
 	char	*rest;
+	char	quote;
 
 	begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	cmd->outfile = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
@@ -161,11 +178,26 @@ void	ft_parseredirectout(t_cmds *cmd)
 			while (cmd->pipeline[i] && cmd->pipeline[i] == ' ')
 				i++;
 			j = 0;
-			while (cmd->pipeline[i] && cmd->pipeline[i] != ' ')
+			while (cmd->pipeline[i] && cmd->pipeline[i] != ' ' && cmd->pipeline[i] != '>')
 			{
-				cmd->outfile[k][j] = cmd->pipeline[i];
-				i++;
-				j++;
+				if (cmd->pipeline[i] == '\'' || cmd->pipeline[i] == '\"')
+				{
+					quote = cmd->pipeline[i];
+					i++;
+					while (cmd->pipeline[i] != quote)
+					{
+						cmd->outfile[k][j] = cmd->pipeline[i];
+						i++;
+						j++;
+					}
+					i++;
+				}
+				else
+				{
+					cmd->outfile[k][j] = cmd->pipeline[i];
+					i++;
+					j++;
+				}
 			}
 			cmd->outfile[k][j] = '\0';
 			while (cmd->pipeline[i] && cmd->pipeline[i] == ' ')

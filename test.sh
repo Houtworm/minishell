@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/01 09:03:27 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/01 16:35:39 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1326,7 +1326,7 @@ testfunction "ls [so][rb][cj]/builtin/ecio.[rb]"
 testfunction "ls s[r]c/m[asds][idf]n/m[asdf][ijn]n.c"
 testfunction "ls g[e]t[n]e[x]t[l]i[n]e"
 testfunction "ls g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e"
-testfunction "ls g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n][x]t[l]i[n]e"
+testfunction "ls g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e"
 testfunction "ls g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e/../g[]et[]ne[x]t[l]i[n]e"
 testfunction "ls l[i]b[f]t"
 testfunction "ls l[i]b[f]t/[]src"
@@ -1516,6 +1516,7 @@ testfunction "ls g[e]t?e*t[l]i?e*/[s]*?*/*?[co]"
 # # comments
 printf "\e[1;36mTesting # comments\e[0;00m\n"
 testfunction "#"
+testfunction "# echo hallo"
 testfunction "printf \"hallo hallo\" #&& echo hallo"
 testfunction "printf \"hallo hallo\"# && echo hallo"
 testfunction "printf \"hallo hallo\"#&& echo hallo"
@@ -1543,6 +1544,7 @@ printf "\e[1;36mTesting \`\` backticks\e[0;00m\n"
 testfunction "\`\`"
 testfunction "echo \`\`"
 testfunction "printf \`\`"
+testfunction "printf \`\` bla"
 testfunction "printf \`echo hallo\`"
 testfunction "printf \`  echo hallo\`"
 testfunction "printf \`echo hallo  \`"
@@ -1567,6 +1569,7 @@ printf "\e[1;36mTesting \$() command substitution \e[0;00m\n"
 testfunction "\$()"
 testfunction "echo \$()"
 testfunction "printf \$()"
+testfunction "printf \$() bla"
 testfunction "printf \$(echo hallo)"
 testfunction "printf \$(  echo hallo)"
 testfunction "printf \$(echo hallo  )"

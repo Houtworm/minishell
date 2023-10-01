@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:24 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/30 00:22:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 16:22:34 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 		while ((dirents = readdir(dir)))
 		{
 			/*printf("starting in recursivematchsub with the following path %s trying to match %s\n", fullpath, dirents->d_name);*/
-			if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
+			if ((globs->subdir[i][1] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][1] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 			{
 				j = 0;
 				while (dirents->d_name[j] && dirents->d_name[j] == globs->subdir[i][j + 1]) //just skip over the non globs
