@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/01 08:53:37 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/01 09:03:27 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1272,6 +1272,9 @@ testfunction "ls *r*"
 testfunction "ls *rc/b*"
 testfunction "ls ../*/*r*/b*i*"
 testfunction "ls g*t*e*t*i*e"
+testfunction "ls g*t*e*t*i*e/../g*t*e*t*i*e"
+testfunction "ls g*t*e*t*i*e/../g*t*e*t*i*e/../g*t*e*t*i*e"
+testfunction "ls g*t*e*t*i*e/../g*t*e*t*i*e/../**g**t**e**t**i**e**"
 testfunction "ls *e*n*x*l*n*"
 testfunction "ls ../*/src/*/*.c"
 testfunction "ls ../*/src/doesnotexist/echo.c"
@@ -1297,6 +1300,8 @@ testfunction "ls ???????"
 testfunction "ls ?r?"
 testfunction "ls ?rc/???????"
 testfunction "ls g?t?e?t?i?e"
+testfunction "ls g?t?e?t?i?e/../g?t?e?t?i?e"
+testfunction "ls g?t?e?t?i?e/../g?t?e?t?i?e/../g?t?e?t?i?e"
 testfunction "ls ?e?n?x?l?n?"
 testfunction "ls ???/??iltin/echo.?"
 testfunction "ls ???/??iltin/ekho.?"
@@ -1320,7 +1325,13 @@ testfunction "ls [so][rb][cj]/builtin/echo.[rb]"
 testfunction "ls [so][rb][cj]/builtin/ecio.[rb]"
 testfunction "ls s[r]c/m[asds][idf]n/m[asdf][ijn]n.c"
 testfunction "ls g[e]t[n]e[x]t[l]i[n]e"
+testfunction "ls g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e"
+testfunction "ls g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n][x]t[l]i[n]e"
+testfunction "ls g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e/../g[]et[]ne[x]t[l]i[n]e"
 testfunction "ls l[i]b[f]t"
+testfunction "ls l[i]b[f]t/[]src"
+testfunction "ls l[i]b[f]t/sr[]c"
+testfunction "ls l[i]b[f]t/src[]"
 testfunction "ls src[]"
 testfunction "ls []src"
 testfunction "ls sr[]c"
