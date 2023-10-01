@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/30 22:50:21 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 02:11:24 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	if (debugmode)
 		shell->debug = 1;
 	close(shell->envpfd);
-	read_history(shell->historyfile);
+	ft_readhistory(shell->historyfile);
 	return (shell);
 }

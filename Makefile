@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/01 01:00:00 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/01 02:07:32 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC		=src/main/main.c\
 		 src/main/script.c\
 		 src/main/signal.c\
 		 src/main/mshrc.c\
+		 src/main/history.c\
 		 src/main/insults.c\
 		 src/parse/parse.c\
 		 src/parse/parse_utils.c\
