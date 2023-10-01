@@ -14,7 +14,6 @@ is a lightweight implementation of bash
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
 - globbing is removing quotes...
 - quotes in quotes have some issues here and there
-- heredoc should not print "minishell heredoc>" if there is input waiting already
 - heredoc should parse all but only input the last heredoc file
 ### Exec
 - forks should not run if there is a mismatching condition before in the pipeline
@@ -41,13 +40,8 @@ is a lightweight implementation of bash
 ## Bugs
 #### crashes when giving proper memory and a lot of arguments
 #### crashes when giving a very very long pipeline
-#### Overwrites line when typing past the terminal width at first command
-#### adds characters to the line randomly at first command
 #### cat | cat | cat | ls // should exit when enter is pressed 3 times
-#### Test the signals from prompt and from cat
----
-## Extras
-- //// is the same as / or /////////////////////////////
+#### having multiple //// in a path causes issues in some cases
 
 ---
 ### Cleanup
