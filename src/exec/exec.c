@@ -6,13 +6,13 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/01 03:55:43 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 04:03:29 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_executeredirect(char **outfile, int *append, int forknbr)
+void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavior
 {
 	int		fdread;
 	int		fdo;
@@ -44,7 +44,6 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr)
 		ret = get_next_line(fdread, &line);
 		if (!line)
 			ft_errorexit("Error allocating memory", "malloc", 1);
-		/*if (line[0] != '\0')*/
 		ft_putstr_fd(line, fdo);
 		free(line);
 	}
@@ -52,6 +51,41 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr)
 	close(fdread);
 	free(outtmp);
 }
+
+/*void	ft_executeredirect(char **outfile, int *append, int forknbr)*/ // zsh behaviour
+/*{*/
+	/*int		fdread;*/
+	/*int		fdo;*/
+	/*int		i;*/
+	/*char	*line;*/
+	/*char	*outtmp;*/
+	/*int		ret;*/
+
+	/*outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", ft_itoa(forknbr), ".tmp");*/
+	/*i = 0;*/
+	/*while (outfile[i])*/
+	/*{*/
+		/*fdread = open(outtmp, O_RDONLY);*/
+		/*if (append[i])*/
+			/*fdo = open(outfile[i], O_RDWR | O_CREAT | O_APPEND, 0666);*/
+		/*else*/
+			/*fdo = open(outfile[i], O_RDWR | O_CREAT | O_TRUNC, 0666);*/
+		/*ret = 1;*/
+		/*while (ret)*/
+		/*{*/
+			/*ret = get_next_line(fdread, &line);*/
+			/*if (!line)*/
+				/*ft_errorexit("Error allocating memory", "malloc", 1);*/
+			/*if (line[0] != '\0')*/
+				/*ft_putendl_fd(line, fdo);*/
+			/*free(line);*/
+		/*}*/
+		/*close (fdo);*/
+		/*close(fdread);*/
+		/*i++;*/
+	/*}*/
+	/*free(outtmp);*/
+/*}*/
 
 int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
