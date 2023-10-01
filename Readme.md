@@ -91,6 +91,7 @@ is a lightweight implementation of bash
 - ```Match history```
 - ```-d debug mode```
 - ```-c command argument```
+- ```multi redirection a la ZSH```
 - ```Handle SHLVL```
 - ```handle script as argument```
 - ```handling non closed quotes```
@@ -112,7 +113,6 @@ is a lightweight implementation of bash
 - ```z builtin with unique directory and advanced search```
 - ```which builtin```
 - ```exec builtin```
-- ```improved redirection ala ZSH?```
 
 ---
 ## Usage
