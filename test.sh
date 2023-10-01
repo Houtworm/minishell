@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/01 08:40:00 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/01 08:44:32 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1567,5 +1567,5 @@ testfunction "echo hello&&|echo 'hello'"
 testfunction "echo hello&& |echo 'hello'"
 
 # Shutdown
-printf "\e[1;36mThe tester found $ERRORS KO's and $PASSES OK's\e[0;00m\n"
+printf "\e[1;36mThe tester found $ERRORS KO's and $PASSES OK's out of $(($ERRORS+$PASSES)) tests\e[0;00m\n"
 exit $ERRORS
