@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 17:58:55 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 18:30:43 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		ft_nextsubwildcard(t_globs *globs, int i, int j, int k)
 		/*printf("ft_nextsubwildcard end of glob\n");*/
 		return (1); // this one is a match
 	}
+	/*printf("ft_nextsubwildcard after skip * with j: %d k: %d, dname: %c glob: %c\n", j, k, globs->tempsubdir[i][k], globs->subdir[i][j]);*/
 	tempj = j;
 	while (globs->tempsubdir[i][k] && globs->subdir[i][j]) // while there are characters in filename 
 	{
@@ -59,15 +60,20 @@ int		ft_nextsubwildcard(t_globs *globs, int i, int j, int k)
 			}
 			else if (globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
 			{
-				/*printf("ft_nextsubwildcard found glob going into recursion\n");*/
+				/*printf("ft_nextsubwildcard found %c going into recursion\n", globs->subdir[i][j]);*/
 				return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
 			}
 			else
 				j = tempj;
 		}
+		else if (globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
+		{
+			/*printf("ft_nextsubwildcard found %c going into recursion\n", globs->subdir[i][j]);*/
+			return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
+		}
 		k++;
 	}
-	/*printf("ft_nextsubwildcard found glob going into recursion\n");*/
+	/*printf("ft_nextsubwildcard return 0 j: %d, k: %d\n", j, k);*/
 	return (0);
 }
 
