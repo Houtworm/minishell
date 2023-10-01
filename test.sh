@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/01 03:53:27 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/01 04:18:15 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -328,7 +328,7 @@ redirectfunction()
 		printf "\e[1;32mreturn OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	diff r1 m1 > /dev/null
+	diff r1 m1
 	if [ $? -ne 0 ]
 	then
 		printf "\n\e[1;31mKO file 1 doesn't match with command ${1} \nreal: $(cat r1 2> /dev/null)\nmini: $(cat m1 2> /dev/null)\e[0;00m\n"
@@ -337,7 +337,7 @@ redirectfunction()
 		printf "\e[1;32mFile 1 OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	diff r2 m2 > /dev/null
+	diff r2 m2
 	if [ $? -ne 0 ]
 	then
 		printf "\n\e[1;31mKO file 2 doesn't match with command ${1} \nreal: $(cat r2 2> /dev/null)\nmini: $(cat m2 2> /dev/null)\e[0;00m\n"
@@ -346,7 +346,7 @@ redirectfunction()
 		printf "\e[1;32mFile 2 OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	diff r3 m3 > /dev/null
+	diff r3 m3
 	if [ $? -ne 0 ]
 	then
 		printf "\n\e[1;31mKO file 3 doesn't match with command ${1} \nreal: $(cat r3 2> /dev/null)\nmini: $(cat m3 2> /dev/null)\e[0;00m\n"

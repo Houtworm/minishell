@@ -4,7 +4,13 @@ is a lightweight implementation of bash
 ---
 ## Todo
 ### Tester
-- Add edge cases to the tester, anything we can think of, good or bad commands, anything that might make it segfault
+- we should add a lot of bad syntax to make sure we won't segfault during evaluation.
+- we should test everything with quotes single and double
+- we can add redirection to everything to make sure that works fine
+- we should test everything in a fork too
+- we should test everything in a second or third command too
+- globbing must be tested in deeper directories
+- test everything with multiple //// in a path
 ### Environment
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 ### Parser
@@ -18,6 +24,7 @@ is a lightweight implementation of bash
 ### Exec
 - forks should not run if there is a mismatching condition before in the pipeline
 - somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
+- cat | cat | cat | ls // should exit when enter is pressed 3 times
 - push & to the background
 ### Builtins
 #### cd
@@ -37,19 +44,15 @@ is a lightweight implementation of bash
 - should handle files properly
 
 ---
-## Bugs
-#### crashes when giving proper memory and a lot of arguments
-#### crashes when giving a very very long pipeline
-#### cat | cat | cat | ls // should exit when enter is pressed 3 times
-#### having multiple //// in a path causes issues in some cases
-
----
 ### Cleanup
 - Check for forbidden functions
 - look for optimizations anywhere in the code
 - No memory leaks found in any testcase
 - Break up code into digestable functions
 - Norminette
+- Push to 42 git
+- double check
+- close project
 - evaluation
 
 ---

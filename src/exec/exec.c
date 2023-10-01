@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/01 04:03:29 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 04:22:49 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 		ret = get_next_line(fdread, &line);
 		if (!line)
 			ft_errorexit("Error allocating memory", "malloc", 1);
-		ft_putstr_fd(line, fdo);
+		if (ret == 0)
+			ft_putstr_fd(line, fdo);
+		else
+			ft_putendl_fd(line, fdo);
 		free(line);
 	}
 	close (fdo);
@@ -76,7 +79,9 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 			/*ret = get_next_line(fdread, &line);*/
 			/*if (!line)*/
 				/*ft_errorexit("Error allocating memory", "malloc", 1);*/
-			/*if (line[0] != '\0')*/
+			/*if (ret == 0)*/
+				/*ft_putstr_fd(line, fdo);*/
+			/*else*/
 				/*ft_putendl_fd(line, fdo);*/
 			/*free(line);*/
 		/*}*/
