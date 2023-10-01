@@ -6,19 +6,19 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/01 02:06:31 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 02:10:46 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 02:18:05 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_addhistory(char *line, char *file)
+void	ft_writehistory(char *line, char *file)
 {
 		int		histfd;
 		int		tempfd;
 		char	*gnl;
 
-		add_history(line);
+		rl_clear_history();
 		histfd = open(file, O_RDONLY);
 		tempfd = open("/tmp/minishellhistory.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
 		while (get_next_line(histfd, &gnl) > 0)
@@ -39,6 +39,7 @@ void	ft_addhistory(char *line, char *file)
 		}
 		close(tempfd);
 		close(histfd);
+		ft_readhistory(file);
 }
 
 void	ft_readhistory(char *file)

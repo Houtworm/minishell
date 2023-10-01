@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/01 02:09:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 02:18:38 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int			ft_sighook(void);
 // mshrc
 t_alias		*ft_parsemshrc(char **envp);
 // history
-void		ft_addhistory(char *line, char *file);
+void		ft_writehistory(char *line, char *file);
 void		ft_readhistory(char *file);
 // insults
 void		ft_printinsult(t_shell *shell);

@@ -91,7 +91,8 @@ is a lightweight implementation of bash
 - ```execution time in prompt```
 - ```return code in prompt```
 - ```History file```
-- ```Unique line History file```
+- ```Unique history```
+- ```Match history```
 - ```-d debug mode```
 - ```-c command argument```
 - ```Handle SHLVL```
