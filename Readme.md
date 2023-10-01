@@ -3,10 +3,11 @@ is a lightweight implementation of bash
 
 ---
 ## Todo
-#### Environment
+### Tester
+- Add edge cases to the tester, anything we can think of, good or bad commands, anything that might make it segfault
+### Environment
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
-
-#### Parser
+### Parser
 - split not quote is not null terminating properly? look in ft_chdir for an example
 - maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
 - Syntax checking can be improved a lot
@@ -15,12 +16,10 @@ is a lightweight implementation of bash
 - quotes in quotes have some issues here and there
 - heredoc should not print "minishell heredoc>" if there is input waiting already
 - heredoc should parse all but only input the last heredoc file
-
-#### Exec
+### Exec
 - forks should not run if there is a mismatching condition before in the pipeline
 - somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
 - push & to the background
-
 ### Builtins
 #### cd
 - cd - is having issues if oldpwd is not set.
@@ -42,16 +41,17 @@ is a lightweight implementation of bash
 ## Bugs
 #### crashes when giving proper memory and a lot of arguments
 #### crashes when giving a very very long pipeline
-#### Overwrites line when typing past the terminal width at first command // maybe just write that it can't find or parsed ~/.mshrc ?
+#### Overwrites line when typing past the terminal width at first command
+#### adds characters to the line randomly at first command
 #### cat | cat | cat | ls // should exit when enter is pressed 3 times
 #### Test the signals from prompt and from cat
 ---
 ## Extras
 - //// is the same as / or /////////////////////////////
-- Make the -c command read multiple lines so the tester will work with those
 
 ---
 ### Cleanup
+- Check for forbidden functions
 - look for optimizations anywhere in the code
 - No memory leaks found in any testcase
 - Break up code into digestable functions
@@ -102,8 +102,8 @@ is a lightweight implementation of bash
 - ```insults you with syntax errors```
 - ```points to syntax errors on line```
 - ```parsing ~/.mshrc```
-- ```parsing $(command)```
-- ```parsing `command` ```
+- ```parsing $()```
+- ```parsing `` ```
 - ```parsing ;```
 - ```parsing ?```
 - ```parsing ~```
