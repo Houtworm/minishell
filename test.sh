@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/01 04:18:15 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/01 05:54:03 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -328,7 +328,7 @@ redirectfunction()
 		printf "\e[1;32mreturn OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	diff r1 m1
+	diff r1 m1 > /dev/null
 	if [ $? -ne 0 ]
 	then
 		printf "\n\e[1;31mKO file 1 doesn't match with command ${1} \nreal: $(cat r1 2> /dev/null)\nmini: $(cat m1 2> /dev/null)\e[0;00m\n"
@@ -337,7 +337,7 @@ redirectfunction()
 		printf "\e[1;32mFile 1 OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	diff r2 m2
+	diff r2 m2 > /dev/null
 	if [ $? -ne 0 ]
 	then
 		printf "\n\e[1;31mKO file 2 doesn't match with command ${1} \nreal: $(cat r2 2> /dev/null)\nmini: $(cat m2 2> /dev/null)\e[0;00m\n"
@@ -346,7 +346,7 @@ redirectfunction()
 		printf "\e[1;32mFile 2 OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	diff r3 m3
+	diff r3 m3 > /dev/null
 	if [ $? -ne 0 ]
 	then
 		printf "\n\e[1;31mKO file 3 doesn't match with command ${1} \nreal: $(cat r3 2> /dev/null)\nmini: $(cat m3 2> /dev/null)\e[0;00m\n"
@@ -495,14 +495,32 @@ testfunction ""
 testfunction "\"\""
 testfunction "\'\'"
 testfunction "!!"
+testfunction "\'!!\'"
+testfunction "\"!!\""
 testfunction "~"
+testfunction "\'~\'"
+testfunction "\"~\""
 testfunction ".."
+testfunction "\'..\'"
+testfunction "\"..\""
 testfunction "/home"
+testfunction "'/home'"
+testfunction "\"/home\""
 testfunction "/nonexist"
+testfunction "'/nonexist'"
+testfunction "\"/nonexist\""
 testfunction "src"
+testfunction "'src'"
+testfunction "\"src\""
 testfunction "notexist"
+testfunction "\'notexist\'"
+testfunction "\"notexist\""
 testfunction "./notexist"
+testfunction "'./notexist'"
+testfunction "\"./notexist\""
 testfunction "cat notexist"
+testfunction "'cat notexist'"
+testfunction "\"cat notexist\""
 
 # permissions
 printf "\e[1;36mTesting permissions\e[0;00m\n"
@@ -597,6 +615,8 @@ testfunction "echo"
 testfunction "echo hallo"
 testfunction 'echo "hallo"'
 testfunction "echo 'hallo'"
+testfunction 'echo "hallo" hallo'
+testfunction "echo 'hallo' hallo"
 testfunction "echo -n hallo"
 testfunction "echo -nnn hallo"
 testfunction "echo -nnm hallo"
@@ -622,12 +642,32 @@ testfunction "echo \"hey\"\"hey\""
  # exec
 printf "\e[1;36mTesting exec\e[0;00m\n"
 testfunction "exec bla"
+testfunction "exec \"bla\""
+testfunction "exec 'bla'"
 testfunction "exec cat"
+testfunction "exec 'cat'"
+testfunction "exec \"cat\""
 testfunction "exec ls"
+testfunction "exec 'ls'"
+testfunction "exec \"ls\""
 testfunction "exec exit"
+testfunction "exec 'exit'"
+testfunction "exec \"exit\""
 testfunction "exec exit 123"
+testfunction "exec 'exit' 123"
+testfunction "exec 'exit 123'"
+testfunction "exec \"exit\" 123"
+testfunction "exec \"exit 123\""
 testfunction "exec cat -r"
+testfunction "exec 'cat' -r"
+testfunction "exec \"cat\" -r"
+testfunction "exec 'cat -r'"
+testfunction "exec \"cat -r\""
 testfunction "exec echo hallo"
+testfunction "exec 'echo' hallo"
+testfunction "exec \"echo\" hallo"
+testfunction "exec 'echo hallo'"
+testfunction "exec \"echo hallo\""
 
  # variable
 printf "\e[1;36mTesting \$VAR variable\e[0;00m\n"

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/01 00:42:01 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/01 05:37:16 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,18 @@ char	*ft_parsetilde(char *line, t_shell *shell)
 				i++;
 				j++;
 				while (line[i] && line[i] != '\'')
+				{
+					begin[j] = line[i];
+					i++;
+					j++;
+				}
+			}
+			else if (line[i] == '\"')
+			{
+				begin[j] = line[i];
+				i++;
+				j++;
+				while (line[i] && line[i] != '\"')
 				{
 					begin[j] = line[i];
 					i++;
