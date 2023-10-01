@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 21:48:09 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 01:41:24 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	int	status;
 	int	fd;
 	char	*line;
-	t_builtin	bui[12] = {
+	t_builtin	bui[13] = {
 	{"alias\0", ft_echo},
 	{"echo\0", ft_echo},
 	{"env\0", ft_env},
 	{"export\0", ft_export},
 	{"unset\0", ft_unset},
+	{"pwd\0", ft_pwd},
 	{".\0", ft_period},
 	{"/\0", ft_period},
 	{"which\0", ft_which},
@@ -42,7 +43,7 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	};
 
 	i = 0;
-	while (i < 8)
+	while (i < 9)
 	{
 		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare)))
 		{
@@ -59,7 +60,7 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 					{
 						status = get_next_line(fd, &line);
 						if (line[0] && ft_parseline(line, shell))
-							return (2);
+							exit (2);
 						if (status > 0)
 							shell->code = ft_forktheforks(shell);
 						free(line);
@@ -74,7 +75,7 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		}
 		i++;
 	}
-	while (i < 12)
+	while (i < 13)
 	{
 		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare) + 1))
 		{
