@@ -11,7 +11,6 @@ is a lightweight implementation of bash
 - we can add redirection to everything to make sure that works fine
 - we should test everything in a fork too
 - we should test everything in a second or third command too
-- globbing must be tested in deeper directories
 - test everything with multiple //// in a path
 ### Environment
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
