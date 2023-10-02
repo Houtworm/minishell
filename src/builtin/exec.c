@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/01 00:57:08 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 01:29:00 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 15:48:58 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,5 @@ int	ft_exec(t_cmds cmds)
 	if (status)
 		return (status);
 	execve(cmds.absolute, cmds.arguments, cmds.envp);
-	exit(-1);
+	exit (ft_errorexit("command not found", cmds.absolute, 127));
 }
