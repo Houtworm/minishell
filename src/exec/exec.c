@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/02 01:26:11 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 02:41:57 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,9 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		{
 			signal(SIGQUIT, ft_sighandler);
 			ft_dupmachine(cmds, cmdnbr, forknbr, shell);
+			printf("%s\n", cmds.absolute);
 			execve(cmds.absolute, cmds.arguments, cmds.envp);
-			ft_errorexit("command not found", cmds.absolute, 0);
-			exit (127);
+			ft_errorexit("command not found", cmds.absolute, 127);
 		}
 		waitpid(cmds.pid, &status, 0);
 		cmds.code = WEXITSTATUS(status);
