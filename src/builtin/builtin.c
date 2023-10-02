@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/02 02:52:42 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 02:56:30 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 					}
 					exit(shell->code);
 				}
-				if (ft_strchr(cmds.absolute, ' '))
+				if (ft_strchr(cmds.absolute, ' ')) // hacky solution, programs can actually contain a ' ' in their name
 				{
 					ft_errorexit("command not found", bui[i].compare, 127);
 				}
