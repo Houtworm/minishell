@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/02 17:10:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 17:30:13 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 					{
 						status = get_next_line(fd, &line);
 						if (status <= 0)
-							return (shell->code);
+							exit (shell->code);
 						if (ft_parseline(line, shell))
 							exit (2);
 						if (status > 0)

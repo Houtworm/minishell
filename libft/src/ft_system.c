@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/20 16:39:22 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/02 16:39:14 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 17:32:26 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_system(char *command, char **envp)
 	free(command);
 	command = ft_calloc(8 * 2000, 1);
 	fd = open("/tmp/ft_systemtmpfile", O_RDONLY);
-	pid = read(fd, command, 2000);
+	pid = read(fd, command, 1000);
 	close(fd);
 	command[pid - 1] = '\0';
 	ft_frearr(paths);
