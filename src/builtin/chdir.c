@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 17:21:02 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/02 03:10:08 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 03:21:08 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_chdir(t_cmds cmds)
 
 	cwd = malloc(512);
 	getcwd(cwd, 512);
-	/*if (cmds.arguments[2]) // Edge case in split_not_quote? check the tester..*/
+	/*if (cmds.arguments[2]) // Edge case in split_not_quote? check the tester.. with these lines enabled*/
 		/*if (ft_errorexit("too many arguments", "cd", 0))*/
 			/*return (1);*/
 	if (!ft_strncmp(cmds.arguments[1],  "~\0", 2) || !cmds.arguments[1])
