@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   tools.c                                         |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/08/27 09:00:10 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/12 14:57:34 by houtworm     \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   tools.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: houtworm <codam@houtworm.net>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/27 09:00:10 by houtworm      #+#    #+#                 */
+/*   Updated: 2023/10/02 23:05:20 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@ char	**ft_checkarg(char	**cmd, int count)
 		cmd = tmp;
 	}
 	cmd = ft_remove_quote(cmd, count);
+	if (ft_strchr(cmd[0], ' '))
+		ft_errorexit("command not found", cmd[0], 127);
 	return (cmd);
 }

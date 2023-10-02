@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                         |o_o || |                 #
+#    test.sh                                            :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/02 15:40:27 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/02 23:02:28 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -915,15 +915,15 @@ testfunction "cd ../../../../../../../../../.."
 testfunction "cd ../../../../../../../../../.. && pwd"
 testfunction "cd ."
 testfunction "cd . && pwd"
-testfunction "cd ~"
+testfunction "cd ~" 
 testfunction "cd ~ && pwd"
 testfunction "unset HOME && cd ~"
 testfunction "unset HOME && cd ~ && pwd"
 testfunction "export HOME=/home/user42 && cd ~"
 testfunction "export HOME=/home/user42 && cd ~ && pwd"
 testfunction "cd -"
-testfunction "cd - && pwd"
-testfunction "cd src && cd -"
+testfunction "cd - && pwd" 
+testfunction "cd src && cd -" 
 testfunction "cd src && cd - && pwd"
 testfunction "cd src"
 testfunction "cd src && pwd"

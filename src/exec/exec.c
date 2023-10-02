@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                          |o_o || |                */
+/*   exec.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/02 15:06:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 21:14:12 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,6 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
 		return (cmds.lastcode);
 	}
-	// ft_putendl_fd("execute", 2);
-
 	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);
 	if (cmds.code == -1111)
 	{

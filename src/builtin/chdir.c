@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                    .--.  _                 */
-/*   chdir.c                                         |o_o || |                */
-/*                                                   |:_/ || |_ _   ___  __   */
-/*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
-/*                                                 (|     | )|_| |_| |>  <    */
-/*   Created: 2023/05/18 17:21:02 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/02 03:21:08 by houtworm     \___)=(___/                 */
+/*                                                        ::::::::            */
+/*   chdir.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: djonker <djonker@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
+/*   Updated: 2023/10/02 23:01:47 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int	ft_chdir(t_cmds cmds)
 
 	cwd = malloc(512);
 	getcwd(cwd, 512);
-	/*if (cmds.arguments[2]) // Edge case in split_not_quote? check the tester.. with these lines enabled*/
-		/*if (ft_errorexit("too many arguments", "cd", 0))*/
-			/*return (1);*/
+	// if (cmds.arguments[2]) // Edge case in split_not_quote? check the tester.. with these lines enabled*/
+	// 	if (ft_errorexit("too many arguments", "cd", 0))
+	// 		return (1);
 	if (!ft_strncmp(cmds.arguments[1],  "~\0", 2) || !cmds.arguments[1])
 		line = ft_gethome(cmds.envp);
 	else if (!ft_strncmp(cmds.arguments[1],  "-\0", 2))
