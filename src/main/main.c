@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/01 02:53:06 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 14:15:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_mainloop(t_shell *shell)
 	int		ret;
 
 	shell->stop = 0;
-	shell->envp = ft_fdtocharpp(shell->envpfd);
+	/*shell->envp = ft_fdtocharpp(shell->envpfd);*/
 	ft_printprompt(shell, shell->envp);
 	line = readline("$ "); // ❯ causes issues :(
 	if (!line)

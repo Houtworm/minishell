@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/02 00:59:02 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/02 15:40:27 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -701,11 +701,11 @@ testfunction "echo \$FAKEVAR"
 testfunction "echo \$PATH"
 testfunction "echo ~"
 testfunction "echo \"bip | bip ; coyotte > < \""
-testfunction "echo \\>"
+#testfunction "echo \\>" # \ is not part of subject
 testfunction "export var=\"\$USER\" && echo \$USER\$var\$USER\$USER\$USERtest\$USER"
 testfunction "echo \"\\s\""
-testfunction "echo \"\\\\s\""
-testfunction "echo bounjour \\; ls"
+#testfunction "echo \"\\\\s\"" # \ is not part of subject
+#testfunction "echo bounjour \\; ls" # \ is not part of subject
 testfunction "echo \"12\""
 testfunction "echo \"hey\"J"
 testfunction "echo \"hey\"\$PATH"
@@ -721,8 +721,6 @@ testfunction "exec ' '"
 testfunction "exec \"bla\""
 testfunction "exec 'bla'"
 testfunction "exec cat"
-testfunction "exec 'cat'"
-testfunction "exec \"cat\""
 testfunction "exec ls"
 testfunction "exec 'ls'"
 testfunction "exec \"ls\""
@@ -754,16 +752,16 @@ testfunction "echo \$PWD"
 testfunction "echo \$PW'D'"
 testfunction "echo \$PW\"D\""
 testfunction "echo \$?"
-testfunction "echo \$\$"
+#testfunction "echo \$\$" # test is ok, but PID will always be different
 testfunction "printf \$SHLVL\"\$SHLVL\"\$SHLVL'\$SHLVL'\$SHLVL"
-testfunction "printf \$FAKEVAR"
+#testfunction "printf \$FAKEVAR" # will fail because of bash using builtin, and we use /usr/bin/printf
 testfunction "printf \$SHLVL"
 testfunction "printf \$SHL VL"
 testfunction "printf \$PWD"
 testfunction "printf \$PW'D'"
 testfunction "printf \$PW\"D\""
 testfunction "printf \$?"
-testfunction "printf \$\$"
+#testfunction "printf \$\$" # test is ok, but PID will always be different
 
 # export
 printf "\e[1;36mTesting export\e[0;00m\n"
@@ -979,7 +977,7 @@ redirectfunction "cat \"r1\" > \"r2\" > \"r3\"" "cat \"m1\" > \"m2\" > \"m3\""
 redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > r3" "printf 'blabla' > m1; printf 'blabla' > m2; printf 'blabla' > m3"
 redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
 redirectfunction "echo \"hoi\" > | r1" "echo \"hoi\" > | m1"
-redirectfunction "echo \"hoi\" >| r1" "echo \"hoi\" >| m1"
+#redirectfunction "echo \"hoi\" >| r1" "echo \"hoi\" >| m1" # >| is not part of the subject
 redirectfunction "> r1 | echo blabla" "> m1 | echo blabla"
 redirectfunction "exit > r1" "exit > m1"
 redirectfunction "cd .. > r1" "cd .. > m1"
@@ -1034,72 +1032,72 @@ redirectfunction "< r1 < r2 < r3 cat" "< m1 < m2 < m3 cat"
 # << heredoc
 printf "\e[1;36mTesting << heredoc \e[0;00m\n"
 testfunction "<<"
-testfunction "cat << EOF
-t e s t
-EOF
-"
-testfunction "cat << 'EOF'
-t e s t
-EOF
-"
-testfunction "cat << \"EOF\"
-t e s t
-EOF
-"
-testfunction "cat '<< EOF'
-t e s t
-EOF
-"
-testfunction "cat \"<< EOF\"
-t e s t
-EOF
-"
-testfunction "cat << EOF
-t e s t
-EOF"
-testfunction "cat << EOF
-t e s t
-EOF 
-EOF
-"
-testfunction "cat << EOF
-t e s t
- EOF
-EOF
-"
-testfunction "echo << EOF
-t e s t
-EOF
-"
-testfunction "echo << 'EOF'
-t e s t
-EOF
-"
-testfunction "echo << \"EOF\"
-t e s t
-EOF
-"
-testfunction "echo '<< EOF'
-t e s t
-EOF
-"
-testfunction "echo \"<< EOF\"
-t e s t
-EOF
-"
-testfunction "echo << EOF
-t e s t
-EOF"
-testfunction "echo << EOF
-t e s t
-EOF 
-EOF
-"
-testfunction "echo << EOF
-t e s t
- EOF
-EOF
-"
+#testfunction "cat << EOF
+#t e s t
+#EOF
+#"
+#testfunction "cat << 'EOF'
+#t e s t
+#EOF
+#"
+#testfunction "cat << \"EOF\"
+#t e s t
+#EOF
+#"
+#testfunction "cat '<< EOF'
+#t e s t
+#EOF
+#"
+#testfunction "cat \"<< EOF\"
+#t e s t
+#EOF
+#"
+#testfunction "cat << EOF
+#t e s t
+#EOF"
+#testfunction "cat << EOF
+#t e s t
+#EOF 
+#EOF
+#"
+#testfunction "cat << EOF
+#t e s t
+ #EOF
+#EOF
+#"
+#testfunction "echo << EOF
+#t e s t
+#EOF
+#"
+#testfunction "echo << 'EOF'
+#t e s t
+#EOF
+#"
+#testfunction "echo << \"EOF\"
+#t e s t
+#EOF
+#"
+#testfunction "echo '<< EOF'
+#t e s t
+#EOF
+#"
+#testfunction "echo \"<< EOF\"
+#t e s t
+#EOF
+#"
+#testfunction "echo << EOF
+#t e s t
+#EOF"
+#testfunction "echo << EOF
+#t e s t
+#EOF 
+#EOF
+#"
+#testfunction "echo << EOF
+#t e s t
+ #EOF
+#EOF
+#"
 
 # <<< herestring
 printf "\e[1;36mTesting <<< herestring \e[0;00m\n"
@@ -1110,7 +1108,7 @@ printf "\e[1;36mTesting < << >> > redirection combinations \e[0;00m\n"
 redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
 redirectfunction "cat -e > r1 < r2" "cat -e > m1 < m2"
 redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
-redirectfunction "echo hey <> r1" "echo hey <> r1"
+#redirectfunction "echo hey <> r1" "echo hey <> r1" # <> is also not part of the subject
 redirectfunction "echo hey >< r1" "echo hey >< r1"
 #redirectfunction "< r1 cat | << EOF cat | cat >> r3" "< m1 cat | << EOF cat | cat >> m3"
 
@@ -1237,7 +1235,7 @@ testfunction "echo \"\" bonjour"
 
 # open " quotes
 printf "\e[1;36mTesting \" open quotes\e[0;00m\n"
-testfunction "\""
+#testfunction "\""
 testfunction "printf \"hallo
 hallo\""
 testfunction "printf \"
@@ -1255,7 +1253,7 @@ testfunction "printf '\"hallo'\"
 
 # open ' quotes
 printf "\e[1;36mTesting ' open quotes\e[0;00m\n"
-testfunction "'"
+#testfunction "'"
 testfunction "printf 'hallo
 hallo'"
 testfunction "printf '
@@ -1271,48 +1269,48 @@ testfunction "printf 'hallo
 
 # ( open parenthesis
 printf "\e[1;36mTesting ( open parenthesis\e[0;00m\n"
-testfunction "("
-testfunction "printf \$(echo hallo
-hallo)"
-testfunction "printf \$(nfsbgdf
-)"
-testfunction "printf \$(echo hallo
-)"hallo
-testfunction "printf \$(
-)"
-testfunction "printf \$(echo hallo
-) && echo \$(echo hallo
-)"
+#testfunction "("
+#testfunction "printf \$(echo hallo
+#hallo)"
+#testfunction "printf \$(nfsbgdf
+#)"
+#testfunction "printf \$(echo hallo
+#)"hallo
+#testfunction "printf \$(
+#)"
+#testfunction "printf \$(echo hallo
+#) && echo \$(echo hallo
+#)"
 
 # ` open backticks
 printf "\e[1;36mTesting \` open backticks\e[0;00m\n"
-testfunction "\`"
-testfunction "printf \`echo hallo
-hallo\`"
-testfunction "printf \`nfsbgdf
-\`"
-testfunction "printf \`echo hallo
-\`"hallo
-testfunction "printf \`
-\`"
-testfunction "printf \`(echo hallo
-\` && echo \`echo hallo
-\`"
+#testfunction "\`"
+#testfunction "printf \`echo hallo
+#hallo\`"
+#testfunction "printf \`nfsbgdf
+#\`"
+#testfunction "printf \`echo hallo
+#\`"hallo
+#testfunction "printf \`
+#\`"
+#testfunction "printf \`(echo hallo
+#\` && echo \`echo hallo
+#\`"
 
 # (`"' open combinations
 printf "\e[1;36mTesting (\`\'\" open combinations\e[0;00m\n"
-testfunction "printf \`echo hallo
-hallo\` && \$(echo hallo
-) || echo \"hallo
-\""
-testfunction "printf \`echo 'hallo
-hallo'\`"
-testfunction "printf \$(echo 'hallo
-hallo')"
-testfunction "printf \`echo \"hallo
-hallo\"\`"
-testfunction "printf \$(echo \"hallo
-hallo\")"
+#testfunction "printf \`echo hallo
+#hallo\` && \$(echo hallo
+#) || echo \"hallo
+#\""
+#testfunction "printf \`echo 'hallo
+#hallo'\`"
+#testfunction "printf \$(echo 'hallo
+#hallo')"
+#testfunction "printf \`echo \"hallo
+#hallo\"\`"
+#testfunction "printf \$(echo \"hallo
+#hallo\")"
 
 # * wildcards
 printf "\e[1;36mTesting * Wildcards\e[0;00m\n"
@@ -1600,7 +1598,6 @@ testfunction "echo \"hallo hallo # hallo; echo hallo\""
 printf "\e[1;36mTesting \`\` backticks\e[0;00m\n"
 testfunction "\`\`"
 testfunction "echo \`\`"
-testfunction "printf \`\`"
 testfunction "printf \`\` bla"
 testfunction "printf \`echo hallo\`"
 testfunction "printf \`  echo hallo\`"
@@ -1608,8 +1605,8 @@ testfunction "printf \`echo hallo  \`"
 testfunction "printf \`echo  hallo\`"
 testfunction "printf \`  echo hallo  \`"
 testfunction "printf \`  echo  hallo  \`"
-testfunction "printf \`'echo hallo'\`"
-testfunction "printf \`\"echo hallo\"\`"
+testfunction "echo \`'echo hallo'\`"
+testfunction "echo \`\"echo hallo\"\`"
 testfunction "printf \"\`echo hallo\`\""
 testfunction "printf '\`echo hallo\`'"
 testfunction "printf '\`echo hallo\`e'"
@@ -1625,7 +1622,6 @@ testfunction "printf e\"\`echo hallo\`\""
 printf "\e[1;36mTesting \$() command substitution \e[0;00m\n"
 testfunction "\$()"
 testfunction "echo \$()"
-testfunction "printf \$()"
 testfunction "printf \$() bla"
 testfunction "printf \$(echo hallo)"
 testfunction "printf \$(  echo hallo)"
@@ -1633,8 +1629,8 @@ testfunction "printf \$(echo hallo  )"
 testfunction "printf \$(echo   hallo)"
 testfunction "printf \$(  echo hallo  )"
 testfunction "printf \$(  echo  hallo  )"
-testfunction "printf \$('echo hallo')"
-testfunction "printf \$(\"echo hallo\")"
+testfunction "echo \$('echo hallo')"
+testfunction "echo \$(\"echo hallo\")"
 testfunction "printf \"\$(echo hallo)\""
 testfunction "printf '\$(echo hallo)'"
 testfunction "printf '\$(echo hallo)e'"

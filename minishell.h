@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/01 02:18:38 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 14:56:30 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void		ft_printcmds(t_cmds cmds, int cmdnbr, int forknbr);
 void		ft_printglobs(t_globs globs, char *function);
 void		ft_printdup(t_cmds cmds, int cmdnbr, int forknbr);
 // env
-int			ft_setenv(char **envp, char *var, char *val);
+char		**ft_setenv(char **envp, char *var, char *val);
 char		**ft_fdtocharpp(int	fd);
 void		ft_charpptofd(char **array, int fd);
 // error

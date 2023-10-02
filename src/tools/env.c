@@ -6,13 +6,13 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/26 03:56:16 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/02 05:33:29 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/02 14:56:12 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_setenv(char **envp, char *var, char *val)
+char	**ft_setenv(char **envp, char *var, char *val)
 {
 	int		i;
 	int		j;
@@ -72,7 +72,7 @@ int	ft_setenv(char **envp, char *var, char *val)
 		}
 		envp[i + 1] = ft_calloc(8 * 2, 1);
 	}
-	return (0);
+	return (envp);
 }
 
 char	**ft_fdtocharpp(int	fd)
