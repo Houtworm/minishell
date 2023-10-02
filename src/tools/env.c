@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/26 03:56:16 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/02 14:56:12 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/02 16:56:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	**ft_setenv(char **envp, char *var, char *val)
 	}
 	if (!envp[i])
 	{
+		i--;
 		envp[i] = ft_calloc(8 * 512, 1);
 		j = 0;
 		while (var[j] != '\0')

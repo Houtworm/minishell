@@ -13,7 +13,6 @@ is a lightweight implementation of bash
 - we can add redirection to everything to make sure that works fine
 - we should test everything in a fork too
 - we should test everything in a second and third command too
-- test everything with multiple //// in a path
 ### Environment
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 ### Parser
@@ -32,18 +31,11 @@ is a lightweight implementation of bash
 #### cd
 - cd - is having issues if oldpwd is not set.
 - if getcwd fails we can get strange behavior, lets say we delete the parent directory
-#### export
-- make sure variables can only start with a A or _
-- somehow it is adding empty lines to env file.
-#### env
-- if argument is a valid directory print permission denied, else print no such file or directory.
 #### exit
 - if argument is bigger than long long print numeric argument required
 - huge numbers print the wrong return value
 #### alias
 - is already implemented and used during init, it just can't be called from the shell yet
-#### .
-- should handle files properly
 
 ---
 ### Cleanup
