@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/03 07:15:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/03 17:09:10 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	int	fd;
 	char	*line;
 	t_builtin	bui[13] = {
+	{".\0", ft_period},
+	{"/\0", ft_period},
 	{"alias\0", ft_echo},
 	{"echo\0", ft_echo},
 	{"env\0", ft_env},
 	{"export\0", ft_export},
 	{"unset\0", ft_unset},
 	{"pwd\0", ft_pwd},
-	{".\0", ft_period},
-	{"/\0", ft_period},
 	{"which\0", ft_which},
 	{"cd\0", ft_chdir},
 	{"exit\0", ft_exit},
@@ -43,9 +43,49 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	};
 
 	i = 0;
-	while (i < 9)
+	while (i < 2)
 	{
 		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare)))
+		{
+			pid = fork();
+			if (pid == 0)
+			{
+				ft_dupmachine(cmds, cmdnbr, forknbr, shell);
+				ret = bui[i].func(cmds);
+				if (ret == 123)
+				{
+					status = 1;
+					fd = open(cmds.absolute, O_RDONLY);
+					if (fd == -1)
+						ft_errorexit("command not found", cmds.absolute, 127);
+					while (status > 0)
+					{
+						status = get_next_line(fd, &line);
+						if (status <= 0)
+							exit (shell->code);
+						if (ft_parseline(line, shell))
+							exit (2);
+						if (status > 0)
+							shell->code = ft_forktheforks(shell);
+						free(line);
+					}
+					exit(shell->code);
+				}
+				if (ft_strchr(cmds.absolute, ' ')) // hacky solution, programs can actually contain a ' ' in their name
+				{
+					ft_errorexit("command not found", bui[i].compare, 127);
+				}
+				exit(ret);
+			}
+			waitpid(pid, &ret, 0);
+			shell->code = WEXITSTATUS(ret);
+			return (shell->code);
+		}
+		i++;
+	}
+	while (i < 9)
+	{
+		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare) + 1))
 		{
 			pid = fork();
 			if (pid == 0)

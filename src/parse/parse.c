@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/03 06:28:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/03 17:39:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,9 +201,12 @@ void	ft_parsetilde(t_cmds *cmds, t_shell shell)
 				j++;
 			}
 			rest[j] = '\0';
-			/*free (line);*/
+			free(cmds->pipeline);
 			temp = ft_gethome(shell.envp);
-			cmds->pipeline = ft_vastrjoin(3, begin, temp, rest);
+			if (temp == NULL)
+				cmds->pipeline = ft_strjoin(begin, rest);
+			else
+				cmds->pipeline = ft_vastrjoin(3, begin, temp, rest);
 			i = 0;
 			free(temp);
 		}
@@ -225,11 +228,10 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 	ft_executepriority(&shell->forks[forknumber].cmds[cmdnumber]);
 	ft_parseredirection(&shell->forks[forknumber].cmds[cmdnumber]);
 	ft_parseglobs(&shell->forks[forknumber].cmds[cmdnumber]); //should be moved to ft_parseline()
-	/*shell->forks[forknumber].cmds[cmdnumber].arguments = split_not_quote(shell->forks[forknumber].cmds[cmdnumber].pipeline, ' ');*/
 	paths = ft_splitcmd(shell->forks[forknumber].cmds[cmdnumber].pipeline);
-	/*shell->forks[forknumber].cmds[cmdnumber].arguments = ft_checkarg(shell->forks[forknumber].cmds[cmdnumber].arguments, 0);*/
-	/*shell->forks[forknumber].cmds[cmdnumber].arguments = ft_checkarg(paths, 0);*/
 	shell->forks[forknumber].cmds[cmdnumber].arguments = ft_removequotes(paths);
+	/*shell->forks[forknumber].cmds[cmdnumber].arguments = split_not_quote(shell->forks[forknumber].cmds[cmdnumber].pipeline, ' ');*/
+	/*shell->forks[forknumber].cmds[cmdnumber].arguments = ft_checkarg(shell->forks[forknumber].cmds[cmdnumber].arguments, 0);*/
 	if (!shell->forks[forknumber].cmds[cmdnumber].arguments[0])
 	{
 		shell->stop = 1;

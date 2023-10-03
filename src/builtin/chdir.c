@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/03 06:46:23 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/03 17:38:39 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,20 @@ int	ft_chdir(t_cmds cmds)
 	char	*line;
 	char	*cwd;
 
-	cwd = malloc(512);
-	getcwd(cwd, 512);
 	if (cmds.arguments[2])
 		if (ft_errorexit("too many arguments", "cd", 0))
 			return (1);
-	if (!ft_strncmp(cmds.arguments[1],  "~\0", 2) || !cmds.arguments[1] || cmds.arguments[1][0] == '\0')
+	if (!cmds.arguments[1] || cmds.arguments[1][0] == '\0')
+	{
+
 		line = ft_gethome(cmds.envp);
+		if (!line)
+		{
+			cwd = ft_getuser(cmds.envp);
+			line = ft_vastrjoin(3, "/home/", cwd, "/");
+			free(cwd);
+		}
+	}
 	else if (!ft_strncmp(cmds.arguments[1],  "-\0", 2))
 	{
 		line = ft_getenvval(cmds.envp, "OLDPWD");
@@ -65,6 +72,8 @@ int	ft_chdir(t_cmds cmds)
 	{
 		line = ft_strdup(cmds.arguments[1]);
 	}
+	cwd = malloc(512);
+	getcwd(cwd, 512);
 	if (chdir(line))
 	{
 		free(cwd);
