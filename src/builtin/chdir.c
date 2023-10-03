@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   chdir.c                                            :+:    :+:            */
+/*   chdir.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/02 23:01:47 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/03 06:46:23 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ int	ft_chdir(t_cmds cmds)
 
 	cwd = malloc(512);
 	getcwd(cwd, 512);
-	// if (cmds.arguments[2]) // Edge case in split_not_quote? check the tester.. with these lines enabled*/
-	// 	if (ft_errorexit("too many arguments", "cd", 0))
-	// 		return (1);
-	if (!ft_strncmp(cmds.arguments[1],  "~\0", 2) || !cmds.arguments[1])
+	if (cmds.arguments[2])
+		if (ft_errorexit("too many arguments", "cd", 0))
+			return (1);
+	if (!ft_strncmp(cmds.arguments[1],  "~\0", 2) || !cmds.arguments[1] || cmds.arguments[1][0] == '\0')
 		line = ft_gethome(cmds.envp);
 	else if (!ft_strncmp(cmds.arguments[1],  "-\0", 2))
 	{
@@ -68,7 +68,10 @@ int	ft_chdir(t_cmds cmds)
 	if (chdir(line))
 	{
 		free(cwd);
-		ft_moderrorexit("No such file or directory", cmds.arguments[0], cmds.arguments[1], 0);
+		if (errno == ENOTDIR)
+			ft_moderrorexit("Not a directory", cmds.arguments[0], cmds.arguments[1], 0);
+		else
+			ft_moderrorexit("No such file or directory", cmds.arguments[0], cmds.arguments[1], 0);
 		return (1);
 	}
 	free(line);

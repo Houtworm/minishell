@@ -6,14 +6,14 @@
 /*   By: djonker <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/03/16 07:28:50 by djonker       #+#    #+#                 */
-/*   Updated: 2023/02/26 04:19:06 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/03 04:52:34 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <stdarg.h>
 
 typedef struct s_printf
