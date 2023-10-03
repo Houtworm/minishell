@@ -16,7 +16,6 @@ is a lightweight implementation of bash
 ### Environment
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 ### Parser
-- split not quote is not null terminating properly? look in ft_chdir for an example
 - maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
 - Syntax checking can be improved a lot
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
