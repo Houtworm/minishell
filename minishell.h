@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/02 14:56:30 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/03 18:37:59 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,11 +160,13 @@ int			ft_startsyntax(t_shell *shell, char *line);
 t_shell 	ft_parsepipe(char *line, t_shell shell);
 // alias
 void		ft_parsealiases(t_cmds *cmds, t_shell shell);
+// complete
+char		*ft_completeline(char *line, int k);
 // quote
+int			ft_skipquote(char *s, int i);
 char		check_quote_closed(char *s);
 char		*ft_closeline(char *line);
-char		*ft_completeline(char *line, int k);
-char		**ft_remove_quote(char	**cmd, int count);
+//char		**ft_remove_quote(char	**cmd, int count);
 // heredoc
 t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
 // redirect
@@ -212,7 +214,6 @@ int			ft_nextanyof(t_globs *globs, char *dname, int i, int j);
 int			ft_checkoutquote(char *line, char target, int mode);
 char		**ft_checkarg(char	**cmd, int count);
 // parse_utils
-int			ft_skipquote(char *s, int i);
 int			count_str(char *s, int c);
 int			count_wd(char *s, int c);
 char		**split_not_quote(char *s, int c);

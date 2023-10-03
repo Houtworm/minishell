@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/03 05:20:23 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/03 18:38:18 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,13 @@ SRC		=src/main/main.c\
 		 src/main/history.c\
 		 src/main/insults.c\
 		 src/parse/parse.c\
-		 src/parse/parse_utils.c\
 		 src/parse/hashtag.c\
 		 src/parse/syntax.c\
 		 src/parse/pipe.c\
 		 src/parse/alias.c\
 		 src/parse/heredoc.c\
 		 src/parse/quote.c\
+		 src/parse/complete.c\
 		 src/parse/condition.c\
 		 src/parse/priority.c\
 		 src/parse/redirect.c\
@@ -42,7 +42,6 @@ SRC		=src/main/main.c\
 		 src/parse/wildcard.c\
 		 src/parse/joker.c\
 		 src/parse/anyof.c\
-		 src/parse/tools.c\
 		 src/exec/fork.c\
 		 src/exec/priority.c\
 		 src/exec/exec.c\
@@ -66,6 +65,8 @@ SRC		=src/main/main.c\
 		 src/tools/print.c\
 		 src/tools/env.c\
 		 src/tools/cleanup.c
+#src/parse/tools.c
+#src/parse/parse_utils.c
 OBJ		=$(SRC:src/%.c=obj/%.o)
 LIB		=printf/ft_printf.a getnextline/get_next_line.a libft/libft.a
 
