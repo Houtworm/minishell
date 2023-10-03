@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/26 21:31:26 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/10/02 22:36:07 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/03 23:22:19 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int ft_priority(t_cmds *cmds, int cmdnbr)
         i++;
     }
     cmds[cmdnbr].pipeline[i + k] = '\0';
-    if (cmdnbr > 0 && prio != 2 && cmds[cmdnbr - 1].prio == 1)
+    if (cmdnbr > 0 && prio != 2 && cmds[cmdnbr - 1].prio)
         prio = 1;
     return (prio);
 }

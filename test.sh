@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                         |o_o || |                 #
+#    test.sh                                            :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/03 17:46:48 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/03 23:37:57 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1669,6 +1669,15 @@ testfunction "printf \"\$(echo hallo)e\""
 testfunction "printf \"\$(echo hallo)\"e"
 testfunction "printf \"e\$(echo hallo)\""
 testfunction "printf e\"\$(echo hallo)\""
+
+# () and && || combination
+testfunction "true && (echo hey || cat -z && cat -a || false) && echo hey"
+testfunction "true || (echo hey || cat -z && cat -a || false) && echo hey"
+testfunction "true && echo hey || cat -z || (cat -a || false) && echo hey"
+testfunction "true && (echo hey || cat -z && cat -a) && false && echo hey"
+testfunction "(true) && echo hey || false && echo hey"
+testfunction "(echo   hallo)"
+testfunction "(true && echo hey || false && echo hey)"
 
 # Syntax errors
 printf "\e[1;36mTesting Syntax errors \e[0;00m\n"

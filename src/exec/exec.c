@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                          |o_o || |                */
+/*   exec.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/03 05:47:05 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/03 23:27:39 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,36 +92,46 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	/*free(outtmp);*/
 /*}*/
 
+void	ft_printlastcode(t_cmds	cmds)
+{
+	ft_putstr_fd(cmds.pipeline, 2);
+	ft_putendl_fd("", 2);
+	ft_putstr_fd("last code is ", 2);
+	ft_putnbr_fd(cmds.lastcode, 2);
+	ft_putstr_fd("  condition is ", 2);
+	ft_putnbr_fd(cmds.condition, 2);
+	ft_putstr_fd("  prio is ", 2);
+	ft_putnbr_fd(cmds.prio, 2);
+	ft_putendl_fd("", 2);
+}
+
 int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	status;
-	int	i;
 
-	i = 1;
-	if (cmds.prio)
+	if (cmds.prio && !shell->forks[forknbr].cmds[cmdnbr - 1].prio)
 	{
-		if ( ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0)))
+		if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
 		{
-			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = 1;
+			if (cmds.prio != 2)
+				shell->forks[forknbr].cmds[cmdnbr].prio = 3;
+			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
+			// ft_printlastcode(cmds);
 			return (cmds.lastcode);
 		}
 	}
-	if (!cmds.prio && shell->forks[forknbr].cmds[cmdnbr - 1].prio)
+	if (cmds.prio && shell->forks[forknbr].cmds[cmdnbr - 1].prio == 3)
 	{
-		while (shell->forks[forknbr].cmds[cmdnbr - i].prio)
-			i++;
-		cmds.lastcode = shell->forks[forknbr].cmds[cmdnbr - i + 1].lastcode;
-		 /*ft_putstr_fd("i last code is ", 2);*/
-		 /*ft_putnbr_fd(shell->forks[forknbr].cmds[cmdnbr - i + 1].lastcode, 2);*/
+		if (cmds.prio != 2)
+			shell->forks[forknbr].cmds[cmdnbr].prio = 3;
+		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
+		// ft_printlastcode(cmds);
+		return (cmds.lastcode);
 	}
-	// ft_putstr_fd("  last code is ", 2);
-	// ft_putnbr_fd(cmds.lastcode, 2);
-	// ft_putstr_fd(" condition is", 2);
-	// ft_putnbr_fd(cmds.condition, 2);
-	// ft_putendl_fd("", 2);
 	if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
 	{
 		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
+		// ft_printlastcode(cmds);
 		return (cmds.lastcode);
 	}
 	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);
