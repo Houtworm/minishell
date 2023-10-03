@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/03 17:39:35 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/04 01:07:41 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**ft_removequotes(char **args)
 	i = 0;
 	while (args[i])
 	{
-		new[i] = ft_calloc(100, 8);
+		new[i] = ft_calloc(1000, 8);
 		j = 0;
 		k = 0;
 		while (args[i][j])
@@ -97,14 +97,14 @@ char	**ft_splitcmd(char *cmd)
 			icmd++;
 		arg++;
 	}
-	arguments = ft_calloc(arg + 1, 8);
+	arguments = ft_calloc(arg + 2, 8);
 	icmd = 0;
 	arg = 0;
 	while (cmd[icmd] == ' ')
 		icmd++;
 	while (cmd[icmd])
 	{
-		arguments[arg] = ft_calloc(100, 8);
+		arguments[arg] = ft_calloc(1000, 8);
 		iarg = 0;
 		while (cmd[icmd] && cmd[icmd] != ' ')
 		{
@@ -132,9 +132,12 @@ char	**ft_splitcmd(char *cmd)
 					icmd++;
 				}
 			}
-			arguments[arg][iarg] = cmd[icmd];
-			iarg++;
-			icmd++;
+			if (cmd[icmd])
+			{
+				arguments[arg][iarg] = cmd[icmd];
+				iarg++;
+				icmd++;
+			}
 		}
 		arguments[arg][iarg] = '\0';
 		while (cmd[icmd] == ' ')
@@ -230,8 +233,6 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 	ft_parseglobs(&shell->forks[forknumber].cmds[cmdnumber]); //should be moved to ft_parseline()
 	paths = ft_splitcmd(shell->forks[forknumber].cmds[cmdnumber].pipeline);
 	shell->forks[forknumber].cmds[cmdnumber].arguments = ft_removequotes(paths);
-	/*shell->forks[forknumber].cmds[cmdnumber].arguments = split_not_quote(shell->forks[forknumber].cmds[cmdnumber].pipeline, ' ');*/
-	/*shell->forks[forknumber].cmds[cmdnumber].arguments = ft_checkarg(shell->forks[forknumber].cmds[cmdnumber].arguments, 0);*/
 	if (!shell->forks[forknumber].cmds[cmdnumber].arguments[0])
 	{
 		shell->stop = 1;
@@ -313,10 +314,10 @@ int	ft_parseline(char *line, t_shell *shell)
 		line = ft_closeline(line);
 		line = ft_completeline(line, 0);
 	}
-	/*line = ft_parseoldline(line, shell);*/
-	/*if (!line)*/
-		/*return (127);*/
-	/*free(shell->oldline);*/
+	line = ft_parseoldline(line, shell);
+	if (!line)
+		return (127);
+	free(shell->oldline);
 	shell->oldline = ft_strdup(line);
 	line = ft_parsehashtag(line);
 	if (line[0] == '\0')
