@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/03 17:38:39 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/03 17:45:43 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,9 @@ int	ft_chdir(t_cmds cmds)
 	if (!cmds.arguments[1] || cmds.arguments[1][0] == '\0')
 	{
 
-		line = ft_gethome(cmds.envp);
-		if (!line)
-		{
-			cwd = ft_getuser(cmds.envp);
-			line = ft_vastrjoin(3, "/home/", cwd, "/");
-			free(cwd);
-		}
+		cwd = ft_getuser(cmds.envp);
+		line = ft_vastrjoin(3, "/home/", cwd, "/");
+		free(cwd);
 	}
 	else if (!ft_strncmp(cmds.arguments[1],  "-\0", 2))
 	{

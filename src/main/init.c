@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/03 04:13:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/03 18:04:03 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,20 @@ int	ft_getpid(void)
 	return (-1);
 }
 
+void	ft_shelllevelup(char **envp)
+{
+	int		shlvlint;
+	char	*shlvlstr;
+
+	shlvlint = ft_atoi(ft_getenvval(envp, "SHLVL"));
+	shlvlint++;
+	shlvlstr = ft_itoa(shlvlint);
+	ft_setenv(envp, "SHLVL", shlvlstr);
+}
+
 t_shell	*ft_initstruct(char **envp, int debugmode)
 {
 	t_shell	*shell;
-	int		shlvlint;
-	char	*shlvlstr;
 	char	*home;
 
 	shell = ft_calloc(sizeof(shell), 100);
@@ -52,10 +61,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	shell->pid = ft_getpid();
 	shell->envp = envp;
 	shell->alias = ft_parsemshrc(envp);
-	shlvlint = ft_atoi(ft_getenvval(shell->envp, "SHLVL"));
-	shlvlint++;
-	shlvlstr = ft_itoa(shlvlint);
-	ft_setenv(shell->envp, "SHLVL", shlvlstr);
+	ft_shelllevelup(shell->envp);
 	shell->envpfd = open("/tmp/minishellenvpfile.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	ft_charpptofd(envp, shell->envpfd);
 	shell->starttime = ft_gettimems(shell->envp);
@@ -65,9 +71,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	shell->stop = 0;
 	dup2(1, shell->fdout);
 	dup2(0, shell->fdin);
-	shell->debug = 0;
-	if (debugmode)
-		shell->debug = 1;
+	shell->debug = debugmode;
 	close(shell->envpfd);
 	ft_readhistory(shell->historyfile);
 	return (shell);
