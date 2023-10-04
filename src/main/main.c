@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 04:51:01 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 06:45:22 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_mainloop(t_shell *shell)
 	int		ret;
 
 	shell->stop = 0;
+	/*ft_frearr(shell->envp);*/
 	/*shell->envp = ft_fdtocharpp(shell->envpfd);*/
 	ft_printprompt(shell, shell->envp);
 	line = readline("$ "); // ❯ causes issues :(
@@ -50,6 +51,7 @@ int	ft_mainloop(t_shell *shell)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
+	int		code;
 
 	rl_event_hook = ft_sighook;
 	signal(SIGINT, ft_sighandler);
@@ -59,7 +61,11 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_strncmp(argv[1], "-d\0", 3) == 0)
 			shell =	ft_initstruct(envp, 1);
 		else
-			return (ft_runscript(argc, argv, envp));
+		{
+			shell = ft_initstruct(envp, 0);
+			code = ft_runscript(argc, argv, shell);
+			ft_freeexit(shell, code);
+		}
 	}
 	else
 		shell =	ft_initstruct(envp, 0);

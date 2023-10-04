@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 04:48:03 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 06:46:11 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_shell		*ft_initstruct(char **envp, int debugmode);
 // prompt
 void		ft_printprompt(t_shell *strct, char **envp);
 // script
-int			ft_runscript(int argc, char **argv, char **envp);
+int			ft_runscript(int argc, char **argv, t_shell *shell);
 // signal
 void		ft_sighandler(int sig);
 int			ft_sighook(void);

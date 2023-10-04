@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 04:42:52 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 06:01:39 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 
 void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char type)
 { // match untill glob
-	int i;
+	int 	i;
+	char	*temp;
 
 	i = 0;
 	while (dname[i] && globs->gstart[i] == dname[i]) // while characters match
@@ -66,8 +67,9 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 			}
 			else
 			{
-				/*printf("ft_matchtillglob no subdirectory found, %s matches\n", dname);*/
-				ft_addglobmatch(globs, ft_vastrjoin(2, globs->pardir, dname)); // add the match
+				temp = ft_vastrjoin(2, globs->pardir, dname);
+				ft_addglobmatch(globs, temp); // add the match
+				free(temp);
 			}
 		}
 	}
@@ -82,6 +84,7 @@ int	ft_parseglob(t_cmds *cmd, t_globs *globs)
 
 	curdir = ft_getpwd(cmd->envp, 1); // get working directory
 	checkdir = ft_vastrjoin(2, curdir, globs->pardir); // strjoin current directory and any directories before the first glob.
+	free(curdir);
 	dir = opendir(checkdir); // needs to run for every sub directory.
 	if (dir)
 	{	
@@ -92,6 +95,7 @@ int	ft_parseglob(t_cmds *cmd, t_globs *globs)
 		}
 		closedir(dir);
 	}
+	free(checkdir);
 	return (0);
 }
 

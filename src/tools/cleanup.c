@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 01:18:08 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 04:56:38 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 06:54:32 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 
 void	ft_freecmds(t_cmds *cmds)
 {
+	int		i;
+
+	i = 0;
+	while (cmds[i].pipeline)
+	{
+		free(cmds[i].pipeline);
+		free(cmds[i].absolute);
+		ft_frearr(cmds[i].arguments);
+		ft_frearr(cmds[i].outfile);
+		ft_frearr(cmds[i].infile);
+		free(cmds[i].append);
+		i++;
+	}
 	free(cmds);
 }
 
@@ -22,22 +35,27 @@ void	ft_freeforks(t_forks *forks)
 	int		i;
 
 	i = 0;
-	while (forks[i].cmds)
+	if (forks)
 	{
-		ft_freecmds(forks[i].cmds);
-		i++;
+		while (forks[i].pipeline)
+		{
+			ft_freecmds(forks[i].cmds);
+			free(forks[i].pipeline);
+			i++;
+		}
+		free(forks);
 	}
-	free(forks);
 }
 
 void	ft_freeexit(t_shell *shell, int code)
 {
-	/*ft_freeforks(shell->forks);*/
+	ft_freeforks(shell->forks);
 	free(shell->alias->val);
 	free(shell->alias->var);
 	free(shell->alias);
 	free(shell->historyfile);
 	free(shell->oldline);
+	free(shell->line);
 	ft_frearr(shell->envp);
 	free(shell);
 	exit (code);

@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/04 03:45:30 by djonker      \___)=(___/                  #
+#    Updated: 2023/10/04 06:49:15 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1012,7 +1012,7 @@ redirectfunction "cd .. > r1" "cd .. > m1"
 redirectfunction "> r1" "> m1"
 redirectfunction "echo 2 > r1 > r2" "echo 2 > m1 > m2"
 redirectfunction "echo 2 > r1 > r2" "echo 2 > m1 > m2"
-redirectfunction "echo test > r1 r2" "echo test > m1 m2"
+redirectfunction "echo test > r1 r2" "echo test > m1 2"
 redirectfunction "Non_exist_cmd > r1" "Non_exist_cmd > m1"
 
 # >> append
@@ -1037,7 +1037,7 @@ redirectfunction "cd .. >> r1" "cd .. >> m1"
 redirectfunction ">> r1" ">> m1"
 redirectfunction "echo 2 >> r1 >> r2" "echo 2 >> m1 >> m2"
 redirectfunction "echo 2 >> r1 >> r2" "echo 2 >> m1 >> m2"
-redirectfunction "echo test >> r1 r2" "echo test >> m1 m2"
+redirectfunction "echo test >> r1 r2" "echo test >> m1 2"
 redirectfunction "Non_exist_cmd >> r1" "Non_exist_cmd >> m1"
 
 # < input from

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 04:20:20 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 06:22:41 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ int	ft_executeforks(int forknbr, t_shell *shell)
 	cmdnbr = 0;
 	while (shell->forks[forknbr].cmdamount > cmdnbr)
 	{
+		ft_frearr(shell->envp);
 		shell->envp = ft_fdtocharpp(shell->envpfd);
 		shell = ft_parsecmds(shell, forknbr, cmdnbr);
 		if (shell->stop)

@@ -6,15 +6,14 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/23 14:59:51 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 05:04:58 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 06:46:31 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_runscript(int argc, char **argv, char **envp)
+int	ft_runscript(int argc, char **argv, t_shell *shell)
 {
-	t_shell	*shell;
 	int		fd;
 	char	*line;
 	int		ret;
@@ -24,8 +23,7 @@ int	ft_runscript(int argc, char **argv, char **envp)
 	i = 1;
 	ret = 1;
 	code = 0;
-	shell = ft_initstruct(envp, 0);
-	shell->envp = ft_fdtocharpp(shell->envpfd);
+	/*shell->envp = ft_fdtocharpp(shell->envpfd);*/
 	if (ft_strncmp(argv[1], "-c\0", 3) == 0)
 	{
 		ret = ft_parseline(argv[2], shell);
