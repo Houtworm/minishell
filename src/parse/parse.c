@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 03:11:15 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 13:13:54 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,12 +253,12 @@ char	*ft_parseoldline(char *line, t_shell *shell)
 	char	*begin;
 	char	*rest;
 
-	begin = ft_calloc((ft_strlen(line) + 1) * 8, 1);
-	rest = ft_calloc((ft_strlen(line) + 1) * 8, 1);
 	i = 0;
 	while (line[i])
 	{
 		j = 0;
+		begin = ft_calloc((ft_strlen(line) + 1) * 8, 1);
+		rest = ft_calloc((ft_strlen(line) + 1) * 8, 1);
 		while (line[i] && (line[i] != '!' || line[i + 1] != '!'))
 		{
 			if (line[i] == '\'')
@@ -280,7 +280,10 @@ char	*ft_parseoldline(char *line, t_shell *shell)
 		if (line[i] == '!' && line[i + 1] == '!')
 		{
 			if (!shell->oldline[0])
+			{
+				ft_vafree(2, begin, rest);
 				return (NULL);
+			}
 			begin[j] = '\0';
 			i++;
 			i++;
@@ -296,8 +299,8 @@ char	*ft_parseoldline(char *line, t_shell *shell)
 			line = ft_vastrjoin(3, begin, shell->oldline, rest);
 			i = 0;
 		}
+		ft_vafree(2, begin, rest);
 	}
-	ft_vafree(2, begin, rest);
 	return (line);
 }
 
