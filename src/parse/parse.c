@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 01:07:41 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 03:11:15 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	**ft_removequotes(char **args)
 	i = 0;
 	while (args[i])
 		i++;
-	new = ft_calloc(i + 1, 8);
+	new = ft_calloc(i + 2, 8);
 	i = 0;
 	while (args[i])
 	{
@@ -60,8 +60,8 @@ char	**ft_removequotes(char **args)
 		i++;
 	}
 	ft_frearr(args);
-	/*new[i] = ft_calloc(2, 8);*/
 	new[i] = NULL;
+	new[i + 1] = NULL;
 	return (new);
 }
 
@@ -97,7 +97,7 @@ char	**ft_splitcmd(char *cmd)
 			icmd++;
 		arg++;
 	}
-	arguments = ft_calloc(arg + 2, 8);
+	arguments = ft_calloc(arg, 8);
 	icmd = 0;
 	arg = 0;
 	while (cmd[icmd] == ' ')

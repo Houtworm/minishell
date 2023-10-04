@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/03 17:52:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/04 03:29:22 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,5 @@ int	main(int argc, char **argv, char **envp)
 		shell =	ft_initstruct(envp, 0);
 	while (1)
 		ft_mainloop(shell);
-	return (0);
+	ft_cleanexit(shell);
 }

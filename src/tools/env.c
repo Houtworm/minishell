@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/26 03:56:16 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/02 16:56:45 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/04 03:44:46 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,24 @@ char	**ft_setenv(char **envp, char *var, char *val)
 	int		i;
 	int		j;
 	int		k;
-	char	*tmp;
+	/*char	*tmp;*/
 
-	i = ft_strlen(var);
-	tmp = ft_calloc(i + 2, 1);
-	tmp[i + 0] = '=';
-	tmp[i + 1] = '\0';
-	while (i >= 0)
-	{
-		tmp[i] = var[i];
-		i--;
-	}
+	/*i = ft_strlen(var);*/
+	/*tmp = ft_calloc(i + 2, 1);*/
+	/*tmp[i + 0] = '=';*/
+	/*tmp[i + 1] = '\0';*/
+	/*while (i >= 0)*/
+	/*{*/
+		/*tmp[i] = var[i];*/
+		/*i--;*/
+	/*}*/
 	i = 0;
 	while (envp[i])
 	{
 		if (!ft_strncmp(envp[i], var, ft_strlen(var)))
 		{
+			/*free(envp[i]);*/
+			envp[i] = ft_calloc(1000, 8);
 			j = 0;
 			while (var[j])
 			{

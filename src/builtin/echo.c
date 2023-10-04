@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/09/06 17:46:11 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 01:54:55 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_echo(t_cmds cmds)
 	flag = 0;
 	if (cmds.arguments[1])
 	{
-		print = ft_calloc(512, 1);
+		print = ft_calloc(1000, 8);
 		if (cmds.arguments[j][0] == '-')
 		{
 			l++;

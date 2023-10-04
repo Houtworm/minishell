@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/03 18:04:03 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/04 03:37:24 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,13 @@ void	ft_shelllevelup(char **envp)
 	int		shlvlint;
 	char	*shlvlstr;
 
-	shlvlint = ft_atoi(ft_getenvval(envp, "SHLVL"));
+	shlvlstr = ft_getenvval(envp, "SHLVL");
+	shlvlint = ft_atoi(shlvlstr);
+	free(shlvlstr);
 	shlvlint++;
 	shlvlstr = ft_itoa(shlvlint);
 	ft_setenv(envp, "SHLVL", shlvlstr);
+	free(shlvlstr);
 }
 
 t_shell	*ft_initstruct(char **envp, int debugmode)
@@ -57,6 +60,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	shell = ft_calloc(sizeof(shell), 100);
 	home = ft_gethome(envp);
 	shell->historyfile = ft_strjoin(home, "/.mshhistory");
+	free(home);
 	shell->oldline = ft_calloc(2, 8);
 	shell->pid = ft_getpid();
 	shell->envp = envp;
