@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:12:44 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/02 15:15:36 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/04 11:54:30 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	ft_printexport(void)
 		free(line);
 		status = get_next_line(fd, &line);
 	}
+	free(line);
 	close(fd);
 	return (0);
 }

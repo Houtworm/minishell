@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 09:07:07 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 12:14:12 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	char	*outtmp;
 	int		ret;
 
-	outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", ft_itoa(forknbr), ".tmp");
+	line = ft_itoa(forknbr);
+	outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", line, ".tmp");
+	free(line);
 	i = 0;
 	while (outfile[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/04 07:09:04 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 12:15:28 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	ft_outputfile(char **file, int forknbr)
 	dup2(fdo, 1);
 	close(fdo);
 	free(outtmp);
+	free(tmpnbr);
 	return (0);
 }
 

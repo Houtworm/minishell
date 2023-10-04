@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 01:18:08 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 10:39:44 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 11:44:51 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	ft_freecmds(t_cmds *cmds)
 	i = 0;
 	while (cmds[i].pipeline)
 	{
-		/*free(cmds[i].pipeline);*/
-		/*free(cmds[i].absolute);*/
-		/*ft_frearr(cmds[i].arguments);*/
-		/*ft_frearr(cmds[i].outfile);*/
-		/*ft_frearr(cmds[i].infile);*/
-		/*free(cmds[i].append);*/
+		free(cmds[i].pipeline);
+		free(cmds[i].absolute);
+		ft_frearr(cmds[i].arguments);
+		ft_frearr(cmds[i].outfile);
+		ft_frearr(cmds[i].infile);
+		free(cmds[i].append);
 		/*ft_frearr(cmds->envp);*/
 		i++;
 	}
@@ -57,7 +57,7 @@ void	ft_freeexit(t_shell *shell, int code)
 	free(shell->historyfile);
 	free(shell->oldline);
 	free(shell->line);
-	/*ft_frearr(shell->envp);*/
+	ft_frearr(shell->envp);
 	free(shell);
 	exit (code);
 }

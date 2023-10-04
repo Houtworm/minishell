@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 03:22:04 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 11:57:55 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_adddirtoz(t_cmds cmd, char *cwd)
 			ft_putendl_fd(line, tempfd);
 		free(line);
 	}
+	free(line);
 	close(tempfd);
 	close(mshzfd);
 	tempfd = open("/tmp/minishelltempz.tmp", O_RDONLY);
@@ -40,6 +41,8 @@ void	ft_adddirtoz(t_cmds cmd, char *cwd)
 		ft_putendl_fd(line, mshzfd);
 		free(line);
 	}
+	free(line);
+	free(home);
 	close(mshzfd);
 	close(tempfd);
 }

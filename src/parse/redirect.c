@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 10:16:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 17:16:38 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/04 12:20:03 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ void	ft_parseredirectin(t_cmds *cmd)
 	char	*rest;
 	char	quote;
 
-	begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
+	free(cmd->infile);
 	cmd->infile = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	rest = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	i = 0;
 	k = 0;
 	while (cmd->pipeline[i] && ft_checkoutquote(cmd->pipeline, '<', 2) >= 0)
 	{
+		begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
+		rest = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 		cmd->infile[k] = ft_calloc(ft_strlen(cmd->pipeline) + 1, 8);
 		j = 0;
 		while (cmd->pipeline[i] && cmd->pipeline[i] != '<')
@@ -105,6 +106,8 @@ void	ft_parseredirectin(t_cmds *cmd)
 		rest[j] = '\0';
 		free (cmd->pipeline);
 		cmd->pipeline = ft_strjoin(begin, rest);
+		free(begin);
+		free(rest);
 		k++;
 		i = 0;
 	}
@@ -119,13 +122,14 @@ void	ft_parseredirectout(t_cmds *cmd)
 	char	*rest;
 	char	quote;
 
-	begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	cmd->outfile = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	rest = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
+	free(cmd->outfile);
+	cmd->outfile = ft_calloc(100, 8);
 	k = 0;
 	i = 0;
 	while (ft_checkoutquote(cmd->pipeline, '>', 2) >= 0)
 	{
+		begin = ft_calloc((ft_strlen(cmd->pipeline) + 1), 8);
+		rest = ft_calloc((ft_strlen(cmd->pipeline) + 1), 8);
 		i = 0;
 		/*printf("%s\n", cmd->pipeline);*/
 		cmd->outfile[k] = ft_calloc(ft_strlen(cmd->pipeline) + 1, 8);
@@ -214,6 +218,8 @@ void	ft_parseredirectout(t_cmds *cmd)
 		/*printf("rest: %s\n", rest);*/
 		free (cmd->pipeline);
 		cmd->pipeline = ft_strjoin(begin, rest);
+		free(begin);
+		free(rest);
 		k++;
 	}
 }

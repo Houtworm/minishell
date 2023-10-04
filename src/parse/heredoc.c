@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/30 03:23:17 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/04 12:17:12 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ t_forks ft_parseheredoc(t_forks forks, int cmdnum)
 					i++;
 				}
 			}
+			free(start);
+			free(end);
 			hdid++;
 		}
 		icmd++;
