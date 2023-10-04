@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:24 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 09:49:01 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 12:23:40 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 							/*printf("We need to go deeper here!!!\n");*/
 							temp = ft_vastrjoin(3, fullpath, "/", dirents->d_name);
 							ft_recursivematchsub(globs, temp, dname, i + 1);
+							free(temp);
 						}
 					}
 				}
