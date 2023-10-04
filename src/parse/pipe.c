@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipe.c                                             :+:    :+:            */
+/*   pipe.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/28 13:26:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/02 22:35:51 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/04 07:54:40 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_shell	ft_parsepipe(char *line, t_shell shell)
 	int	k;
 
 	shell.line = ft_strdup(line);
-	shell.forks = ft_calloc(ft_strlen(shell.line) * sizeof(t_forks), 1);
+	shell.forks = ft_calloc(1000, sizeof(t_forks));
 	i = 0;
 	shell.forkamount = 0;
 	while (shell.line[i])

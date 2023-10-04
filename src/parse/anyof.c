@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 18:30:47 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/04 08:18:06 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ int	ft_firstanyof(t_globs *globs, char *dname, int i)
 		}
 		globs->anyof[j] = '\0';
 		globs->glob[j + 1] = ']';
+		/*free(globs->gend);*/
 		globs->gend = ft_substr(globs->gend, j + 1, ft_strlen(globs->gend));
 	}
 	else

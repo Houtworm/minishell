@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 01:18:08 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 06:54:32 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 08:31:48 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ void	ft_freecmds(t_cmds *cmds)
 	{
 		free(cmds[i].pipeline);
 		free(cmds[i].absolute);
-		ft_frearr(cmds[i].arguments);
-		ft_frearr(cmds[i].outfile);
-		ft_frearr(cmds[i].infile);
-		free(cmds[i].append);
+		/*ft_frearr(cmds[i].arguments);*/
+		/*ft_frearr(cmds[i].outfile);*/
+		/*ft_frearr(cmds[i].infile);*/
+		/*free(cmds[i].append);*/
+		/*ft_frearr(cmds->envp);*/
 		i++;
 	}
 	free(cmds);
@@ -37,7 +38,7 @@ void	ft_freeforks(t_forks *forks)
 	i = 0;
 	if (forks)
 	{
-		while (forks[i].pipeline)
+		while (forks[i].cmds)
 		{
 			ft_freecmds(forks[i].cmds);
 			free(forks[i].pipeline);

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 07:09:19 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 07:58:21 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,6 @@ char		*ft_completeline(char *line, int k);
 int			ft_skipquote(char *s, int i);
 char		check_quote_closed(char *s);
 char		*ft_closeline(char *line);
-//char		**ft_remove_quote(char	**cmd, int count);
 // heredoc
 t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
 // redirect
