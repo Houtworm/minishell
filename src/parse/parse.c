@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 13:13:54 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 14:02:58 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,5 +339,6 @@ int	ft_parseline(char *line, t_shell *shell)
 			ft_printforks(shell->forks[forknumber], forknumber);
 		forknumber++;
 	}
+	/*free(line);*/
 	return (0);
 }
