@@ -25,7 +25,6 @@ is a lightweight implementation of bash
 - forks should not run if there is a mismatching condition before in the pipeline
 - somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
 - cat | cat | cat | ls // should exit when enter is pressed 3 times
-- push & to the background
 ### Builtins
 #### cd
 - cd - is having issues if oldpwd is not set.
