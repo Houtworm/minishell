@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 18:30:38 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/04 09:41:13 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 			if (dirents->d_type == DT_DIR) // check if it is a directory
 			{
 				/*printf("ft_firstsubjoker glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[i], dirents->d_name, i);*/
+				free(globs->tempsubdir[i]);
 				globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 				return (1); // this one is a match
 			}
@@ -87,6 +88,7 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 				}
 				else
 				{
+					free(globs->tempsubdir[i]);
 					globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 					/*printf("ft_firstsubjoker %s matches but is not a dir but we are at our dept so match\n", dirents->d_name);*/
 					return (1);
@@ -106,6 +108,7 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 		if (globs->subdir[i][itar] && ft_strchr("*?[", globs->subdir[i][itar])) // if we find a new glob
 		{
 			/*printf("ft_firstsubjoker found glob going into recursion\n");*/
+			free(globs->tempsubdir[i]);
 			globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 			globs->temptype = dirents->d_type;
 			if (ft_nextsubglob(globs, i, itar, itar)) // recursive glob function returns 1 if it eventually matches
@@ -113,6 +116,7 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 				if (dirents->d_type == DT_DIR) // check if it is a directory
 				{
 					/*printf("ft_firstsubjoker glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[i], dirents->d_name, i);*/
+					free(globs->tempsubdir[i]);
 					globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 					return (1); // this one is a match
 				}
@@ -125,6 +129,7 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 					}
 					else
 					{
+						free(globs->tempsubdir[i]);
 						globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 						/*printf("ft_firstsubjoker %s matches but is not a dir but we are at our dept so match\n", dirents->d_name);*/
 						return (1);

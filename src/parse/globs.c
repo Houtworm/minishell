@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 08:22:08 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 09:39:10 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,11 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 				if (type == DT_DIR) //check if it is an actual directory
 				{
 					/*printf("ft_matchtillglob %s is a dir, going to match the subdirectory\n", dname);*/
+					temp = ft_vastrjoin(2, fullpath, dname);
+					free(globs->tempsubdir[0]);
 					globs->tempsubdir[0] = ft_strjoin("/", dname);
-					ft_recursivematchsub(globs, ft_vastrjoin(2, fullpath, dname), dname, 0); // match the subdirectories recursively
+					ft_recursivematchsub(globs, temp, dname, 0); // match the subdirectories recursively
+					free(temp);
 				}
 			}
 			else

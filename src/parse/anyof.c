@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 08:18:06 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 10:42:57 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int itar)
 			if (dirents->d_type == DT_DIR) // check if it is a directory
 			{
 				/*printf("ft_firstsubanyof glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[i], dirents->d_name, i);*/
+				free(globs->tempsubdir[i]);
 				globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 				return (1); // this one is a match
 			}
@@ -133,6 +134,7 @@ int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int itar)
 				}
 				else
 				{
+					free(globs->tempsubdir[i]);
 					globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 					/*printf("ft_firstsubanyof %s matches but is not a dir but we are at our dept so match\n", dirents->d_name);*/
 					return (1);
@@ -148,6 +150,7 @@ int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int itar)
 		{
 			/*printf("ft_firstsubanyof recursive glob found\n");*/
 			globs->temptype = dirents->d_type;
+			free(globs->tempsubdir[i]);
 			globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 			return (ft_nextsubglob(globs, i, itar, k + 1)); // recursive glob function returns 1 if it eventually matches
 		}
@@ -204,6 +207,7 @@ int	ft_nextanyof(t_globs *globs, char *dname, int i, int j)
 int	ft_firstanyof(t_globs *globs, char *dname, int i)
 {
 	int	j;
+	char	*temp;
 
 	j = 0;
 	/*printf("ft_firstanyof baby\n");*/
@@ -222,8 +226,10 @@ int	ft_firstanyof(t_globs *globs, char *dname, int i)
 		}
 		globs->anyof[j] = '\0';
 		globs->glob[j + 1] = ']';
-		/*free(globs->gend);*/
-		globs->gend = ft_substr(globs->gend, j + 1, ft_strlen(globs->gend));
+		temp = ft_substr(globs->gend, j + 1, ft_strlen(globs->gend));
+		free(globs->gend);
+		globs->gend = ft_strdup(temp);
+		free(temp);
 	}
 	else
 	{
