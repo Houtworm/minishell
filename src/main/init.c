@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 07:00:05 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 07:09:41 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,10 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	shell->alias = ft_parsemshrc(envp);
 	ft_charpptofd(envp, shell->envpfd);
 	shell->envp = ft_fdtocharpp(shell->envpfd);
-	/*ft_shelllevelup(shell->envp);*/
+	ft_shelllevelup(shell->envp);
 	shell->starttime = ft_gettimems(shell->envp);
 	shell->code = 256;
-	shell->fdout = 1;
-	shell->fdin = 0;
 	shell->stop = 0;
-	/*dup2(1, shell->fdout);*/
-	/*dup2(0, shell->fdin);*/
 	shell->debug = debugmode;
 	ft_readhistory(shell->historyfile);
 	return (shell);

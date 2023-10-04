@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 06:46:11 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 07:09:19 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,6 @@ typedef struct s_shell
 	int			debug;
 	int			**pipes;
 	int			forkamount;
-	int			fdin;
-	int			fdout;
 	int			stop;
 	int			pid;
 	char		*line;

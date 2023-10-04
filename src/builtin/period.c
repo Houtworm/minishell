@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:01:18 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/03 05:10:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/04 07:18:31 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	ft_checkperiod(t_cmds cmds)
 	if (dir || errno == EACCES)
 	{
 		ft_errorexit("Is a directory", cmds.arguments[0], 0);
+		closedir(dir);
 		return (126);
 	}
 	if (access(cmds.arguments[0], F_OK))
