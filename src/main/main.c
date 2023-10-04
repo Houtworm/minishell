@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 03:29:22 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 04:51:01 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_mainloop(t_shell *shell)
 	ft_printprompt(shell, shell->envp);
 	line = readline("$ "); // ❯ causes issues :(
 	if (!line)
-		ft_cleanexit(shell);
+		ft_freeexit(shell, 0);
 	shell->starttime = ft_gettimems(shell->envp);
 	if (!ft_isallbyte(line, ' '))
 	{
@@ -65,5 +65,5 @@ int	main(int argc, char **argv, char **envp)
 		shell =	ft_initstruct(envp, 0);
 	while (1)
 		ft_mainloop(shell);
-	ft_cleanexit(shell);
+	ft_freeexit(shell, 0);
 }

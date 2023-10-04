@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/01 02:06:31 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 03:42:31 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/04 04:03:03 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_writehistory(char *line, char *file)
 				ft_putendl_fd(gnl, tempfd);
 			free(gnl);
 		}
+		free(gnl);
 		ft_putendl_fd(line, tempfd);
 		close(tempfd);
 		close(histfd);
@@ -37,6 +38,7 @@ void	ft_writehistory(char *line, char *file)
 			ft_putendl_fd(gnl, histfd);
 			free(gnl);
 		}
+		free(gnl);
 		close(tempfd);
 		close(histfd);
 		ft_readhistory(file);

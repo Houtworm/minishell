@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/03 18:37:59 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/04 04:48:03 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,8 @@ void		ft_charpptofd(char **array, int fd);
 int			ft_errorexit(char *reason, char *cmd, int code);
 int			ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
 // cleanup
-void		ft_cleanexit(t_shell *shell);
-
+void		ft_freeexit(t_shell *shell, int code);
+void		ft_freeglobs(t_globs *globs);
 
 // PARSE
 // parse
