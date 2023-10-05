@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/05 18:00:36 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 19:36:22 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,7 @@ int	ft_parseline(char *line, t_shell *shell)
 	line = ft_parseoldline(line, shell);
 	if (!line)
 		return (127);
-	free(shell->oldline);
+	/*free(shell->oldline);*/
 	shell->oldline = ft_strdup(line);
 	line = ft_parsehashtag(shell->oldline);
 	if (line[0] == '\0')

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/05 18:11:20 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 18:32:32 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,18 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	char	*home;
 
 	shell = ft_calloc(100, 8);
+	shell->starttime = ft_gettimems(envp);
+	ft_charpptofd(envp, shell->envpfd);
+	shell->envp = ft_fdtocharpp(shell->envpfd);
+	ft_shelllevelup(shell->envp);
+	ft_charpptofd(shell->envp, shell->envpfd);
+	shell->builtins = ft_getbuiltins();
 	home = ft_gethome(envp);
 	shell->historyfile = ft_strjoin(home, "/.mshhistory");
 	free(home);
 	shell->oldline = ft_calloc(2, 8);
 	shell->pid = ft_getpid();
 	shell->alias = ft_parsemshrc(envp);
-	ft_charpptofd(envp, shell->envpfd);
-	shell->envp = ft_fdtocharpp(shell->envpfd);
-	ft_shelllevelup(shell->envp);
-	ft_charpptofd(shell->envp, shell->envpfd);
-	shell->builtins = ft_getbuiltins();
-	shell->starttime = ft_gettimems(shell->envp);
 	shell->code = 256;
 	shell->stop = 0;
 	shell->debug = debugmode;
