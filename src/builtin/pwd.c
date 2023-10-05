@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:00 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/04 12:01:19 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 06:47:54 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_pwd(t_cmds cmds)
+int	ft_pwd(t_cmds cmds, t_shell *shell)
 {
 	char	*pwd;
 
@@ -24,4 +24,5 @@ int	ft_pwd(t_cmds cmds)
 	printf("%s\n", pwd);
 	free(pwd);
 	return (0);
+	shell = shell;
 }

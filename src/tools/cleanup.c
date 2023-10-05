@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 01:18:08 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 11:44:51 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 08:54:18 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_freecmds(t_cmds *cmds)
 	{
 		free(cmds[i].pipeline);
 		free(cmds[i].absolute);
-		ft_frearr(cmds[i].arguments);
+		ft_frearr(cmds[i].arguments); // crashes with tester, needs an if
 		ft_frearr(cmds[i].outfile);
 		ft_frearr(cmds[i].infile);
 		free(cmds[i].append);
@@ -50,6 +50,9 @@ void	ft_freeforks(t_forks *forks)
 
 void	ft_freeexit(t_shell *shell, int code)
 {
+	int		i;
+	
+	i = 0;
 	ft_freeforks(shell->forks);
 	free(shell->alias->val);
 	free(shell->alias->var);
@@ -58,6 +61,12 @@ void	ft_freeexit(t_shell *shell, int code)
 	free(shell->oldline);
 	free(shell->line);
 	ft_frearr(shell->envp);
+	while (i < 13)
+	{
+		free(shell->builtins[i].compare);
+		i++;
+	}
+	free(shell->builtins);
 	free(shell);
 	exit (code);
 }

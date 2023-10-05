@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 11:57:55 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 09:29:22 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_adddirtoz(t_cmds cmd, char *cwd)
 	close(tempfd);
 }
 
-int	ft_chdir(t_cmds cmds)
+int	ft_chdir(t_cmds cmds, t_shell *shell)
 {
 	char	*line;
 	char	*cwd;
@@ -80,6 +80,7 @@ int	ft_chdir(t_cmds cmds)
 			ft_moderrorexit("Not a directory", cmds.arguments[0], cmds.arguments[1], 0);
 		else
 			ft_moderrorexit("No such file or directory", cmds.arguments[0], cmds.arguments[1], 0);
+		free(line);
 		return (1);
 	}
 	free(line);
@@ -90,4 +91,5 @@ int	ft_chdir(t_cmds cmds)
 	free(cwd);
 	ft_charpptofd(cmds.envp, cmds.envpfd);
 	return (0);
+	shell = shell;
 }

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/04 14:01:43 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 06:47:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int ft_echorecursion(t_cmds cmds, char *print, int i, int j)
 }
 
 
-int	ft_echo(t_cmds cmds)
+int	ft_echo(t_cmds cmds, t_shell *shell)
 {
 	char	*print;
 	int		i;
@@ -86,4 +86,5 @@ int	ft_echo(t_cmds cmds)
 	else
 		ft_putchar('\n');
 	return (0);
+	shell = shell;
 }

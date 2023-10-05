@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 11:45:43 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 06:15:53 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	ft_shelllevelup(char **envp)
 	free(shlvlstr);
 	shlvlint++;
 	shlvlstr = ft_itoa(shlvlint);
-	/*printf("shlvl: %s\n", shlvlstr);*/
 	ft_setenv(envp, "SHLVL", shlvlstr);
 	free(shlvlstr);
 }
@@ -69,6 +68,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	shell->envp = ft_fdtocharpp(shell->envpfd);
 	ft_shelllevelup(shell->envp);
 	ft_charpptofd(shell->envp, shell->envpfd);
+	shell->builtins = ft_getbuiltins();
 	shell->starttime = ft_gettimems(shell->envp);
 	shell->code = 256;
 	shell->stop = 0;

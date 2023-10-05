@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:01:18 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 07:18:31 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 08:50:19 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ int	ft_checkperiod(t_cmds cmds)
 	return (0);
 }
 
-int	ft_period(t_cmds cmds)
+int	ft_period(t_cmds cmds, t_shell *shell)
 {
 	int		status;
+	int		fd;
+	char	*line;
 
 	if (cmds.arguments[0][1] == '\0')
 	{
@@ -51,7 +53,22 @@ int	ft_period(t_cmds cmds)
 		if (status)
 			return (status);
 		execve(cmds.absolute, cmds.arguments, cmds.envp);
-		return(123);
+		status = 1;
+		fd = open(cmds.absolute, O_RDONLY);
+		if (fd == -1)
+			ft_errorexit("command not found", cmds.absolute, 127);
+		while (status > 0)
+		{
+			status = get_next_line(fd, &line);
+			if (status <= 0)
+				exit (shell->code);
+			if (ft_parseline(line, shell))
+				exit (2);
+			if (status > 0)
+				shell->code = ft_forktheforks(shell);
+			free(line);
+		}
+		return(shell->code);
 	}
 	else
 	{

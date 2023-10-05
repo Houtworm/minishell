@@ -6,130 +6,83 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/03 17:09:10 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 09:08:36 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-typedef struct	s_builtin
+void	ft_setbuiltincompare(t_builtin *builtins)
 {
-	char	*compare;
-	int		(*func)(t_cmds cmds);
-}	t_builtin;
+	builtins[0].compare = ft_strdup(".\0");
+	builtins[1].compare = ft_strdup("/\0");
+	builtins[2].compare = ft_strdup("alias\0");
+	builtins[3].compare = ft_strdup("echo\0");
+	builtins[4].compare = ft_strdup("env\0");
+	builtins[5].compare = ft_strdup("export\0");
+	builtins[6].compare = ft_strdup("unset\0");
+	builtins[7].compare = ft_strdup("pwd\0");
+	builtins[8].compare = ft_strdup("which\0");
+	builtins[9].compare = ft_strdup("cd\0");
+	builtins[10].compare = ft_strdup("z\0");
+	builtins[11].compare = ft_strdup("exit\0");
+	builtins[12].compare = ft_strdup("exec\0");
+	builtins[13].compare = NULL;
+}
 
-int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
+t_builtin	*ft_getbuiltins(void)
+{
+	t_builtin	*builtins;
+
+	builtins = ft_calloc(14, 16);
+	builtins[0].func = ft_period;
+	builtins[1].func = ft_period;
+	builtins[2].func = ft_alias;
+	builtins[3].func = ft_echo;
+	builtins[4].func = ft_env;
+	builtins[5].func = ft_export;
+	builtins[6].func = ft_unset;
+	builtins[7].func = ft_pwd;
+	builtins[8].func = ft_which;
+	builtins[9].func = ft_chdir;
+	builtins[10].func = ft_z;
+	builtins[11].func = ft_exit;
+	builtins[12].func = ft_exec;
+	ft_setbuiltincompare(builtins);
+	return (builtins);
+}
+
+int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *shell, int i)
 {
 	int	pid;
 	int	ret;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		ft_dupmachine(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
+		exit(shell->builtins[i].func(shell->forks[forknbr].cmds[cmdnbr], shell));
+	}
+	waitpid(pid, &ret, 0);
+	shell->code = WEXITSTATUS(ret);
+	if (i > 9)
+		ft_freeexit(shell, shell->code);
+	return (shell->code);
+}
+
+int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
+{
 	int i;
-	int	status;
-	int	fd;
-	char	*line;
-	t_builtin	bui[13] = {
-	{".\0", ft_period},
-	{"/\0", ft_period},
-	{"alias\0", ft_echo},
-	{"echo\0", ft_echo},
-	{"env\0", ft_env},
-	{"export\0", ft_export},
-	{"unset\0", ft_unset},
-	{"pwd\0", ft_pwd},
-	{"which\0", ft_which},
-	{"cd\0", ft_chdir},
-	{"exit\0", ft_exit},
-	{"exec\0", ft_exec},
-	{"z\0", ft_z}
-	};
+	int	j;
 
 	i = 0;
-	while (i < 2)
-	{
-		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare)))
-		{
-			pid = fork();
-			if (pid == 0)
-			{
-				ft_dupmachine(cmds, cmdnbr, forknbr, shell);
-				ret = bui[i].func(cmds);
-				if (ret == 123)
-				{
-					status = 1;
-					fd = open(cmds.absolute, O_RDONLY);
-					if (fd == -1)
-						ft_errorexit("command not found", cmds.absolute, 127);
-					while (status > 0)
-					{
-						status = get_next_line(fd, &line);
-						if (status <= 0)
-							exit (shell->code);
-						if (ft_parseline(line, shell))
-							exit (2);
-						if (status > 0)
-							shell->code = ft_forktheforks(shell);
-						free(line);
-					}
-					exit(shell->code);
-				}
-				if (ft_strchr(cmds.absolute, ' ')) // hacky solution, programs can actually contain a ' ' in their name
-				{
-					ft_errorexit("command not found", bui[i].compare, 127);
-				}
-				exit(ret);
-			}
-			waitpid(pid, &ret, 0);
-			shell->code = WEXITSTATUS(ret);
-			return (shell->code);
-		}
-		i++;
-	}
-	while (i < 9)
-	{
-		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare) + 1))
-		{
-			pid = fork();
-			if (pid == 0)
-			{
-				ft_dupmachine(cmds, cmdnbr, forknbr, shell);
-				ret = bui[i].func(cmds);
-				if (ret == 123)
-				{
-					status = 1;
-					fd = open(cmds.absolute, O_RDONLY);
-					if (fd == -1)
-						ft_errorexit("command not found", cmds.absolute, 127);
-					while (status > 0)
-					{
-						status = get_next_line(fd, &line);
-						if (status <= 0)
-							exit (shell->code);
-						if (ft_parseline(line, shell))
-							exit (2);
-						if (status > 0)
-							shell->code = ft_forktheforks(shell);
-						free(line);
-					}
-					exit(shell->code);
-				}
-				if (ft_strchr(cmds.absolute, ' ')) // hacky solution, programs can actually contain a ' ' in their name
-				{
-					ft_errorexit("command not found", bui[i].compare, 127);
-				}
-				exit(ret);
-			}
-			waitpid(pid, &ret, 0);
-			shell->code = WEXITSTATUS(ret);
-			return (shell->code);
-		}
-		i++;
-	}
+	j = 0;
 	while (i < 13)
 	{
-		if (!ft_strncmp(cmds.arguments[0], bui[i].compare, ft_strlen(bui[i].compare) + 1))
-		{
-			shell->code = bui[i].func(cmds);
-			return (shell->code);
-		}
+		if (!ft_strncmp(cmds.arguments[0], shell->builtins[i].compare, ft_strlen(shell->builtins[i].compare) + j))
+			return (ft_builtinexecute(cmdnbr, forknbr, shell, i));
+		if (i == 1)
+			j = 1;
 		i++;
 	}
 	return (-1111);

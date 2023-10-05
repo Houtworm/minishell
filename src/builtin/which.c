@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:03:34 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/30 05:03:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 09:20:34 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_which(t_cmds cmds)
+int	ft_which(t_cmds cmds, t_shell *shell)
 {
 	char	*absolute;
 	char	**paths;
@@ -22,18 +22,19 @@ int	ft_which(t_cmds cmds)
 			return (-1);
 	paths = ft_getpaths(cmds.envp, 0);
 	absolute = ft_abspathcmd(paths, cmds.arguments[1]);
+	ft_frearr(paths);
 	if (absolute[0] != '/' || cmds.arguments[1][0] == '.')
 	{
 		ft_putstr_fd("which: no ", 2);
 		ft_putstr_fd(absolute, 2);
 		ft_putendl_fd(" in paths", 2);
-		ft_frearr(paths);
 		free(absolute);
 		return (1);
 	}
 	printf("%s\n", absolute);
 	free(absolute);
 	return (0);
+	shell = shell;
 }
 
 /*int	ft_which(t_cmds cmds)*/

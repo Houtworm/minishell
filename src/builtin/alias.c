@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:19 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/20 00:38:21 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 06:44:15 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_printalias(void)
 	return (0);
 }
 
-int	ft_alias(t_cmds cmd)
+int	ft_alias(t_cmds cmd, t_shell *shell)
 {
 	char	*var;
 	char	*val;
@@ -63,4 +63,5 @@ int	ft_alias(t_cmds cmd)
 	free(val);
 	ft_charpptofd(cmd.envp, cmd.envpfd);
 	return (0);
+	shell = shell;
 }

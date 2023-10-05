@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:10 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/30 05:49:03 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 06:48:03 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_z(t_cmds cmd)
+int	ft_z(t_cmds cmd, t_shell *shell)
 {
 	int		mshzfd;
 	char	*line;
@@ -29,7 +29,7 @@ int	ft_z(t_cmds cmd)
 		if (ft_strnstr(temp, cmd.arguments[1], ft_strlen(temp)))
 		{
 			cmd.arguments[1] = ft_strdup(line);
-			ft_chdir(cmd);
+			ft_chdir(cmd, shell);
 			free(line);
 			free(home);
 			/*free(temp);*/
@@ -45,7 +45,7 @@ int	ft_z(t_cmds cmd)
 		if (ft_strnstr(line, cmd.arguments[1], ft_strlen(line)))
 		{
 			cmd.arguments[1] = ft_strdup(line);
-			ft_chdir(cmd);
+			ft_chdir(cmd, shell);
 			free(line);
 			free(home);
 			return (0);
@@ -55,4 +55,5 @@ int	ft_z(t_cmds cmd)
 	free(home);
 	close(mshzfd);
 	return (1);
+	shell = shell;
 }

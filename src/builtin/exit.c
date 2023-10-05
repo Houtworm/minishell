@@ -6,13 +6,13 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 18:48:08 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/30 02:57:35 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 06:47:44 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_exit(t_cmds cmds)
+int	ft_exit(t_cmds cmds, t_shell *shell)
 {
 	int	i;
 
@@ -32,4 +32,5 @@ int	ft_exit(t_cmds cmds)
 	}
 		exit (ft_atol(cmds.arguments[1]));
 	return (0);
+	shell = shell;
 }

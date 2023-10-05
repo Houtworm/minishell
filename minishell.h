@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 07:58:21 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 06:53:24 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,24 @@
 
 // Structs
 
+typedef struct s_shell t_shell;
+typedef struct s_forks t_forks;
+typedef struct s_cmds t_cmds;
+typedef struct s_globs t_globs;
+typedef struct s_builtin t_builtin;
+typedef struct s_alias t_alias;
+
 typedef struct s_alias
 {
 	char		*var;
 	char		*val;
 }	t_alias;
+
+typedef struct	s_builtin
+{
+	char	*compare;
+	int		(*func)(t_cmds cmds, t_shell *shell);
+}	t_builtin;
 
 typedef struct s_globs
 {
@@ -88,6 +101,7 @@ typedef struct s_shell
 {
 	t_forks		*forks;
 	t_alias		*alias;
+	t_builtin	*builtins;
 	int			envpfd;
 	int			hdfd;
 	char		**envp;
@@ -231,30 +245,31 @@ int			ft_checkcommand(t_cmds cmds);
 
 // BUILTINS
 // builtin
+t_builtin	*ft_getbuiltins(void);
 int			ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
 // alias
-int			ft_alias(t_cmds cmd);
+int			ft_alias(t_cmds cmd, t_shell *shell);
 // chdir
-int			ft_chdir(t_cmds cmds);
+int			ft_chdir(t_cmds cmds, t_shell *shell);
 // exit
-int			ft_exit(t_cmds cmds);
+int			ft_exit(t_cmds cmds, t_shell *shell);
 // unset
-int			ft_unset(t_cmds cmds);
+int			ft_unset(t_cmds cmds, t_shell *shell);
 // export
-int			ft_export(t_cmds cmds);
+int			ft_export(t_cmds cmds, t_shell *shell);
 // env
-int			ft_env(t_cmds cmds);
+int			ft_env(t_cmds cmds, t_shell *shell);
 // pwd
-int			ft_pwd(t_cmds cmds);
+int			ft_pwd(t_cmds cmds, t_shell *shell);
 // echo
-int			ft_echo(t_cmds cmds);
+int			ft_echo(t_cmds cmds, t_shell *shell);
 // z
-int			ft_z(t_cmds cmds);
+int			ft_z(t_cmds cmds, t_shell *shell);
 // period
-int			ft_period(t_cmds cmds);
+int			ft_period(t_cmds cmds, t_shell *shell);
 // exec
-int			ft_exec(t_cmds cmds);
+int			ft_exec(t_cmds cmds, t_shell *shell);
 // which
-int			ft_which(t_cmds cmds);
+int			ft_which(t_cmds cmds, t_shell *shell);
 
 #endif

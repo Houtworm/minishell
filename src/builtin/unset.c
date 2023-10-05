@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:05 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/02 00:49:52 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 06:47:57 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_unset(t_cmds cmds)
+int	ft_unset(t_cmds cmds, t_shell *shell)
 {
 	int		i;
 
@@ -35,4 +35,5 @@ int	ft_unset(t_cmds cmds)
 	}
 	ft_charpptofd(cmds.envp, cmds.envpfd);
 	return (0);
+	shell = shell;
 }
