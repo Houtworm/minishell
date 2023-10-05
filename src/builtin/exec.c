@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/01 00:57:08 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 07:59:59 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 11:21:15 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_exec(t_cmds cmds, t_shell *shell)
 	char	**paths;
 	
 	i = 0;
-	paths = ft_getpaths(cmds.envp, 1);
+	paths = ft_getpaths(shell->envp, 1);
 	while (cmds.arguments[i + 1])
 	{
 		free(cmds.arguments[i]);
@@ -27,12 +27,15 @@ int	ft_exec(t_cmds cmds, t_shell *shell)
 		i++;
 	}
 	cmds.arguments[i] = NULL;
+	free(cmds.absolute);
 	cmds.absolute = ft_abspathcmd(paths, cmds.arguments[0]);
-	status = ft_checkcommand(cmds);
+	ft_frearr(paths);
+	status = ft_checkcommand(cmds, shell->envp);
 	if (status)
-		return (status);
-	execve(cmds.absolute, cmds.arguments, cmds.envp);
-	ft_errorexit("command not found", cmds.absolute, 0);
-	return (127);
+		status = 127;
+	else
+		execve(cmds.absolute, cmds.arguments, shell->envp);
+	free(cmds.absolute);
+	return (status);
 	shell = shell;
 }

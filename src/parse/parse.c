@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 14:02:58 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 12:39:54 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,16 +221,15 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 {
 	char	**paths;
 
-	shell->forks[forknumber].cmds[cmdnumber].envp = shell->envp;
 	shell->forks[forknumber].cmds[cmdnumber].debug = shell->debug;
 	shell->forks[forknumber].cmds[cmdnumber].forkamount = shell->forkamount;
 	shell->forks[forknumber].cmds[cmdnumber].prio = ft_priority(shell->forks[forknumber].cmds, cmdnumber); //0;
 	ft_parsealiases(&shell->forks[forknumber].cmds[cmdnumber], *shell);
 	ft_parsevariable(&shell->forks[forknumber].cmds[cmdnumber], *shell);
 	ft_parsetilde(&shell->forks[forknumber].cmds[cmdnumber], *shell);
-	ft_executepriority(&shell->forks[forknumber].cmds[cmdnumber]);
+	ft_executepriority(&shell->forks[forknumber].cmds[cmdnumber], shell->envp);
 	ft_parseredirection(&shell->forks[forknumber].cmds[cmdnumber]);
-	ft_parseglobs(&shell->forks[forknumber].cmds[cmdnumber]); //should be moved to ft_parseline()
+	ft_parseglobs(&shell->forks[forknumber].cmds[cmdnumber], shell->envp); //should be moved to ft_parseline()
 	paths = ft_splitcmd(shell->forks[forknumber].cmds[cmdnumber].pipeline);
 	shell->forks[forknumber].cmds[cmdnumber].arguments = ft_removequotes(paths);
 	if (!shell->forks[forknumber].cmds[cmdnumber].arguments[0])
@@ -282,7 +281,7 @@ char	*ft_parseoldline(char *line, t_shell *shell)
 			if (!shell->oldline[0])
 			{
 				ft_vafree(2, begin, rest);
-				return (NULL);
+				return (line);
 			}
 			begin[j] = '\0';
 			i++;
@@ -299,7 +298,8 @@ char	*ft_parseoldline(char *line, t_shell *shell)
 			line = ft_vastrjoin(3, begin, shell->oldline, rest);
 			i = 0;
 		}
-		ft_vafree(2, begin, rest);
+		free(rest);
+		free(begin);
 	}
 	return (line);
 }
@@ -322,11 +322,17 @@ int	ft_parseline(char *line, t_shell *shell)
 		return (127);
 	free(shell->oldline);
 	shell->oldline = ft_strdup(line);
-	line = ft_parsehashtag(line);
+	line = ft_parsehashtag(shell->oldline);
 	if (line[0] == '\0')
+	{
+		free(line);
 		return (1);
+	}
 	if (ft_checksyntax(shell, line))
+	{
+		free(line);
 		return (2);
+	}
 	*shell = ft_parsepipe(line, *shell);
 	if (shell->debug)
 		ft_printshell(*shell);
@@ -339,6 +345,6 @@ int	ft_parseline(char *line, t_shell *shell)
 			ft_printforks(shell->forks[forknumber], forknumber);
 		forknumber++;
 	}
-	/*free(line);*/
+	free(line);
 	return (0);
 }

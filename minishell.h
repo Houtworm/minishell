@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/05 06:53:24 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 11:14:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ typedef struct s_globs
 
 typedef struct s_cmds
 {
-	char		**envp;
-	int			envpfd;
 	char		*absolute;
 	char		**arguments;
 	int			detatch;
@@ -103,7 +101,7 @@ typedef struct s_shell
 	t_alias		*alias;
 	t_builtin	*builtins;
 	int			envpfd;
-	int			hdfd;
+	int			hdfd; // whu?
 	char		**envp;
 	long long	starttime;
 	int			code;
@@ -190,7 +188,7 @@ int 		ft_priority(t_cmds *cmds, int cmdnbr);
 // variable
 int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
 // globs
-int			ft_parseglobs(t_cmds *cmd);
+int			ft_parseglobs(t_cmds *cmd, char **envp);
 // globinit
 void		ft_getsubdir(t_globs *globs);
 int			ft_getparent(t_globs *globs);
@@ -233,7 +231,7 @@ char		**split_not_quote(char *s, int c);
 // fork
 int			ft_forktheforks(t_shell *shell);
 // priority
-void		ft_executepriority(t_cmds *cmd);
+void		ft_executepriority(t_cmds *cmd, char **envp);
 // exec
 int			ft_executeforks(int forknbr, t_shell *shell);
 // dupmachine
@@ -241,7 +239,7 @@ int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
 //verify
 int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);
-int			ft_checkcommand(t_cmds cmds);
+int			ft_checkcommand(t_cmds cmds, char **envp);
 
 // BUILTINS
 // builtin

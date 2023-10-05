@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 01:18:08 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 08:54:18 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 12:44:50 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	ft_freecmds(t_cmds *cmds)
 		ft_frearr(cmds[i].outfile);
 		ft_frearr(cmds[i].infile);
 		free(cmds[i].append);
-		/*ft_frearr(cmds->envp);*/
 		i++;
 	}
 	free(cmds);
@@ -58,7 +57,7 @@ void	ft_freeexit(t_shell *shell, int code)
 	free(shell->alias->var);
 	free(shell->alias);
 	free(shell->historyfile);
-	free(shell->oldline);
+	/*free(shell->oldline);*/
 	free(shell->line);
 	ft_frearr(shell->envp);
 	while (i < 13)

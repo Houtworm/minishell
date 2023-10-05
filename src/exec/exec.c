@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 12:14:12 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 11:14:41 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);
 	if (cmds.code == -1111)
 	{
-		status = ft_checkcommand(cmds);
+		status = ft_checkcommand(cmds, shell->envp);
 		if (status)
 			return (status);
 		cmds.pid = fork();
@@ -147,7 +147,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		{
 			signal(SIGQUIT, ft_sighandler);
 			ft_dupmachine(cmds, cmdnbr, forknbr, shell);
-			execve(cmds.absolute, cmds.arguments, cmds.envp);
+			execve(cmds.absolute, cmds.arguments, shell->envp);
 			/*ft_errorexit("command not found", cmds.absolute, 127);*/
 		}
 		waitpid(cmds.pid, &status, 0);

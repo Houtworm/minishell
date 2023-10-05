@@ -6,20 +6,20 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/05 09:29:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 11:17:29 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_adddirtoz(t_cmds cmd, char *cwd)
+void	ft_adddirtoz(char *cwd, char **envp)
 {
 	int		mshzfd;
 	int		tempfd;
 	char	*line;
 	char	*home;
 
-	line = ft_gethome(cmd.envp);
+	line = ft_gethome(envp);
 	home = ft_strjoin(line, "/.mshz");
 	mshzfd = open(home, O_RDONLY);
 	tempfd = open("/tmp/minishelltempz.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
@@ -58,13 +58,13 @@ int	ft_chdir(t_cmds cmds, t_shell *shell)
 	if (!cmds.arguments[1] || cmds.arguments[1][0] == '\0')
 	{
 
-		cwd = ft_getuser(cmds.envp);
+		cwd = ft_getuser(shell->envp);
 		line = ft_vastrjoin(3, "/home/", cwd, "/");
 		free(cwd);
 	}
 	else if (!ft_strncmp(cmds.arguments[1],  "-\0", 2))
 	{
-		line = ft_getenvval(cmds.envp, "OLDPWD");
+		line = ft_getenvval(shell->envp, "OLDPWD");
 		printf("%s\n", line);
 	}
 	else
@@ -84,12 +84,12 @@ int	ft_chdir(t_cmds cmds, t_shell *shell)
 		return (1);
 	}
 	free(line);
-	ft_setenv(cmds.envp, "OLDPWD", cwd);
+	ft_setenv(shell->envp, "OLDPWD", cwd);
 	getcwd(cwd, 512);
-	ft_setenv(cmds.envp, "PWD", cwd);
-	ft_adddirtoz(cmds, cwd);
+	ft_setenv(shell->envp, "PWD", cwd);
+	ft_adddirtoz(cwd, shell->envp);
 	free(cwd);
-	ft_charpptofd(cmds.envp, cmds.envpfd);
+	ft_charpptofd(shell->envp, shell->envpfd);
 	return (0);
 	shell = shell;
 }

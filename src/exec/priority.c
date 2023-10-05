@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/04 22:22:12 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/27 05:14:42 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 11:11:58 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_executedollarsign(t_cmds *cmd)
+void	ft_executedollarsign(t_cmds *cmd, char **envp)
 {
 	int		i;
 	int		j;
@@ -64,7 +64,7 @@ void	ft_executedollarsign(t_cmds *cmd)
 		if (j == 0)
 			val = ft_strdup("");
 		else
-			val = ft_system(var, cmd->envp);
+			val = ft_system(var, envp);
 		j = 0;
 		while (cmd->pipeline[i])
 		{
@@ -80,7 +80,7 @@ void	ft_executedollarsign(t_cmds *cmd)
 	ft_vafree(3, begin, var, rest);
 }
 
-void	ft_executebacktick(t_cmds *cmd)
+void	ft_executebacktick(t_cmds *cmd, char **envp)
 {
 	int		i;
 	int		j;
@@ -131,7 +131,7 @@ void	ft_executebacktick(t_cmds *cmd)
 		if (j == 0)
 			val = ft_strdup("");
 		else
-			val = ft_system(var, cmd->envp);
+			val = ft_system(var, envp);
 		j = 0;
 		while (cmd->pipeline[i])
 		{
@@ -147,9 +147,9 @@ void	ft_executebacktick(t_cmds *cmd)
 	ft_vafree(3, begin, var, rest);
 }
 
-void	ft_executepriority(t_cmds *cmd)
+void	ft_executepriority(t_cmds *cmd, char **envp)
 {
-	ft_executedollarsign(cmd);
-	ft_executebacktick(cmd);
+	ft_executedollarsign(cmd, envp);
+	ft_executebacktick(cmd, envp);
 
 }

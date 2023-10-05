@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:10 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 06:48:03 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 11:19:55 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_z(t_cmds cmd, t_shell *shell)
 	char	*home;
 	char	*temp;
 
-	line = ft_gethome(cmd.envp);
+	line = ft_gethome(shell->envp);
 	home = ft_strjoin(line, "/.mshz");
 	mshzfd = open(home, O_RDONLY);
 	free(line);

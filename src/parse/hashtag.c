@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/04 21:08:22 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 14:03:36 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 12:15:52 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_parsehashtag(char *line)
 {
-	/*char	*temp;*/
+	char	*temp;
 	int		i;
 
 	if (ft_checkoutquote(line, '#', 2) >= 0)
@@ -41,11 +41,11 @@ char	*ft_parsehashtag(char *line)
 			}
 			i++;
 		}
-		/*temp = ft_substr(line, 0, i);*/
+		temp = ft_substr(line, 0, i);
 		/*free(line);*/
-		/*line = ft_strdup(temp);*/
-		/*free(temp);*/
-		line = ft_substr(line, 0, i); // memory leak, but we need to fix a bug in the parser for this.
+		line = ft_strdup(temp);
+		free(temp);
+		/*line = ft_substr(line, 0, i); // memory leak, but we need to fix a bug in the parser for this.*/
 	}
 	return (line);
 }

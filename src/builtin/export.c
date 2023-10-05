@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:12:44 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/05 06:47:48 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 13:10:29 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	ft_printexport(void)
 
 int	ft_export(t_cmds cmds, t_shell *shell)
 {
+	char	**envp;
 	char	*var;
 	char	*val;
 	int		i;
@@ -41,41 +42,49 @@ int	ft_export(t_cmds cmds, t_shell *shell)
 
 	i = 0;
 	j = 0;
-	var = ft_calloc(512, 1);
-	val = ft_calloc(512, 1);
 	if (!cmds.arguments[1])
 	{
 		ft_printexport();
 		return (0);	
 	}
 	if (cmds.arguments[1][0] == '-')
-		if (ft_errorexit("invalid option", "export", 0))
-			return (2);
+	{
+		ft_errorexit("invalid option", "export", 0);
+		return (2);
+	}
 	if ((cmds.arguments[1][i] < 'a' || cmds.arguments[1][i] > 'z') && (cmds.arguments[1][i] < 'A' || cmds.arguments[1][i] > 'Z'))
 		if (cmds.arguments[1][i] != '_')
-			if (ft_moderrorexit("not a valid identifier", cmds.arguments[1], "export", 0))
-				return (1);
+		{
+			ft_moderrorexit("not a valid identifier", cmds.arguments[1], "export", 0);
+			return (1);
+		}
+	var = ft_calloc(512, 1);
+	val = ft_calloc(512, 1);
 	while (cmds.arguments[1][i] != '\0' && cmds.arguments[1][i] != '=')
 	{
 		if ((cmds.arguments[1][i] < 'a' || cmds.arguments[1][i] > 'z') && (cmds.arguments[1][i] < 'A' || cmds.arguments[1][i] > 'Z'))
 			if (cmds.arguments[1][i] != '_' && cmds.arguments[1][i] < '0' && cmds.arguments[1][i] > '9')
-				if (ft_moderrorexit("not a valid identifier", cmds.arguments[1], "export", 0))
-					return (1);
+			{
+				ft_moderrorexit("not a valid identifier", cmds.arguments[1], "export", 0);
+				ft_vafree(2, var, val);
+				return (1);
+			}
 		var[i] = cmds.arguments[1][i];
 		i++;
 	}
 	if (!i || (cmds.arguments[2] && cmds.arguments[2][0] == '='))
-		if (ft_errorexit("not a valid identifier", "export", 0))
-			return (1);
+	{
+		ft_errorexit("not a valid identifier", "export", 0);
+		ft_vafree(2, var, val);
+		return (1);
+	}
 	while (cmds.arguments[1][i + j + 1] != '\0')
 	{
 		val[j] = cmds.arguments[1][1 + j + i];
 		j++;
 	}
-	cmds.envp = ft_setenv(cmds.envp, var, val);
-	ft_charpptofd(cmds.envp, cmds.envpfd);
-	free(var);
-	free(val);
+	envp = ft_setenv(shell->envp, var, val);
+	ft_charpptofd(envp, shell->envpfd);
+	ft_vafree(2, var, val);
 	return (0);
-	shell = shell;
 }

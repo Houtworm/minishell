@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 09:39:10 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/05 11:10:39 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,14 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 	}
 }
 
-int	ft_parseglob(t_cmds *cmd, t_globs *globs)
+int	ft_parseglob(t_globs *globs, char **envp)
 {
 	DIR				*dir;
 	struct dirent	*dirents;
 	char			*curdir;
 	char			*checkdir;
 
-	curdir = ft_getpwd(cmd->envp, 1); // get working directory
+	curdir = ft_getpwd(envp, 1); // get working directory
 	checkdir = ft_vastrjoin(2, curdir, globs->pardir); // strjoin current directory and any directories before the first glob.
 	free(curdir);
 	dir = opendir(checkdir); // needs to run for every sub directory.
@@ -102,7 +102,7 @@ int	ft_parseglob(t_cmds *cmd, t_globs *globs)
 	return (0);
 }
 
-void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos)
+void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
 { // should parse all globs and not stop untill there are no more globs.
 	while (globs->pipeline[globs->linecount + startpos]) // while there are characters on the pipeline
 	{
@@ -119,7 +119,7 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos)
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings
 			ft_getparent(globs); //looks in the glob if it contains any extra directories above the glob
 			ft_getsubdir(globs); //looks in the glob for any subdirs and puts them in their own char **
-			ft_parseglob(cmd, globs); //parses the glob character by character
+			ft_parseglob(globs, envp); //parses the glob character by character
 			ft_newpipeline(globs); //constructs the new pipeline, sets the new position in the pipeline right after the parsed glob
 			if (cmd->debug)
 				ft_printglobs(*globs, "globlooper");
@@ -133,14 +133,14 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos)
 	}
 }
 
-int	ft_parseglobs(t_cmds *cmd)
+int	ft_parseglobs(t_cmds *cmd, char **envp)
 { // this function initializes the globlooper that parses all the globs.
 	t_globs			*globs;
 
 	if (ft_checkoutquote(cmd->pipeline, '*', 2) >= 0)
 	{
 		globs = ft_initglobstruct(cmd->pipeline); //init the struct
-		ft_globlooper(globs, cmd, 0);
+		ft_globlooper(globs, cmd, 0, envp);
 		free(cmd->pipeline);
 		cmd->pipeline = ft_strdup(globs->pipeline); // writes the glob pipeline to the cmd pipeline
 		ft_freeglobs(globs);
@@ -148,7 +148,7 @@ int	ft_parseglobs(t_cmds *cmd)
 	if (ft_checkoutquote(cmd->pipeline, '?', 2) >= 0)
 	{
 		globs = ft_initglobstruct(cmd->pipeline); //init the struct
-		ft_globlooper(globs, cmd, 0);
+		ft_globlooper(globs, cmd, 0, envp);
 		free(cmd->pipeline);
 		cmd->pipeline = ft_strdup(globs->pipeline); // writes the glob pipeline to the cmd pipeline
 		ft_freeglobs(globs);
@@ -156,7 +156,7 @@ int	ft_parseglobs(t_cmds *cmd)
 	if (ft_checkoutquote(cmd->pipeline, '[', 2) >= 0)
 	{
 		globs = ft_initglobstruct(cmd->pipeline); //init the struct
-		ft_globlooper(globs, cmd, 0);
+		ft_globlooper(globs, cmd, 0, envp);
 		free(cmd->pipeline);
 		cmd->pipeline = ft_strdup(globs->pipeline); // writes the glob pipeline to the cmd pipeline
 		ft_freeglobs(globs);

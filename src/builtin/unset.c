@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:05 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/05 06:47:57 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 13:27:44 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,22 @@ int	ft_unset(t_cmds cmds, t_shell *shell)
 	if (cmds.arguments[1][0] == '-')
 		if (ft_moderrorexit("invalid option", "unset", cmds.arguments[1], 0))
 			return (2);
-	while (cmds.envp[i])
+	while (shell->envp[i])
 	{
-		if (!ft_strncmp(cmds.envp[i], cmds.arguments[1], ft_strlen(cmds.arguments[1])))
+		if (!ft_strncmp(shell->envp[i], cmds.arguments[1], ft_strlen(cmds.arguments[1])))
 		{
-			cmds.envp[i] = cmds.envp[i + 1];
-			while (cmds.envp[i + 1])
+			free(shell->envp[i]);
+			shell->envp[i] = ft_strdup(shell->envp[i + 1]);
+			while (shell->envp[i + 1])
 			{
-				cmds.envp[i] = cmds.envp[i + 1];
+				free(shell->envp[i]);
+				shell->envp[i] = ft_strdup(shell->envp[i + 1]);
 				i++;
 			}
 		}
 		i++;
 	}
-	ft_charpptofd(cmds.envp, cmds.envpfd);
+	ft_charpptofd(shell->envp, shell->envpfd);
 	return (0);
 	shell = shell;
 }

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/05 06:47:35 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 09:51:10 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_echo(t_cmds cmds, t_shell *shell)
 			ft_putendl(print);
 		else
 			ft_putstr(print);
-		/*free(print);*/
+		free(print);
 	}
 	else
 		ft_putchar('\n');

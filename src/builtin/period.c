@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:01:18 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 08:50:19 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 11:20:12 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_period(t_cmds cmds, t_shell *shell)
 		status = ft_checkperiod(cmds);
 		if (status)
 			return (status);
-		execve(cmds.absolute, cmds.arguments, cmds.envp);
+		execve(cmds.absolute, cmds.arguments, shell->envp);
 		status = 1;
 		fd = open(cmds.absolute, O_RDONLY);
 		if (fd == -1)
