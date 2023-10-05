@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/05 18:01:34 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/05 18:11:20 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	t_shell	*shell;
 	char	*home;
 
-	shell = ft_calloc(sizeof(shell), 100);
+	shell = ft_calloc(100, 8);
 	home = ft_gethome(envp);
 	shell->historyfile = ft_strjoin(home, "/.mshhistory");
 	free(home);
