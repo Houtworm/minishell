@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                     |o_o || |                */
+/*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/06 17:10:43 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 19:13:51 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ int			ft_forktheforks(t_shell *shell);
 // priority
 void		ft_executepriority(t_cmds *cmd, char **envp);
 // exec
-int			ft_executeforks(int forknbr, t_shell *shell);
+int			ft_executeforks(int forknbr, t_shell *shell, int condition);
 // dupmachine
 int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
 //verify

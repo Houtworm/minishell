@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/05 22:40:40 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/06 19:47:54 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,33 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 void	ft_printlastcode(t_cmds	cmds)
 {
 	ft_putstr_fd(cmds.pipeline, 2);
-	ft_putendl_fd("", 2);
+	ft_putendl_fd("------------", 2);
 	ft_putstr_fd("last code is ", 2);
 	ft_putnbr_fd(cmds.lastcode, 2);
 	ft_putstr_fd("  condition is ", 2);
 	ft_putnbr_fd(cmds.condition, 2);
-	ft_putstr_fd("  prio is ", 2);
-	ft_putnbr_fd(cmds.prio, 2);
+	// ft_putstr_fd("  prio is ", 2);
+	// ft_putnbr_fd(cmds.prio, 2);
 	ft_putendl_fd("", 2);
+}
+
+void	ft_checklastcode(t_forks fork)
+{
+	int	fd;
+	int	icmd;
+
+	icmd = 0;
+	while (icmd < fork.cmdamount)
+	{
+		if (icmd + 1 != fork.cmdamount && ((fork.cmds[icmd].condition == 1 && fork.cmds[icmd].lastcode != 0)
+			|| (fork.cmds[icmd].condition == 2 && fork.cmds[icmd].lastcode == 0)))
+		{
+			fd = open("/tmp/minishelllastcode.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+			close(fd);
+			break ;
+		}
+		icmd++;
+	}
 }
 
 int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
@@ -157,7 +176,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	return (cmds.code);
 }
 
-int	ft_executeforks(int forknbr, t_shell *shell)
+int	ft_executeforks(int forknbr, t_shell *shell, int condition)
 {
 	int	status;
 	int	cmdnbr;
@@ -177,5 +196,7 @@ int	ft_executeforks(int forknbr, t_shell *shell)
 			ft_executeredirect(shell->forks[forknbr].cmds[cmdnbr].outfile, shell->forks[forknbr].cmds[cmdnbr].append, forknbr);
 		cmdnbr++;
 	}
+	if (condition)
+		ft_checklastcode(shell->forks[forknbr]);
 	return (status);
 }

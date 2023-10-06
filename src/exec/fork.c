@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/05 22:27:30 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/06 19:44:05 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_checkcondition(t_forks fork)
 	int	icmd;
 
 	icmd = 0;
-	if (fork.cmdamount < 2)
+	if (fork.cmdamount <= 2)
 		return (0);
 	while (icmd < fork.cmdamount)
 	{
@@ -44,24 +44,6 @@ int	ft_checkcondition(t_forks fork)
 			return (1);
 		icmd++;
 	}
-	return (0);
-}
-
-int	ft_checkexec(t_forks fork)
-{
-	int	icmd;
-
-	icmd = 0;
-	while (icmd < fork.cmdamount)
-	{
-		ft_putstr_fd("  ", 2);
-		ft_putnbr_fd(fork.cmds[icmd].lastcode, 2);
-		if ((fork.cmds[icmd].condition == 1 && fork.cmds[icmd].lastcode != 0)
-			|| (fork.cmds[icmd].condition == 2 && fork.cmds[icmd].lastcode == 0))
-			return (1);
-		icmd++;
-	}
-	ft_putendl_fd(" no condition", 2);
 	return (0);
 }
 
@@ -82,14 +64,14 @@ int	ft_forktheforks(t_shell *shell)
 			pipe(shell->pipes[forknumber + 1]);
 			shell->forks[forknumber].pid = fork();
 			if (shell->forks[forknumber].pid == 0)
-				exit (ft_executeforks(forknumber, shell));
-			// if (ft_checkcondition(shell->forks[forknumber]))
-			// {
-			// 	waitpid(shell->forks[forknumber].pid, &status, 0);
-			// 	shell->code = WEXITSTATUS(status);
-			// 	if (shell->code && ft_checkexec(shell->forks[forknumber]))
-			// 		return (shell->code);
-			// }
+				exit (ft_executeforks(forknumber, shell, ft_checkcondition(shell->forks[forknumber])));		
+			if (ft_checkcondition(shell->forks[forknumber]))
+			{
+				waitpid(shell->forks[forknumber].pid, &status, 0);
+				shell->code = WEXITSTATUS(status);
+				if (shell-> code && open("/tmp/minishelllastcode.tmp", O_RDONLY))
+					return (shell->code);
+			}
 			forknumber++;
 			close(shell->pipes[forknumber][1]);
 		}
@@ -103,7 +85,7 @@ int	ft_forktheforks(t_shell *shell)
 	}
 	else
 	{
-		shell->code = ft_executeforks(forknumber, shell);
+		shell->code = ft_executeforks(forknumber, shell, 0);
 	}
 	return (shell->code);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                         |o_o || |                */
+/*   parse.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/06 16:39:27 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 18:44:08 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ int	ft_parseline(char *line, t_shell *shell)
 	line = ft_parseoldline(line, shell);
 	if (!line)
 		return (127);
-	free(shell->oldline);
+	//free(shell->oldline);
 	shell->oldline = ft_strdup(line);
 	line = ft_parsehashtag(shell->oldline);
 	if (line[0] == '\0')

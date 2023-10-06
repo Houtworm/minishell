@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                         |o_o || |                 #
+#    test.sh                                            :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/06 17:49:19 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/06 19:35:26 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1208,7 +1208,10 @@ printf "\e[1;36mTesting && || combination operator\e[0;00m\n"
 testfunction "false && (cat -r && cat -z && cat -r || false) || echo hallo"
 testfunction "true || (cat -r && cat -z && cat -r || false) || echo hallo"
 testfunction "true || cat -r && cat -z && cat -r || false || echo hallo"
-testfunction "false && cat -r && cat -z && cat -r || false || echo hallo"
+testfunction "echo hey && cat -z && cat -r | cat | echo hallo"
+testfunction "echo hey && cat -z | cat | echo hallo"
+testfunction "ls | echo hey && cat -z && cat -r | cat | echo hallo"
+testfunction "ls | echo hey && cat -z | cat | echo hallo"
 
 # && || and | operator combination
 printf "\e[1;36mTesting && || and | combination operator\e[0;00m\n"
