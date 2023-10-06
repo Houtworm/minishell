@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/05 11:14:14 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 16:41:59 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ void		ft_parsealiases(t_cmds *cmds, t_shell shell);
 // complete
 char		*ft_completeline(char *line, int k);
 // quote
+int			ft_checkoutquote(char *line, char target, int mode);
 int			ft_skipquote(char *s, int i);
 char		check_quote_closed(char *s);
 char		*ft_closeline(char *line);
@@ -219,13 +220,16 @@ int			ft_nextsubanyof(t_globs *globs, int i, int j, int k);
 int			ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int j);
 int			ft_nextanyof(t_globs *globs, char *dname, int i, int j);
  int		ft_firstanyof(t_globs *globs, char *dname, int i);
+// tilde
+void		ft_parsetilde(t_cmds *cmds, t_shell shell);
+// oldline
+char		*ft_parseoldline(char *line, t_shell *shell);
 // tools
-int			ft_checkoutquote(char *line, char target, int mode);
-char		**ft_checkarg(char	**cmd, int count);
+//char		**ft_checkarg(char	**cmd, int count);
 // parse_utils
-int			count_str(char *s, int c);
-int			count_wd(char *s, int c);
-char		**split_not_quote(char *s, int c);
+//int			count_str(char *s, int c);
+//int			count_wd(char *s, int c);
+//char		**split_not_quote(char *s, int c);
 
 // EXEC
 // fork

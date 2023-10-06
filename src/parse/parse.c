@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/05 19:36:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 16:39:27 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,75 +148,6 @@ char	**ft_splitcmd(char *cmd)
 	return (arguments);
 }
 
-void	ft_parsetilde(t_cmds *cmds, t_shell shell)
-{
-	int		i;
-	int		j;
-	char	*begin;
-	char	*temp;
-	char	*rest;
-
-	begin = ft_calloc((ft_strlen(cmds->pipeline) + 1), 8);
-	rest = ft_calloc((ft_strlen(cmds->pipeline) + 1), 8);
-	i = 0;
-	while (cmds->pipeline[i])
-	{
-		j = 0;
-		while (cmds->pipeline[i] && cmds->pipeline[i] != '~')
-		{
-			if (cmds->pipeline[i] == '\'')
-			{
-				begin[j] = cmds->pipeline[i];
-				i++;
-				j++;
-				while (cmds->pipeline[i] && cmds->pipeline[i] != '\'')
-				{
-					begin[j] = cmds->pipeline[i];
-					i++;
-					j++;
-				}
-			}
-			else if (cmds->pipeline[i] == '\"')
-			{
-				begin[j] = cmds->pipeline[i];
-				i++;
-				j++;
-				while (cmds->pipeline[i] && cmds->pipeline[i] != '\"')
-				{
-					begin[j] = cmds->pipeline[i];
-					i++;
-					j++;
-				}
-			}
-			begin[j] = cmds->pipeline[i];
-			i++;
-			j++;
-		}
-		if (cmds->pipeline[i] == '~')
-		{
-			begin[j] = '\0';
-			i++;
-			j = 0;
-			while (cmds->pipeline[i])
-			{
-				rest[j] = cmds->pipeline[i];
-				i++;
-				j++;
-			}
-			rest[j] = '\0';
-			free(cmds->pipeline);
-			temp = ft_gethome(shell.envp);
-			if (temp == NULL)
-				cmds->pipeline = ft_strjoin(begin, rest);
-			else
-				cmds->pipeline = ft_vastrjoin(3, begin, temp, rest);
-			i = 0;
-			free(temp);
-		}
-	}
-	ft_vafree(2, begin, rest);
-}
-
 t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 {
 	char	**paths;
@@ -244,66 +175,6 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 	return (shell);
 }
 
-
-char	*ft_parseoldline(char *line, t_shell *shell)
-{
-	int		i;
-	int		j;
-	char	*begin;
-	char	*rest;
-
-	i = 0;
-	while (line[i])
-	{
-		j = 0;
-		begin = ft_calloc((ft_strlen(line) + 1) * 8, 1);
-		rest = ft_calloc((ft_strlen(line) + 1) * 8, 1);
-		while (line[i] && (line[i] != '!' || line[i + 1] != '!'))
-		{
-			if (line[i] == '\'')
-			{
-				begin[j] = line[i];
-				i++;
-				j++;
-				while (line[i] && line[i] != '\'')
-				{
-					begin[j] = line[i];
-					i++;
-					j++;
-				}
-			}
-			begin[j] = line[i];
-			i++;
-			j++;
-		}
-		if (line[i] == '!' && line[i + 1] == '!')
-		{
-			if (!shell->oldline[0])
-			{
-				ft_vafree(2, begin, rest);
-				return (line);
-			}
-			begin[j] = '\0';
-			i++;
-			i++;
-			j = 0;
-			while (line[i])
-			{
-				rest[j] = line[i];
-				i++;
-				j++;
-			}
-			rest[j] = '\0';
-			free (line);
-			line = ft_vastrjoin(3, begin, shell->oldline, rest);
-			i = 0;
-		}
-		free(rest);
-		free(begin);
-	}
-	return (line);
-}
-
 int	ft_parseline(char *line, t_shell *shell)
 {
 	int	forknumber;
@@ -320,7 +191,7 @@ int	ft_parseline(char *line, t_shell *shell)
 	line = ft_parseoldline(line, shell);
 	if (!line)
 		return (127);
-	/*free(shell->oldline);*/
+	free(shell->oldline);
 	shell->oldline = ft_strdup(line);
 	line = ft_parsehashtag(shell->oldline);
 	if (line[0] == '\0')
