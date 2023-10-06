@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/05 11:17:29 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 17:06:39 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,4 @@ int	ft_chdir(t_cmds cmds, t_shell *shell)
 	free(cwd);
 	ft_charpptofd(shell->envp, shell->envpfd);
 	return (0);
-	shell = shell;
 }

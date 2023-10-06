@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:03:34 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 11:21:26 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 17:07:43 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	ft_which(t_cmds cmds, t_shell *shell)
 	printf("%s\n", absolute);
 	free(absolute);
 	return (0);
-	shell = shell;
 }
 
 /*int	ft_which(t_cmds cmds)*/

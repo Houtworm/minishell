@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:05 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/05 13:27:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 17:07:38 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,4 @@ int	ft_unset(t_cmds cmds, t_shell *shell)
 	}
 	ft_charpptofd(shell->envp, shell->envpfd);
 	return (0);
-	shell = shell;
 }

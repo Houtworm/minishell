@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:00 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/05 11:19:37 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 17:07:32 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,4 @@ int	ft_pwd(t_cmds cmds, t_shell *shell)
 	printf("%s\n", pwd);
 	free(pwd);
 	return (0);
-	shell = shell;
 }

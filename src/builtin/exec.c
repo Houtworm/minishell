@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/01 00:57:08 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 11:21:15 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 17:07:12 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,4 @@ int	ft_exec(t_cmds cmds, t_shell *shell)
 		execve(cmds.absolute, cmds.arguments, shell->envp);
 	free(cmds.absolute);
 	return (status);
-	shell = shell;
 }

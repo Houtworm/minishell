@@ -12,22 +12,6 @@
 
 #include "../../minishell.h"
 
-int	ft_skipquote(char *s, int i)
-{
-	int	k;
-
-	k = 0;
-	if (s[i] == '\"' || (s[i] == '\''))
-	{
-		k++;
-		while (s[i + k] != s[i] && s[i + k])
-			k++;
-		if (!s[i + k])
-			return (-1);
-	}
-	return (i + k);
-}
-
 int	count_str(char *s, int c)
 {
 	int	str_count;
