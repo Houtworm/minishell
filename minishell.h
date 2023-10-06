@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/06 16:41:59 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 16:43:59 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct s_alias t_alias;
 
 typedef struct s_alias
 {
-	char		*var;
-	char		*val;
+	char	*var;
+	char	*val;
 }	t_alias;
 
 typedef struct	s_builtin
@@ -49,50 +49,50 @@ typedef struct	s_builtin
 
 typedef struct s_globs
 {
-	char		*gstart;
-	char		*gend;
-	char		*start;
-	char		*glob;
-	char		*end;
-	char		**subdir;
-	char		**tempsubdir;
-	char		*curdir;
-	int			temptype;
-	char		*pardir;
-	char		**matches;
-	char		*pipeline;
-	char		*subdirs;
-	int			linecount;
-	int			matchcount;
-	char		*anyof;
+	char	*gstart;
+	char	*gend;
+	char	*start;
+	char	*glob;
+	char	*end;
+	char	**subdir;
+	char	**tempsubdir;
+	char	*curdir;
+	int		temptype;
+	char	*pardir;
+	char	**matches;
+	char	*pipeline;
+	char	*subdirs;
+	int		linecount;
+	int		matchcount;
+	char	*anyof;
 }	t_globs;
 
 typedef struct s_cmds
 {
-	char		*absolute;
-	char		**arguments;
-	int			detatch;
-	char		*pipeline;
-	int			condition;
-	int			pid;
-	int			code;
-	int			lastcode;
-	int			debug;
-	int			cmdamount;
-	int			forkamount;
-	char		**infile;
-	char		**outfile;
-	int			*append;
-	int			hdfd;
-	int			prio;	
+	char	*absolute;
+	char	**arguments;
+	int		detatch;
+	char	*pipeline;
+	int		condition;
+	int		pid;
+	int		code;
+	int		lastcode;
+	int		debug;
+	int		cmdamount;
+	int		forkamount;
+	char	**infile;
+	char	**outfile;
+	int		*append;
+	int		hdfd;
+	int		prio;	
 }	t_cmds;
 
 typedef struct s_forks
 {
-	t_cmds		*cmds;
-	char		*pipeline;
-	int			pid;
-	int			cmdamount;
+	t_cmds	*cmds;
+	char	*pipeline;
+	int		pid;
+	int		cmdamount;
 }	t_forks;
 
 typedef struct s_shell
