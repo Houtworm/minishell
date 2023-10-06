@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/06 19:44:05 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/06 20:58:49 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	ft_forktheforks(t_shell *shell)
 {
 	int	status;
 	int forknumber;
+	int	fd;
 
 	forknumber = 0;
 	status = 1;
@@ -69,8 +70,15 @@ int	ft_forktheforks(t_shell *shell)
 			{
 				waitpid(shell->forks[forknumber].pid, &status, 0);
 				shell->code = WEXITSTATUS(status);
-				if (shell-> code && open("/tmp/minishelllastcode.tmp", O_RDONLY))
-					return (shell->code);
+				if (shell-> code)
+				{
+					fd = open("/tmp/minishelllastcode.tmp", O_RDONLY);
+					if (fd)
+					{
+						close(fd); 
+						return (shell->code);
+					}
+				}
 			}
 			forknumber++;
 			close(shell->pipes[forknumber][1]);

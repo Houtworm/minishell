@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/06 19:47:54 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/06 21:05:26 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,23 @@ void	ft_printlastcode(t_cmds	cmds)
 	ft_putendl_fd("", 2);
 }
 
+void	ft_createfdo(t_cmds cmd)
+{
+	int	fdo;
+	int	i;
+
+	i = 0;
+	while (cmd.outfile[i])
+	{
+		if (cmd.append[i])
+			fdo = open(cmd.outfile[i], O_RDWR | O_CREAT | O_APPEND, 0666);
+		else
+			fdo = open(cmd.outfile[i], O_RDWR | O_CREAT | O_TRUNC, 0666);
+		close (fdo);
+		i++;
+	}
+}
+
 void	ft_checklastcode(t_forks fork)
 {
 	int	fd;
@@ -188,7 +205,10 @@ int	ft_executeforks(int forknbr, t_shell *shell, int condition)
 		shell->envp = ft_fdtocharpp(shell->envpfd);
 		shell = ft_parsecmds(shell, forknbr, cmdnbr);
 		if (shell->stop)
+		{
+			ft_createfdo(shell->forks[forknbr].cmds[cmdnbr]);
 			return (0);
+		}
 		if (shell->debug)
 			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
