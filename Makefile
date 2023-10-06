@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/06 16:39:54 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/06 16:51:00 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,14 +34,6 @@ SRC		=src/main/main.c\
 		 src/parse/priority.c\
 		 src/parse/redirect.c\
 		 src/parse/variable.c\
-		 src/parse/globs.c\
-		 src/parse/globinit.c\
-		 src/parse/globsub.c\
-		 src/parse/globpoint.c\
-		 src/parse/globtools.c\
-		 src/parse/wildcard.c\
-		 src/parse/joker.c\
-		 src/parse/anyof.c\
 		 src/parse/tilde.c\
 		 src/parse/oldline.c\
 		 src/exec/fork.c\
@@ -62,13 +54,19 @@ SRC		=src/main/main.c\
 		 src/builtin/period.c\
 		 src/builtin/exec.c\
 		 src/builtin/which.c\
+		 src/globs/globs.c\
+		 src/globs/globinit.c\
+		 src/globs/globsub.c\
+		 src/globs/globpoint.c\
+		 src/globs/globtools.c\
+		 src/globs/wildcard.c\
+		 src/globs/joker.c\
+		 src/globs/anyof.c\
 		 src/tools/tools.c\
 		 src/tools/error.c\
 		 src/tools/print.c\
-		 src/tools/env.c\
+		 src/tools/environment.c\
 		 src/tools/cleanup.c
-#src/parse/tools.c
-#src/parse/parse_utils.c
 OBJ		=$(SRC:src/%.c=obj/%.o)
 LIB		=printf/ft_printf.a getnextline/get_next_line.a libft/libft.a
 

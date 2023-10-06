@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/06 16:43:59 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 16:49:51 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,26 +137,6 @@ void		ft_readhistory(char *file);
 // insults
 void		ft_printinsult(t_shell *shell);
 
-// TOOLS
-// tools
-long long	ft_gettimems(char **envp);
-// print
-void		ft_printshell(t_shell shell);
-void		ft_printforks(t_forks forks, int forknumber);
-void		ft_printcmds(t_cmds cmds, int cmdnbr, int forknbr);
-void		ft_printglobs(t_globs globs, char *function);
-void		ft_printdup(t_cmds cmds, int cmdnbr, int forknbr);
-// env
-char		**ft_setenv(char **envp, char *var, char *val);
-char		**ft_fdtocharpp(int	fd);
-void		ft_charpptofd(char **array, int fd);
-// error
-int			ft_errorexit(char *reason, char *cmd, int code);
-int			ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
-// cleanup
-void		ft_freeexit(t_shell *shell, int code);
-void		ft_freeglobs(t_globs *globs);
-
 // PARSE
 // parse
 int			ft_parseline(char *line, t_shell *shell);
@@ -188,48 +168,10 @@ t_forks		ft_parseendcondition(t_forks forks);
 int 		ft_priority(t_cmds *cmds, int cmdnbr);
 // variable
 int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
-// globs
-int			ft_parseglobs(t_cmds *cmd, char **envp);
-// globinit
-void		ft_getsubdir(t_globs *globs);
-int			ft_getparent(t_globs *globs);
-int			ft_getglob(t_globs *globs, int startpos);
-t_globs 	*ft_initglobstruct(char *pipeline);
-// globsub
-int			ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i);
-// globpoint
-int			ft_nextsubglob(t_globs *globs, int i, int j, int k);
-int			ft_firstsubglob(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_nextglob(t_globs *globs, char *dname, int i, int j);
-int			ft_firstglob(t_globs *globs, char *dname, int i);
-// globtools
-int			ft_newpipeline(t_globs *globs);
-void		ft_addglobmatch(t_globs *globs, char *match);
-// wildcard
-int			ft_nextsubwildcard(t_globs *globs, int i, int j, int k);
-int			ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_nextwildcard(t_globs *globs, char *dname, int i, int j);
- int		ft_firstwildcard(t_globs *globs, char *dname, int i);
-// joker
-int			ft_nextsubjoker(t_globs *globs, int i, int j, int k);
-int			ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_nextjoker(t_globs *globs, char *dname, int i, int j);
- int		ft_firstjoker(t_globs *globs, char *dname, int i);
-// anyof
-int			ft_nextsubanyof(t_globs *globs, int i, int j, int k);
-int			ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_nextanyof(t_globs *globs, char *dname, int i, int j);
- int		ft_firstanyof(t_globs *globs, char *dname, int i);
 // tilde
 void		ft_parsetilde(t_cmds *cmds, t_shell shell);
 // oldline
 char		*ft_parseoldline(char *line, t_shell *shell);
-// tools
-//char		**ft_checkarg(char	**cmd, int count);
-// parse_utils
-//int			count_str(char *s, int c);
-//int			count_wd(char *s, int c);
-//char		**split_not_quote(char *s, int c);
 
 // EXEC
 // fork
@@ -273,5 +215,59 @@ int			ft_period(t_cmds cmds, t_shell *shell);
 int			ft_exec(t_cmds cmds, t_shell *shell);
 // which
 int			ft_which(t_cmds cmds, t_shell *shell);
+
+// GLOBS
+// globs
+int			ft_parseglobs(t_cmds *cmd, char **envp);
+// globinit
+void		ft_getsubdir(t_globs *globs);
+int			ft_getparent(t_globs *globs);
+int			ft_getglob(t_globs *globs, int startpos);
+t_globs 	*ft_initglobstruct(char *pipeline);
+// globsub
+int			ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i);
+// globpoint
+int			ft_nextsubglob(t_globs *globs, int i, int j, int k);
+int			ft_firstsubglob(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_nextglob(t_globs *globs, char *dname, int i, int j);
+int			ft_firstglob(t_globs *globs, char *dname, int i);
+// globtools
+int			ft_newpipeline(t_globs *globs);
+void		ft_addglobmatch(t_globs *globs, char *match);
+// wildcard
+int			ft_nextsubwildcard(t_globs *globs, int i, int j, int k);
+int			ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_nextwildcard(t_globs *globs, char *dname, int i, int j);
+ int		ft_firstwildcard(t_globs *globs, char *dname, int i);
+// joker
+int			ft_nextsubjoker(t_globs *globs, int i, int j, int k);
+int			ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_nextjoker(t_globs *globs, char *dname, int i, int j);
+ int		ft_firstjoker(t_globs *globs, char *dname, int i);
+// anyof
+int			ft_nextsubanyof(t_globs *globs, int i, int j, int k);
+int			ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int j);
+int			ft_nextanyof(t_globs *globs, char *dname, int i, int j);
+ int		ft_firstanyof(t_globs *globs, char *dname, int i);
+
+// TOOLS
+// tools
+long long	ft_gettimems(char **envp);
+// print
+void		ft_printshell(t_shell shell);
+void		ft_printforks(t_forks forks, int forknumber);
+void		ft_printcmds(t_cmds cmds, int cmdnbr, int forknbr);
+void		ft_printglobs(t_globs globs, char *function);
+void		ft_printdup(t_cmds cmds, int cmdnbr, int forknbr);
+// environment
+char		**ft_setenv(char **envp, char *var, char *val);
+char		**ft_fdtocharpp(int	fd);
+void		ft_charpptofd(char **array, int fd);
+// error
+int			ft_errorexit(char *reason, char *cmd, int code);
+int			ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
+// cleanup
+void		ft_freeexit(t_shell *shell, int code);
+void		ft_freeglobs(t_globs *globs);
 
 #endif
