@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/06 16:51:00 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/06 16:54:47 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ SRC		=src/main/main.c\
 		 src/parse/tilde.c\
 		 src/parse/oldline.c\
 		 src/exec/fork.c\
-		 src/exec/priority.c\
+		 src/exec/substitution.c\
 		 src/exec/exec.c\
 		 src/exec/dupmachine.c\
 		 src/exec/verify.c\
