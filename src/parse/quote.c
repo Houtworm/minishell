@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/03 18:41:40 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/07 01:14:49 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,24 @@ int	ft_checkoutquote(char *line, char target, int mode)
 	return (-1);
 }
 
-char	check_quote_closed(char *s)
+char	check_quote_closed(t_shell *shell)
 {
 	int		i;
 	char	check;
 
 	i = 0;
 	check = '\0';
-	while (s[i])
+	while (shell->line[i])
 	{
-		while (s[i] && !check)
+		while (shell->line[i] && !check)
 		{
-			if (s[i] == '\'' || s[i] == '\"' || s[i] == '`' || s[i] == '(')
-				check = s[i];
+			if (shell->line[i] == '\'' || shell->line[i] == '\"' || shell->line[i] == '`' || shell->line[i] == '(')
+				check = shell->line[i];
 			i++;
 		}
-		while (s[i] && check)
+		while (shell->line[i] && check)
 		{
-			if ((s[i] == check) || (s[i] == ')' && check == '('))
+			if ((shell->line[i] == check) || (shell->line[i] == ')' && check == '('))
 				check = '\0';
 			i++;
 		}

@@ -6,20 +6,20 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/03 18:38:40 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 08:17:17 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 01:15:16 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*ft_closeline(char *line)
+char	*ft_closeline(t_shell *shell)
 {
 	int		quote;
 	char	*temp;
 	int		ret;
 	char	*gnl;
 
-	quote = check_quote_closed(line);
+	quote = check_quote_closed(shell);
 	while (quote)
 	{
 		while (1)
@@ -41,23 +41,23 @@ char	*ft_closeline(char *line)
 				break ;
 			else
 			{
-				temp = ft_vastrjoin(3, line, "\n", gnl);
+				temp = ft_vastrjoin(3, shell->line, "\n", gnl);
 				free(gnl);
 			}
-			free(line);
-			line = ft_strdup(temp);
+			free(shell->line);
+			shell->line = ft_strdup(temp);
 		}
-		temp = ft_vastrjoin(3, line, "\n", gnl);
+		temp = ft_vastrjoin(3, shell->line, "\n", gnl);
 		free(gnl);
-		/*free(line);*/
-		line = ft_strdup(temp);
+		free(shell->line);
+		shell->line = ft_strdup(temp);
 		free (temp);
-		quote = check_quote_closed(line);
+		quote = check_quote_closed(shell);
 	}
-	return (line);
+	return (shell->line);
 }
 
-char	*ft_completeline(char *line, int k)
+char	*ft_completeline(t_shell *shell, int k)
 {	
 	char	*temp;
 	int		ret;
@@ -65,30 +65,29 @@ char	*ft_completeline(char *line, int k)
 	int		i;
 
 	i = 0;
-	while (line[i])
+	while (shell->line[i])
 		i++;
 	i--;
-	while (line[i] == ' ')
+	while (shell->line[i] == ' ')
 		i--;
-	if (line[i] != '&' && line[i] != '|')
-		return (line);
-	while ((line[i] == '&' && line[i - 1] == '&') || line[i] == '|')
+	if (shell->line[i] != '&' && shell->line[i] != '|')
+		return (shell->line);
+	while ((shell->line[i] == '&' && shell->line[i - 1] == '&') || shell->line[i] == '|')
 	{
 		ft_putstr("> ");
 		ret = get_next_line(0, &gnl);
 		if (ret == 0)
 			break;
-		// gnl = ft_closeline(gnl);
 		while (gnl[k])
 			k++;
 		while (gnl[k] == ' ')
 			k--;
-		temp = ft_strjoin(line, gnl);
+		temp = ft_strjoin(shell->line, gnl);
 		free(gnl);
-		free(line);
-		line = ft_strdup(temp);
+		free(shell->line);
+		shell->line = ft_strdup(temp);
 		free (temp);
 		i += k;
 	}
-	return (line);
+	return (shell->line);
 }

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/04 07:21:06 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 01:22:47 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_mainloop(t_shell *shell)
 		ret = ft_parseline(line, shell);
 		if (ret == 2)
 		{
-			free(line);
+			/*free(line);*/
 			shell->code = 2;
 			return (2);
 		}

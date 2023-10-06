@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/04 12:17:12 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 01:41:08 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_heredoc(char *delimiter, char *file)
 	return (fdi);
 }
 
-t_forks ft_parseheredoc(t_forks forks, int cmdnum)
+t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 {
 	int		icmd;
 	int		hdid;
@@ -53,67 +53,67 @@ t_forks ft_parseheredoc(t_forks forks, int cmdnum)
 	hdid = 1;
 	icmd = 0;
 	i = 0;
-	while (icmd < cmdnum)
+	while (icmd < shell->forks[forknumber].cmdamount)
 	{
-		forks.cmds[icmd].hdfd = 0;
-		if (ft_checkoutquote(forks.cmds[icmd].pipeline, '<', 2) >= 0)
+		shell->forks[forknumber].cmds[icmd].hdfd = 0;
+		if (ft_checkoutquote(shell->forks[forknumber].cmds[icmd].pipeline, '<', 2) >= 0)
 		{
-			start = ft_calloc(ft_strlen(forks.cmds[icmd].pipeline), 8);
-			end = ft_calloc(ft_strlen(forks.cmds[icmd].pipeline), 8);
-			while (forks.cmds[icmd].pipeline[i])
+			start = ft_calloc(ft_strlen(shell->forks[forknumber].cmds[icmd].pipeline), 8);
+			end = ft_calloc(ft_strlen(shell->forks[forknumber].cmds[icmd].pipeline), 8);
+			while (shell->forks[forknumber].cmds[icmd].pipeline[i])
 			{
-				if (forks.cmds[icmd].pipeline[i] == '\'')
+				if (shell->forks[forknumber].cmds[icmd].pipeline[i] == '\'')
 				{
-					start[i] = forks.cmds[icmd].pipeline[i];
+					start[i] = shell->forks[forknumber].cmds[icmd].pipeline[i];
 					i++;
-					while (forks.cmds[icmd].pipeline[i] != '\'' && forks.cmds[icmd].pipeline[i])
+					while (shell->forks[forknumber].cmds[icmd].pipeline[i] != '\'' && shell->forks[forknumber].cmds[icmd].pipeline[i])
 					{
-						start[i] = forks.cmds[icmd].pipeline[i];
+						start[i] = shell->forks[forknumber].cmds[icmd].pipeline[i];
 						i++;
 					}
 					i++;
 				}
-				else if (forks.cmds[icmd].pipeline[i] == '\"')
+				else if (shell->forks[forknumber].cmds[icmd].pipeline[i] == '\"')
 				{
-					start[i] = forks.cmds[icmd].pipeline[i];
+					start[i] = shell->forks[forknumber].cmds[icmd].pipeline[i];
 					i++;
-					while (forks.cmds[icmd].pipeline[i] != '\"' && forks.cmds[icmd].pipeline[i])
+					while (shell->forks[forknumber].cmds[icmd].pipeline[i] != '\"' && shell->forks[forknumber].cmds[icmd].pipeline[i])
 					{
-						start[i] = forks.cmds[icmd].pipeline[i];
+						start[i] = shell->forks[forknumber].cmds[icmd].pipeline[i];
 						i++;
 					}
 					i++;
 				}
-				else if (forks.cmds[icmd].pipeline[i] == '<' && forks.cmds[icmd].pipeline[i + 1] == '<')
+				else if (shell->forks[forknumber].cmds[icmd].pipeline[i] == '<' && shell->forks[forknumber].cmds[icmd].pipeline[i + 1] == '<')
 				{
-					delimiter = ft_calloc(ft_strlen(forks.cmds[icmd].pipeline), 8);
+					delimiter = ft_calloc(ft_strlen(shell->forks[forknumber].cmds[icmd].pipeline), 8);
 					start[j] = '\0';
 					i = i + 2;
-					if (forks.cmds[icmd].pipeline[i] == '<')
+					if (shell->forks[forknumber].cmds[icmd].pipeline[i] == '<')
 						ft_errorexit("wtf?", "syntax error", 1);
-					while (forks.cmds[icmd].pipeline[i] == ' ')
+					while (shell->forks[forknumber].cmds[icmd].pipeline[i] == ' ')
 						i++;
 					j = 0;
-					while (forks.cmds[icmd].pipeline[i] && forks.cmds[icmd].pipeline[i] != ' ')
+					while (shell->forks[forknumber].cmds[icmd].pipeline[i] && shell->forks[forknumber].cmds[icmd].pipeline[i] != ' ')
 					{
-						delimiter[j] = forks.cmds[icmd].pipeline[i];
+						delimiter[j] = shell->forks[forknumber].cmds[icmd].pipeline[i];
 						i++;
 						j++;
 					}
 					delimiter[j] = '\0';
 					j = 0;
-					while (forks.cmds[icmd].pipeline[i] == ' ')
+					while (shell->forks[forknumber].cmds[icmd].pipeline[i] == ' ')
 						i++;
-					while (forks.cmds[icmd].pipeline[i])
+					while (shell->forks[forknumber].cmds[icmd].pipeline[i])
 					{
-						end[j] = forks.cmds[icmd].pipeline[i];
+						end[j] = shell->forks[forknumber].cmds[icmd].pipeline[i];
 						i++;
 						j++;
 					}
 					end[j] = '\0';
 					tmp = ft_vastrjoin(3, "/tmp/minishellheredocfile", ft_itoa(hdid), ".tmp");
-					forks.cmds[icmd].hdfd = ft_heredoc(delimiter, tmp);
-					forks.cmds[icmd].pipeline = ft_strjoin(start, end);
+					shell->forks[forknumber].cmds[icmd].hdfd = ft_heredoc(delimiter, tmp);
+					shell->forks[forknumber].cmds[icmd].pipeline = ft_strjoin(start, end);
 					free(tmp);
 					free(delimiter);
 					free(start);
@@ -121,7 +121,7 @@ t_forks ft_parseheredoc(t_forks forks, int cmdnum)
 				}
 				else
 				{
-					start[i] = forks.cmds[icmd].pipeline[i];
+					start[i] = shell->forks[forknumber].cmds[icmd].pipeline[i];
 					i++;
 				}
 			}
@@ -131,5 +131,5 @@ t_forks ft_parseheredoc(t_forks forks, int cmdnum)
 		}
 		icmd++;
 	}
-	return (forks);
+	return (shell->forks[forknumber]);
 }

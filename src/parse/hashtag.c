@@ -6,46 +6,45 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/04 21:08:22 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 12:15:52 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/07 01:18:42 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*ft_parsehashtag(char *line)
+char	*ft_parsehashtag(t_shell *shell)
 {
 	char	*temp;
 	int		i;
 
-	if (ft_checkoutquote(line, '#', 2) >= 0)
+	if (ft_checkoutquote(shell->line, '#', 2) >= 0)
 	{
 		i = 0;
-		if (line[0] == '#')
+		if (shell->line[0] == '#')
 		{
-			line[0] = '\0';
-			return (line);
+			shell->line[0] = '\0';
+			return (shell->line);
 		}
-		while (line[i] && (line[i] != ' ' || line[i + 1] != '#'))
+		while (shell->line[i] && (shell->line[i] != ' ' || shell->line[i + 1] != '#'))
 		{
-			if (line[i] == '\'')
+			if (shell->line[i] == '\'')
 			{
 				i++;
-				while (line[i] != '\'')
+				while (shell->line[i] != '\'')
 					i++;
 			}
-			if (line[i] == '\"')
+			if (shell->line[i] == '\"')
 			{
 				i++;
-				while (line[i] != '\"')
+				while (shell->line[i] != '\"')
 					i++;
 			}
 			i++;
 		}
-		temp = ft_substr(line, 0, i);
-		/*free(line);*/
-		line = ft_strdup(temp);
+		temp = ft_substr(shell->line, 0, i);
+		free(shell->line);
+		shell->line = ft_strdup(temp);
 		free(temp);
-		/*line = ft_substr(line, 0, i); // memory leak, but we need to fix a bug in the parser for this.*/
 	}
-	return (line);
+	return (shell->line);
 }

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/19 10:43:13 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/07 01:39:19 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,64 +66,64 @@ void	ft_copyquote(char **cmdline, char	*forkline, int icpip, int ifpip)
 	(*cmdline)[icpip] = forkline[ifpip];
 }
 
-t_forks ft_parseendcondition(t_forks forks)
+t_forks ft_parseendcondition(t_shell *shell, int forknumber)
 {
 	int		icmd;
 	int		ifpip;
 	int		icpip;
 
-	forks.cmdamount = ft_countendconditions(forks.pipeline, 0, 0);
-	forks.cmds = ft_calloc(10000 * sizeof(t_cmds), 1);
+	shell->forks[forknumber].cmdamount = ft_countendconditions(shell->forks[forknumber].pipeline, 0, 0);
+	shell->forks[forknumber].cmds = ft_calloc(10000 * sizeof(t_cmds), 1);
 	icmd = 0;
 	ifpip = 0;
-	while (forks.pipeline[ifpip] && icmd < forks.cmdamount)
+	while (shell->forks[forknumber].pipeline[ifpip] && icmd < shell->forks[forknumber].cmdamount)
 	{
 		icpip = 0;
-		forks.cmds[icmd].pipeline = ft_calloc(1000 * 8, 1);
-		while (!ft_strchr("&|;\"\'", forks.pipeline[ifpip]))
+		shell->forks[forknumber].cmds[icmd].pipeline = ft_calloc(1000 * 8, 1);
+		while (!ft_strchr("&|;\"\'", shell->forks[forknumber].pipeline[ifpip]))
 		{
-			forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
+			shell->forks[forknumber].cmds[icmd].pipeline[icpip] = shell->forks[forknumber].pipeline[ifpip];
 			ifpip++;
 			icpip++;
 		}
-		if (forks.pipeline[ifpip] == '\"' || forks.pipeline[ifpip] == '\'')
+		if (shell->forks[forknumber].pipeline[ifpip] == '\"' || shell->forks[forknumber].pipeline[ifpip] == '\'')
 		{
-			ft_copyquote(&(forks.cmds[icmd].pipeline), forks.pipeline, icpip, ifpip);
-			icpip = ft_strlen(forks.cmds[icmd].pipeline);
-			ifpip = ft_skipquote(forks.pipeline, ifpip) + 1;
-			if (forks.pipeline[ifpip] == '\"' || forks.pipeline[ifpip] == '\'')
+			ft_copyquote(&(shell->forks[forknumber].cmds[icmd].pipeline), shell->forks[forknumber].pipeline, icpip, ifpip);
+			icpip = ft_strlen(shell->forks[forknumber].cmds[icmd].pipeline);
+			ifpip = ft_skipquote(shell->forks[forknumber].pipeline, ifpip) + 1;
+			if (shell->forks[forknumber].pipeline[ifpip] == '\"' || shell->forks[forknumber].pipeline[ifpip] == '\'')
 			{
-				ft_copyquote(&(forks.cmds[icmd].pipeline), forks.pipeline, icpip, ifpip);
-				icpip = ft_strlen(forks.cmds[icmd].pipeline);
-				ifpip = ft_skipquote(forks.pipeline, ifpip) + 1;
+				ft_copyquote(&(shell->forks[forknumber].cmds[icmd].pipeline), shell->forks[forknumber].pipeline, icpip, ifpip);
+				icpip = ft_strlen(shell->forks[forknumber].cmds[icmd].pipeline);
+				ifpip = ft_skipquote(shell->forks[forknumber].pipeline, ifpip) + 1;
 			}
-			while (forks.pipeline[ifpip] && !ft_strchr("&|;", forks.pipeline[ifpip]))
+			while (shell->forks[forknumber].pipeline[ifpip] && !ft_strchr("&|;", shell->forks[forknumber].pipeline[ifpip]))
 			{
-					forks.cmds[icmd].pipeline[icpip] = forks.pipeline[ifpip];
+					shell->forks[forknumber].cmds[icmd].pipeline[icpip] = shell->forks[forknumber].pipeline[ifpip];
 					ifpip++;
 					icpip++;
 			}
 		}
-		forks.cmds[icmd].pipeline[icpip] = '\0';
-		if (forks.pipeline[ifpip] == '|')
+		shell->forks[forknumber].cmds[icmd].pipeline[icpip] = '\0';
+		if (shell->forks[forknumber].pipeline[ifpip] == '|')
 		{
 			ifpip++;
-			forks.cmds[icmd + 1].condition = 2;
+			shell->forks[forknumber].cmds[icmd + 1].condition = 2;
 		}
-		else if (forks.pipeline[ifpip] == '&')
+		else if (shell->forks[forknumber].pipeline[ifpip] == '&')
 		{
-			if (forks.pipeline[ifpip + 1] == '&')
+			if (shell->forks[forknumber].pipeline[ifpip + 1] == '&')
 			{
 				ifpip++;
-				forks.cmds[icmd + 1].condition = 1;
+				shell->forks[forknumber].cmds[icmd + 1].condition = 1;
 			}
 			else
-				forks.cmds[icmd].detatch++;
+				shell->forks[forknumber].cmds[icmd].detatch++;
 		}
 		else
-			forks.cmds[icmd + 1].condition = 0;
+			shell->forks[forknumber].cmds[icmd + 1].condition = 0;
 		ifpip++;
 		icmd++;
 	}
-	return (forks);
+	return (shell->forks[forknumber]);
 }

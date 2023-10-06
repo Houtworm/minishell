@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                             :+:    :+:            */
+/*   exec.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/06 21:05:26 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/07 00:10:03 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			signal(SIGQUIT, ft_sighandler);
 			ft_dupmachine(cmds, cmdnbr, forknbr, shell);
 			execve(cmds.absolute, cmds.arguments, shell->envp);
-			/*ft_errorexit("command not found", cmds.absolute, 127);*/
+			ft_errorexit("command not found", cmds.absolute, 127);
 		}
 		waitpid(cmds.pid, &status, 0);
 		cmds.code = WEXITSTATUS(status);

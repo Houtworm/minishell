@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/19 13:48:26 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/27 10:07:55 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 01:26:10 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,71 +106,71 @@ int		ft_checksemicolon(t_shell *shell, char *line, int i)
 	return (0);
 }
 
-int		ft_checksyntax(t_shell *shell, char *line)
+int		ft_checksyntax(t_shell *shell)
 {
 	int	i;
 
 	i = 0;
-	while (line[i])
+	while (shell->line[i])
 	{
-		if (line[i] == '\'')
+		if (shell->line[i] == '\'')
 		{
 			i++;
-			while (line[i] && line[i] != '\'')
+			while (shell->line[i] && shell->line[i] != '\'')
 				i++;
 			i++;
 		}
-		else if (line[i] == '\"')
+		else if (shell->line[i] == '\"')
 		{
 			i++;
-			while (line[i] && line[i] != '\"')
+			while (shell->line[i] && shell->line[i] != '\"')
 				i++;
 			i++;
 		}
-		else if (line[i] && ft_strchr("<>&|;", line[i]))
+		else if (shell->line[i] && ft_strchr("<>&|;", shell->line[i]))
 		{
-			if (line[i] == '<')
-				if (ft_checksmallerthan(shell, line, i))
+			if (shell->line[i] == '<')
+				if (ft_checksmallerthan(shell, shell->line, i))
 					return (1);
-			if (line[i] == '>')
-				if (ft_checkgreaterthan(shell, line, i))
+			if (shell->line[i] == '>')
+				if (ft_checkgreaterthan(shell, shell->line, i))
 					return (1);
-			if (line[i] == '&')
-				if (ft_checkampersand(shell, line, i))
+			if (shell->line[i] == '&')
+				if (ft_checkampersand(shell, shell->line, i))
 					return (1);
-			if (line[i] == '|')
-				if (ft_checkpipe(shell, line, i))
+			if (shell->line[i] == '|')
+				if (ft_checkpipe(shell, shell->line, i))
 					return (1);
-			if (line[i] == ';')
-				if (ft_checksemicolon(shell, line, i))
+			if (shell->line[i] == ';')
+				if (ft_checksemicolon(shell, shell->line, i))
 					return (1);
 		}
-		if (line[i] == '#' && line[i - 1] == ' ')
+		if (shell->line[i] == '#' && shell->line[i - 1] == ' ')
 			return (0);
-		else if (line[i])
+		else if (shell->line[i])
 			i++;
 	}
 	return (0);
 }
 
-int	ft_startsyntax(t_shell *shell, char *line)
+int	ft_startsyntax(t_shell *shell)
 {
 	int	i;
 	int		j;
 	char	*help;
 
 	i = 0;
-	while (line[i] == ' ')
+	while (shell->line[i] == ' ')
 		i++;
-	if (line[i] == '|' || line[i] == '&' || line[i] == ';')
+	if (shell->line[i] == '|' || shell->line[i] == '&' || shell->line[i] == ';')
 	{
 
 		ft_putstr_fd("Syntax Error: ", 2);
 		ft_printinsult(shell);
 		ft_putstr_fd("you can't start with a ", 2);
-		ft_putchar_fd(line[i], 2);
+		ft_putchar_fd(shell->line[i], 2);
 		ft_putendl_fd(" symbol", 2);
-		help = ft_calloc(ft_strlen(line), 8);
+		help = ft_calloc(ft_strlen(shell->line), 8);
 		j = 0;
 		while (j < i)
 		{
@@ -179,7 +179,7 @@ int	ft_startsyntax(t_shell *shell, char *line)
 		}
 		help[j] = '^';
 		help[j + 1] = '\0';
-		ft_putendl_fd(line, 2);
+		ft_putendl_fd(shell->line, 2);
 		ft_putendl_fd(help, 2);
 		shell->code = 2;
 		free(help);

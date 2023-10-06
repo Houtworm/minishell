@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
+/*   minishell.h                                     |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/06 19:13:51 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/07 01:41:24 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,28 +142,28 @@ void		ft_printinsult(t_shell *shell);
 int			ft_parseline(char *line, t_shell *shell);
 t_shell 	*ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber);
 // hashtag
-char		*ft_parsehashtag(char *line);
+char		*ft_parsehashtag(t_shell *shell);
 // syntax
-int			ft_checksyntax(t_shell *shell, char *line);
-int			ft_startsyntax(t_shell *shell, char *line);
+int			ft_checksyntax(t_shell *shell);
+int			ft_startsyntax(t_shell *shell);
 // pipe
-t_shell 	ft_parsepipe(char *line, t_shell shell);
+t_shell 	*ft_parsepipe(t_shell *shell);
 // alias
 void		ft_parsealiases(t_cmds *cmds, t_shell shell);
 // complete
-char		*ft_completeline(char *line, int k);
+char		*ft_completeline(t_shell *shell, int k);
+char		*ft_closeline(t_shell *shell);
 // quote
 int			ft_checkoutquote(char *line, char target, int mode);
 int			ft_skipquote(char *s, int i);
-char		check_quote_closed(char *s);
-char		*ft_closeline(char *line);
+char		check_quote_closed(t_shell *shell);
 // heredoc
-t_forks		ft_parseheredoc(t_forks forks, int cmdnum);
+t_forks		ft_parseheredoc(t_shell *shell, int forknumber);
 // redirect
 void		ft_parseredirection(t_cmds *cmds);
 // condition
 void		ft_copyquote(char **cmdline, char	*forkline, int icpip, int ifpip);
-t_forks		ft_parseendcondition(t_forks forks);
+t_forks		ft_parseendcondition(t_shell *shell, int forknumber);
 //priority
 int 		ft_priority(t_cmds *cmds, int cmdnbr);
 // variable
@@ -171,7 +171,7 @@ int 		ft_parsevariable(t_cmds *cmd, t_shell shell);
 // tilde
 void		ft_parsetilde(t_cmds *cmds, t_shell shell);
 // oldline
-char		*ft_parseoldline(char *line, t_shell *shell);
+char		*ft_parseoldline(t_shell *shell);
 
 // EXEC
 // fork

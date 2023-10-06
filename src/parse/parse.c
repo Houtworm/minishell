@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/06 18:44:08 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/07 01:47:57 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,43 +179,33 @@ int	ft_parseline(char *line, t_shell *shell)
 {
 	int	forknumber;
 
-	if (ft_startsyntax(shell, line))
-		return (2);
-	/*line = ft_closeline(line);*/
-	/*line = ft_completeline(line, 0);*/
-	while (check_quote_closed(line))
-	{
-		line = ft_closeline(line);
-		line = ft_completeline(line, 0);
-	}
-	line = ft_parseoldline(line, shell);
-	if (!line)
+	free(shell->line);
+	shell->line = ft_strdup(line);
+	if (!ft_parseoldline(shell))
 		return (127);
-	//free(shell->oldline);
-	shell->oldline = ft_strdup(line);
-	line = ft_parsehashtag(shell->oldline);
-	if (line[0] == '\0')
-	{
-		free(line);
-		return (1);
-	}
-	if (ft_checksyntax(shell, line))
-	{
-		free(line);
+	if (ft_startsyntax(shell))
 		return (2);
+	while (check_quote_closed(shell))
+	{
+		ft_closeline(shell);
+		ft_completeline(shell, 0);
 	}
-	*shell = ft_parsepipe(line, *shell);
+	ft_parsehashtag(shell);
+	if (shell->line[0] == '\0')
+		return (1);
+	if (ft_checksyntax(shell))
+		return (2);
+	ft_parsepipe(shell);
 	if (shell->debug)
 		ft_printshell(*shell);
 	forknumber = 0;
 	while (shell->forkamount > forknumber)
 	{
-		shell->forks[forknumber] = ft_parseendcondition(shell->forks[forknumber]);
-		shell->forks[forknumber] = ft_parseheredoc(shell->forks[forknumber], shell->forks[forknumber].cmdamount);
+		ft_parseendcondition(shell, forknumber);
+		ft_parseheredoc(shell, forknumber);
 		if (shell->debug)
 			ft_printforks(shell->forks[forknumber], forknumber);
 		forknumber++;
 	}
-	free(line);
 	return (0);
 }

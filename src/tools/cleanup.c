@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cleanup.c                                          :+:    :+:            */
+/*   cleanup.c                                       |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/06 21:37:07 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/07 00:40:51 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ft_freeexit(t_shell *shell, int code)
 	free(shell->alias->var);
 	free(shell->alias);
 	free(shell->historyfile);
-	/*free(shell->oldline);*/
+	free(shell->oldline);
 	free(shell->line);
 	ft_frearr(shell->envp);
 	while (i < 13)
