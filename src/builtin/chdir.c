@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/06 17:06:39 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/06 17:48:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ int	ft_chdir(t_cmds cmds, t_shell *shell)
 	char	*cwd;
 
 	if (cmds.arguments[2])
-		if (ft_errorexit("too many arguments", "cd", 0))
-			return (1);
+		return (ft_errorreturn("too many arguments", "cd", 1));
 	if (!cmds.arguments[1] || cmds.arguments[1][0] == '\0')
 	{
 
