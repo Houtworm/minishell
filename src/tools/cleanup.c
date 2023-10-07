@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cleanup.c                                       |o_o || |                */
+/*   cleanup.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/07 04:37:49 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 15:03:58 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_freecmds(t_cmds *cmds)
 	i = 0;
 	while (cmds[i].pipeline)
 	{
-		free(cmds[i].pipeline);
+		// free(cmds[i].pipeline);
 		free(cmds[i].absolute);
 		if (cmds[i].arguments)
 			ft_frearr(cmds[i].arguments); // crashes with tester, needs an if
@@ -31,7 +31,7 @@ void	ft_freecmds(t_cmds *cmds)
 		free(cmds[i].append);
 		i++;
 	}
-	free(cmds);
+	// free(cmds);
 }
 
 void	ft_freeforks(t_forks *forks)
@@ -54,35 +54,36 @@ void	ft_freeforks(t_forks *forks)
 
 void	ft_freeexit(t_shell *shell, int code)
 {
-	int		i;
+	// int		i;
 	
-	ft_freeforks(shell->forks);
-	free(shell->alias->val);
-	free(shell->alias->var);
-	free(shell->alias);
-	free(shell->historyfile);
-	free(shell->oldline);
-	free(shell->line);
-	i = 0;
-	if (shell->forkamount > 1)
-	{
-		while (shell->forkamount >= i)
-		{
-			free(shell->pipes[i]);
-			i++;
-		}
-		free(shell->pipes[i]);
-		free(shell->pipes);
-	}
-	ft_frearr(shell->envp);
-	i = 0;
-	while (i < 13)
-	{
-		free(shell->builtins[i].compare);
-		i++;
-	}
-	free(shell->builtins);
-	free(shell);
+	// ft_freeforks(shell->forks);
+	// free(shell->alias->val);
+	// free(shell->alias->var);
+	// free(shell->alias);
+	// free(shell->historyfile);
+	// free(shell->oldline);
+	// free(shell->line);
+	// i = 0;
+	// if (shell->forkamount > 1)
+	// {
+	// 	while (shell->forkamount >= i)
+	// 	{
+	// 		free(shell->pipes[i]);
+	// 		i++;
+	// 	}
+	// 	free(shell->pipes[i]);
+	// 	free(shell->pipes);
+	// }
+	// ft_frearr(shell->envp);
+	// i = 0;
+	// while (i < 13)
+	// {
+	// 	free(shell->builtins[i].compare);
+	// 	i++;
+	// }
+	// free(shell->builtins);
+	// free(shell);
+	shell = shell;
 	exit (code);
 }
 
@@ -90,7 +91,7 @@ void	ft_freenewprompt(t_shell *shell)
 {
 	int	i;
 
-	ft_freeforks(shell->forks);
+	// ft_freeforks(shell->forks);
 	i = 0;
 	if (shell->forkamount > 1)
 	{

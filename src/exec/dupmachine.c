@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   dupmachine.c                                    |o_o || |                */
+/*   dupmachine.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/07 10:57:05 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 16:24:21 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,21 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	if (shell->debug)
 		ft_printdup(cmds, cmdnbr, forknbr);
+	if (forknbr > 1)
+	{
+		close(shell->pipes[forknbr][1]);
+		close(shell->pipes[forknbr + 1][0]);
+	}
 	if (cmdnbr == 0 && forknbr > 0)
+	{
 		dup2(shell->pipes[forknbr][0], 0);
+		close(shell->pipes[forknbr][0]);
+	}
 	else if (shell->forks[forknbr].cmds[cmdnbr].hdfd > 0)
+	{
 		dup2(cmds.hdfd, 0);
+		close(cmds.hdfd);
+	}
 	else if (cmds.infile[0])
 	{
 		if (ft_inputfile(cmds.infile))
@@ -77,6 +88,9 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			return (1);
 	}
 	else if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount)
+	{
 		dup2(shell->pipes[forknbr + 1][1], 1);
+		close(shell->pipes[forknbr][0]);
+	}
 	return (0);
 }

@@ -27,6 +27,7 @@ is a lightweight implementation of bash
 - cat | cat | cat | ls // should exit when enter is pressed 3 times
 ### Builtins
 #### cd
+- cd is not really changing directory
 - cd - is having issues if oldpwd is not set.
 - if getcwd fails we can get strange behavior, lets say we delete the parent directory
 #### env

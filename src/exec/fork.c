@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fork.c                                          |o_o || |                */
+/*   fork.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/07 10:58:36 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 16:18:05 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,21 @@ int	ft_forktheforks(t_shell *shell)
 					}
 				}
 			}
+			// close(shell->pipes[forknumber][1]);
+			// close(shell->pipes[forknumber][0]);
 			forknumber++;
 			close(shell->pipes[forknumber][1]);
 		}
+		// close(shell->pipes[forknumber][0]);
 		forknumber = 0;
 		while (shell->forkamount > forknumber)
 		{
+			// close(shell->pipes[forknumber][1]);
+			// if (forknumber > 0)
+			// {
+			// 	close(shell->pipes[forknumber - 1][1]);
+			// 	close(shell->pipes[forknumber - 1][0]);
+			// }
 			waitpid(shell->forks[forknumber].pid, &status, 0);
 			shell->code = WEXITSTATUS(status);
 			forknumber++;

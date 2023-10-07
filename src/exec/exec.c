@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                          |o_o || |                */
+/*   exec.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 12:37:54 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 16:17:13 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,13 +189,18 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			execve(cmds.absolute, cmds.arguments, shell->envp);
 			ft_errorexit("command not found", cmds.absolute, 127);
 		}
-		/*if (shell->forkamount > 1)*/
-		/*{*/
-			/*close(shell->pipes[forknbr][1]);*/
-			/*close(shell->pipes[forknbr][0]);*/
-			/*close(shell->pipes[forknbr - 1][1]);*/
-			/*close(shell->pipes[forknbr - 1][0]);*/
-		/*}*/
+		// if (shell->forkamount > 1)
+		// {
+		// 	close(shell->pipes[forknbr][1]);
+		// 	close(shell->pipes[forknbr][0]);
+			// if (forknbr > 0)
+			// {
+				// close(shell->pipes[forknbr - 1][1]);
+				// close(shell->pipes[forknbr - 1][0]);
+			// }
+			// close(shell->pipes[forknbr + 1][1]);
+			// close(shell->pipes[forknbr + 1][0]);
+		// }
 		waitpid(cmds.pid, &status, 0);
 		cmds.code = WEXITSTATUS(status);
 	}
@@ -222,10 +227,13 @@ int	ft_executeforks(int forknbr, t_shell *shell, int condition)
 		if (shell->debug)
 			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
+		// ft_putendl_fd("test2----", 2);
 		if (shell->forks[forknbr].cmds[cmdnbr].outfile[0])
 			ft_executeredirect(shell->forks[forknbr].cmds[cmdnbr].outfile, shell->forks[forknbr].cmds[cmdnbr].append, forknbr);
 		cmdnbr++;
 	}
+	// ft_putnbr_fd(condition, 2);
+	// ft_putendl_fd("  condition", 2);
 	if (condition)
 		ft_checklastcode(shell->forks[forknbr]);
 	return (status);

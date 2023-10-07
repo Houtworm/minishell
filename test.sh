@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                         |o_o || |                 #
+#    test.sh                                            :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/07 12:37:51 by djonker      \___)=(___/                  #
+#    Updated: 2023/10/07 16:21:33 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ERRORS=0
 PASSES=0
 SLEEP=0
-VALGRIND=1
+VALGRIND=0
 SHOWLEAKS=1
 
 testfunction()
@@ -252,6 +252,20 @@ testfunction()
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
+			cat /tmp/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
+				if [ $SHOWLEAKS -eq 1 ]
+				then
+					cat /tmp/memorycheck
+				fi
+				ERRORS=$(($ERRORS+1))
+				VALGRIND=0
+			fi
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
 			printf "\e[1;32mMemory OK\e[0;00m\n"
 			PASSES=$(($PASSES+1))
 		fi
@@ -427,6 +441,20 @@ redirectfunction()
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
+			cat /tmp/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
+				if [ $SHOWLEAKS -eq 1 ]
+				then
+					cat /tmp/memorycheck
+				fi
+				ERRORS=$(($ERRORS+1))
+				VALGRIND=0
+			fi
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
 			printf "\e[1;32mMemory OK\e[0;00m\n"
 			PASSES=$(($PASSES+1))
 		fi
@@ -550,6 +578,20 @@ environmentfunction()
 			if [ $? -eq 0 ]
 			then
 				printf "\n\e[1;31mIndirect Memory Leaks with command ${1} | grep ${2}\e[0;00m\n"
+				if [ $SHOWLEAKS -eq 1 ]
+				then
+					cat /tmp/memorycheck
+				fi
+				ERRORS=$(($ERRORS+1))
+				VALGRIND=0
+			fi
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			cat /tmp/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
 					cat /tmp/memorycheck
