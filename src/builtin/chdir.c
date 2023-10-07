@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 02:23:46 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 07:22:03 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	ft_chdir(t_cmds cmds, t_shell *shell)
 		return (ft_errorreturn("too many arguments", "cd", 1));
 	if (!cmds.arguments[1] || cmds.arguments[1][0] == '\0')
 	{
-
 		cwd = ft_getuser(shell->envp);
 		line = ft_vastrjoin(3, "/home/", cwd, "/");
 		free(cwd);

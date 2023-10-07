@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 01:47:57 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 07:16:17 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	**ft_splitcmd(char *cmd)
 	int		icmd;
 	int		arg;
 	int		iarg;
+	char	quote;
 
 	icmd = 0;
 	arg = 1;
@@ -78,16 +79,11 @@ char	**ft_splitcmd(char *cmd)
 	{
 		while (cmd[icmd] && cmd[icmd] != ' ')
 		{
-			if (cmd[icmd] == '\'')
+			if (cmd[icmd] == '\'' || cmd[icmd] == '\"')
 			{
+				quote = cmd[icmd];
 				icmd++;
-				while (cmd[icmd] && cmd[icmd] != '\'')
-					icmd++;
-			}
-			if (cmd[icmd] == '\"')
-			{
-				icmd++;
-				while (cmd[icmd] && cmd[icmd] != '\"')
+				while (cmd[icmd] && cmd[icmd] != quote)
 					icmd++;
 			}
 			if (cmd[icmd])
@@ -108,24 +104,13 @@ char	**ft_splitcmd(char *cmd)
 		iarg = 0;
 		while (cmd[icmd] && cmd[icmd] != ' ')
 		{
-			if (cmd[icmd] == '\'')
+			if (cmd[icmd] == '\'' || cmd[icmd] == '\"')
 			{
 				arguments[arg][iarg] = cmd[icmd];
+				quote = cmd[icmd];
 				iarg++;
 				icmd++;
-				while (cmd[icmd] && cmd[icmd] != '\'')
-				{
-					arguments[arg][iarg] = cmd[icmd];
-					iarg++;
-					icmd++;
-				}
-			}
-			else if (cmd[icmd] == '\"')
-			{
-				arguments[arg][iarg] = cmd[icmd];
-				iarg++;
-				icmd++;
-				while (cmd[icmd] && cmd[icmd] != '\"')
+				while (cmd[icmd] && cmd[icmd] != quote)
 				{
 					arguments[arg][iarg] = cmd[icmd];
 					iarg++;
