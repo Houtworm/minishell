@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 01:41:24 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 03:33:41 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,5 +271,6 @@ int			ft_moderrorreturn(char *reason, char *cmd, char *cmd2, int code);
 // cleanup
 void		ft_freeexit(t_shell *shell, int code);
 void		ft_freeglobs(t_globs *globs);
+void		ft_freenewprompt(t_shell *shell);
 
 #endif

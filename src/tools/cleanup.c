@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/07 02:08:47 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 04:03:36 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@ void	ft_freecmds(t_cmds *cmds)
 	{
 		free(cmds[i].pipeline);
 		free(cmds[i].absolute);
-		ft_frearr(cmds[i].arguments); // crashes with tester, needs an if
+		if (cmds[i].arguments)
+			ft_frearr(cmds[i].arguments); // crashes with tester, needs an if
+		if (cmds[i].outfile)
 		ft_frearr(cmds[i].outfile);
+		if (cmds[i].infile)
 		ft_frearr(cmds[i].infile);
+		if (cmds[i].append)
 		free(cmds[i].append);
 		i++;
 	}
@@ -45,13 +49,13 @@ void	ft_freeforks(t_forks *forks)
 		}
 		free(forks[i].cmds);
 	}
+	free(forks);
 }
 
 void	ft_freeexit(t_shell *shell, int code)
 {
 	int		i;
 	
-	i = 0;
 	ft_freeforks(shell->forks);
 	free(shell->alias->val);
 	free(shell->alias->var);
@@ -59,7 +63,15 @@ void	ft_freeexit(t_shell *shell, int code)
 	free(shell->historyfile);
 	free(shell->oldline);
 	free(shell->line);
+	i = 0;
+	while (shell->pipes && shell->pipes[i])
+	{
+		free(shell->pipes[i]);
+		i++;
+	}
+	free(shell->pipes);
 	ft_frearr(shell->envp);
+	i = 0;
 	while (i < 13)
 	{
 		free(shell->builtins[i].compare);
@@ -68,6 +80,21 @@ void	ft_freeexit(t_shell *shell, int code)
 	free(shell->builtins);
 	free(shell);
 	exit (code);
+}
+
+void	ft_freenewprompt(t_shell *shell)
+{
+	int	i;
+
+	ft_freeforks(shell->forks);
+	i = 0;
+	while (shell->pipes && shell->pipes[i])
+	{
+		free(shell->pipes[i]);
+		i++;
+	}
+	free(shell->pipes);
+	/*free(shell->line);*/
 }
 
 void	ft_freeglobs(t_globs *globs)
