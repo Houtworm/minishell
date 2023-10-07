@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 00:10:03 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 08:31:33 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,10 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	{
 		status = ft_checkcommand(cmds, shell->envp);
 		if (status)
+		{
+			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = status;
 			return (status);
+		}
 		cmds.pid = fork();
 		if (cmds.pid == 0)
 		{
