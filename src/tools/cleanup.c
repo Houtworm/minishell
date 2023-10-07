@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/07 04:03:36 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 04:37:49 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,16 @@ void	ft_freeexit(t_shell *shell, int code)
 	free(shell->oldline);
 	free(shell->line);
 	i = 0;
-	while (shell->pipes && shell->pipes[i])
+	if (shell->forkamount > 1)
 	{
+		while (shell->forkamount >= i)
+		{
+			free(shell->pipes[i]);
+			i++;
+		}
 		free(shell->pipes[i]);
-		i++;
+		free(shell->pipes);
 	}
-	free(shell->pipes);
 	ft_frearr(shell->envp);
 	i = 0;
 	while (i < 13)
@@ -88,12 +92,16 @@ void	ft_freenewprompt(t_shell *shell)
 
 	ft_freeforks(shell->forks);
 	i = 0;
-	while (shell->pipes && shell->pipes[i])
+	if (shell->forkamount > 1)
 	{
+		while (shell->forkamount >= i)
+		{
+			free(shell->pipes[i]);
+			i++;
+		}
 		free(shell->pipes[i]);
-		i++;
+		free(shell->pipes);
 	}
-	free(shell->pipes);
 	/*free(shell->line);*/
 }
 

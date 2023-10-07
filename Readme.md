@@ -16,14 +16,15 @@ is a lightweight implementation of bash
 ### Environment
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 ### Parser
-- redirection has some issues, might be in execution?
-- redirection should open files and close them immediately if append = 0;
+- '' and ' ' should actually be seen as arguments
 - redirection has some issues with quotes;
 - maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
 - Syntax checking can be improved a lot
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
 - globbing is removing quotes...
 - heredoc should parse all but only input the last heredoc file
+- If one of the commands is invalid nothing will run, we can probably check this right before we start forking
+- if we find a loose $ with nothing behind it, we should leave it there.
 ### Exec
 - somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
 - cat | cat | cat | ls // should exit when enter is pressed 3 times
@@ -31,15 +32,11 @@ is a lightweight implementation of bash
 #### cd
 - cd - is having issues if oldpwd is not set.
 - if getcwd fails we can get strange behavior, lets say we delete the parent directory
-#### export
-- export prints without double quotes
 #### env
 - shlvl in env is not updated right away?
 #### exit
 - exit can only exit numerically if every char in the argument is a number
 - if argument is bigger than long long print numeric argument required
-- huge numbers print the wrong return value
-- exit ''
 #### alias
 - is already implemented and used during init, it just can't be called from the shell yet
 

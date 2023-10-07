@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/07 04:12:49 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 06:44:20 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,12 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int itar
 						}
 					}
 				}
-				/*else*/
-					/*return (0);*/
+				else if (globs->subdir[i][itar - 1] != '*' && globs->subdir[i][itar] == '?' && !globs->tempsubdir[i][ipos + 3] && !globs->subdir[i][itar + 1])
+				{
+					/*printf("target hit\n");*/
+					return (0);
+				}
+				/*printf("dname[ipos + 2]: %c, subdir[i][itar]: %c\n", globs->tempsubdir[i][ipos + 3], globs->subdir[i][itar]);*/
 			}
 			ipos++;
 		}
