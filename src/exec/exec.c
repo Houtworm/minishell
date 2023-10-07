@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 08:31:33 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 11:32:57 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,13 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			execve(cmds.absolute, cmds.arguments, shell->envp);
 			ft_errorexit("command not found", cmds.absolute, 127);
 		}
+		/*if (shell->forkamount > 1)*/
+		/*{*/
+			/*close(shell->pipes[forknbr][1]);*/
+			/*close(shell->pipes[forknbr][0]);*/
+			/*close(shell->pipes[forknbr - 1][1]);*/
+			/*close(shell->pipes[forknbr - 1][0]);*/
+		/*}*/
 		waitpid(cmds.pid, &status, 0);
 		cmds.code = WEXITSTATUS(status);
 	}

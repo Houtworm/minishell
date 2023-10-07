@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:01:18 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/07 02:40:25 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 10:56:11 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	ft_period(t_cmds cmds, t_shell *shell)
 				shell->code = ft_forktheforks(shell);
 			free(line);
 		}
+		close(fd);
 		return(shell->code);
 	}
 	else

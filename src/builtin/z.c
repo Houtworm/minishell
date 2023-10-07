@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:10 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/07 02:51:32 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 12:20:41 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,10 @@ int	ft_z(t_cmds cmd, t_shell *shell)
 		{
 			cmd.arguments[1] = ft_strdup(line);
 			ft_chdir(cmd, shell);
-			free(line);
 			free(home);
-			free(temp);
+			free(line);
 			return (0);
 		}
-		free(temp);
 		free(line);
 	}
 	close(mshzfd);
@@ -48,6 +46,7 @@ int	ft_z(t_cmds cmd, t_shell *shell)
 			ft_chdir(cmd, shell);
 			free(line);
 			free(home);
+			close(mshzfd);
 			return (0);
 		}
 		free(line);

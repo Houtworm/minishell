@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 00:20:30 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 11:09:05 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ int	ft_getpid(void)
 				i++;
 			pid = ft_atoi(&line[i]);
 			free (line);
+			/*close(fd);*/
 			return (pid);
 		}
 		free (line);
 	}
+	close(fd);
 	return (-1);
 }
 
