@@ -22,8 +22,6 @@ is a lightweight implementation of bash
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
 - globbing is removing quotes...
 - heredoc should parse all but only input the last heredoc file
-- If one of the commands is invalid nothing will run, we can probably check this right before we start forking
-- if we find a loose $ with nothing behind it, we should leave it there.
 ### Exec
 - somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
 - cat | cat | cat | ls // should exit when enter is pressed 3 times
@@ -33,8 +31,6 @@ is a lightweight implementation of bash
 - if getcwd fails we can get strange behavior, lets say we delete the parent directory
 #### env
 - shlvl in env is not updated right away?
-#### exit
-- if argument is bigger than or smaller than long long, print numeric argument required
 #### alias
 - is already implemented and used during init, it just can't be called from the shell yet
 
