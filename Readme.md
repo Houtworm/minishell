@@ -16,7 +16,6 @@ is a lightweight implementation of bash
 ### Environment
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 ### Parser
-- '' and ' ' should actually be seen as arguments
 - redirection has some issues with quotes;
 - maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
 - Syntax checking can be improved a lot
@@ -35,8 +34,7 @@ is a lightweight implementation of bash
 #### env
 - shlvl in env is not updated right away?
 #### exit
-- exit can only exit numerically if every char in the argument is a number
-- if argument is bigger than long long print numeric argument required
+- if argument is bigger than or smaller than long long, print numeric argument required
 #### alias
 - is already implemented and used during init, it just can't be called from the shell yet
 

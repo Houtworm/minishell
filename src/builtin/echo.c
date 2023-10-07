@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/05 09:51:10 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/07 08:05:51 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int ft_echorecursion(t_cmds cmds, char *print, int i, int j)
 	k = 0;
 	if (!cmds.arguments[j])
 		return (0);
-	/*if (cmds.arguments[j][k] == '~')*/
-		/*cmds.arguments[j] = ft_strjoin(ft_gethome(cmds.envp), &cmds.arguments[j][1]);*/
 	while (cmds.arguments[j][k] != '\0')
 	{
 		print[i] = cmds.arguments[j][k];

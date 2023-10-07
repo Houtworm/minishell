@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/04 22:22:12 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 11:11:58 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/07 08:04:10 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_executedollarsign(t_cmds *cmd, char **envp)
 	begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	var = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	rest = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	if (ft_checkoutquote(cmd->pipeline, '$', 1) >= 0)
+	while (ft_checkoutquote(cmd->pipeline, '$', 1) >= 0)
 	{
 		i = 0;
 		j = 0;
@@ -92,7 +92,7 @@ void	ft_executebacktick(t_cmds *cmd, char **envp)
 	begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	var = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	rest = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	if (ft_checkoutquote(cmd->pipeline, '`', 1) >= 0)
+	while (ft_checkoutquote(cmd->pipeline, '`', 1) >= 0)
 	{
 		i = 0;
 		j = 0;

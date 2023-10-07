@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:18 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 11:06:56 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/07 08:03:05 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_parsevariable(t_cmds *cmd, t_shell shell)
 	begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	var = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	rest = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	while (ft_checkoutquote(cmd->pipeline, '$', 1) >= 0)
+	while (ft_checkoutquotevar(cmd->pipeline) >= 0)
 	{
 		i = 0;
 		j = 0;
@@ -41,18 +41,28 @@ int	ft_parsevariable(t_cmds *cmd, t_shell shell)
 					i++;
 					j++;
 				}
-			}
+			}	
 			begin[j] = cmd->pipeline[i];
 			i++;
 			j++;
+			if (cmd->pipeline[i] == '$' && cmd->pipeline[i + 1] == '(')
+			{
+				while (cmd->pipeline[i] != ')')
+				{
+					begin[j] = cmd->pipeline[i];
+					j++;
+					i++;
+				}
+				begin[j] = cmd->pipeline[i];
+				i++;
+				j++;
+			}
 		}
 		if (cmd->pipeline[i] == '$')
 		{
 			begin[j] = '\0';
 			i++;
 		}
-		if (cmd->pipeline[i] == '(')
-			break ;
 		if (cmd->pipeline[i] == '?')
 		{
 			val = ft_itoa(shell.code % 256);
@@ -61,6 +71,11 @@ int	ft_parsevariable(t_cmds *cmd, t_shell shell)
 		else if (cmd->pipeline[i] == '$')
 		{
 			val = ft_itoa(shell.pid);
+			i++;
+		}
+		else if (cmd->pipeline[i] == ' ' || !cmd->pipeline[i])
+		{
+			val = ft_strdup("$");
 			i++;
 		}
 		else

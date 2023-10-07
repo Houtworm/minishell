@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 03:11:18 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 08:00:12 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,34 @@ int	ft_skipquote(char *s, int i)
 	return (i + k);
 }
 
+int	ft_checkoutquotevar(char *line)
+{
+	int		i;
+
+	i = 0;
+	if (line)
+	{
+		while (line[i])
+		{
+			if (line[i] == '$' && line[i + 1] != '(')
+				return (i);
+			if (line[i] == '\'')
+			{
+				i++;
+				while (line[i] != '\'')
+					i++;
+			}
+			i++;
+		}
+	}
+	return (-1);
+}
+
 int	ft_checkoutquote(char *line, char target, int mode)
 {
 	int		i;
 	char	*quotes;
+	char	quote;
 
 	i = 0;
 	quotes = "\'";
@@ -45,8 +69,38 @@ int	ft_checkoutquote(char *line, char target, int mode)
 				return (i);
 			if (ft_strchr(quotes, line[i]))
 			{
+				quote = line[i];
 				i++;
-				while (!ft_strchr(quotes, line[i]))
+				while (quote != line[i])
+					i++;
+			}
+			i++;
+		}
+	}
+	return (-1);
+}
+
+int	ft_checkoutquote2(char *line, char target, char target2, int mode)
+{
+	int		i;
+	char	*quotes;
+	char	quote;
+
+	i = 0;
+	quotes = "\'";
+	if (mode == 2)
+		quotes = "\'\"";
+	if (line)
+	{
+		while (line[i])
+		{
+			if (line[i] == target && line[i + 1] == target2)
+				return (i);
+			if (ft_strchr(quotes, line[i]))
+			{
+				quote = line[i];
+				i++;
+				while (quote != line[i])
 					i++;
 			}
 			i++;

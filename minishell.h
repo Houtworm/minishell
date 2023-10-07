@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 03:33:41 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 08:00:03 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void		ft_parsealiases(t_cmds *cmds, t_shell shell);
 char		*ft_completeline(t_shell *shell, int k);
 char		*ft_closeline(t_shell *shell);
 // quote
+int			ft_checkoutquotevar(char *line);
 int			ft_checkoutquote(char *line, char target, int mode);
 int			ft_skipquote(char *s, int i);
 char		check_quote_closed(t_shell *shell);
