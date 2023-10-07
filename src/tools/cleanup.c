@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/07 00:40:51 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 02:08:47 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_freeforks(t_forks *forks)
 			free(forks[i].pipeline);
 			i++;
 		}
-		free(forks);
+		free(forks[i].cmds);
 	}
 }
 

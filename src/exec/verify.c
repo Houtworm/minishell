@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/25 04:55:07 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 11:14:00 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/07 03:02:53 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ int	ft_checkinputfile(char *inputfile)
 		if (access(inputfile, R_OK) < 0)
 		{
 			if (access(inputfile, F_OK) < 0)
-				ft_errorexit("no such file or directory", inputfile, 0);
+				return (ft_errorreturn("no such file or directory", inputfile, 1));
 			else
-				ft_errorexit("permission denied", inputfile, 0);
-			return (1);
+				return (ft_errorreturn("permission denied", inputfile, 1));
 		}
 	}
 	return (0);
@@ -34,8 +33,7 @@ int	ft_checkoutputfile(char *outputfile)
 	{
 		if (!access(outputfile, F_OK) && access(outputfile, W_OK))
 		{
-			ft_errorexit("permission denied", outputfile, 0);
-			return (1);
+			return (ft_errorreturn("permission denied", outputfile, 1));
 		}
 	}	
 	return (0);
@@ -61,17 +59,16 @@ int	ft_checkcommand(t_cmds cmds, char **envp)
 	}
 	if (!paths[i] || ft_isallbyte(cmds.arguments[0], ' ') || ft_isallbyte(cmds.arguments[0], '.') || access(temp, F_OK))
 	{
-		if (ft_errorexit("command not found", cmds.arguments[0], 0))
-			i = 127;
+		free (temp);
+		ft_frearr(paths);
+		return (ft_errorreturn("command not found", cmds.arguments[0], 127));
 	}
-	if (access(temp, X_OK) && i != 127)
+	ft_frearr(paths);
+	if (access(temp, X_OK))
 	{
-		if (ft_errorexit("permission denied", cmds.arguments[0], 0))
-			i = 126;
+		free (temp);
+		return (ft_errorreturn("permission denied", cmds.arguments[0], 126));
 	}
 	free (temp);
-	ft_frearr(paths);
-	if (i == 127 || i == 126)
-		return (i);
 	return (0);
 }

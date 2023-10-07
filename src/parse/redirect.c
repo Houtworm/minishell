@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   redirect.c                                         :+:    :+:            */
+/*   redirect.c                                      |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 10:16:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/06 21:41:58 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/07 03:11:40 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ void	ft_parseredirectout(t_cmds *cmd)
 		if (begin == NULL || rest == NULL)
 			ft_errorexit("Error allocating memory", "malloc", 1);
 		i = 0;
-		/*printf("%s\n", cmd->pipeline);*/
 		cmd->outfile[k] = ft_calloc(ft_strlen(cmd->pipeline) + 1, 8);
 		if (cmd->outfile[k] == NULL)
 			ft_errorexit("Error allocating memory", "malloc", 1);
@@ -155,7 +154,6 @@ void	ft_parseredirectout(t_cmds *cmd)
 				j++;
 				while (cmd->pipeline[i] && cmd->pipeline[i] != '\'')
 				{
-					/*printf("looping in \' \n");*/
 					begin[j] = cmd->pipeline[i];
 					i++;
 					j++;
@@ -168,13 +166,11 @@ void	ft_parseredirectout(t_cmds *cmd)
 				j++;
 				while (cmd->pipeline[i] && cmd->pipeline[i] != '\'')
 				{
-					/*printf("looping in \" \n");*/
 					begin[j] = cmd->pipeline[i];
 					i++;
 					j++;
 				}
 			}
-			/*printf("looping in nothing \n");*/
 			begin[j] = cmd->pipeline[i];
 			i++;
 			j++;
@@ -182,7 +178,6 @@ void	ft_parseredirectout(t_cmds *cmd)
 		if (cmd->pipeline[i] == '>')
 		{
 			begin[j] = '\0';
-			/*printf("begin: %s\n", begin);*/
 			i++;
 			if (cmd->pipeline[i] == '>')
 			{
@@ -227,7 +222,6 @@ void	ft_parseredirectout(t_cmds *cmd)
 			j++;
 		}
 		rest[j] = '\0';
-		/*printf("rest: %s\n", rest);*/
 		free (cmd->pipeline);
 		cmd->pipeline = ft_strjoin(begin, rest);
 		free(begin);

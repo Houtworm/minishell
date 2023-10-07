@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:10 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 19:33:36 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/07 02:51:32 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int	ft_z(t_cmds cmd, t_shell *shell)
 			ft_chdir(cmd, shell);
 			free(line);
 			free(home);
-			/*free(temp);*/
+			free(temp);
 			return (0);
 		}
-		/*free(temp);*/
+		free(temp);
 		free(line);
 	}
 	close(mshzfd);

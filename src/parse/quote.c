@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 01:14:49 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 03:11:18 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,55 +79,3 @@ char	check_quote_closed(t_shell *shell)
 	}
 	return (check);
 }
-
-/*char	**ft_remove_quote(char	**cmd, int count)*/
-/*{*/
-	/*char	*tmp;*/
-	/*char	check;*/
-	/*int		i;*/
-	/*int		k;*/
-
-	/*check = '\0';*/
-	/*while (cmd[count])*/
-	/*{*/
-		/*tmp = cmd[count];*/
-		/*i = 0;*/
-		/*k = 0;*/
-		/*while (tmp[i])*/
-		/*{*/
-			/*while ((!check || check == tmp[i]) && (tmp[i] == '\"' || tmp[i] == '\''))*/
-			/*{*/
-				/*if (check == tmp[i])*/
-					/*check = '\0';*/
-				/*else*/
-					/*check = tmp[i];*/
-				/*i++;*/
-			/*}*/
-			/*if (check)*/
-			/*{*/
-				/*while (tmp[i] && tmp[i] != check)*/
-				/*{*/
-					/*cmd[count][k] = tmp[i];*/
-					/*i++;*/
-					/*k++;*/
-				/*}*/
-			/*}*/
-			/*else*/
-			/*{*/
-				/*while (tmp[i] && tmp[i] != '\"' && tmp[i] != '\'')*/
-				/*{*/
-					/*cmd[count][k] = tmp[i];*/
-					/*i++;*/
-					/*k++;*/
-				/*}*/
-			/*}*/
-		/*}*/
-		/*while (cmd[count][k])*/
-		/*{*/
-			/*cmd[count][k] = '\0';*/
-			/*k++;*/
-		/*}*/
-		/*count++;*/
-	/*}*/
-	/*return (cmd);*/
-/*}*/

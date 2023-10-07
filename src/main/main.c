@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 01:22:47 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 02:58:59 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,11 @@ int	ft_mainloop(t_shell *shell)
 		ret = ft_parseline(line, shell);
 		if (ret == 2)
 		{
-			/*free(line);*/
 			shell->code = 2;
 			return (2);
 		}
 		if (ret == 127)
-		{
-			ft_errorexit("command not found", "!!", 0);
-			return (127);
-		}
+			return (ft_errorreturn("command not found", "!!", 127));
 		if (ret == 1)
 			return (1);
 		shell->code = ft_forktheforks(shell);

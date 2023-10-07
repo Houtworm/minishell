@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 09:08:36 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/07 02:45:26 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *shell, int i)
 	}
 	waitpid(pid, &ret, 0);
 	shell->code = WEXITSTATUS(ret);
-	if (i > 9)
+	if (i > 10)
 		ft_freeexit(shell, shell->code);
 	return (shell->code);
 }

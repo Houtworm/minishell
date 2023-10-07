@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 00:08:13 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/07 02:23:46 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ int	ft_chdir(t_cmds cmds, t_shell *shell)
 		free(cwd);
 		free(line);
 		if (errno == ENOTDIR)
-			ft_moderrorexit("Not a directory", cmds.arguments[0], cmds.arguments[1], 1);
+			return (ft_moderrorreturn("Not a directory", cmds.arguments[0], cmds.arguments[1], 1));
 		else
-			ft_moderrorexit("No such file or directory", cmds.arguments[0], cmds.arguments[1], 1);
+			return (ft_moderrorreturn("No such file or directory", cmds.arguments[0], cmds.arguments[1], 1));
 		return (1);
 	}
 	free(line);

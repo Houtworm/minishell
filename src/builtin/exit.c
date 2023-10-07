@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 18:48:08 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/05 06:47:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/07 02:30:28 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int	ft_exit(t_cmds cmds, t_shell *shell)
 		if (cmds.arguments[1][i] < '0' || cmds.arguments[1][i] > '9' )
 		{
 			ft_putendl_fd("exit", 2);
-			ft_moderrorexit ("numeric argument required", "exit", cmds.arguments[1], 2);
+			return (ft_moderrorreturn ("numeric argument required", "exit", cmds.arguments[1], 2));
 		}
 		i++;
 	}
-		exit (ft_atol(cmds.arguments[1]));
+		return (ft_atol(cmds.arguments[1]));
 	return (0);
 	shell = shell;
 }
