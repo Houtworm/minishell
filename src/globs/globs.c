@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/07 06:44:32 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/08 05:17:12 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,21 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 	i = 0;
 	while (dname[i] && globs->gstart[i] == dname[i]) // while characters match
 	{
-		/*printf("match %c\n", dname[i]);*/
+		printf("match %c\n", dname[i]);
 		i++;
 	}
 	if (globs->gstart[i] == '\0') // Glob start matches
 	{
-		/*printf("ft_matchtillglob globs start matches with %s\n", dname);*/
+		printf("ft_matchtillglob globs start matches with %s\n", dname);
 		if (ft_firstglob(globs, dname, i)) // check if the rest of the glob also matches
 		{
-			/*printf("ft_matchtillglob glob matches with %s\n", dname);*/
+			printf("ft_matchtillglob glob matches with %s\n", dname);
 			if (globs->subdir[0]) //check if we need to match subdirs
 			{
-				/*printf("ft_matchtillglob Match found, checking if dir\n");*/
+				printf("ft_matchtillglob Match found, checking if dir\n");
 				if (type == DT_DIR) //check if it is an actual directory
 				{
-					/*printf("ft_matchtillglob %s is a dir, going to match the subdirectory\n", dname);*/
+					printf("ft_matchtillglob %s is a dir, going to match the subdirectory\n", dname);
 					temp = ft_vastrjoin(2, fullpath, dname);
 					free(globs->tempsubdir[0]);
 					globs->tempsubdir[0] = ft_strjoin("/", dname);
@@ -93,13 +93,51 @@ int	ft_parseglob(t_globs *globs, char **envp)
 	{	
 		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 		{
-			/*printf("ft_parseglob trying to match %s\n", dirents->d_name);*/
+			printf("ft_parseglob trying to match %s\n", dirents->d_name);
 			ft_matchtillglob(globs, dirents->d_name, checkdir, dirents->d_type); // if it matches till the glob it will branch out from this function.
 		}
 		closedir(dir);
 	}
 	free(checkdir);
 	return (0);
+}
+
+void	ft_removequotesfromsubdir(t_globs *globs)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	quote;
+
+	i = 0;
+	while (globs->subdir[i])
+	{
+		j = 0;
+		k = 0;
+		while (globs->subdir[i][j])
+		{
+			if (ft_strchr("\'\"", globs->subdir[i][j]))
+			{
+				quote = globs->subdir[i][j];
+				j++;
+				while (globs->subdir[i][j] != quote)
+				{
+					globs->subdir[i][k] = globs->subdir[i][j]; // copy it over
+					j++;
+					k++;
+				}
+				j++;
+			}
+			if (globs->subdir[i][j])
+			{
+				globs->subdir[i][k] = globs->subdir[i][j]; // copy it over
+				k++;
+				j++;
+			}
+		}
+		globs->subdir[i][k] = '\0';
+		i++;
+	}
 }
 
 void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
@@ -119,6 +157,7 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings
 			ft_getparent(globs); //looks in the glob if it contains any extra directories above the glob
 			ft_getsubdir(globs); //looks in the glob for any subdirs and puts them in their own char **
+			ft_removequotesfromsubdir(globs);
 			ft_parseglob(globs, envp); //parses the glob character by character
 			ft_newpipeline(globs); //constructs the new pipeline, sets the new position in the pipeline right after the parsed glob
 			if (cmd->debug)

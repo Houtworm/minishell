@@ -17,14 +17,13 @@ is a lightweight implementation of bash
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 ### Parser
 - redirection has some issues with quotes;
-- maybe add a count to ft_checkoutquote so functions using it don't have to loop to end of pipeline
 - Syntax checking can be improved a lot
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
 - globbing is removing quotes...
 - heredoc should parse all but only input the last heredoc file
 ### Exec
 - somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
-- cat | cat | cat | ls // should exit when enter is pressed 3 times
+- cat | cat | cat | ls // should exit when enter is pressed 3 times // same issue?
 ### Builtins
 #### cd
 - cd is not really changing directory

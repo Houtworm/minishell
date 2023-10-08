@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:32:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 09:26:45 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/08 05:08:39 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,25 @@ int	ft_getparent(t_globs *globs)
 
 int	ft_getglob(t_globs *globs, int startpos)
 { // copies the start of the glob and the end of the glob to the struct.
-	int endpos;
+	int 	endpos;
+	char	quote;
 
 	endpos = 0;
 	globs->gstart[startpos] = '\0'; // set the \0 at the end
 	startpos++;
 	while (globs->pipeline[globs->linecount + startpos + endpos] && globs->pipeline[globs->linecount + startpos + endpos] != ' ')
 	{ // while pipeline and pipeline is not ' '
+	  	if (ft_strchr("\'\"", globs->pipeline[globs->linecount + startpos + endpos]))
+		{
+			quote = globs->pipeline[globs->linecount + startpos + endpos];
+			globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos]; // copy it over
+			endpos++;
+			while (globs->pipeline[globs->linecount + startpos + endpos] != quote)
+			{
+				globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos]; // copy it over
+				endpos++;
+			}
+		}
 		globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos]; // copy it over
 		endpos++;
 	}
