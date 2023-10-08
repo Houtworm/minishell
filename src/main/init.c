@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 11:09:05 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/08 03:48:24 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	shell->code = 256;
 	shell->stop = 0;
 	shell->debug = debugmode;
+	/*dup2(0, shell->stdinfd);*/
+	/*dup2(1, shell->stdoutfd);*/
 	ft_readhistory(shell->historyfile);
 	return (shell);
 }

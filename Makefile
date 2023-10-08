@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                        |o_o || |                 #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/07 14:07:20 by yitoh         ########   odam.nl          #
+#    Updated: 2023/10/08 03:25:16 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,10 +62,12 @@ SRC		=src/main/main.c\
 		 src/globs/wildcard.c\
 		 src/globs/joker.c\
 		 src/globs/anyof.c\
-		 src/tools/tools.c\
+		 src/tools/time.c\
+		 src/tools/fd.c\
 		 src/tools/error.c\
 		 src/tools/print.c\
 		 src/tools/environment.c\
+		 src/tools/semaphore.c\
 		 src/tools/cleanup.c
 OBJ		=$(SRC:src/%.c=obj/%.o)
 LIB		=printf/ft_printf.a getnextline/get_next_line.a libft/libft.a

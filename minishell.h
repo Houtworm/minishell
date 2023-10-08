@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 08:00:03 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/08 03:27:49 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ typedef struct s_shell
 	char		*line;
 	char		*historyfile;
 	char		*oldline;
+	int			stdinfd;
+	int			stdoutfd;
 }	t_shell;
 
 // Prototypes
@@ -252,7 +254,7 @@ int			ft_nextanyof(t_globs *globs, char *dname, int i, int j);
  int		ft_firstanyof(t_globs *globs, char *dname, int i);
 
 // TOOLS
-// tools
+// time
 long long	ft_gettimems(char **envp);
 // print
 void		ft_printshell(t_shell shell);
@@ -273,5 +275,13 @@ int			ft_moderrorreturn(char *reason, char *cmd, char *cmd2, int code);
 void		ft_freeexit(t_shell *shell, int code);
 void		ft_freeglobs(t_globs *globs);
 void		ft_freenewprompt(t_shell *shell);
+// fd
+void		ft_safeclosefd(int	fd);
+void		ft_closepipes(t_shell *shell);
+void		ft_restorefds(t_shell *shell);
+// semaphore
+int			ft_seminit(char *file, int number);
+int			ft_semwait(char *file);
+int			ft_semfree(char *file);
 
 #endif
