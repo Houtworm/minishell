@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/08 05:26:21 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 01:01:20 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,14 @@ int	ft_parseglob(t_globs *globs, char **envp)
 	char			*curdir;
 	char			*checkdir;
 
-	curdir = ft_getpwd(envp, 1); // get working directory
-	checkdir = ft_vastrjoin(2, curdir, globs->pardir); // strjoin current directory and any directories before the first glob.
-	free(curdir);
+	if (globs->pardir[0] == '/')
+		checkdir = ft_strdup(globs->pardir); // needs to run for every sub directory.
+	else
+	{
+		curdir = ft_getpwd(envp, 1); // get working directory
+		checkdir = ft_vastrjoin(2, curdir, globs->pardir); // strjoin current directory and any directories before the first glob.
+		free(curdir);
+	}
 	dir = opendir(checkdir); // needs to run for every sub directory.
 	if (dir)
 	{	
@@ -157,7 +162,7 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings
 			ft_getparent(globs); //looks in the glob if it contains any extra directories above the glob
 			ft_getsubdir(globs); //looks in the glob for any subdirs and puts them in their own char **
-			ft_removequotesfromsubdir(globs);
+			/*ft_removequotesfromsubdir(globs);*/ // not sure about this one
 			ft_parseglob(globs, envp); //parses the glob character by character
 			ft_newpipeline(globs); //constructs the new pipeline, sets the new position in the pipeline right after the parsed glob
 			if (cmd->debug)

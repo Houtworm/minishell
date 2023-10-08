@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:24 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/08 05:26:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 01:34:22 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 	dir = opendir(fullpath);
 	if (dir)
 	{
+		if (globs->subdir[i][0] == '/' && globs->subdir[i][1] == '\0')
+		{
+			free(globs->tempsubdir[i]);
+			globs->tempsubdir[i] = ft_strdup("/");
+			ft_recursivematchsub(globs, fullpath, dname, i + 1);
+		}
 		while ((dirents = readdir(dir)))
 		{
 			/*printf("starting in recursivematchsub with the following path %s trying to match %s\n", fullpath, dirents->d_name);*/
@@ -61,6 +67,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 								free(globs->tempsubdir[i]);
 								globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 								temp = ft_vastrjoin(3, fullpath, "/", dirents->d_name);
+								globs->temptype = dirents->d_type;
 								ft_recursivematchsub(globs, temp, dname, i + 1);
 								free(temp);
 							}
@@ -88,6 +95,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 							globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 							/*printf("We need to go deeper here!!!\n");*/
 							temp = ft_vastrjoin(3, fullpath, "/", dirents->d_name);
+							globs->temptype = dirents->d_type;
 							ft_recursivematchsub(globs, temp, dname, i + 1);
 							free(temp);
 						}
