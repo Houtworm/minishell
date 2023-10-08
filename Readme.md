@@ -13,6 +13,7 @@ is a lightweight implementation of bash
 - globbing should be moved to before redirection parsing because echo hallo > * should work.
 - globbing is removing quotes...
 - heredoc should parse all but only input the last heredoc file
+- just a $ is hanging the shell
 ### Exec
 - somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
 - cat | cat | cat | ls // should exit when enter is pressed 3 times // same issue?

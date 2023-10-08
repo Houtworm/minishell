@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/08 08:13:36 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/08 10:07:36 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1339,6 +1339,7 @@ printf "\e[1;36mTesting \$VAR variable\e[0;00m\n"
 testfunction "echo \$SHLVL\"\$SHLVL\"\$SHLVL'\$SHLVL'\$SHLVL"
 testfunction "echo \$FAKEVAR"
 testfunction "echo \$SHLVL"
+testfunction "echo \$SHLVL \$PWD \$USER \$?"
 testfunction "echo \$SHLVL && echo \$SHLVL && echo \$SHLVL"
 testfunction "echo \$SHLVL || echo \$SHLVL || echo \$SHLVL"
 testfunction "echo \$SHLVL ; echo \$SHLVL ; echo \$SHLVL"
@@ -1539,6 +1540,7 @@ testfunction "cd \"..\""
 testfunction "cd \"'..'\""
 testfunction "cd '\"..\"'"
 testfunction "cd .. && pwd"
+testfunction "cd .. && pwd && cd .. && pwd"
 testfunction "cd .. bla"
 testfunction "cd '..' bla"
 testfunction "cd \"..\" bla"
@@ -2436,6 +2438,7 @@ testfunction "\`\`"
 testfunction "echo \`\`"
 testfunction "printf \`\` bla"
 testfunction "printf \`echo hallo\`"
+testfunction "printf \`echo hallo\`\`echo hallo\`\`echo hallo\`"
 testfunction "printf \`echo hallo\` && printf \`echo hallo\` && printf \`echo hallo\`"
 testfunction "printf \`echo hallo\` || printf \`echo hallo\` || printf \`echo hallo\`"
 testfunction "printf \`echo hallo\` ; printf \`echo hallo\` ; printf \`echo hallo\`"
@@ -2464,6 +2467,7 @@ testfunction "\$()"
 testfunction "echo \$()"
 testfunction "printf \$() bla"
 testfunction "printf \$(echo hallo)"
+testfunction "echo \$(echo hallo)\$(echo hallo)\$(echo hallo)"
 testfunction "printf \$(echo hallo) && printf \$(echo hallo) && printf \$(echo hallo)"
 testfunction "printf \$(echo hallo) || printf \$(echo hallo) || printf \$(echo hallo)"
 testfunction "printf \$(echo hallo) ; printf \$(echo hallo) ; printf \$(echo hallo)"

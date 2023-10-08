@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/08 02:57:55 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/08 03:14:12 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/08 09:34:49 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_seminit(char *file, int number)
 {
 	int	fd;
 
-	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (fd == -1)
 	{
 		ft_putendl_fd("initializing semaphore failed", 2);
@@ -36,7 +36,7 @@ int	ft_semwait(char *file)
 	number = 0;
 	while (number == 0)
 	{
-		fd = open(file, O_RDONLY);
+		fd = open(file, O_RDONLY | O_SYNC);
 		if (fd == -1)
 		{
 			ft_putendl_fd("lowering the semaphore failed", 2);
@@ -48,7 +48,7 @@ int	ft_semwait(char *file)
 		close(fd);
 	}
 	number--;
-	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	fd = open(file, O_RDWR | O_TRUNC | O_SYNC, 0777);
 	ft_putnbr_fd(number, fd);
 	close(fd);
 	return (0);
@@ -60,7 +60,7 @@ int	ft_semfree(char *file)
 	char	*content;
 	int		number;
 
-	fd = open(file, O_RDONLY);
+	fd = open(file, O_RDONLY | O_SYNC);
 	if (fd == -1)
 	{
 		ft_putendl_fd("upping the semaphore failed", 2);
@@ -71,7 +71,7 @@ int	ft_semfree(char *file)
 	free(content);
 	close(fd);
 	number++;
-	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	fd = open(file, O_RDWR | O_TRUNC | O_SYNC, 0777);
 	ft_putnbr_fd(number, fd);
 	close(fd);
 	return (0);
