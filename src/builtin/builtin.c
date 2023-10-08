@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/12 15:11:33 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/07 02:45:26 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/08 21:01:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	ft_setbuiltincompare(t_builtin *builtins)
 	builtins[6].compare = ft_strdup("unset\0");
 	builtins[7].compare = ft_strdup("pwd\0");
 	builtins[8].compare = ft_strdup("which\0");
-	builtins[9].compare = ft_strdup("cd\0");
-	builtins[10].compare = ft_strdup("z\0");
-	builtins[11].compare = ft_strdup("exit\0");
-	builtins[12].compare = ft_strdup("exec\0");
+	builtins[9].compare = ft_strdup("exit\0");
+	builtins[10].compare = ft_strdup("exec\0");
+	builtins[11].compare = ft_strdup("cd\0");
+	builtins[12].compare = ft_strdup("z\0");
 	builtins[13].compare = NULL;
 }
 
@@ -44,10 +44,10 @@ t_builtin	*ft_getbuiltins(void)
 	builtins[6].func = ft_unset;
 	builtins[7].func = ft_pwd;
 	builtins[8].func = ft_which;
-	builtins[9].func = ft_chdir;
-	builtins[10].func = ft_z;
-	builtins[11].func = ft_exit;
-	builtins[12].func = ft_exec;
+	builtins[9].func = ft_exit;
+	builtins[10].func = ft_exec;
+	builtins[11].func = ft_chdir;
+	builtins[12].func = ft_z;
 	ft_setbuiltincompare(builtins);
 	return (builtins);
 }
@@ -57,16 +57,21 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *shell, int i)
 	int	pid;
 	int	ret;
 
-	pid = fork();
-	if (pid == 0)
+	if (i < 11)
 	{
-		ft_dupmachine(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
-		exit(shell->builtins[i].func(shell->forks[forknbr].cmds[cmdnbr], shell));
+		pid = fork();
+		if (pid == 0)
+		{
+			ft_dupmachine(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
+			exit(shell->builtins[i].func(shell->forks[forknbr].cmds[cmdnbr], shell));
+		}
+		waitpid(pid, &ret, 0);
+		shell->code = WEXITSTATUS(ret);
+		if (i == 9 || i == 10)
+			ft_freeexit(shell, shell->code);
 	}
-	waitpid(pid, &ret, 0);
-	shell->code = WEXITSTATUS(ret);
-	if (i > 10)
-		ft_freeexit(shell, shell->code);
+	else
+		shell-> code = shell->builtins[i].func(shell->forks[forknbr].cmds[cmdnbr], shell);
 	return (shell->code);
 }
 

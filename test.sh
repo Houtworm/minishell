@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                            :+:    :+:             #
+#    test.sh                                         |o_o || |                 #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/08 16:50:36 by yitoh         ########   odam.nl          #
+#    Updated: 2023/10/08 21:43:46 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1535,7 +1535,7 @@ testfunction "cd ; cd ; cd"
 testfunction "cd | cd | cd"
 testfunction "cd ''"
 testfunction "cd ' '"
-testfunction "mkdir a && mkdir a/b && cd a/b && rm -r ../../a && cd .."
+testfunction "mkdir -p tmp/a/b && cd tmp/a/b && rm -r ../../a && cd .."
 testfunction "cd && pwd"
 testfunction "cd && pwd && cd && pwd && cd && pwd"
 testfunction "cd && pwd || cd && pwd || cd && pwd"

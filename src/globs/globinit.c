@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:32:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/08 11:15:37 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/08 21:21:41 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	ft_getsubdir(t_globs *globs)
 		if (globs->gend[k] == '/') // if we find a / it means we found a subdir
 		{
 			globs->gend[k] = '\0'; // here we set the endpoint for the globend as subdirectories shouldn't be there
+			if (globs->gend[k + 1] == '\0')
+				break;
 			globs->subdir[i] = ft_calloc(ft_strlen(globs->gend + 1), 8); // malloc
 			globs->subdir[i][0] = '/'; // subdirs start with a / for easy joining
 			j = 1;
