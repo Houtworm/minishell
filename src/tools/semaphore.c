@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/08 02:57:55 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/08 09:34:49 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/08 11:41:39 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_seminit(char *file, int number)
 {
 	int	fd;
 
-	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0777);
+	fd = open(file, O_RDWR | O_CREAT | O_TRUNC | O_SYNC, 0777);
 	if (fd == -1)
 	{
 		ft_putendl_fd("initializing semaphore failed", 2);
