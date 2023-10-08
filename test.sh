@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                         |o_o || |                 #
+#    test.sh                                            :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/08 10:07:36 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/08 16:50:36 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ERRORS=0
 PASSES=0
 SLEEP=0
-VALGRIND=1
+VALGRIND=0
 SHOWLEAKS=1
 
 testfunction()
@@ -1348,6 +1348,13 @@ testfunction "echo '\$SHLVL'"
 testfunction "echo \"\$SHLVL\""
 testfunction "echo \"'\$SHLVL'\""
 testfunction "echo '\"\$SHLVL\"'"
+testfunction "echo \"   '\$PATH' \""
+testfunction "echo \"'\$'PATH''\""
+testfunction "echo \"'\$\"PATH\"' \""
+testfunction "echo \"'hey\$PATH hello' \""
+testfunction "echo \"   '\$(PATH)' \""
+testfunction "echo \"\$PATHblabla\""
+
 testfunction "echo \$PWD"
 testfunction "echo \$PW'D'"
 testfunction "echo \$PW\"D\""
