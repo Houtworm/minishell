@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/08 05:13:30 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/08 08:13:36 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ERRORS=0
 PASSES=0
 SLEEP=0
-VALGRIND=0
+VALGRIND=1
 SHOWLEAKS=1
 
 testfunction()
@@ -277,9 +277,10 @@ testfunction()
 	sleep $SLEEP
 }
 
-redirectfunction()
+redirectfunctionrel()
 {
-	echo 1 > m1; echo 1 > r1; echo 2 > m2; echo 2 > r2; echo 3 > r3; echo 3 > m3;
+	mkdir -p tmp
+	echo 1 > tmp/m1; echo 1 > tmp/r1; echo 2 > tmp/m2; echo 2 > tmp/r2; echo 3 > tmp/r3; echo 3 > tmp/m3;
 	timeout 3 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
 	REALRETURN=$?
 	timeout 3 ./minishell -c "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
@@ -384,28 +385,28 @@ redirectfunction()
 		printf "\e[1;32mreturn OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	diff r1 m1 > /dev/null
+	diff tmp/r1 tmp/m1 > /dev/null
 	if [ $? -ne 0 ]
 	then
-		printf "\n\e[1;31mKO file 1 doesn't match with command ${1} \nreal: $(cat r1 2> /dev/null)\nmini: $(cat m1 2> /dev/null)\e[0;00m\n"
+		printf "\n\e[1;31mKO file 1 doesn't match with command ${1} \nreal: $(cat tmp/r1 2> /dev/null)\nmini: $(cat tmp/m1 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	else
 		printf "\e[1;32mFile 1 OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	diff r2 m2 > /dev/null
+	diff tmp/r2 tmp/m2 > /dev/null
 	if [ $? -ne 0 ]
 	then
-		printf "\n\e[1;31mKO file 2 doesn't match with command ${1} \nreal: $(cat r2 2> /dev/null)\nmini: $(cat m2 2> /dev/null)\e[0;00m\n"
+		printf "\n\e[1;31mKO file 2 doesn't match with command ${1} \nreal: $(cat tmp/r2 2> /dev/null)\nmini: $(cat tmp/m2 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	else
 		printf "\e[1;32mFile 2 OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	fi
-	diff r3 m3 > /dev/null
+	diff tmp/r3 tmp/m3 > /dev/null
 	if [ $? -ne 0 ]
 	then
-		printf "\n\e[1;31mKO file 3 doesn't match with command ${1} \nreal: $(cat r3 2> /dev/null)\nmini: $(cat m3 2> /dev/null)\e[0;00m\n"
+		printf "\n\e[1;31mKO file 3 doesn't match with command ${1} \nreal: $(cat tmp/r3 2> /dev/null)\nmini: $(cat tmp/m3 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	else
 		printf "\e[1;32mFile 3 OK \e[0;00m"
@@ -462,7 +463,316 @@ redirectfunction()
 	else
 		printf "\n"
 	fi
-	rm /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile r1 r2 r3 m1 m2 m3 2> /dev/null
+	rm -rf /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile tmp 2> /dev/null
+	sleep $SLEEP
+}
+redirectfunctionabs()
+{
+	mkdir -p /tmp/minitest
+	echo 1 > /tmp/minitest/m1; echo 1 > /tmp/minitest/r1; echo 2 > /tmp/minitest/m2; echo 2 > /tmp/minitest/r2; echo 3 > /tmp/minitest/r3; echo 3 > /tmp/minitest/m3;
+	timeout 3 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
+	REALRETURN=$?
+	timeout 3 ./minishell -c "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
+	MINIRETURN=$?
+	ERROROK=0
+	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
+	if [ $? -eq 0 ]
+	then
+		printf "\e[1;32mstdout OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	else
+		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	fi
+	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
+	if [ $? -eq 0 ]
+	then
+		printf "\e[1;32mstderr OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+		ERROROK=1
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "syntax error" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "Syntax Error" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "not found" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "not found" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "file or directory" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "many arguments" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "many arguments" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		cat /tmp/realstderrfile | grep "argument required" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			cat /tmp/ministderrfile | grep "argument required" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\e[1;32mstderr OK \e[0;00m"
+				PASSES=$(($PASSES+1))
+				ERROROK=1
+			fi
+		fi
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	fi
+	if [ $REALRETURN -ne $MINIRETURN ]
+	then
+		printf "\n\e[1;31mKO Return doesn't match with command ${1} \nReal $REALRETURN\nMini $MINIRETURN\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	else
+		printf "\e[1;32mreturn OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	fi
+	diff /tmp/minitest/r1 /tmp/minitest/m1 > /dev/null
+	if [ $? -ne 0 ]
+	then
+		printf "\n\e[1;31mKO file 1 doesn't match with command ${1} \nreal: $(cat /tmp/minitest/r1 2> /dev/null)\nmini: $(cat /tmp/minitest/m1 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	else
+		printf "\e[1;32mFile 1 OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	fi
+	diff /tmp/minitest/r2 /tmp/minitest/m2 > /dev/null
+	if [ $? -ne 0 ]
+	then
+		printf "\n\e[1;31mKO file 2 doesn't match with command ${1} \nreal: $(cat /tmp/minitest/r2 2> /dev/null)\nmini: $(cat /tmp/minitest/m2 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	else
+		printf "\e[1;32mFile 2 OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	fi
+	diff /tmp/minitest/r3 /tmp/minitest/m3 > /dev/null
+	if [ $? -ne 0 ]
+	then
+		printf "\n\e[1;31mKO file 3 doesn't match with command ${1} \nreal: $(cat /tmp/minitest/r3 2> /dev/null)\nmini: $(cat /tmp/minitest/m3 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	else
+		printf "\e[1;32mFile 3 OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	fi
+	if [ $VALGRIND -eq 1 ]
+	then
+		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/memorycheck > /dev/null
+		cat /tmp/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			printf "\n\e[1;31mDefinite Memory Leaks with command $1\e[0;00m\n"
+			if [ $SHOWLEAKS -eq 1 ]
+			then
+				cat /tmp/memorycheck
+			fi
+			ERRORS=$(($ERRORS+1))
+			VALGRIND=0
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			cat /tmp/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
+				if [ $SHOWLEAKS -eq 1 ]
+				then
+					cat /tmp/memorycheck
+				fi
+				ERRORS=$(($ERRORS+1))
+				VALGRIND=0
+			fi
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			cat /tmp/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
+				if [ $SHOWLEAKS -eq 1 ]
+				then
+					cat /tmp/memorycheck
+				fi
+				ERRORS=$(($ERRORS+1))
+				VALGRIND=0
+			fi
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			printf "\e[1;32mMemory OK\e[0;00m\n"
+			PASSES=$(($PASSES+1))
+		fi
+		VALGRIND=1
+	else
+		printf "\n"
+	fi
+	rm -rf /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile /tmp/minitest 2> /dev/null
+	sleep $SLEEP
+}
+
+redirectfunctionhome()
+{
+	mkdir -p ~/tmp
+	echo 1 > ~/tmp/m1; echo 1 > ~/tmp/r1; echo 2 > ~/tmp/m2; echo 2 > ~/tmp/r2; echo 3 > ~/tmp/r3; echo 3 > ~/tmp/m3;
+	timeout 3 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
+	REALRETURN=$?
+	timeout 3 ./minishell -c "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
+	MINIRETURN=$?
+	ERROROK=0
+	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
+	if [ $? -eq 0 ]
+	then
+		printf "\e[1;32mstdout OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	else
+		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	fi
+	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
+	if [ $? -eq 0 ]
+	then
+		printf "\e[1;32mstderr OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+		ERROROK=1
+	fi
+	if [ $ERROROK -eq 0 ]
+	then
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	fi
+	if [ $REALRETURN -ne $MINIRETURN ]
+	then
+		printf "\n\e[1;31mKO Return doesn't match with command ${1} \nReal $REALRETURN\nMini $MINIRETURN\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	else
+		printf "\e[1;32mreturn OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	fi
+	diff ~/tmp/r1 ~/tmp/m1 > /dev/null
+	if [ $? -ne 0 ]
+	then
+		printf "\n\e[1;31mKO file 1 doesn't match with command ${1} \nreal: $(cat ~/tmp/r1 2> /dev/null)\nmini: $(cat ~/tmp/m1 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	else
+		printf "\e[1;32mFile 1 OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	fi
+	diff ~/tmp/r2 ~/tmp/m2 > /dev/null
+	if [ $? -ne 0 ]
+	then
+		printf "\n\e[1;31mKO file 2 doesn't match with command ${1} \nreal: $(cat ~/tmp/r2 2> /dev/null)\nmini: $(cat ~/tmp/m2 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	else
+		printf "\e[1;32mFile 2 OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	fi
+	diff ~/tmp/r3 ~/tmp/m3 > /dev/null
+	if [ $? -ne 0 ]
+	then
+		printf "\n\e[1;31mKO file 3 doesn't match with command ${1} \nreal: $(cat ~/tmp/r3 2> /dev/null)\nmini: $(cat ~/tmp/m3 2> /dev/null)\e[0;00m\n"
+		ERRORS=$(($ERRORS+1))
+	else
+		printf "\e[1;32mFile 3 OK \e[0;00m"
+		PASSES=$(($PASSES+1))
+	fi
+	if [ $VALGRIND -eq 1 ]
+	then
+		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/memorycheck > /dev/null
+		cat /tmp/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
+		if [ $? -eq 0 ]
+		then
+			printf "\n\e[1;31mDefinite Memory Leaks with command $1\e[0;00m\n"
+			if [ $SHOWLEAKS -eq 1 ]
+			then
+				cat /tmp/memorycheck
+			fi
+			ERRORS=$(($ERRORS+1))
+			VALGRIND=0
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			cat /tmp/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
+				if [ $SHOWLEAKS -eq 1 ]
+				then
+					cat /tmp/memorycheck
+				fi
+				ERRORS=$(($ERRORS+1))
+				VALGRIND=0
+			fi
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			cat /tmp/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
+			if [ $? -eq 0 ]
+			then
+				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
+				if [ $SHOWLEAKS -eq 1 ]
+				then
+					cat /tmp/memorycheck
+				fi
+				ERRORS=$(($ERRORS+1))
+				VALGRIND=0
+			fi
+		fi
+		if [ $VALGRIND -eq 1 ]
+		then
+			printf "\e[1;32mMemory OK\e[0;00m\n"
+			PASSES=$(($PASSES+1))
+		fi
+		VALGRIND=1
+	else
+		printf "\n"
+	fi
+	rm -rf /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile ~/tmp 2> /dev/null
 	sleep $SLEEP
 }
 
@@ -618,6 +928,8 @@ environmentfunction()
 # basic
 printf "\e[1;36mTesting basics\e[0;00m\n"
 testfunction ""
+#testfunction "./script.sh"
+testfunction "./minishell -c \"exit 123\""
 testfunction "''"
 testfunction "' '"
 testfunction "true"
@@ -642,7 +954,9 @@ testfunction "  ..  "
 testfunction "\'..\'"
 testfunction "\"..\""
 testfunction "/home"
+testfunction "////home"
 testfunction "  /home  "
+testfunction "  ////home  "
 testfunction "'/home'"
 testfunction "\"/home\""
 testfunction "/nonexist"
@@ -668,42 +982,139 @@ chmod 000 perm
 printf "\e[1;36mfile 000\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
+testfunction ".///perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 111 perm
 printf "\e[1;36mfile 111\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 222 perm
 printf "\e[1;36mfile 222\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 333 perm
 printf "\e[1;36mfile 333\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 444 perm
 printf "\e[1;36mfile 444\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 555 perm
 printf "\e[1;36mfile 555\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 666 perm
 printf "\e[1;36mfile 666\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 777 perm
 printf "\e[1;36mfile 777\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 rm perm
 mkdir perm
 chmod 000 perm
@@ -711,41 +1122,137 @@ printf "\e[1;36mdir 000\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 111 perm
 printf "\e[1;36mdir 111\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 222 perm
 printf "\e[1;36mdir 222\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 333 perm
 printf "\e[1;36mdir 333\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 444 perm
 printf "\e[1;36mdir 444\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 555 perm
 printf "\e[1;36mdir 555\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 666 perm
 printf "\e[1;36mdir 666\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 chmod 777 perm
 printf "\e[1;36mdir 777\e[0;00m\n"
 testfunction "perm"
 testfunction "./perm"
 testfunction "cat perm"
+testfunction "perm && perm"
+testfunction "./perm && ./perm"
+testfunction "cat perm && ./perm"
+testfunction "perm || perm"
+testfunction "./perm || ./perm"
+testfunction "cat perm || ./perm"
+testfunction "perm ; perm"
+testfunction "./perm ; ./perm"
+testfunction "cat perm ; ./perm"
+testfunction "perm | perm"
+testfunction "./perm | ./perm"
+testfunction "cat perm | ./perm"
 rm -rf perm
 
 # echo
@@ -755,6 +1262,10 @@ testfunction "echo ''"
 testfunction "echo ' '"
 testfunction "  echo  "
 testfunction "echo hallo"
+testfunction "echo hallo && echo hallo && echo hallo"
+testfunction "echo hallo || echo hallo || echo hallo"
+testfunction "echo hallo ; echo hallo ; echo hallo"
+testfunction "echo hallo | echo hallo | echo hallo"
 testfunction "echo   hallo  "
 testfunction 'echo "hallo"'
 testfunction "echo 'hallo'"
@@ -779,6 +1290,10 @@ testfunction "echo \"\\s\""
 testfunction "echo \"12\""
 testfunction "echo \"hey\"J"
 testfunction "echo \"hey\"\$PATH"
+testfunction "echo 'hey\$PATH'"
+testfunction "echo \"hey\$PATH\""
+testfunction "echo \"'hey\$PATH'\""
+testfunction "echo '\"hey\$PATH\"'"
 testfunction "echo \"hey\"&"
 testfunction "echo \"hey\"\"hey\""
 
@@ -792,11 +1307,17 @@ testfunction "exec \"bla\""
 testfunction "exec 'bla'"
 testfunction "exec cat"
 testfunction "exec ls"
+testfunction "exec ls && exec ls && exec ls"
+testfunction "exec ls || exec ls || exec ls"
+testfunction "exec ls ; exec ls ; exec ls"
+testfunction "exec ls | exec ls | exec ls"
 testfunction "exec 'ls'"
 testfunction "exec \"ls\""
 testfunction "exec exit"
 testfunction "exec 'exit'"
 testfunction "exec \"exit\""
+testfunction "exec \"'exit'\""
+testfunction "exec '\"exit\"'"
 testfunction "exec exit 123"
 testfunction "exec 'exit' 123"
 testfunction "exec 'exit 123'"
@@ -818,6 +1339,14 @@ printf "\e[1;36mTesting \$VAR variable\e[0;00m\n"
 testfunction "echo \$SHLVL\"\$SHLVL\"\$SHLVL'\$SHLVL'\$SHLVL"
 testfunction "echo \$FAKEVAR"
 testfunction "echo \$SHLVL"
+testfunction "echo \$SHLVL && echo \$SHLVL && echo \$SHLVL"
+testfunction "echo \$SHLVL || echo \$SHLVL || echo \$SHLVL"
+testfunction "echo \$SHLVL ; echo \$SHLVL ; echo \$SHLVL"
+testfunction "echo \$SHLVL | echo \$SHLVL | echo \$SHLVL"
+testfunction "echo '\$SHLVL'"
+testfunction "echo \"\$SHLVL\""
+testfunction "echo \"'\$SHLVL'\""
+testfunction "echo '\"\$SHLVL\"'"
 testfunction "echo \$PWD"
 testfunction "echo \$PW'D'"
 testfunction "echo \$PW\"D\""
@@ -839,6 +1368,11 @@ testfunction "export ''"
 testfunction "export ' '"
 environmentfunction "export" "SHLVL"
 testfunction "export bla=bla"
+testfunction "export bla=bla && export bla=bla && export bla=bla"
+testfunction "export bla=bla || export bla=bla || export bla=bla"
+testfunction "export bla=bla ; export bla=bla ; export bla=bla"
+testfunction "export bla=bla | export bla=bla | export bla=bla"
+testfunction "export 'bla=bla bla'"
 testfunction "export bla bla"
 testfunction "export bla=''"
 testfunction "export ''=bla"
@@ -849,6 +1383,8 @@ testfunction "export    bla=bla"
 testfunction "   export bla=bla"
 testfunction "export 'bla=bla'"
 testfunction "export \"bla=bla\""
+testfunction "export \"'bla=bla'\""
+testfunction "export '\"bla=bla\"'"
 testfunction "export bla='bla'"
 testfunction "export bla=\"bla\""
 environmentfunction "export bla=bla" "bla"
@@ -894,10 +1430,18 @@ testfunction "unset notexistant"
 testfunction "unset 'notexistant'"
 testfunction "unset \"notexistant\""
 testfunction "unset PATH"
+testfunction "unset PATH && unset PATH && unset PATH"
+testfunction "unset PATH || unset PATH || unset PATH"
+testfunction "unset PATH ; unset PATH ; unset PATH"
+testfunction "unset PATH | unset PATH | unset PATH"
 testfunction "unset \$PATH"
 testfunction "   unset   PATH  "
 testfunction "unset 'PATH'"
+testfunction "unset 'PA'TH"
 testfunction "unset \"PATH\""
+testfunction "unset \"PA\"TH"
+testfunction "unset \"'PATH'\""
+testfunction "unset '\"PATH\"'"
 testfunction "unset"
 testfunction "'unset'"
 testfunction "\"unset\""
@@ -908,6 +1452,8 @@ environmentfunction "unset PATH" "PATH"
 environmentfunction "unset \$PATH" "PATH"
 environmentfunction "unset 'PATH'" "PATH"
 environmentfunction "unset \"PATH\"" "PATH"
+environmentfunction "unset \"'PATH'\"" "PATH"
+environmentfunction "unset '\"PATH\"'" "PATH"
 environmentfunction "'unset PATH'" "PATH"
 environmentfunction "\"unset PATH\"" "PATH"
 environmentfunction "unset SHLVL" "SHLVL"
@@ -934,12 +1480,20 @@ testfunction "\"env -wat\""
 environmentfunction "env blabla" "SHLVL"
 environmentfunction "env -wat" "SHLVL"
 testfunction "env | grep OLDPWD"
+testfunction "env | grep OLDPWD && env | grep OLDPWD && env | grep OLDPWD"
+testfunction "env | grep OLDPWD || env | grep OLDPWD || env | grep OLDPWD"
+testfunction "env | grep OLDPWD ; env | grep OLDPWD ; env | grep OLDPWD"
+testfunction "env | grep OLDPWD | env | grep OLDPWD | env | grep OLDPWD"
 testfunction "env | grep 'OLDPWD'"
 testfunction "env | grep \"OLDPWD\""
 
 # exit
 printf "\e[1;36mTesting exit\e[0;00m\n"
 testfunction "exit"
+testfunction "exit && exit && exit"
+testfunction "exit || exit || exit"
+testfunction "exit ; exit ; exit"
+testfunction "exit | exit | exit"
 testfunction "exit ''"
 testfunction "exit ' '"
 testfunction "'exit'"
@@ -967,13 +1521,23 @@ testfunction "exit -9223372036854775809"
 # cd and pwd
 printf "\e[1;36mTesting cd and pwd\e[0;00m\n"
 testfunction "cd"
+testfunction "cd && cd && cd"
+testfunction "cd || cd || cd"
+testfunction "cd ; cd ; cd"
+testfunction "cd | cd | cd"
 testfunction "cd ''"
 testfunction "cd ' '"
 testfunction "mkdir a && mkdir a/b && cd a/b && rm -r ../../a && cd .."
 testfunction "cd && pwd"
+testfunction "cd && pwd && cd && pwd && cd && pwd"
+testfunction "cd && pwd || cd && pwd || cd && pwd"
+testfunction "cd && pwd ; cd && pwd ; cd && pwd"
+testfunction "cd && pwd | cd && pwd | cd && pwd"
 testfunction "cd .."
 testfunction "cd '..'"
 testfunction "cd \"..\""
+testfunction "cd \"'..'\""
+testfunction "cd '\"..\"'"
 testfunction "cd .. && pwd"
 testfunction "cd .. bla"
 testfunction "cd '..' bla"
@@ -982,7 +1546,9 @@ testfunction "cd '.. bla'"
 testfunction "cd \".. bla\""
 testfunction "cd .. bla && pwd"
 testfunction "cd ../../../../../../../../../.."
+testfunction "cd ..///..///..///..////..///..///..//..///..///.."
 testfunction "cd ../../../../../../../../../.. && pwd"
+testfunction "cd ..///..///..///..////..///..///..//..///..///.. && pwd"
 testfunction "cd ."
 testfunction "cd . && pwd"
 testfunction "cd ~" 
@@ -991,6 +1557,7 @@ testfunction "unset HOME && cd ~"
 testfunction "unset HOME && cd ~ && pwd"
 testfunction "export HOME=/home/user42 && cd ~"
 testfunction "export HOME=/home/user42 && cd ~ && pwd"
+testfunction "export HOME=///home///user42 && cd ~ && pwd"
 testfunction "cd -"
 testfunction "cd - && pwd" 
 testfunction "cd src && cd -" 
@@ -998,6 +1565,7 @@ testfunction "cd src && cd - && pwd"
 testfunction "cd src"
 testfunction "cd src && pwd"
 testfunction "cd /etc"
+testfunction "cd ///etc"
 testfunction "cd /etc && pwd"
 testfunction "cd ~/Documents"
 testfunction "cd ~/Documents && pwd"
@@ -1035,69 +1603,163 @@ testfunction "pwd \"-wat\""
 # > trunctuate
 printf "\e[1;36mTesting > trunctuate \e[0;00m\n"
 testfunction ">"
-redirectfunction "cat '' > '' > ''" "cat '' > '' > ''"
-redirectfunction "cat ' ' > ' ' > ' '" "cat ' ' > ' ' > ' '"
-redirectfunction "cat r1>r2>r3" "cat m1>m2>m3"
-redirectfunction "cat 'r1>r2>r3'" "cat 'm1>m2>m3'"
-redirectfunction "cat \"r1>r2>r3\"" "cat \"m1>m2>m3\""
-redirectfunction "cat r1  >  r2  >  r3" "cat m1  >  m2  >  m3"
-redirectfunction "cat r1 > r2 > r3" "cat m1 > m2 > m3"
-redirectfunction "cat 'r1' > 'r2' > 'r3'" "cat 'm1' > 'm2' > 'm3'"
-redirectfunction "cat \"r1\" > \"r2\" > \"r3\"" "cat \"m1\" > \"m2\" > \"m3\""
-redirectfunction "printf 'blabla' > r1; printf 'blabla' > r2; printf 'blabla' > r3" "printf 'blabla' > m1; printf 'blabla' > m2; printf 'blabla' > m3"
-redirectfunction "printf 'blabla' > r1 && printf 'blabla' > r2 && printf 'blabla' > r3" "printf 'blabla' > m1 && printf 'blabla' > m2 && printf 'blabla' > m3"
-redirectfunction "echo \"hoi\" > | r1" "echo \"hoi\" > | m1"
-#redirectfunction "echo \"hoi\" >| r1" "echo \"hoi\" >| m1" # >| is not part of the subject
-redirectfunction "> r1 | echo blabla" "> m1 | echo blabla"
-redirectfunction "exit > r1" "exit > m1"
-redirectfunction "cd .. > r1" "cd .. > m1"
-redirectfunction "> r1" "> m1"
-redirectfunction "echo 2 > r1 > r2" "echo 2 > m1 > m2"
-redirectfunction "echo 2 > r1 > r2" "echo 2 > m1 > m2"
-redirectfunction "echo test > r1 2" "echo test > m1 2"
-redirectfunction "Non_exist_cmd > r1" "Non_exist_cmd > m1"
+redirectfunctionabs "cat '' > '' > ''" "cat '' > '' > ''"
+redirectfunctionabs "cat ' ' > ' ' > ' '" "cat ' ' > ' ' > ' '"
+redirectfunctionhome "cat ~/tmp/r1>~/tmp/r2>~/tmp/r3" "cat ~/tmp/m1>~/tmp/m2>~/tmp/m3"
+redirectfunctionabs "cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3"
+redirectfunctionabs "echo hallo && echo hallo && cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3"
+redirectfunctionabs "echo hallo || echo hallo || cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3"
+redirectfunctionabs "echo hallo ; echo hallo ; cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3"
+redirectfunctionabs "echo hallo | echo hallo | cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3"
+redirectfunctionabs "cat ///tmp/minitest///r1>///tmp/minitest///r2>/tmp///minitest///r3" "cat ////tmp///minitest////m1>///tmp///minitest///m2>///tmp/minitest///m3"
+redirectfunctionabs "cat '/tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3'" "cat '/tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3'"
+redirectfunctionabs "cat \"/tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3\"" "cat \"/tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3\""
+redirectfunctionabs "cat /tmp/minitest/r1  >  /tmp/minitest/r2  >  /tmp/minitest/r3" "cat /tmp/minitest/m1  >  /tmp/minitest/m2  >  /tmp/minitest/m3"
+redirectfunctionabs "cat /tmp/minitest/r1 > /tmp/minitest/r2 > /tmp/minitest/r3" "cat /tmp/minitest/m1 > /tmp/minitest/m2 > /tmp/minitest/m3"
+redirectfunctionabs "cat '/tmp/minitest/r1' > '/tmp/minitest/r2' > '/tmp/minitest/r3'" "cat '/tmp/minitest/m1' > '/tmp/minitest/m2' > '/tmp/minitest/m3'"
+redirectfunctionabs "cat \"/tmp/minitest/r1\" > \"/tmp/minitest/r2\" > \"/tmp/minitest/r3\"" "cat \"/tmp/minitest/m1\" > \"/tmp/minitest/m2\" > \"/tmp/minitest/m3\""
+redirectfunctionabs "cat \"'/tmp/minitest/r1'\" > \"'/tmp/minitest/r2'\" > \"'/tmp/minitest/r3'\"" "cat \"'/tmp/minitest/m1'\" > \"'/tmp/minitest/m2'\" > \"'/tmp/minitest/m3'\""
+redirectfunctionabs "cat '\"/tmp/minitest/r1\"' > '\"/tmp/minitest/r2\"' > '\"/tmp/minitest/r3\"'" "cat '\"/tmp/minitest/m1\"' > '\"/tmp/minitest/m2\"' > '\"/tmp/minitest/m3\"'"
+redirectfunctionabs "printf 'blabla' > /tmp/minitest/r1; printf 'blabla' > /tmp/minitest/r2; printf 'blabla' > /tmp/minitest/r3" "printf 'blabla' > /tmp/minitest/m1; printf 'blabla' > /tmp/minitest/m2; printf 'blabla' > /tmp/minitest/m3"
+redirectfunctionabs "printf 'blabla' > /tmp/minitest/r1 && printf 'blabla' > /tmp/minitest/r2 && printf 'blabla' > /tmp/minitest/r3" "printf 'blabla' > /tmp/minitest/m1 && printf 'blabla' > /tmp/minitest/m2 && printf 'blabla' > /tmp/minitest/m3"
+redirectfunctionabs "echo \"hoi\" > | /tmp/minitest/r1" "echo \"hoi\" > | /tmp/minitest/m1"
+#redirectfunctionabs "echo \"hoi\" >| /tmp/minitest/r1" "echo \"hoi\" >| /tmp/minitest/m1" # >| is not part of the subject
+redirectfunctionabs "> /tmp/minitest/r1 | echo blabla" "> /tmp/minitest/m1 | echo blabla"
+redirectfunctionabs "exit > /tmp/minitest/r1" "exit > /tmp/minitest/m1"
+redirectfunctionabs "cd .. > /tmp/minitest/r1" "cd .. > /tmp/minitest/m1"
+redirectfunctionabs "> /tmp/minitest/r1" "> /tmp/minitest/m1"
+redirectfunctionabs "echo 2 > /tmp/minitest/r1 > /tmp/minitest/r2" "echo 2 > /tmp/minitest/m1 > /tmp/minitest/m2"
+redirectfunctionabs "echo 2 > /tmp/minitest/r1 > /tmp/minitest/r2" "echo 2 > /tmp/minitest/m1 > /tmp/minitest/m2"
+redirectfunctionabs "echo test > /tmp/minitest/r1 2" "echo test > /tmp/minitest/m1 2"
+redirectfunctionabs "Non_exist_cmd > /tmp/minitest/r1" "Non_exist_cmd > /tmp/minitest/m1"
+redirectfunctionrel "cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3"
+redirectfunctionrel "echo hallo && echo hallo && cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3"
+redirectfunctionrel "echo hallo || echo hallo || cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3"
+redirectfunctionrel "echo hallo ; echo hallo ; cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3"
+redirectfunctionrel "echo hallo | echo hallo | cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3"
+redirectfunctionrel "cat tmp///r1>tmp///r2>tmp///r3" "cat tmp///m1>tmp///m2>tmp///m3"
+redirectfunctionrel "cat 'tmp/r1>tmp/r2>tmp/r3'" "cat 'tmp/m1>tmp/m2>tmp/m3'"
+redirectfunctionrel "cat \"tmp/r1>tmp/r2>tmp/r3\"" "cat \"tmp/m1>tmp/m2>tmp/m3\""
+redirectfunctionrel "cat tmp/r1  >  tmp/r2  >  tmp/r3" "cat tmp/m1  >  tmp/m2  >  tmp/m3"
+redirectfunctionrel "cat tmp/r1 > tmp/r2 > tmp/r3" "cat tmp/m1 > tmp/m2 > tmp/m3"
+redirectfunctionrel "cat 'tmp/r1' > 'tmp/r2' > 'tmp/r3'" "cat 'tmp/m1' > 'tmp/m2' > 'tmp/m3'"
+redirectfunctionrel "cat \"tmp/r1\" > \"tmp/r2\" > \"tmp/r3\"" "cat \"tmp/m1\" > \"tmp/m2\" > \"tmp/m3\""
+redirectfunctionrel "cat \"'tmp/r1'\" > \"'tmp/r2'\" > \"'tmp/r3'\"" "cat \"'tmp/m1'\" > \"'tmp/m2'\" > \"'tmp/m3'\""
+redirectfunctionrel "cat '\"tmp/r1\"' > '\"tmp/r2\"' > '\"tmp/r3\"'" "cat '\"tmp/m1\"' > '\"tmp/m2\"' > '\"tmp/m3\"'"
+redirectfunctionrel "printf 'blabla' > tmp/r1; printf 'blabla' > tmp/r2; printf 'blabla' > tmp/r3" "printf 'blabla' > tmp/m1; printf 'blabla' > tmp/m2; printf 'blabla' > tmp/m3"
+redirectfunctionrel "printf 'blabla' > tmp/r1 && printf 'blabla' > tmp/r2 && printf 'blabla' > tmp/r3" "printf 'blabla' > /tmp/minitest/m1 && printf 'blabla' > tmp/m2 && printf 'blabla' > tmp/m3"
+redirectfunctionrel "echo \"hoi\" > | tmp/r1" "echo \"hoi\" > | tmp/m1"
+#redirectfunctionrel "echo \"hoi\" >| tmp/r1" "echo \"hoi\" >| tmp/m1" # >| is not part of the subject
+redirectfunctionrel "> tmp/r1 | echo blabla" "> tmp/m1 | echo blabla"
+redirectfunctionrel "exit > tmp/r1" "exit > tmp/m1"
+redirectfunctionrel "cd .. > tmp/r1" "cd .. > tmp/m1"
+redirectfunctionrel "> tmp/r1" "> tmp/m1"
+redirectfunctionrel "echo 2 > tmp/r1 > tmp/r2" "echo 2 > tmp/m1 > tmp/m2"
+redirectfunctionrel "echo 2 > tmp/r1 > tmp/r2" "echo 2 > tmp/m1 > tmp/m2"
+redirectfunctionrel "echo test > tmp/r1 2" "echo test > tmp/m1 2"
+redirectfunctionrel "Non_exist_cmd > tmp/r1" "Non_exist_cmd > tmp/m1"
 
 # >> append
 printf "\e[1;36mTesting >> append \e[0;00m\n"
 testfunction ">>"
-redirectfunction "cat '' >> '' >> ''" "cat '' >> '' >> ''"
-redirectfunction "cat ' ' >> ' ' >> ' '" "cat ' ' >> ' ' >> ' '"
-redirectfunction "cat r1>>r2>>r3" "cat m1>>m2>>m3"
-redirectfunction "cat 'r1>>r2>>r3'" "cat 'm1>>m2>>m3'"
-redirectfunction "cat \"r1>>r2>>r3\"" "cat \"m1>>m2>>m3\""
-redirectfunction "cat r1  >>  r2  >>  r3" "cat m1  >>  m2  >>  m3"
-redirectfunction "cat r1 >> r2 >> r3" "cat m1 >> m2 >> m3"
-redirectfunction "cat 'r1' >> 'r2' >> 'r3'" "cat 'm1' >> 'm2' >> 'm3'"
-redirectfunction "cat \"r1\" >> \"r2\" >> \"r3\"" "cat \"m1\" >> \"m2\" >> \"m3\""
-redirectfunction "printf 'blabla' >> r1; printf 'blabla' >> r2; printf 'blabla' >> r3" "printf 'blabla' >> m1; printf 'blabla' >> m2; printf 'blabla' >> m3"
-redirectfunction "printf 'blabla' >> r1 && printf 'blabla' >> r2 && printf 'blabla' >> r3" "printf 'blabla' >> m1 && printf 'blabla' >> m2 && printf 'blabla' >> m3"
-redirectfunction "echo \"hoi\" >> | r1" "echo \"hoi\" >> | m1"
-redirectfunction "echo \"hoi\" >>| r1" "echo \"hoi\" >>| m1"
-redirectfunction ">> r1 | echo blabla" ">> m1 | echo blabla"
-redirectfunction "exit >> r1" "exit >> m1"
-redirectfunction "cd .. >> r1" "cd .. >> m1"
-redirectfunction ">> r1" ">> m1"
-redirectfunction "echo 2 >> r1 >> r2" "echo 2 >> m1 >> m2"
-redirectfunction "echo 2 >> r1 >> r2" "echo 2 >> m1 >> m2"
-redirectfunction "echo test >> r1 2" "echo test >> m1 2"
-redirectfunction "Non_exist_cmd >> r1" "Non_exist_cmd >> m1"
+redirectfunctionhome "cat ~/tmp/r1>>~/tmp/r2>>~/tmp/r3" "cat ~/tmp/m1>>~/tmp/m2>>~/tmp/m3"
+redirectfunctionabs "cat '' >> '' >> ''" "cat '' >> '' >> ''"
+redirectfunctionabs "cat ' ' >> ' ' >> ' '" "cat ' ' >> ' ' >> ' '"
+redirectfunctionabs "cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3"
+redirectfunctionabs "echo hallo && echo hallo && cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3"
+redirectfunctionabs "echo hallo || echo hallo || cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3"
+redirectfunctionabs "echo hallo ; echo hallo ; cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3"
+redirectfunctionabs "echo hallo | echo hallo | cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3"
+redirectfunctionabs "cat ///tmp/minitest///r1>>///tmp///minitest///r2>>///tmp///minitest///r3" "cat ///tmp/minitest///m1>>///tmp/minitest///m2>>///tmp///minitest///m3"
+redirectfunctionabs "cat '/tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3'" "cat '/tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3'"
+redirectfunctionabs "cat \"/tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3\"" "cat \"/tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3\""
+redirectfunctionabs "cat /tmp/minitest/r1  >>  /tmp/minitest/r2  >>  /tmp/minitest/r3" "cat /tmp/minitest/m1  >>  /tmp/minitest/m2  >>  /tmp/minitest/m3"
+redirectfunctionabs "cat /tmp/minitest/r1 >> /tmp/minitest/r2 >> /tmp/minitest/r3" "cat /tmp/minitest/m1 >> /tmp/minitest/m2 >> /tmp/minitest/m3"
+redirectfunctionabs "cat '/tmp/minitest/r1' >> '/tmp/minitest/r2' >> '/tmp/minitest/r3'" "cat '/tmp/minitest/m1' >> '/tmp/minitest/m2' >> '/tmp/minitest/m3'"
+redirectfunctionabs "cat \"/tmp/minitest/r1\" >> \"/tmp/minitest/r2\" >> \"/tmp/minitest/r3\"" "cat \"/tmp/minitest/m1\" >> \"/tmp/minitest/m2\" >> \"/tmp/minitest/m3\""
+redirectfunctionabs "cat \"'/tmp/minitest/r1'\" >> \"'/tmp/minitest/r2'\" >> \"'/tmp/minitest/r3'\"" "cat \"'/tmp/minitest/m1'\" >> \"'/tmp/minitest/m2'\" >> \"'/tmp/minitest/m3'\""
+redirectfunctionabs "cat '\"/tmp/minitest/r1\"' >> '\"/tmp/minitest/r2\"' >> '\"/tmp/minitest/r3\"'" "cat '\"/tmp/minitest/m1\"' >> '\"/tmp/minitest/m2\"' >> '\"/tmp/minitest/m3\"'"
+redirectfunctionabs "printf 'blabla' >> /tmp/minitest/r1; printf 'blabla' >> /tmp/minitest/r2; printf 'blabla' >> /tmp/minitest/r3" "printf 'blabla' >> /tmp/minitest/m1; printf 'blabla' >> /tmp/minitest/m2; printf 'blabla' >> /tmp/minitest/m3"
+redirectfunctionabs "printf 'blabla' >> /tmp/minitest/r1 && printf 'blabla' >> /tmp/minitest/r2 && printf 'blabla' >> /tmp/minitest/r3" "printf 'blabla' >> /tmp/minitest/m1 && printf 'blabla' >> /tmp/minitest/m2 && printf 'blabla' >> /tmp/minitest/m3"
+redirectfunctionabs "echo \"hoi\" >> | /tmp/minitest/r1" "echo \"hoi\" >> | /tmp/minitest/m1"
+redirectfunctionabs "echo \"hoi\" >>| /tmp/minitest/r1" "echo \"hoi\" >>| /tmp/minitest/m1"
+redirectfunctionabs ">> /tmp/minitest/r1 | echo blabla" ">> /tmp/minitest/m1 | echo blabla"
+redirectfunctionabs "exit >> /tmp/minitest/r1" "exit >> /tmp/minitest/m1"
+redirectfunctionabs "cd .. >> /tmp/minitest/r1" "cd .. >> /tmp/minitest/m1"
+redirectfunctionabs ">> /tmp/minitest/r1" ">> /tmp/minitest/m1"
+redirectfunctionabs "echo 2 >> /tmp/minitest/r1 >> /tmp/minitest/r2" "echo 2 >> /tmp/minitest/m1 >> /tmp/minitest/m2"
+redirectfunctionabs "echo 2 >> /tmp/minitest/r1 >> /tmp/minitest/r2" "echo 2 >> /tmp/minitest/m1 >> /tmp/minitest/m2"
+redirectfunctionabs "echo test >> /tmp/minitest/r1 2" "echo test >> /tmp/minitest/m1 2"
+redirectfunctionabs "Non_exist_cmd >> /tmp/minitest/r1" "Non_exist_cmd >> /tmp/minitest/m1"
+redirectfunctionrel "cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3"
+redirectfunctionrel "echo hallo && echo hallo && cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3"
+redirectfunctionrel "echo hallo || echo hallo || cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3"
+redirectfunctionrel "echo hallo ; echo hallo ; cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3"
+redirectfunctionrel "echo hallo | echo hallo | cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3"
+redirectfunctionrel "cat tmp///r1>>tmp///r2>>tmp///r3" "cat tmp///m1>>tmp///m2>>tmp///m3"
+redirectfunctionrel "cat 'tmp/r1>>tmp/r2>>tmp/r3'" "cat 'tmp/m1>>tmp/m2>>tmp/m3'"
+redirectfunctionrel "cat \"tmp/r1>>tmp/r2>>tmp/r3\"" "cat \"tmp/m1>>tmp/m2>>tmp/m3\""
+redirectfunctionrel "cat tmp/r1  >>  tmp/r2  >>  tmp/r3" "cat tmp/m1  >>  tmp/m2  >>  tmp/m3"
+redirectfunctionrel "cat tmp/r1 >> tmp/r2 >> tmp/r3" "cat tmp/m1 >> tmp/m2 >> tmp/m3"
+redirectfunctionrel "cat 'tmp/r1' >> 'tmp/r2' >> 'tmp/r3'" "cat 'tmp/m1' >> 'tmp/m2' >> 'tmp/m3'"
+redirectfunctionrel "cat \"tmp/r1\" >> \"tmp/r2\" >> \"tmp/r3\"" "cat \"tmp/m1\" >> \"tmp/m2\" >> \"tmp/m3\""
+redirectfunctionrel "cat \"'tmp/r1'\" >> \"'tmp/r2'\" >> \"'tmp/r3'\"" "cat \"'tmp/m1'\" >> \"'tmp/m2'\" >> \"'tmp/m3'\""
+redirectfunctionrel "cat '\"tmp/r1\"' >> '\"tmp/r2\"' >> '\"tmp/r3\"'" "cat '\"tmp/m1\"' >> '\"tmp/m2\"' >> '\"tmp/m3\"'"
+redirectfunctionrel "printf 'blabla' >> tmp/r1; printf 'blabla' >> tmp/r2; printf 'blabla' >> tmp/r3" "printf 'blabla' >> tmp/m1; printf 'blabla' >> tmp/m2; printf 'blabla' >> tmp/m3"
+redirectfunctionrel "printf 'blabla' >> tmp/r1 && printf 'blabla' >> tmp/r2 && printf 'blabla' >> tmp/r3" "printf 'blabla' >> tmp/m1 && printf 'blabla' >> tmp/m2 && printf 'blabla' >> tmp/m3"
+redirectfunctionrel "echo \"hoi\" >> | tmp/r1" "echo \"hoi\" >> | tmp/m1"
+redirectfunctionrel "echo \"hoi\" >>| tmp/r1" "echo \"hoi\" >>| tmp/m1"
+redirectfunctionrel ">> tmp/r1 | echo blabla" ">> tmp/m1 | echo blabla"
+redirectfunctionrel "exit >> tmp/r1" "exit >> tmp/m1"
+redirectfunctionrel "cd .. >> tmp/r1" "cd .. >> tmp/m1"
+redirectfunctionrel ">> tmp/r1" ">> tmp/m1"
+redirectfunctionrel "echo 2 >> tmp/r1 >> tmp/r2" "echo 2 >> tmp/m1 >> tmp/m2"
+redirectfunctionrel "echo 2 >> tmp/r1 >> tmp/r2" "echo 2 >> tmp/m1 >> tmp/m2"
+redirectfunctionrel "echo test >> tmp/r1 2" "echo test >> tmp/m1 2"
+redirectfunctionrel "Non_exist_cmd >> tmp/r1" "Non_exist_cmd >> tmp/m1"
 
 # < input from
 printf "\e[1;36mTesting < input from \e[0;00m\n"
 testfunction "<"
-redirectfunction "cat < ''" "cat < ''"
-redirectfunction "cat < ' '" "cat < ' '"
-redirectfunction "cat < r1" "cat < m1"
-redirectfunction "cat <r1<r2<r3" "cat <m1<m2<m3"
-redirectfunction "cat '<r1<r2<r3'" "cat '<m1<m2<m3'"
-redirectfunction "cat \"<r1<r2<r3\"" "cat \"<m1<m2<m3\""
-redirectfunction "cat <  r1  <  r2  <  r3" "cat <  m1  <  m2  <  m3"
-redirectfunction "cat < r1 < r2 < r3" "cat < m1 < m2 < m3"
-redirectfunction "cat < 'r1' < 'r2' < 'r3'" "cat < 'm1' < 'm2' < 'm3'"
-redirectfunction "cat < \"r1\" < \"r2\" < \"r3\"" "cat < \"m1\" < \"m2\" < \"m3\""
-redirectfunction "< r1 cat < r2 < r3" "< m1 cat < m2 < m3"
-redirectfunction "< r1 < r2 cat < r3" "< m1 < m2 cat < m3"
-redirectfunction "< r1 < r2 < r3 cat" "< m1 < m2 < m3 cat"
+redirectfunctionhome "cat < ~/tmp/r1" "cat < ~/tmp/m1"
+redirectfunctionabs "cat < ''" "cat < ''"
+redirectfunctionabs "cat < ' '" "cat < ' '"
+redirectfunctionabs "cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1"
+redirectfunctionabs "echo hallo && echo hallo && cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1"
+redirectfunctionabs "echo hallo || echo hallo || cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1"
+redirectfunctionabs "echo hallo ; echo hallo ; cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1"
+redirectfunctionabs "echo hallo | echo hallo | cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1"
+redirectfunctionabs "cat < ///tmp/minitest///r1" "cat < ///tmp///minitest///m1"
+redirectfunctionabs "cat </tmp/minitest/r1</tmp/minitest/r2</tmp/minitest/r3" "cat </tmp/minitest/m1</tmp/minitest/m2</tmp/minitest/m3"
+redirectfunctionabs "cat '</tmp/minitest/r1</tmp/minitest/r2</tmp/minitest/r3'" "cat '</tmp/minitest/m1</tmp/minitest/m2</tmp/minitest/m3'"
+redirectfunctionabs "cat \"</tmp/minitest/r1</tmp/minitest/r2</tmp/minitest/r3\"" "cat \"</tmp/minitest/m1</tmp/minitest/m2</tmp/minitest/m3\""
+redirectfunctionabs "cat <  /tmp/minitest/r1  <  /tmp/minitest/r2  <  /tmp/minitest/r3" "cat <  /tmp/minitest/m1  <  /tmp/minitest/m2  <  /tmp/minitest/m3"
+redirectfunctionabs "cat < /tmp/minitest/r1 < /tmp/minitest/r2 < /tmp/minitest/r3" "cat < /tmp/minitest/m1 < /tmp/minitest/m2 < /tmp/minitest/m3"
+redirectfunctionabs "cat < '/tmp/minitest/r1' < '/tmp/minitest/r2' < '/tmp/minitest/r3'" "cat < '/tmp/minitest/m1' < '/tmp/minitest/m2' < '/tmp/minitest/m3'"
+redirectfunctionabs "cat < \"/tmp/minitest/r1\" < \"/tmp/minitest/r2\" < \"/tmp/minitest/r3\"" "cat < \"/tmp/minitest/m1\" < \"/tmp/minitest/m2\" < \"/tmp/minitest/m3\""
+redirectfunctionabs "cat < \"'/tmp/minitest/r1'\" < \"'/tmp/minitest/r2'\" < \"'/tmp/minitest/r3'\"" "cat < \"'/tmp/minitest/m1'\" < \"'/tmp/minitest/m2'\" < \"'/tmp/minitest/m3'\""
+redirectfunctionabs "cat < '\"/tmp/minitest/r1\"' < '\"/tmp/minitest/r2\"' < '\"/tmp/minitest/r3\"'" "cat < '\"/tmp/minitest/m1\"' < '\"/tmp/minitest/m2\"' < '\"/tmp/minitest/m3\"'"
+redirectfunctionabs "< /tmp/minitest/r1 cat < /tmp/minitest/r2 < /tmp/minitest/r3" "< /tmp/minitest/m1 cat < /tmp/minitest/m2 < /tmp/minitest/m3"
+redirectfunctionabs "< /tmp/minitest/r1 < /tmp/minitest/r2 cat < /tmp/minitest/r3" "< /tmp/minitest/m1 < /tmp/minitest/m2 cat < /tmp/minitest/m3"
+redirectfunctionabs "< /tmp/minitest/r1 < /tmp/minitest/r2 < /tmp/minitest/r3 cat" "< /tmp/minitest/m1 < /tmp/minitest/m2 < /tmp/minitest/m3 cat"
+redirectfunctionrel "cat < tmp/r1" "cat < tmp/m1"
+redirectfunctionrel "echo hallo && echo hallo && cat < tmp/r1" "cat < tmp/m1"
+redirectfunctionrel "echo hallo || echo hallo || cat < tmp/r1" "cat < tmp/m1"
+redirectfunctionrel "echo hallo ; echo hallo ; cat < tmp/r1" "cat < tmp/m1"
+redirectfunctionrel "echo hallo | echo hallo | cat < tmp/r1" "cat < tmp/m1"
+redirectfunctionrel "cat < tmp///r1" "cat < tmp///m1"
+redirectfunctionrel "cat <tmp/r1<tmp/r2<tmp/r3" "cat <tmp/m1<tmp/m2<tmp/m3"
+redirectfunctionrel "cat '<tmp/r1<tmp/r2<tmp/r3'" "cat '<tmp/m1<tmp/m2<tmp/m3'"
+redirectfunctionrel "cat \"<tmp/r1<tmp/r2<tmp/r3\"" "cat \"<tmp/m1<tmp/m2<tmp/m3\""
+redirectfunctionrel "cat <  tmp/r1  <  tmp/r2  <  tmp/r3" "cat <  tmp/m1  <  tmp/m2  <  tmp/m3"
+redirectfunctionrel "cat < tmp/r1 < tmp/r2 < tmp/r3" "cat < tmp/m1 < tmp/m2 < tmp/m3"
+redirectfunctionrel "cat < 'tmp/r1' < 'tmp/r2' < 'tmp/r3'" "cat < 'tmp/m1' < 'tmp/m2' < 'tmp/m3'"
+redirectfunctionrel "cat < \"tmp/r1\" < \"tmp/r2\" < \"tmp/r3\"" "cat < \"tmp/m1\" < \"tmp/m2\" < \"tmp/m3\""
+redirectfunctionrel "cat < \"'tmp/r1'\" < \"'tmp/r2'\" < \"'tmp/r3'\"" "cat < \"'tmp/m1'\" < \"'tmp/m2'\" < \"'tmp/m3'\""
+redirectfunctionrel "cat < '\"tmp/r1\"' < '\"tmp/r2\"' < '\"tmp/r3\"'" "cat < '\"tmp/m1\"' < '\"tmp/m2\"' < '\"tmp/m3\'"
+redirectfunctionrel "< tmp/r1 cat < tmp/r2 < tmp/r3" "< tmp/m1 cat < tmp/m2 < tmp/m3"
+redirectfunctionrel "< tmp/r1 < tmp/r2 cat < tmp/r3" "< tmp/m1 < tmp/m2 cat < tmp/m3"
+redirectfunctionrel "< tmp/r1 < tmp/r2 < tmp/r3 cat" "< tmp/m1 < tmp/m2 < tmp/m3 cat"
 
 # << heredoc
 printf "\e[1;36mTesting << heredoc \e[0;00m\n"
@@ -1175,12 +1837,18 @@ testfunction "<<<"
 
 # < << >> > redirection combinations
 printf "\e[1;36mTesting < << >> > redirection combinations \e[0;00m\n"
-redirectfunction "r1 < cat > r2 > r3" "m1 < cat > m2 > m3"
-redirectfunction "cat -e > r1 < r2" "cat -e > m1 < m2"
-redirectfunction "cat < r1 < r2 > r3" "cat < m1 < m2 > m3"
-#redirectfunction "echo hey <> r1" "echo hey <> r1" # <> is also not part of the subject
-redirectfunction "echo hey >< r1" "echo hey >< r1"
-#redirectfunction "< r1 cat | << EOF cat | cat >> r3" "< m1 cat | << EOF cat | cat >> m3"
+redirectfunctionabs "/tmp/minitest/r1 < cat > /tmp/minitest/r2 > /tmp/minitest/r3" "/tmp/minitest/m1 < cat > /tmp/minitest/m2 > /tmp/minitest/m3"
+redirectfunctionabs "cat -e > /tmp/minitest/r1 < /tmp/minitest/r2" "cat -e > /tmp/minitest/m1 < /tmp/minitest/m2"
+redirectfunctionabs "cat < /tmp/minitest/r1 < /tmp/minitest/r2 > /tmp/minitest/r3" "cat < /tmp/minitest/m1 < /tmp/minitest/m2 > /tmp/minitest/m3"
+#redirectfunctionabs "echo hey <> /tmp/minitest/r1" "echo hey <> /tmp/minitest/r1" # <> is also not part of the subject
+redirectfunctionabs "echo hey >< /tmp/minitest/r1" "echo hey >< /tmp/minitest/r1"
+#redirectfunctionabs "< /tmp/minitest/r1 cat | << EOF cat | cat >> /tmp/minitest/r3" "< /tmp/minitest/m1 cat | << EOF cat | cat >> /tmp/minitest/m3"
+redirectfunctionrel "tmp/r1 < cat > tmp/r2 > tmp/r3" "tmp/m1 < cat > tmp/m2 > tmp/m3"
+redirectfunctionrel "cat -e > tmp/r1 < tmp/r2" "cat -e > tmp/m1 < tmp/m2"
+redirectfunctionrel "cat < tmp/r1 < tmp/r2 > tmp/r3" "cat < tmp/m1 < tmp/m2 > tmp/m3"
+#redirectfunctionrel "echo hey <> tmp/r1" "echo hey <> tmp/r1" # <> is also not part of the subject
+redirectfunctionrel "echo hey >< tmp/r1" "echo hey >< tmp/r1"
+#redirectfunctionrel "< tmp/r1 cat | << EOF cat | cat >> tmp/r3" "< tmp/m1 cat | << EOF cat | cat >> tmp/m3"
 
 # ; Command end
 printf "\e[1;36mTesting ; command end\e[0;00m\n"
@@ -1213,6 +1881,8 @@ testfunction "'' && ''"
 testfunction "' ' &&"
 testfunction "&& ' '"
 testfunction "' ' && ' '"
+testfunction "!! && !!"
+testfunction "~ && ~"
 testfunction "echo hello && echo 'hello'"
 testfunction "echo 'hello && echo 'hello''"
 testfunction "echo \"hello && echo 'hello'\""
@@ -1234,6 +1904,8 @@ testfunction "'' || ''"
 testfunction "' ' ||"
 testfunction "|| ' '"
 testfunction "' ' || ' '"
+testfunction "!! || !!"
+testfunction "~ || ~"
 testfunction "echo hello || echo 'hello'"
 testfunction "echo 'hello || echo 'hello''"
 testfunction "echo \"hello || echo 'hello'\""
@@ -1264,6 +1936,10 @@ printf "\e[1;36mTesting \$VAR variables\e[0;00m\n"
 testfunction "$"
 testfunction "echo \$''"
 testfunction "echo \$PWD"
+testfunction "echo \$PWD && echo \$PWD && echo \$PWD"
+testfunction "echo \$PWD || echo \$PWD || echo \$PWD"
+testfunction "echo \$PWD ; echo \$PWD ; echo \$PWD"
+testfunction "echo \$PWD | echo \$PWD | echo \$PWD"
 testfunction "echo '\$PWD'"
 testfunction "echo \"\$PWD\""
 testfunction "echo \$?"
@@ -1278,6 +1954,8 @@ testfunction "|"
 testfunction "ls |"
 testfunction "ls | ''"
 testfunction "ls | ' '"
+testfunction "!! | !!"
+testfunction "~ | ~"
 testfunction "cat /dev/random | base64 | head -c 10"
 testfunction "sleep 1 | sleep 1 | sleep 1"
 testfunction "'sleep 1 | sleep 1 | sleep 1'"
@@ -1388,21 +2066,56 @@ printf "\e[1;36mTesting (\`\'\" open combinations\e[0;00m\n"
 # * wildcards
 printf "\e[1;36mTesting * Wildcards\e[0;00m\n"
 testfunction "*"
+testfunction "ls ~/Doc*"
 testfunction "ls *src"
+testfunction "ls *src *src"
+testfunction "ls *src && ls *src && ls *src"
+testfunction "ls *src || ls *src || ls *src"
+testfunction "ls *src ; ls *src ; ls *src"
+testfunction "ls *src | ls *src | ls *src"
+testfunction "ls *src/"
+testfunction "ls '*src'"
+testfunction "ls \"*src\""
+testfunction "ls \"'*src'\""
+testfunction "ls '\"*src\"'"
 testfunction "ls ***src"
 testfunction "ls src*"
 testfunction "ls src***"
 testfunction "ls s*r*c"
+testfunction "ls 's*r*c'"
+testfunction "ls \"s*r*c\""
+testfunction "ls \"'s*r*c'\""
+testfunction "ls '\"s*r*c\"'"
 testfunction "*s*r*c*"
 testfunction "ls *rc"
 testfunction "ls sr*"
 testfunction "ls *r*"
 testfunction "ls *rc/b*"
 testfunction "ls ../*/*r*/b*i*"
+testfunction "ls ../*/*r*/b*i*/"
+testfunction "ls '..'/*/*r*/b*i*"
+testfunction "ls \"..\"/*/*r*/b*i*"
+testfunction "ls \"'..'\"/*/*r*/b*i*"
+testfunction "ls '\"..\"'/*/*r*/b*i*"
 testfunction "ls g*t*e*t*i*e"
+testfunction "ls g*'t'*e*t*'i'*e"
+testfunction "ls g*\"t\"*e*t*\"i\"*e"
+testfunction "ls g*\"'t'\"*e*t*\"'i'\"*e"
+testfunction "ls g*'\"t\"'*e*t*'\"i\"'*e"
 testfunction "ls g*t*e*t*i*e/../g*t*e*t*i*e"
+testfunction "ls g*'t'*e*t*'i'*e/../g*'t'*e*t*'i'*e"
+testfunction "ls g*\"t\"*e*t*\"i\"*e/../g*\"t\"*e*t*\"i\"*e"
+testfunction "ls g*\"'t'\"*e*t*\"'i'\"*e/../g*\"'t'\"*e*t*\"'i'\"*e"
+testfunction "ls g*'\"t\"'*e*t*'\"i\"'*e/../g*'\"t\"'*e*t*'\"i\"'*e"
+testfunction "ls g*t*e*t*i*e//..//g*t*e*t*i*e"
 testfunction "ls g*t*e*t*i*e/../g*t*e*t*i*e/../g*t*e*t*i*e"
+testfunction "ls g*'t'*e*t*'i'*e/../g*'t'*e*t*'i'*e/../g*'t'*e*t*'i'*e"
+testfunction "ls g*\"t\"*e*t*\"i\"*e/../g*\"t\"*e*t*\"i\"*e/../g*\"t\"*e*t*\"i\"*e"
+testfunction "ls g*t*e*t*i*e/../g*t*e*t*i*e/../g*t*e*t*i*e"
+testfunction "ls g*t*e*t*i*e//..//g*t*e*t*i*e//..//g*t*e*t*i*e"
 testfunction "ls g*t*e*t*i*e/../g*t*e*t*i*e/../**g**t**e**t**i**e**"
+testfunction "ls g*t*e*t*i*e//..//g*t*e*t*i*e//..//**g**t**e**t**i**e**"
+testfunction "ls g*t*e*t*i*e//..//g*t*e*t*i*e//..//**g**t**e**t**i**e**/"
 testfunction "ls *e*n*x*l*n*"
 testfunction "ls ../*/src/*/*.c"
 testfunction "ls ../*/src/doesnotexist/echo.c"
@@ -1419,7 +2132,14 @@ testfunction "ls /"
 # ? joker
 printf "\e[1;36mTesting ? Jokers\e[0;00m\n"
 testfunction "?"
+testfunction "ls ~/Docu?ents"
 testfunction "ls ?rc"
+testfunction "ls ?rc ?rc"
+testfunction "ls ?rc && ls ?rc && ls ?rc"
+testfunction "ls ?rc || ls ?rc || ls ?rc"
+testfunction "ls ?rc ; ls ?rc ; ls ?rc"
+testfunction "ls ?rc | ls ?rc || ls ?rc"
+testfunction "ls ?rc/"
 testfunction "ls ???"
 testfunction "ls ????"
 testfunction "ls ?????"
@@ -1427,9 +2147,26 @@ testfunction "ls ??????"
 testfunction "ls ???????"
 testfunction "ls ?r?"
 testfunction "ls ?rc/???????"
+testfunction "ls ?rc///???????"
+testfunction "ls ?rc///???????/"
+testfunction "ls 'src'/???????"
+testfunction "ls \"src\"/???????"
+testfunction "ls \"'src'\"/???????"
+testfunction "ls '\"src\"'/???????"
 testfunction "ls g?t?e?t?i?e"
+testfunction "ls g?'t'?e?t?'t'?e"
+testfunction "ls g?\"t\"?e?t?\"i\"?e"
 testfunction "ls g?t?e?t?i?e/../g?t?e?t?i?e"
+testfunction "ls g?t?e?t?i?e//..//g?t?e?t?i?e"
+testfunction "ls g?'t'?e?t?'i'?e/../g?'t'?e?t?'i'?e"
+testfunction "ls g?\"t\"?e?t?\"i\"?e/../g?\"t\"?e?t?\"i\"?e"
+testfunction "ls g?\"'t'\"?e?t?\"'i'\"?e/../g?\"'t'\"?e?t?\"'i'\"?e"
+testfunction "ls g?'\"t\"'?e?t?'\"i\"'?e/../g?'\"t\"'?e?t?'\"i\"'?e"
 testfunction "ls g?t?e?t?i?e/../g?t?e?t?i?e/../g?t?e?t?i?e"
+testfunction "ls g?t?e?t?i?e/../g?t?e?t?i?e/../g?t?e?t?i?e/"
+testfunction "ls g?t?e?t?i?e//..//g?t?e?t?i?e//..//g?t?e?t?i?e"
+testfunction "ls g?'t'?e?t?'i'?e/../g?'t'?e?t?'i'?e/../g?'t'?e?t?'i'?e"
+testfunction "ls g?\"t\"?e?t?\"i\"?e/../g?\"t\"?e?t?\"i\"?e/../g?\"t\"?e?t?\"i\"?e"
 testfunction "ls ?e?n?x?l?n?"
 testfunction "ls ???/??iltin/echo.?"
 testfunction "ls ???/??iltin/ekho.?"
@@ -1439,22 +2176,48 @@ testfunction "ls sr?/bui????"
 # [] anyof
 printf "\e[1;36mTesting [] anyof\e[0;00m\n"
 testfunction "[]"
+testfunction "ls ~/[D]ocuments"
 testfunction "ls [s]rc"
+testfunction "ls [s]rc  [s]rc"
+testfunction "ls [s]rc && ls [s]rc && ls [s]rc"
+testfunction "ls [s]rc || ls [s]rc || ls [s]rc"
+testfunction "ls [s]rc ; ls [s]rc ; ls [s]rc"
+testfunction "ls [s]rc | ls [s]rc | ls [s]rc"
+testfunction "ls [s]rc/"
 testfunction "ls sr[c]"
 testfunction "ls s[r]c"
 testfunction "ls s[r]c/m[a]in"
+testfunction "ls s[r]c/m[a]in/"
 testfunction "ls s[r]c/[m]ain"
 testfunction "ls s[r]c/mai[n]"
 testfunction "ls [so][rb][cj]"
 testfunction "ls [so][rb][cj]/builtin"
+testfunction "ls src/[b]uil[i]in"
+testfunction "ls src///[b]uil[i]in"
+testfunction "ls 'src'/[b]uil[i]in"
+testfunction "ls \"src\"/[b]uil[i]in"
+testfunction "ls \"'src'\"/[b]uil[i]in"
+testfunction "ls '\"src\"'/[b]uil[i]in"
 testfunction "ls [so][rb][cj]/builtin/e[cx][hi][ot].[co]"
+testfunction "ls [so][rb][cj]/builtin/e[cx][hi][ot].[co]/"
 testfunction "ls [so][qa][cj]/builtin"
 testfunction "ls [so][rb][cj]/builtin/echo.[rb]"
 testfunction "ls [so][rb][cj]/builtin/ecio.[rb]"
 testfunction "ls s[r]c/m[asds][idf]n/m[asdf][ijn]n.c"
 testfunction "ls g[e]t[n]e[x]t[l]i[n]e"
+testfunction "ls g[e]'t'[n]e[x]t[l]'i'[n]e"
+testfunction "ls g[e]\"t\"[n]e[x]t[l]\"i\"[n]e"
 testfunction "ls g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e"
+testfunction "ls g[e]t[n]e[x]t[l]i[n]e//..//g[e]t[n]e[x]t[l]i[n]e"
+testfunction "ls g[e]'t'[n]e[x]t[l]'i'[n]e/../g[e]'t'[n]e[x]t[l]'i'[n]e"
+testfunction "ls g[e]\"t\"[n]e[x]t[l]\"i\"[n]e/../g[e]\"t\"[n]e[x]t[l]\"i\"[n]e"
+testfunction "ls g[e]\"'t'\"[n]e[x]t[l]\"'i'\"[n]e/../g[e]\"'t'\"[n]e[x]t[l]\"'i'\"[n]e"
+testfunction "ls g[e]'\"t\"'[n]e[x]t[l]'\"i\"'[n]e/../g[e]'\"t\"'[n]e[x]t[l]'\"i\"'[n]e"
 testfunction "ls g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e"
+testfunction "ls g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e/"
+testfunction "ls g[e]t[n]e[x]t[l]i[n]e//..//g[e]t[n]e[x]t[l]i[n]e//..//g[e]t[n]e[x]t[l]i[n]e"
+testfunction "ls g[e]'t'[n]e[x]t[l]'i'[n]e/../g[e]'t'[n]e[x]t[l]'i'[n]e/../g[e]'t'[n]e[x]t[l]'i'[n]e"
+testfunction "ls g[e]\"t\"[n]e[x]t[l]\"i\"[n]e/../g[e]\"t\"[n]e[x]t[l]\"i\"[n]e/../g[e]\"t\"[n]e[x]t[l]\"i\"[n]e"
 testfunction "ls g[e]t[n]e[x]t[l]i[n]e/../g[e]t[n]e[x]t[l]i[n]e/../g[]et[]ne[x]t[l]i[n]e"
 testfunction "ls l[i]b[f]t"
 testfunction "ls l[i]b[f]t/[]src"
@@ -1673,6 +2436,10 @@ testfunction "\`\`"
 testfunction "echo \`\`"
 testfunction "printf \`\` bla"
 testfunction "printf \`echo hallo\`"
+testfunction "printf \`echo hallo\` && printf \`echo hallo\` && printf \`echo hallo\`"
+testfunction "printf \`echo hallo\` || printf \`echo hallo\` || printf \`echo hallo\`"
+testfunction "printf \`echo hallo\` ; printf \`echo hallo\` ; printf \`echo hallo\`"
+testfunction "printf \`echo hallo\` | printf \`echo hallo\` | printf \`echo hallo\`"
 testfunction "printf \`  echo hallo\`"
 testfunction "printf \`echo hallo  \`"
 testfunction "printf \`echo  hallo\`"
@@ -1697,6 +2464,10 @@ testfunction "\$()"
 testfunction "echo \$()"
 testfunction "printf \$() bla"
 testfunction "printf \$(echo hallo)"
+testfunction "printf \$(echo hallo) && printf \$(echo hallo) && printf \$(echo hallo)"
+testfunction "printf \$(echo hallo) || printf \$(echo hallo) || printf \$(echo hallo)"
+testfunction "printf \$(echo hallo) ; printf \$(echo hallo) ; printf \$(echo hallo)"
+testfunction "printf \$(echo hallo) | printf \$(echo hallo) | printf \$(echo hallo)"
 testfunction "printf \$(  echo hallo)"
 testfunction "printf \$(echo hallo  )"
 testfunction "printf \$(echo   hallo)"

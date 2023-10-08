@@ -5,14 +5,6 @@ is a lightweight implementation of bash
 ## Todo
 ### Tester
 - we should add a lot of bad syntax to make sure we won't segfault during evaluation.
-- add new glob tests with quotes
-- everything that can touch a file or directory should be tested with quotes and quotes in quotes
-- everything that can touch a file or directory should be tested with empty arguments " " "" '' and ' '
-- everything that can touch a file or directory should be tested with absolute and relative paths, also ~
-- everything that can touch a file or directory should be tested with multiple ///// in a path
-- we can add redirection to everything to make sure that works fine
-- we should test everything in a fork too
-- we should test everything in a second and third command too
 ### Environment
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 ### Parser
