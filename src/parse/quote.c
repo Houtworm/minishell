@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/08 17:28:44 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/09 17:42:44 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,16 @@ int	ft_checkoutquotevar(char *line)
 		{
 			if (line[i] == '$' && line[i + 1] != '(')
 				return (i);
-			// if (line[i] == '\"')
-			// {
-			// 	i++;
-			// 	while (line[i] != '\"')
-			// 	{
-			// 		if (line[i] == '$' && line[i + 1] != '\'' && line[i + 1] != '\"')
-			// 			return (i);
-			// 		i++;
-			// 	}
-			// }
+			if (line[i] == '\"')
+			{
+				i++;
+				while (line[i] != '\"')
+				{
+					if (line[i] == '$' && line[i + 1] != '\'' && line[i + 1] != '\"' && line[i + 1] != '(')
+						return (i);
+					i++;
+				}
+			}
 			if (line[i] == '\'')
 			{
 				i++;

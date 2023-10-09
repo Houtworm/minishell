@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                          |o_o || |                */
+/*   exec.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/08 03:36:43 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 21:26:46 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			if (cmds.prio != 2)
 				shell->forks[forknbr].cmds[cmdnbr].prio = 3;
 			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
-			// ft_printlastcode(cmds);
 			return (cmds.lastcode);
 		}
 	}
@@ -163,13 +162,11 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		if (cmds.prio != 2)
 			shell->forks[forknbr].cmds[cmdnbr].prio = 3;
 		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
-		// ft_printlastcode(cmds);
 		return (cmds.lastcode);
 	}
 	if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
 	{
 		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
-		// ft_printlastcode(cmds);
 		return (cmds.lastcode);
 	}
 	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);
@@ -185,7 +182,8 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		if (cmds.pid == 0)
 		{
 			signal(SIGQUIT, ft_sighandler);
-			ft_dupmachine(cmds, cmdnbr, forknbr, shell);
+			if (ft_dupmachine(cmds, cmdnbr, forknbr, shell) == 2)
+				return (1);
 			execve(cmds.absolute, cmds.arguments, shell->envp);
 			ft_errorexit("command not found", cmds.absolute, 127);
 		}

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/08 17:38:12 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/09 17:42:27 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,22 @@ int	ft_parsevariable(t_cmds *cmd, t_shell shell)
 					j++;
 				}
 			}
-			// if (cmd->pipeline[i] == '\"')
-			// {
-			// 	begin[j] = cmd->pipeline[i];
-			// 	i++;
-			// 	j++;
-			// 	while (cmd->pipeline[i] && cmd->pipeline[i] != '\"')
-			// 	{
-			// 		if (cmd->pipeline[i] == '$' && cmd->pipeline[i + 1] != '\'' && cmd->pipeline[i + 1] != '\"' && cmd->pipeline[i + 1] != '(')
-			// 			break ;
-			// 		begin[j] = cmd->pipeline[i];
-			// 		i++;
-			// 		j++;
-			// 	}
-			// }
-			// if (!cmd->pipeline[i] || (cmd->pipeline[i] == '$' && cmd->pipeline[i + 1] != '\'' && cmd->pipeline[i + 1] != '\"' && cmd->pipeline[i + 1] != '('))
-			// 	break ;
+			if (cmd->pipeline[i] == '\"')
+			{
+				begin[j] = cmd->pipeline[i];
+				i++;
+				j++;
+				while (cmd->pipeline[i] && cmd->pipeline[i] != '\"')
+				{
+					if (cmd->pipeline[i] == '$' && cmd->pipeline[i + 1] != '\'' && cmd->pipeline[i + 1] != '\"' && cmd->pipeline[i + 1] != '(')
+						break ;
+					begin[j] = cmd->pipeline[i];
+					i++;
+					j++;
+				}
+			}
+			if (!cmd->pipeline[i] || (cmd->pipeline[i] == '$' && cmd->pipeline[i + 1] != '\'' && cmd->pipeline[i + 1] != '\"' && cmd->pipeline[i + 1] != '('))
+				break ;
 			begin[j] = cmd->pipeline[i];
 			i++;
 			j++;
