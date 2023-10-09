@@ -6,7 +6,7 @@
 /*   By: djonker <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/11 16:02:53 by djonker       #+#    #+#                 */
-/*   Updated: 2023/09/18 12:19:58 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 08:03:26 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ int					ft_isallbyte(char *str, char byte);
 char				*ft_getpwd(char **envp, int slash);
 char				*ft_getuser(char **envp);
 char				*ft_gethome(char **envp);
+char				*ft_getos(void);
 char				*ft_vastrjoin(int n, ...);
 void				ft_vafree(int n, ...);
 int					ft_intrchr(const char *s, int c);

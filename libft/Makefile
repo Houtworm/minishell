@@ -6,13 +6,13 @@
 #    By: djonker <marvin@codam.nl>                    +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/10/27 15:02:02 by djonker       #+#    #+#                  #
-#    Updated: 2023/09/18 12:20:26 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/09 08:21:39 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=libft.a
 CC			=gcc
-FC			=-Wall -Werror -Wextra -fsanitize=address
+FC			=-Wall -Werror -Wextra -g -fsanitize=address
 FAR			=ar -rs
 RM			=rm -f
 SRC			=src/ft_atoi.c \
@@ -141,6 +141,7 @@ SRC			=src/ft_atoi.c \
 			src/ft_getuser.c \
 			src/ft_gethome.c \
 			src/ft_getpwd.c \
+			src/ft_getos.c \
 			src/ft_vastrjoin.c \
 			src/ft_vafree.c \
 			src/ft_intrchr.c \

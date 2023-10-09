@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/08 21:13:23 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 08:36:39 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_getpid(void)
 				i++;
 			pid = ft_atoi(&line[i]);
 			free (line);
-			/*close(fd);*/
+			/*close(fd);*/ // error in mshrc?
 			return (pid);
 		}
 		free (line);
@@ -62,6 +62,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	ft_seminit("/tmp/minishellprintsem", 1);
 	shell = ft_calloc(100, 8);
 	shell->starttime = ft_gettimems(envp);
+	shell->os = ft_getos();
 	ft_charpptofd(envp, shell->envpfd);
 	shell->envp = ft_fdtocharpp(shell->envpfd);
 	ft_shelllevelup(shell->envp);

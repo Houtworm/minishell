@@ -6,22 +6,20 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/22 13:26:25 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/01 02:50:14 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 08:37:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*ft_addosuserandhosttoprompt(char **envp)
+char	*ft_addosuserandhosttoprompt(t_shell *shell, char **envp)
 {
 	char	*prompt;
 	char	*tmp;
 	char	*osuser;
 	char	*hostname;
 
-	osuser = ft_system("uname -s", envp);
-	tmp = ft_vastrjoin(3, "\n\e[30;46m ", osuser, " \e[36;45m\e[30m ");
-	free(osuser);
+	tmp = ft_vastrjoin(3, "\n\e[30;46m ", shell->os, " \e[36;45m\e[30m ");
 	osuser = ft_system("hostname", envp);
 	prompt = ft_strchr(osuser, '.');
 	hostname = ft_substr(osuser, 0, ft_strlen(osuser) - ft_strlen(prompt));
@@ -100,7 +98,7 @@ void	ft_printprompt(t_shell *shell, char **envp)
 {
 	char	*prompt;
 
-	prompt = ft_addosuserandhosttoprompt(envp);
+	prompt = ft_addosuserandhosttoprompt(shell, envp);
 	prompt = ft_addworkingdirectory(prompt, envp);
 	prompt = ft_addexecutiontime(shell, prompt, envp);
 	prompt = ft_addreturncode(shell, prompt);

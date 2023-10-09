@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/09 02:11:45 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 07:01:57 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,13 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 	}
 	shell->forks[forknumber].cmds[cmdnumber].cmdamount = shell->forks[forknumber].cmdamount;
 	paths = ft_getpaths(shell->envp, 1);
-	shell->forks[forknumber].cmds[cmdnumber].absolute = ft_abspathcmd(paths, shell->forks[forknumber].cmds[cmdnumber].arguments[0]);
-	ft_frearr(paths);
+	if (!paths)
+		shell->forks[forknumber].cmds[cmdnumber].absolute = ft_strdup(shell->forks[forknumber].cmds[cmdnumber].arguments[0]);
+	else
+	{
+		shell->forks[forknumber].cmds[cmdnumber].absolute = ft_abspathcmd(paths, shell->forks[forknumber].cmds[cmdnumber].arguments[0]);
+		ft_frearr(paths);
+	}
 	return (shell);
 }
 

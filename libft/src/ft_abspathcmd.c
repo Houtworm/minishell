@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/20 16:39:22 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/03 03:56:46 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 07:03:36 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_abspathcmd(char **paths, char *cmd)
 	int		i;
 
 	i = 0;
+	if (!paths)
+		return (cmd);
 	if (cmd && ft_chrstr('/', cmd))
 		absolute = ft_strdup(cmd);
 	else

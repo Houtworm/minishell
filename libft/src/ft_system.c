@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/20 16:39:22 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/02 17:32:26 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 08:16:18 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ char	*ft_system(char *command, char **envp)
 
 	cmd = ft_split(command, ' ');
 	paths = ft_getpaths(envp, pid);
+	if (!paths)
+	{
+		command = ft_strdup(cmd[0]);
+		ft_frearr(cmd);
+		return (command);
+	}
 	command = ft_abspathcmd(paths, cmd[0]);
 	pid = fork();
 	if (pid == 0)

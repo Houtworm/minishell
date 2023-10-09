@@ -6,17 +6,100 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/09 05:38:26 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 08:45:07 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*void	ft_cleanglob(t_globs *globs)*/
-/*{*/
-	
+void	ft_cleanpardir(t_globs *globs)
+{
+	int		i;
+	int		j;
 
-/*}*/
+	i = 0;
+	while (globs->pardir[i])
+	{
+		if (globs->pardir[i] == '/')
+		{
+			i++;
+			j = i;
+			while (globs->pardir[i] == '/')
+				i++;
+			if (i > j)
+				while (globs->pardir[i] && globs->pardir[i] != '/')
+				{
+					globs->pardir[j] = globs->pardir[i];
+					i++;
+					j++;
+				}
+
+		}
+		i++;
+	}
+	globs->pardir[j] = '\0';
+}
+
+void	ft_cleansubdir(t_globs *globs)
+{
+	int		olddir;
+	int		newdir;
+	int		i;
+	int		j;
+
+	olddir = 0;
+	newdir = 0;
+	while (globs->subdir[olddir])
+	{
+		while (globs->subdir[olddir][0] == '/' && globs->subdir[olddir][1] == '\0')
+			olddir++;
+		if (!globs->subdir[olddir])
+		{
+			newdir++;
+			break;
+		}
+		i = 0;
+		j = 0;
+		while (globs->subdir[olddir][i])
+		{
+			if (globs->subdir[olddir][i] == '/')
+			{
+				globs->subdir[newdir][j] = globs->subdir[olddir][i];
+				i++;
+				j++;
+				while (globs->subdir[olddir][i] == '/')
+					i++;
+				while (globs->subdir[olddir][i] && globs->subdir[olddir][i] != '/')
+				{
+					globs->subdir[newdir][j] = globs->subdir[olddir][i];
+					i++;
+					j++;
+				}
+			}
+			if (!globs->subdir[olddir][i])
+				break;
+			globs->subdir[newdir][j] = globs->subdir[olddir][i];
+			i++;
+			j++;
+		}
+		globs->subdir[newdir][j] = '\0';
+		newdir++;
+		olddir++;
+	}
+	while (newdir < olddir)
+	{
+		free(globs->subdir[newdir]);
+		globs->subdir[newdir] = NULL;
+		/*globs->subdir[newdir] = ft_calloc(10, 8);*/
+		newdir++;
+	}
+}
+
+void	ft_cleanglob(t_globs *globs)
+{
+	ft_cleanpardir(globs);
+	ft_cleansubdir(globs);
+}
 
 void	ft_backupglob(t_globs *globs)
 {
@@ -82,12 +165,16 @@ int	ft_newpipeline(t_globs *globs)
 		}
 		temp[k] = '\0';
 		ft_frearr(globs->matches);
+		globs->matches = ft_calloc(100, 4096);
 		free(globs->pipeline);
 		globs->pipeline = ft_vastrjoin(3, globs->start, temp, globs->end); // new pipeline
+		ft_frearr(globs->subdir);
+		globs->subdir = ft_calloc(100, 128);
 		globs->linecount = globs->linecount + k; // new linecount
-		globs->matches = ft_calloc(100, 4096);
-		globs->matchcount = 0;
 	}
+	free(globs->anyof);
+	globs->anyof = ft_calloc(100, 8);
+	globs->matchcount = 0;
 	free(temp);
 	return (0);
 }
