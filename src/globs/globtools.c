@@ -6,12 +6,31 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/08 23:26:38 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 05:38:26 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+/*void	ft_cleanglob(t_globs *globs)*/
+/*{*/
+	
+
+/*}*/
+
+void	ft_backupglob(t_globs *globs)
+{
+  	char	*temp;
+
+	if (globs->subdir[0])
+	{
+		temp = ft_cpptostr(globs->subdir);
+		globs->backup = ft_vastrjoin(5, globs->pardir, globs->gstart, globs->glob, globs->gend, temp); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
+		free(temp);
+	}
+	else
+		globs->backup = ft_vastrjoin(4, globs->pardir, globs->gstart, globs->glob, globs->gend); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
+}
 
 void	ft_addglobmatch(t_globs *globs, char *match)
 {
@@ -22,23 +41,15 @@ void	ft_addglobmatch(t_globs *globs, char *match)
 
 int	ft_newpipeline(t_globs *globs)
 { // simply parses the results into the new pipeline
-  	char	*temp;
-  	char	*temp2;
 	int		i;
 	int		j;
 	int		k;
+	char	*temp;
 
 	if (!globs->matches[0])
 	{
 		/*printf("ft_parseglob no matches found\n");*/
-		if (globs->subdir[0])
-		{
-			temp2 = ft_cpptostr(globs->subdir);
-			temp = ft_vastrjoin(5, globs->pardir, globs->gstart, globs->glob, globs->gend, temp2); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
-			free(temp2);
-		}
-		else
-			temp = ft_vastrjoin(4, globs->pardir, globs->gstart, globs->glob, globs->gend); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
+		temp = ft_strdup(globs->backup); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
 		globs->linecount = globs->linecount + ft_strlen(temp);
 	}
 	else
@@ -48,7 +59,6 @@ int	ft_newpipeline(t_globs *globs)
 		i = 0;
 		while (globs->matches[i])
 		{
-			/*printf("%s\n\n\n", globs->matches[i]);*/
 			j = 0;
 			if (ft_isallbyte(globs->matches[i], ' '))
 			{
@@ -70,11 +80,13 @@ int	ft_newpipeline(t_globs *globs)
 			k++;
 			i++;
 		}
+		temp[k] = '\0';
+		ft_frearr(globs->matches);
 		free(globs->pipeline);
 		globs->pipeline = ft_vastrjoin(3, globs->start, temp, globs->end); // new pipeline
 		globs->linecount = globs->linecount + k; // new linecount
-		ft_frearr(globs->matches);
 		globs->matches = ft_calloc(100, 4096);
+		globs->matchcount = 0;
 	}
 	free(temp);
 	return (0);

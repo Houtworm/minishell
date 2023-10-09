@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/09 02:04:48 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 05:38:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,8 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings
 			ft_getparent(globs); //looks in the glob if it contains any extra directories above the glob
 			ft_getsubdir(globs); //looks in the glob for any subdirs and puts them in their own char **
-			/*ft_removequotesfromsubdir(globs);*/ // not sure about this one
+			ft_backupglob(globs); // stores the old glob with any quotes and double slashes
+			/*ft_cleanglob(globs); // removes stuff that is irrelevant*/
 			ft_parseglob(globs, envp); //parses the glob character by character
 			ft_newpipeline(globs); //constructs the new pipeline, sets the new position in the pipeline right after the parsed glob
 			if (cmd->debug)

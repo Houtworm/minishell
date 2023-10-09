@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/08 03:27:49 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 05:34:18 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_globs
 	char	*gend;
 	char	*start;
 	char	*glob;
+	char	*backup;
 	char	*end;
 	char	**subdir;
 	char	**tempsubdir;
@@ -237,6 +238,8 @@ int			ft_firstglob(t_globs *globs, char *dname, int i);
 // globtools
 int			ft_newpipeline(t_globs *globs);
 void		ft_addglobmatch(t_globs *globs, char *match);
+void		ft_backupglob(t_globs *globs);
+void		ft_cleanglob(t_globs *globs);
 // wildcard
 int			ft_nextsubwildcard(t_globs *globs, int i, int j, int k);
 int			ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int j);

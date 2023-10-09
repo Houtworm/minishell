@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/09 04:02:56 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/09 05:16:21 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -2089,7 +2089,8 @@ printf "\e[1;36mTesting (\`\'\" open combinations\e[0;00m\n"
 # * wildcards
 printf "\e[1;36mTesting * Wildcards\e[0;00m\n"
 testfunction "*"
-testfunction "ls .*/*"
+testfunction "ls .*"
+#testfunction "ls .*/*" // very very very long output
 testfunction "ls ~/Doc*"
 testfunction "ls *src"
 testfunction "ls *src *src"
