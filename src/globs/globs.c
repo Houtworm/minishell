@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/10 01:20:09 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/10 01:34:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
 { // should parse all globs and not stop untill there are no more globs.
 	while (globs->pipeline[globs->linecount + startpos]) // while there are characters on the pipeline
 	{
-		if (ft_strchr("\'\"", globs->pipeline[globs->linecount])) // if we find a quote
+		if (ft_strchr("\'\"", globs->pipeline[globs->linecount + startpos])) // if we find a quote
 			startpos = ft_skipbutcopygstart(globs, startpos); // copy over the line untill the quote closes
 		else if (globs->pipeline[globs->linecount + startpos] == ' ') // if we find a space
 		{
