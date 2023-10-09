@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/09 08:45:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/10 00:07:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	ft_backupglob(t_globs *globs)
 void	ft_addglobmatch(t_globs *globs, char *match)
 {
 	globs->matches[globs->matchcount] = ft_strdup(match); // add the match
-	/*printf("ft_addglobmatch added %s as a match\n", match);*/
+	printf("ft_addglobmatch added %s as a match\n", match);
 	globs->matchcount++;
 }
 
@@ -131,7 +131,7 @@ int	ft_newpipeline(t_globs *globs)
 
 	if (!globs->matches[0])
 	{
-		/*printf("ft_parseglob no matches found\n");*/
+		printf("ft_parseglob no matches found\n");
 		temp = ft_strdup(globs->backup); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
 		globs->linecount = globs->linecount + ft_strlen(temp);
 	}
