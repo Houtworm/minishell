@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/10 00:07:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/10 00:46:39 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,84 @@ void	ft_cleansubdir(t_globs *globs)
 	}
 }
 
+void	ft_removequotesfromsubdir(t_globs *globs)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	quote;
+
+	i = 0;
+	while (globs->subdir[i])
+	{
+		j = 0;
+		k = 0;
+		while (globs->subdir[i][j])
+		{
+			if (ft_strchr("\'\"", globs->subdir[i][j]))
+			{
+				quote = globs->subdir[i][j];
+				j++;
+				while (globs->subdir[i][j] != quote)
+				{
+					globs->subdir[i][k] = globs->subdir[i][j]; // copy it over
+					j++;
+					k++;
+				}
+				j++;
+			}
+			if (globs->subdir[i][j])
+			{
+				globs->subdir[i][k] = globs->subdir[i][j]; // copy it over
+				k++;
+				j++;
+			}
+		}
+		globs->subdir[i][k] = '\0';
+		i++;
+	}
+}
+
+void	ft_removequotesfrompardir(t_globs *globs)
+{
+	int		i;
+	int		j;
+	char	quote;
+
+	i = 0;
+	j = 0;
+	while (globs->pardir[i])
+	{
+		if (ft_strchr("\'\"", globs->pardir[i]))
+		{
+			/*printf("found first quote\n");*/
+			quote = globs->pardir[i];
+			i++;
+			while (globs->pardir[i] != quote)
+			{
+				/*printf("copy over %c\n", globs->pardir[i]);*/
+				globs->pardir[j] = globs->pardir[i]; // copy it over
+				j++;
+				i++;
+			}
+			i++;
+		}
+		while (globs->pardir[i] && !ft_strchr("\'\"", globs->pardir[i]))
+		{
+			/*printf("copy over %c\n", globs->pardir[i]);*/
+			globs->pardir[j] = globs->pardir[i]; // copy it over
+			j++;
+			i++;
+		}
+	}
+	globs->pardir[j] = '\0';
+}
+
+
 void	ft_cleanglob(t_globs *globs)
 {
 	ft_cleanpardir(globs);
+	ft_removequotesfrompardir(globs);
 	ft_cleansubdir(globs);
 }
 
@@ -118,7 +193,7 @@ void	ft_backupglob(t_globs *globs)
 void	ft_addglobmatch(t_globs *globs, char *match)
 {
 	globs->matches[globs->matchcount] = ft_strdup(match); // add the match
-	printf("ft_addglobmatch added %s as a match\n", match);
+	/*printf("ft_addglobmatch added %s as a match\n", match);*/
 	globs->matchcount++;
 }
 
@@ -131,7 +206,7 @@ int	ft_newpipeline(t_globs *globs)
 
 	if (!globs->matches[0])
 	{
-		printf("ft_parseglob no matches found\n");
+		/*printf("ft_newpipeline no matches found\n");*/
 		temp = ft_strdup(globs->backup); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
 		globs->linecount = globs->linecount + ft_strlen(temp);
 	}

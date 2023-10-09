@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/10 00:07:29 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/10 01:20:09 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,19 @@
 
 int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 { // copies over characters between quotes so the globs don't get parsed
-	if (globs->pipeline[globs->linecount + startpos] == '\'') // if current position is '
+	char	quote;
+	
+	if (ft_strchr("\'\"", globs->pipeline[globs->linecount + startpos])) // if current position is '
 	{
+		quote = globs->pipeline[globs->linecount + startpos];
+		globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos]; // copy copy copy
 		startpos++;
-		while (globs->pipeline[globs->linecount + startpos] != '\'' && globs->pipeline[globs->linecount + startpos])
+		while (globs->pipeline[globs->linecount + startpos] != quote)
 		{ // while current positon is not '
 			globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos]; // copy copy copy
 			startpos++;
 		}
-		startpos++;
-	}
-	if (globs->pipeline[globs->linecount + startpos] == '\"') // if current positon is "
-	{
-		startpos++;
-		while (globs->pipeline[globs->linecount + startpos] != '\"' && globs->pipeline[globs->linecount + startpos])
-		{ // while current position is not "
-			globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos]; // copy copy copy
-			startpos++;
-		}
+		globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos]; // copy copy copy
 		startpos++;
 	}
 	globs->linecount = globs->linecount + startpos; // move the line counter accordingly
@@ -46,21 +41,21 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 	i = 0;
 	while (dname[i] && globs->gstart[i] == dname[i]) // while characters match
 	{
-		printf("match %c\n", dname[i]);
+		/*printf("match %c\n", dname[i]);*/
 		i++;
 	}
 	if (globs->gstart[i] == '\0') // Glob start matches
 	{
-		printf("ft_matchtillglob globs start matches with %s\n", dname);
+		/*printf("ft_matchtillglob globs start matches with %s\n", dname);*/
 		if (ft_firstglob(globs, dname, i)) // check if the rest of the glob also matches
 		{
-			printf("ft_matchtillglob glob matches with %s\n", dname);
+			/*printf("ft_matchtillglob glob matches with %s\n", dname);*/
 			if (globs->subdir[0]) //check if we need to match subdirs
 			{
-				printf("ft_matchtillglob Match found, checking if dir\n");
+				/*printf("ft_matchtillglob Match found, checking if dir\n");*/
 				if (type == DT_DIR) //check if it is an actual directory
 				{
-					printf("ft_matchtillglob %s is a dir, going to match the subdirectory\n", dname);
+					/*printf("ft_matchtillglob %s is a dir, going to match the subdirectory\n", dname);*/
 					temp = ft_vastrjoin(2, fullpath, dname);
 					free(globs->tempsubdir[0]);
 					globs->tempsubdir[0] = ft_strjoin("/", dname);
@@ -98,7 +93,7 @@ int	ft_parseglob(t_globs *globs, char **envp)
 	{	
 		while ((dirents = readdir(dir))) // everytime this is called we move to the next file in directory
 		{
-			printf("ft_parseglob trying to match %s\n", dirents->d_name);
+			/*printf("ft_parseglob trying to match %s\n", dirents->d_name);*/
 			ft_matchtillglob(globs, dirents->d_name, checkdir, dirents->d_type); // if it matches till the glob it will branch out from this function.
 		}
 		closedir(dir);
@@ -107,56 +102,18 @@ int	ft_parseglob(t_globs *globs, char **envp)
 	return (0);
 }
 
-void	ft_removequotesfromsubdir(t_globs *globs)
-{
-	int		i;
-	int		j;
-	int		k;
-	char	quote;
-
-	i = 0;
-	while (globs->subdir[i])
-	{
-		j = 0;
-		k = 0;
-		while (globs->subdir[i][j])
-		{
-			if (ft_strchr("\'\"", globs->subdir[i][j]))
-			{
-				quote = globs->subdir[i][j];
-				j++;
-				while (globs->subdir[i][j] != quote)
-				{
-					globs->subdir[i][k] = globs->subdir[i][j]; // copy it over
-					j++;
-					k++;
-				}
-				j++;
-			}
-			if (globs->subdir[i][j])
-			{
-				globs->subdir[i][k] = globs->subdir[i][j]; // copy it over
-				k++;
-				j++;
-			}
-		}
-		globs->subdir[i][k] = '\0';
-		i++;
-	}
-}
-
 void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
 { // should parse all globs and not stop untill there are no more globs.
 	while (globs->pipeline[globs->linecount + startpos]) // while there are characters on the pipeline
 	{
 		if (ft_strchr("\'\"", globs->pipeline[globs->linecount])) // if we find a quote
 			startpos = ft_skipbutcopygstart(globs, startpos); // copy over the line untill the quote closes
-		if (globs->pipeline[globs->linecount + startpos] == ' ') // if we find a space
+		else if (globs->pipeline[globs->linecount + startpos] == ' ') // if we find a space
 		{
 			globs->linecount = globs->linecount + startpos + 1; // we reset the startposition of the glob.
 			startpos = 0;
 		}
-		if (ft_strchr("*?[", globs->pipeline[globs->linecount + startpos])) // if we find a glob
+		else if (ft_strchr("*?[", globs->pipeline[globs->linecount + startpos])) // if we find a glob
 		{
 			globs->glob[0] = globs->pipeline[globs->linecount + startpos]; // set the glob type
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings

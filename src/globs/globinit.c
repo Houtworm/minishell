@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:32:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/09 01:35:12 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/10 00:47:00 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	ft_getparent(t_globs *globs)
 		j = 0;
 		while (j < i) // while we are not at the last slash we copy over the globstart from the beginning.
 		{
+			/*printf("getparent copy over %c\n", globs->gstart[j]);*/
 			globs->pardir[j] = globs->gstart[j];
 			j++;
 		}
@@ -103,6 +104,7 @@ int	ft_getglob(t_globs *globs, int startpos)
 	globs->gend[endpos] = '\0'; // set the \0 for the end glob
 	free(globs->start);
 	globs->start = ft_substr(globs->pipeline, 0, globs->linecount); // copy globstart
+	/*printf("getglob globstart: \n%s\n", globs->start);*/
 	free(globs->end);
 	globs->end = ft_strdup(&globs->pipeline[globs->linecount + startpos + endpos]); // copy globend
 	return (endpos);
