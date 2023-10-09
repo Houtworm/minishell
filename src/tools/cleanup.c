@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/08 21:11:51 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 09:14:09 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_freecmds(t_cmds *cmds)
 		free(cmds[i].append);
 		i++;
 	}
-	// free(cmds);
+	 free(cmds);
 }
 
 void	ft_freeforks(t_forks *forks)
@@ -103,7 +103,6 @@ void	ft_freenewprompt(t_shell *shell)
 		free(shell->pipes[i]);
 		free(shell->pipes);
 	}
-	/*free(shell->line);*/
 }
 
 void	ft_freeglobs(t_globs *globs)

@@ -6,13 +6,13 @@
 #    By: djonker <marvin@codam.nl>                    +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/12/19 06:09:46 by djonker       #+#    #+#                  #
-#    Updated: 2023/02/26 10:36:32 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/09 09:15:09 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= libftprintf.a
 CC			= gcc
-FC			= -Wall -Werror -Wextra# -fsanitize=address
+FC			= -Wall -Werror -Wextra# -g -fsanitize=address
 RM			= rm -f
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
