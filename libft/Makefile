@@ -6,7 +6,7 @@
 #    By: djonker <marvin@codam.nl>                    +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/10/27 15:02:02 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/09 09:14:51 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/09 10:20:25 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -142,6 +142,7 @@ SRC			=src/ft_atoi.c \
 			src/ft_gethome.c \
 			src/ft_getpwd.c \
 			src/ft_getos.c \
+			src/ft_gethost.c \
 			src/ft_vastrjoin.c \
 			src/ft_vafree.c \
 			src/ft_intrchr.c \

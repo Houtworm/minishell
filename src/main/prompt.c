@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/22 13:26:25 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/09 08:37:45 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 10:23:51 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ char	*ft_addosuserandhosttoprompt(t_shell *shell, char **envp)
 {
 	char	*prompt;
 	char	*tmp;
-	char	*osuser;
+	char	*hostuser;
 	char	*hostname;
 
 	tmp = ft_vastrjoin(3, "\n\e[30;46m ", shell->os, " \e[36;45m\e[30m ");
-	osuser = ft_system("hostname", envp);
-	prompt = ft_strchr(osuser, '.');
-	hostname = ft_substr(osuser, 0, ft_strlen(osuser) - ft_strlen(prompt));
-	free(osuser);
-	osuser = ft_getuser(envp);
-	prompt = ft_vastrjoin(5, tmp, osuser, "@", hostname, " \e[35;43m\e[0m");
-	ft_vafree(3, tmp, osuser, hostname);
+	hostuser = ft_gethost();
+	prompt = ft_strchr(hostuser, '.');
+	hostname = ft_substr(hostuser, 0, ft_strlen(hostuser) - ft_strlen(prompt));
+	free(hostuser);
+	hostuser = ft_getuser(envp);
+	prompt = ft_vastrjoin(5, tmp, hostuser, "@", hostname, " \e[35;43m\e[0m");
+	ft_vafree(3, tmp, hostuser, hostname);
 	return (prompt);
 }
 
