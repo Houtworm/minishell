@@ -10,8 +10,6 @@ is a lightweight implementation of bash
 ### Parser
 - redirection has some issues with quotes;
 - Syntax checking can be improved a lot
-- globbing should be moved to before redirection parsing because echo hallo > * should work.
-- globbing is removing quotes...
 - heredoc should parse all but only input the last heredoc file
 - just a $ is hanging the shell
 ### Exec
@@ -19,7 +17,6 @@ is a lightweight implementation of bash
 - cat | cat | cat | ls // should exit when enter is pressed 3 times // same issue?
 ### Builtins
 #### cd
-- cd is not really changing directory
 - cd - is having issues if oldpwd is not set.
 - if getcwd fails we can get strange behavior, lets say we delete the parent directory
 #### env

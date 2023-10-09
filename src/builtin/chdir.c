@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/07 12:57:11 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/09 02:47:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,30 +50,33 @@ void	ft_adddirtoz(char *cwd, char **envp)
 int	ft_chdir(t_cmds cmds, t_shell *shell)
 {
 	char	*line;
-	char	*cwd;
+	char	*newcwd;
+	char	*oldcwd;
 
 	if (cmds.arguments[2])
 		return (ft_errorreturn("too many arguments", "cd", 1));
 	if (!cmds.arguments[1] || cmds.arguments[1][0] == '\0')
 	{
-		cwd = ft_getuser(shell->envp);
-		line = ft_vastrjoin(3, "/home/", cwd, "/");
-		free(cwd);
+		newcwd = ft_getuser(shell->envp);
+		line = ft_vastrjoin(3, "/home/", newcwd, "/");
+		free(newcwd);
 	}
 	else if (!ft_strncmp(cmds.arguments[1],  "-\0", 2))
 	{
 		line = ft_getenvval(shell->envp, "OLDPWD");
+		if (!line)
+			return (ft_errorreturn("OLDPWD is not set, try moving to a directory first", "cd", 1));
 		printf("%s\n", line);
 	}
 	else
 	{
 		line = ft_strdup(cmds.arguments[1]);
 	}
-	cwd = malloc(512);
-	getcwd(cwd, 512);
+	oldcwd = malloc(512);
+	getcwd(oldcwd, 512);
 	if (chdir(line))
 	{
-		free(cwd);
+		free(oldcwd);
 		free(line);
 		if (errno == ENOTDIR)
 			return (ft_moderrorreturn("Not a directory", cmds.arguments[0], cmds.arguments[1], 1));
@@ -82,11 +85,21 @@ int	ft_chdir(t_cmds cmds, t_shell *shell)
 		return (1);
 	}
 	free(line);
-	ft_setenv(shell->envp, "OLDPWD", cwd);
-	getcwd(cwd, 512);
-	ft_setenv(shell->envp, "PWD", cwd);
-	ft_adddirtoz(cwd, shell->envp);
-	free(cwd);
+	ft_setenv(shell->envp, "OLDPWD", oldcwd);
+	newcwd = malloc(512);
+	getcwd(newcwd, 512);
+	if (newcwd[0] != '/')
+	{
+		free(newcwd);
+		line = ft_getuser(shell->envp);
+		newcwd = ft_vastrjoin(3, "/home/", line, "/");
+		free(line);
+		chdir(newcwd);
+		ft_moderrorreturn("No such file or directory Seems the current directory does not exist, going home", cmds.arguments[0], cmds.arguments[1], 1);
+	}
+	ft_setenv(shell->envp, "PWD", newcwd);
+	ft_adddirtoz(newcwd, shell->envp);
+	free(newcwd);
 	ft_charpptofd(shell->envp, shell->envpfd);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/09 02:01:33 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 02:04:48 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,20 +178,20 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
 }
 
 int	ft_parseglobs(t_cmds *cmd, char **envp)
-{ // this function initializes the globlooper that parses all the globs.
+{
 	t_globs			*globs;
 
 	if (ft_checkoutquote(cmd->pipeline, '*', 2) >= 0)
-		globs = ft_initglobstruct(cmd->pipeline); //init the struct
+		globs = ft_initglobstruct(cmd->pipeline);
 	else if (ft_checkoutquote(cmd->pipeline, '?', 2) >= 0)
-		globs = ft_initglobstruct(cmd->pipeline); //init the struct
+		globs = ft_initglobstruct(cmd->pipeline);
 	else if (ft_checkoutquote(cmd->pipeline, '[', 2) >= 0)
-		globs = ft_initglobstruct(cmd->pipeline); //init the struct
+		globs = ft_initglobstruct(cmd->pipeline);
 	else
 		return (0);
 	ft_globlooper(globs, cmd, 0, envp);
 	free(cmd->pipeline);
-	cmd->pipeline = ft_strdup(globs->pipeline); // writes the glob pipeline to the cmd pipeline
+	cmd->pipeline = ft_strdup(globs->pipeline);
 	ft_freeglobs(globs);
 	return (0);
 }
