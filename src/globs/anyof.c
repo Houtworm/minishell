@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/08 23:26:57 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 04:27:19 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ int		ft_nextsubanyof(t_globs *globs, int i, int j, int k)
 	/*{*/
 		/*return (0);*/
 	/*}*/
-	if (globs->subdir[i][j + 1] == '\0' && globs->tempsubdir[i][j + 1] == '\0') // we are at the end
-	{
-		return (1);
-	}
+	/*if (globs->subdir[i][j + 1] == '\0' && globs->tempsubdir[i][j + 1] == '\0') // we are at the end*/
+	/*{*/
+		/*return (1);*/
+	/*}*/
 	else if (globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
 	{
 		/*printf("ft_nextsubanyof found glob going into recursion\n");*/

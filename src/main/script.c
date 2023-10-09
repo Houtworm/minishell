@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/23 14:59:51 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/07 03:00:12 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/09 04:39:26 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,22 @@ int	ft_runscript(int argc, char **argv, t_shell *shell)
 	}
 	else
 	{
-		while (i < argc)
+		fd = open(argv[1], O_RDONLY);
+		while (ret > 0)
 		{
-			fd = open(argv[1], O_RDONLY);
-			while (ret > 0)
+			ret = get_next_line(fd, &line);
+			if (ft_parseline(line, shell))
 			{
-				ret = get_next_line(fd, &line);
-				if (ft_parseline(line, shell))
-					return (2);
-				code = ft_forktheforks(shell);
 				free(line);
+				return (2);
+				argc++;
 			}
-			close(fd);
-			i++;
+			code = ft_forktheforks(shell);
+			free(line);
+			ft_freenewprompt(shell);
 		}
+		close(fd);
+		i++;
 	}
 	return (code);
 }

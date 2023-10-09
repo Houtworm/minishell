@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/09 02:47:35 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/09 04:21:58 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_chdir(t_cmds cmds, t_shell *shell)
 	{
 		line = ft_getenvval(shell->envp, "OLDPWD");
 		if (!line)
-			return (ft_errorreturn("OLDPWD is not set, try moving to a directory first", "cd", 1));
+			return (ft_errorreturn("OLDPWD not set", "cd", 1));
 		printf("%s\n", line);
 	}
 	else
@@ -86,6 +86,7 @@ int	ft_chdir(t_cmds cmds, t_shell *shell)
 	}
 	free(line);
 	ft_setenv(shell->envp, "OLDPWD", oldcwd);
+	free(oldcwd);
 	newcwd = malloc(512);
 	getcwd(newcwd, 512);
 	if (newcwd[0] != '/')

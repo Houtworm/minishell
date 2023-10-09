@@ -16,9 +16,6 @@ is a lightweight implementation of bash
 - somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
 - cat | cat | cat | ls // should exit when enter is pressed 3 times // same issue?
 ### Builtins
-#### cd
-- cd - is having issues if oldpwd is not set.
-- if getcwd fails we can get strange behavior, lets say we delete the parent directory
 #### env
 - shlvl in env is not updated right away?
 #### alias

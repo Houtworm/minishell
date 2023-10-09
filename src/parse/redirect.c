@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 10:16:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/07 03:11:40 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/09 05:05:29 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,24 +147,13 @@ void	ft_parseredirectout(t_cmds *cmd)
 		j = 0;
 		while (cmd->pipeline[i] && cmd->pipeline[i] != '>')
 		{
-			if (cmd->pipeline[i] == '\'')
+			if (cmd->pipeline[i] == '\'' || cmd->pipeline[i] == '\"')
 			{
+				quote = cmd->pipeline[i];
 				begin[j] = cmd->pipeline[i];
 				i++;
 				j++;
-				while (cmd->pipeline[i] && cmd->pipeline[i] != '\'')
-				{
-					begin[j] = cmd->pipeline[i];
-					i++;
-					j++;
-				}
-			}
-			else if (cmd->pipeline[i] == '\"')
-			{
-				begin[j] = cmd->pipeline[i];
-				i++;
-				j++;
-				while (cmd->pipeline[i] && cmd->pipeline[i] != '\'')
+				while (cmd->pipeline[i] && cmd->pipeline[i] != quote)
 				{
 					begin[j] = cmd->pipeline[i];
 					i++;
