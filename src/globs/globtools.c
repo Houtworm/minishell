@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/10 00:46:39 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/10 03:49:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,11 @@ void	ft_removequotesfromsubdir(t_globs *globs)
 				j++;
 				while (globs->subdir[i][j] != quote)
 				{
+					if (ft_strchr("*?[", globs->gend[i]))
+					{
+						globs->subdir[i][k] = '\\';
+						k++;
+					}
 					globs->subdir[i][k] = globs->subdir[i][j]; // copy it over
 					j++;
 					k++;
@@ -168,12 +173,89 @@ void	ft_removequotesfrompardir(t_globs *globs)
 	globs->pardir[j] = '\0';
 }
 
+void	ft_removequotesfromglobstart(t_globs *globs)
+{
+	int		i;
+	int		j;
+	char	quote;
+
+	i = 0;
+	j = 0;
+	while (globs->gstart[i])
+	{
+		if (ft_strchr("\'\"", globs->gstart[i]))
+		{
+			/*printf("found first quote\n");*/
+			quote = globs->gstart[i];
+			i++;
+			while (globs->gstart[i] != quote)
+			{
+				/*printf("copy over %c\n", globs->gstart[i]);*/
+				globs->gstart[j] = globs->gstart[i]; // copy it over
+				j++;
+				i++;
+			}
+			i++;
+		}
+		while (globs->gstart[i] && !ft_strchr("\'\"", globs->gstart[i]))
+		{
+			/*printf("copy over %c\n", globs->gstart[i]);*/
+			globs->gstart[j] = globs->gstart[i]; // copy it over
+			j++;
+			i++;
+		}
+	}
+	globs->gstart[j] = '\0';
+}
+
+void	ft_removequotesfromglobend(t_globs *globs)
+{
+	int		i;
+	int		j;
+	char	quote;
+
+	i = 0;
+	j = 0;
+	while (globs->gend[i])
+	{
+		if (ft_strchr("\'\"", globs->gend[i]))
+		{
+			/*printf("found first quote\n");*/
+			quote = globs->gend[i];
+			i++;
+			while (globs->gend[i] != quote)
+			{
+				if (ft_strchr("*?[", globs->gend[i]))
+				{
+					globs->gend[j] = '\\';
+					j++;
+				}
+				/*printf("copy over %c\n", globs->gend[i]);*/
+				globs->gend[j] = globs->gend[i]; // copy it over
+				j++;
+				i++;
+			}
+			i++;
+		}
+		while (globs->gend[i] && !ft_strchr("\'\"", globs->gend[i]))
+		{
+			/*printf("copy over %c\n", globs->gend[i]);*/
+			globs->gend[j] = globs->gend[i]; // copy it over
+			j++;
+			i++;
+		}
+	}
+	globs->gend[j] = '\0';
+}
 
 void	ft_cleanglob(t_globs *globs)
 {
 	ft_cleanpardir(globs);
-	ft_removequotesfrompardir(globs);
 	ft_cleansubdir(globs);
+	ft_removequotesfrompardir(globs);
+	ft_removequotesfromsubdir(globs);
+	ft_removequotesfromglobstart(globs);
+	ft_removequotesfromglobend(globs);
 }
 
 void	ft_backupglob(t_globs *globs)
