@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/10 03:58:02 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/10 04:45:37 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_cleansubdir(t_globs *globs)
 	newdir = 0;
 	while (globs->subdir[olddir])
 	{
-		while (globs->subdir[olddir][0] == '/' && globs->subdir[olddir][1] == '\0')
+		while (globs->subdir[olddir] && globs->subdir[olddir][0] == '/' && globs->subdir[olddir][1] == '\0')
 			olddir++;
 		if (!globs->subdir[olddir])
 		{
