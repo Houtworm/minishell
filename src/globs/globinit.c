@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:32:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/10 01:34:46 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/10 02:51:48 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,14 @@ int	ft_getglob(t_globs *globs, int startpos)
 				globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos]; // copy it over
 				endpos++;
 			}
+			globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos]; // copy it over
+			endpos++;
 		}
-		globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos]; // copy it over
-		endpos++;
+		else
+		{
+			globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos]; // copy it over
+			endpos++;
+		}
 	}
 	globs->gend[endpos] = '\0'; // set the \0 for the end glob
 	free(globs->start);

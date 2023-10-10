@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/10 01:34:35 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/10 03:30:10 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 		globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos]; // copy copy copy
 		startpos++;
 	}
-	globs->linecount = globs->linecount + startpos; // move the line counter accordingly
+	/*globs->linecount = globs->linecount + startpos; // move the line counter accordingly*/
 	return (startpos);
 }
 
@@ -107,14 +107,21 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
 	while (globs->pipeline[globs->linecount + startpos]) // while there are characters on the pipeline
 	{
 		if (ft_strchr("\'\"", globs->pipeline[globs->linecount + startpos])) // if we find a quote
+		{
+
+			/*printf("going into quote: %s, %d\n", globs->gstart, startpos);*/
 			startpos = ft_skipbutcopygstart(globs, startpos); // copy over the line untill the quote closes
+		}
 		else if (globs->pipeline[globs->linecount + startpos] == ' ') // if we find a space
 		{
+			/*printf("going into space: %s, %d\n", globs->gstart, startpos);*/
 			globs->linecount = globs->linecount + startpos + 1; // we reset the startposition of the glob.
+			ft_bzero(globs->gstart, startpos);
 			startpos = 0;
 		}
 		else if (ft_strchr("*?[", globs->pipeline[globs->linecount + startpos])) // if we find a glob
 		{
+			/*printf("going into glob: %s, %d\n", globs->gstart, startpos);*/
 			globs->glob[0] = globs->pipeline[globs->linecount + startpos]; // set the glob type
 			ft_getglob(globs, startpos); //extracts the glob, puts all characters before and after in 2 seperate strings
 			ft_getparent(globs); //looks in the glob if it contains any extra directories above the glob
@@ -127,11 +134,13 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
 				ft_printglobs(*globs, "globlooper");
 			startpos = 0;
 		}
-		else // no glob found yet, copy over the character and restart the loop.
+		else if (globs->pipeline[globs->linecount + startpos]) // no glob found yet, copy over the character and restart the loop.
 		{
+			/*printf("going into else: %s, %d\n", globs->gstart, startpos);*/
 			globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos];
 			startpos++;
 		}
+		/*printf("gstart in globlooper: %s, %d\n", globs->gstart, startpos);*/
 	}
 }
 
