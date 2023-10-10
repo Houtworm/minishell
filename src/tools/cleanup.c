@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/09 09:14:09 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/10 06:40:08 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	ft_freenewprompt(t_shell *shell)
 {
 	int	i;
 
-	 ft_freeforks(shell->forks);
+	ft_freeforks(shell->forks);
 	i = 0;
 	if (shell->forkamount > 1)
 	{
@@ -115,6 +115,7 @@ void	ft_freeglobs(t_globs *globs)
 	free(globs->glob);
 	free(globs->anyof);
 	free(globs->pardir);
+	free(globs->backup);
 	ft_frearr(globs->subdir);
 	ft_frearr(globs->tempsubdir);
 	ft_frearr(globs->matches);
