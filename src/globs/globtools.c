@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/10 03:49:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/10 03:58:02 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_removequotesfromsubdir(t_globs *globs)
 				j++;
 				while (globs->subdir[i][j] != quote)
 				{
-					if (ft_strchr("*?[", globs->gend[i]))
+					if (ft_strchr("*?[", globs->subdir[i][j]))
 					{
 						globs->subdir[i][k] = '\\';
 						k++;
