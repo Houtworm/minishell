@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/10 05:26:26 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/11 13:52:02 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,16 @@ int		ft_nextsubwildcard(t_globs *globs, int i, int j, int k)
 	{
 		if (globs->tempsubdir[i][k] == globs->subdir[i][j])
 		{
-			while (globs->tempsubdir[i][k] && globs->subdir[i][j] && globs->tempsubdir[i][k] == globs->subdir[i][j]) //while the characters match we skip them
+			while (globs->subdir[i][j] == '\\' || (globs->tempsubdir[i][k] && globs->subdir[i][j] && globs->tempsubdir[i][k] == globs->subdir[i][j])) //while the characters match we skip them
 			{
 				/*printf("ft_nextsubwildcard fastmatch: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
-				j++;
-				k++;
+				if (globs->subdir[i][j] == '\\')
+					j++;
+				else
+				{
+					j++;
+					k++;
+				}
 			}
 			/*printf("ft_nextsubwildcard fastmatch broken: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
 			if (globs->subdir[i][j] == '\0') // if the end matches too
@@ -96,11 +101,16 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int itar
 				globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
 				return (1); // copy it over.
 			}
-			while (dirents->d_name[ipos] && globs->subdir[i][itar] && dirents->d_name[ipos] == globs->subdir[i][itar]) //while the characters match we skip them
+			while (globs->subdir[i][itar] == '\\' || (dirents->d_name[ipos] && globs->subdir[i][itar] && dirents->d_name[ipos] == globs->subdir[i][itar])) //while the characters match we skip them
 			{
 				/*printf("ft_firstsubwildcard fastmatch: %c, %c\n", globs->subdir[i][itar], dirents->d_name[ipos]);*/
-				itar++;
-				ipos++;
+				if (globs->subdir[i][itar] == '\\')
+					itar++;
+				else
+				{
+					itar++;
+					ipos++;
+				}
 			}
 			/*printf("ft_firstsubwildcard fastmatch broken: %c, %c j: %d, k: %d\n", globs->subdir[i][itar], dirents->d_name[ipos], itar, ipos);*/
 			if (globs->subdir[i][itar] == '\0') // if the end matches too
@@ -189,13 +199,18 @@ int	ft_nextwildcard(t_globs *globs, char *dname, int i, int j)
 	}
 	while (dname[i]) // while there are characters in filename 
 	{
-		if (dname[i] == globs->gend[j]) // if the first character matches or there is no globend
+		if (globs->gend[j] == '\\' || dname[i] == globs->gend[j]) // if the first character matches or there is no globend
 		{
-			while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]) //while the first character was a match but globend exists
+			while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j])) //while the first character was a match but globend exists
 			{
-				/*printf("ft_nextwildcard fastmatch %c\n", dname[i]);*/
-				j++;
-				i++;
+				if (globs->gend[j] == '\\')
+					j++;
+				else
+				{
+					/*printf("ft_nextwildcard fastmatch %c\n", dname[i]);*/
+					j++;
+					i++;
+				}
 			}
 			/*printf("ft_nextwildcard fastmatch break %c %c\n", dname[i], globs->gend[j]);*/
 			if (globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
@@ -253,11 +268,16 @@ int	ft_firstwildcard(t_globs *globs, char *dname, int i)
 				/*printf("ft_firstwildcard no characters after glob so this matches\n");*/
 				return (1); // this one is a match
 			}
-			while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]) //while the first character was a match but globend exists
+			while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j])) //while the first character was a match but globend exists
 			{
-				/*printf("ft_firstwildcard fastmatch %c\n", dname[i]);*/
-				j++;
-				i++;
+				if (globs->gend[j] == '\\')
+					j++;
+				else
+				{
+					/*printf("ft_firstwildcard fastmatch %c\n", dname[i]);*/
+					j++;
+					i++;
+				}
 			}
 			if (dname[i] == '\0' && globs->gend[j] == '\0') // the whole filename matches
 			{

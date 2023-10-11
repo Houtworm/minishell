@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:24 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/10 05:50:39 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/11 13:30:51 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 {
 	int				j;
+	int				offset;
 	DIR				*dir;
 	struct dirent	*dirents;
 	char			*temp;
@@ -42,17 +43,31 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 	{
 		while ((dirents = readdir(dir)))
 		{
+			offset = 1;
 			/*printf("starting in recursivematchsub with the following path %s trying to match %s\n", fullpath, dirents->d_name);*/
+			/*printf("j: %d. offset: %d\n", j, offset);*/
 			if ((globs->subdir[i][1] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][1] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 			{
 				j = 0;
-				while (dirents->d_name[j] && dirents->d_name[j] == globs->subdir[i][j + 1]) //just skip over the non globs
+				while (globs->subdir[i][j + offset] == '\\' || (dirents->d_name[j] && dirents->d_name[j] == globs->subdir[i][j + offset])) //just skip over the non globs
 				{
-					/*printf("ft_recursivematchsub fast match before glob: %c, %c\n", globs->subdir[i][j + 1], dirents->d_name[j]);*/
-					j++;
+					if (globs->subdir[i][j + offset] == '\\')
+					{
+						/*printf("ft_recursivematchsub found \\ skipping one character in subdir\n");*/
+						offset++;
+					}
+					else
+					{
+						/*printf("ft_recursivematchsub fast match before glob: %c, %c\n", globs->subdir[i][j + offset], dirents->d_name[j]);*/
+						j++;
+					}
+					// h*l*o
+					//    ^
+					// /h\*l\*o
+					//      ^
 				}
-				/*printf("ft_recursivematchsub fast match broken: %c, %c\n", globs->subdir[i][j + 1], dirents->d_name[j]);*/
-				if (globs->subdir[i][j + 1] && ft_strchr("*?[", globs->subdir[i][j + 1])) // we match the current character with a glob
+				/*printf("ft_recursivematchsub fast match broken: %c, %c\n", globs->subdir[i][j + offset], dirents->d_name[j]);*/
+				if (globs->subdir[i][j + offset] && ft_strchr("*?[", globs->subdir[i][j + offset])) // we match the current character with a glob
 				{
 					/*printf("ft_recursivematchsub glob found for %s\n", dirents->d_name);*/
 					if (ft_firstsubglob(globs, dirents, i, j + 1)) // returns a 1 if the glob matches eventually
@@ -84,10 +99,10 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 						}	
 					}
 				}
-				if (globs->subdir[i][j + 1] == '\0' && dirents->d_name[j] == '\0') // glob matches completely
+				if (globs->subdir[i][j + offset] == '\0' && dirents->d_name[j] == '\0') // glob matches completely
 				{
 					/*printf("ft_recursivematchsub %s matches completely\n", dirents->d_name);*/
-					if (!globs->subdir[i + 1]) // if it is the last subdir
+					if (!globs->subdir[i + offset]) // if it is the last subdir
 					{
 						free(globs->tempsubdir[i]);
 						globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
