@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 18:48:08 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/07 14:40:01 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/11 11:03:11 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	ft_checklonglong(char *str)
 		number = ft_atoull(str, i);
 		negative = -1;
 	}
-	/*printf("%llu\n", number);*/
 	if (negative == 1)
 		if (number > compare)
 			return (1);

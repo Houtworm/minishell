@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/25 04:55:07 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/11 08:46:49 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/11 10:42:26 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ int	ft_checkoutputfile(char *outputfile)
 				outputfile[i] = '\0';
 				i--;
 			}
+			/*i = open(outputfile, O_RDONLY);*/
 			if (i == 0)
 			{
-				close(i);
+				/*close(i);*/
 				return (ft_errorreturn("is a directory", outputfile, 1));
 			}
 			outputfile[i] = '\0';
@@ -53,7 +54,6 @@ int	ft_checkoutputfile(char *outputfile)
 		{
 			return (ft_errorreturn("permission denied", outputfile, 1));
 		}
-		i = open(outputfile, O_RDONLY);
 	}	
 	return (0);
 }

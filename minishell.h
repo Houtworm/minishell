@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/11 05:39:13 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/11 10:31:05 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,29 +196,17 @@ int			ft_checkcommand(t_cmds cmds, char **envp);
 // builtin
 t_builtin	*ft_getbuiltins(void);
 int			ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
-// alias
 int			ft_alias(t_cmds cmd, t_shell *shell);
-// chdir
 int			ft_chdir(t_cmds cmds, t_shell *shell);
-// exit
 int			ft_exit(t_cmds cmds, t_shell *shell);
-// unset
 int			ft_unset(t_cmds cmds, t_shell *shell);
-// export
 int			ft_export(t_cmds cmds, t_shell *shell);
-// env
 int			ft_env(t_cmds cmds, t_shell *shell);
-// pwd
 int			ft_pwd(t_cmds cmds, t_shell *shell);
-// echo
 int			ft_echo(t_cmds cmds, t_shell *shell);
-// z
 int			ft_z(t_cmds cmds, t_shell *shell);
-// period
 int			ft_period(t_cmds cmds, t_shell *shell);
-// exec
 int			ft_exec(t_cmds cmds, t_shell *shell);
-// which
 int			ft_which(t_cmds cmds, t_shell *shell);
 
 // GLOBS

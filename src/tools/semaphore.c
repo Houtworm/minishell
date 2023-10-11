@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/08 02:57:55 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/10 06:02:49 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/11 11:01:43 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	ft_semwait(char *file)
 	int		number;
 
 	number = 0;
-	fd = open(file, O_RDONLY);
 	while (number == 0)
 	{
 		fd = open(file, O_RDONLY);
@@ -66,5 +65,6 @@ int	ft_semfree(char *file)
 	number++;
 	fd = open(file, O_RDWR | O_TRUNC, 0777);
 	ft_putnbr_fd(number, fd);
+	close(fd);
 	return (0);
 }
