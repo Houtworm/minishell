@@ -6,11 +6,44 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/04 22:22:12 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/11 02:33:47 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/11 03:11:40 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	ft_checkoutsinglequote(char *line, char target)
+{
+	int		i;
+
+	i = 0;
+	if (line)
+	{
+		while (line[i])
+		{
+			if (line[i] == target && line[i + 1] == '(')
+				return (i);
+			if (line[i] == '\"')
+			{
+				i++;
+				while (line[i] != '\"')
+				{
+					if (line[i] == '$' && line[i + 1] == '(')
+						return (i);
+					i++;
+				}
+			}
+			if (line[i] == '\'')
+			{
+				i++;
+				while (line[i] != '\'')
+					i++;
+			}
+			i++;
+		}
+	}
+	return (-1);
+}
 
 void	ft_executedollarsign(t_cmds *cmd, char **envp)
 {
@@ -24,7 +57,7 @@ void	ft_executedollarsign(t_cmds *cmd, char **envp)
 	begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	var = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	rest = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	while (ft_checkoutquote(cmd->pipeline, '$', 1) >= 0)
+	while (ft_checkoutsinglequote(cmd->pipeline, '$') >= 0)
 	{
 		i = 0;
 		j = 0;
@@ -41,6 +74,22 @@ void	ft_executedollarsign(t_cmds *cmd, char **envp)
 					i++;
 					j++;
 				}
+			}
+			else if (cmd->pipeline[i] == '\"')
+			{
+				begin[j] = cmd->pipeline[i];
+				i++;
+				j++;
+				while (cmd->pipeline[i] && cmd->pipeline[i] != '\"')
+				{
+					if (cmd->pipeline[i] == '$' && cmd->pipeline[i + 1] == '(')
+						break ;
+					begin[j] = cmd->pipeline[i];
+					i++;
+					j++;
+				}
+				if (cmd->pipeline[i] == '$' && cmd->pipeline[i + 1] == '(')
+					break ;
 			}
 			begin[j] = cmd->pipeline[i];
 			i++;
