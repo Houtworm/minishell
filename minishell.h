@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/09 08:37:01 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/11 05:39:13 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ char		check_quote_closed(t_shell *shell);
 // heredoc
 t_forks		ft_parseheredoc(t_shell *shell, int forknumber);
 // redirect
-void		ft_parseredirection(t_cmds *cmds);
+int			ft_parseredirection(t_cmds *cmds);
 // condition
 void		ft_copyquote(char **cmdline, char	*forkline, int icpip, int ifpip);
 t_forks		ft_parseendcondition(t_shell *shell, int forknumber);
@@ -283,6 +283,7 @@ void		ft_freenewprompt(t_shell *shell);
 void		ft_safeclosefd(int	fd);
 void		ft_closepipes(t_shell *shell);
 void		ft_restorefds(t_shell *shell);
+void		ft_createfdo(t_cmds cmd);
 // semaphore
 int			ft_seminit(char *file, int number);
 int			ft_semwait(char *file);

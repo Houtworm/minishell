@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/09 23:21:34 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/11 06:14:18 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	while (ret)
 	{
 		ret = get_next_line(fdread, &line);
+		/*printf("line: %s\n\n", line);*/
 		if (!line)
 			ft_errorexit("Error allocating memory", "malloc", 1);
 		if (ret == 0)
@@ -217,16 +218,20 @@ int	ft_executeforks(int forknbr, t_shell *shell, int condition)
 		ft_frearr(shell->envp);
 		shell->envp = ft_fdtocharpp(shell->envpfd);
 		shell = ft_parsecmds(shell, forknbr, cmdnbr);
-		if (shell->stop)
+		if (shell->stop == 1)
 		{
 			ft_createfdo(shell->forks[forknbr].cmds[cmdnbr]);
 			return (0);
+		}
+		if (shell->stop == 2)
+		{
+			return (1);
 		}
 		if (shell->debug)
 			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
 		// ft_putendl_fd("test2----", 2);
-		if (shell->forks[forknbr].cmds[cmdnbr].outfile[0])
+		if (shell->forks[forknbr].cmds[cmdnbr].outfile[0] && status != 127)
 			ft_executeredirect(shell->forks[forknbr].cmds[cmdnbr].outfile, shell->forks[forknbr].cmds[cmdnbr].append, forknbr);
 		cmdnbr++;
 	}

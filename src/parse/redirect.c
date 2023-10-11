@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 10:16:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/09 05:05:29 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/11 05:39:21 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,8 +219,10 @@ void	ft_parseredirectout(t_cmds *cmd)
 	}
 }
 
-void	ft_parseredirection(t_cmds *cmds)
+int	ft_parseredirection(t_cmds *cmds)
 {
+	int	i;
+
 	cmds->infile = ft_calloc(1000 * 8, 1);
 	cmds->outfile = ft_calloc(1000 * 8, 1);
 	cmds->append = ft_calloc(1000 * 8, 1);
@@ -228,4 +230,20 @@ void	ft_parseredirection(t_cmds *cmds)
 		ft_parseredirectin(cmds);
 	if (ft_checkoutquote(cmds->pipeline, '>', 2) >= 0)
 		ft_parseredirectout(cmds);
+	i = 0;
+	while (cmds->infile[i + 1])
+	{
+		if (ft_checkinputfile(cmds->infile[i]))
+			return (1);
+		i++;
+	}
+	i = 0;
+	while (cmds->outfile[i + 1])
+	{
+		if (ft_checkoutputfile(cmds->outfile[i]))
+			return (1);
+		i++;
+	}
+	ft_createfdo(*cmds);
+	return (0);
 }

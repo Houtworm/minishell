@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/25 04:55:07 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/09 07:29:09 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/11 05:16:27 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	ft_checkinputfile(char *inputfile)
 		{
 			if (access(inputfile, F_OK) < 0)
 				return (ft_errorreturn("no such file or directory", inputfile, 1));
-			else
-				return (ft_errorreturn("permission denied", inputfile, 1));
+			return (ft_errorreturn("permission denied", inputfile, 1));
 		}
 	}
 	return (0);
@@ -29,11 +28,31 @@ int	ft_checkinputfile(char *inputfile)
 
 int	ft_checkoutputfile(char *outputfile)
 {
+	int		i;
+
+	i = ft_strlen(outputfile) - 1;
 	if (outputfile)
 	{
-		if (!access(outputfile, F_OK) && access(outputfile, W_OK))
+		if (access(outputfile, W_OK) < 0)
 		{
+			if (access(outputfile, F_OK) < 0)
+			{
+				while (i > 0 && outputfile[i] != '/')
+				{
+					outputfile[i] = '\0';
+					i--;
+				}
+				outputfile[i] = '\0';
+				if (access(outputfile, F_OK) < 0)
+					return (ft_errorreturn("no such file or directory", outputfile, 1));
+			}
 			return (ft_errorreturn("permission denied", outputfile, 1));
+		}
+		i = open(outputfile, O_RDONLY);
+		if (i == 0)
+		{
+			close(i);
+			return (ft_errorreturn("is a directory", outputfile, 1));
 		}
 	}	
 	return (0);
