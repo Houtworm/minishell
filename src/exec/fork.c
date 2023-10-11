@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/09 23:54:38 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/11 01:46:10 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_forktheforks(t_shell *shell)
 	int	status;
 	int forknumber;
 	int	fd;
-	int	i;
+	/*int	i;*/
 
 	forknumber = 0;
 	status = 1;
@@ -96,26 +96,28 @@ int	ft_forktheforks(t_shell *shell)
 			// 	close(shell->pipes[forknumber - 1][1]);
 			// 	close(shell->pipes[forknumber - 1][0]);
 			// }
-			/*waitpid(shell->forks[forknumber].pid, &status, 0);*/ // old line is replaced by the whole if below, buut I am not sure if it makes a difference
-			fd = waitpid(-1, &status, 0); // This calls waits too but waits for any child, then compares the pid if it is one of the ones we are waiting for. the difference is that the order doesn't matter now
-			if (fd > 0)
-			{
-				i = 0;
-				while (i < shell->forkamount && shell->forks[i].pid != fd)
-					i++;
-				if (i != shell->forkamount)
-				{
-					 close(shell->pipes[forknumber][1]);
-					 if (forknumber > 0)
-					 {
-						 close(shell->pipes[forknumber - 1][1]);
-						 close(shell->pipes[forknumber - 1][0]);
-					 }
-					if (shell->forkamount - 1 == i)
-						shell->code = WEXITSTATUS(status);
-					forknumber++;
-				}
-			}
+			waitpid(shell->forks[forknumber].pid, &status, 0); // old line is replaced by the whole if below, buut I am not sure if it makes a difference
+			shell->code = WEXITSTATUS(status);
+			forknumber++;
+			/*fd = waitpid(-1, &status, 0); // This calls waits too but waits for any child, then compares the pid if it is one of the ones we are waiting for. the difference is that the order doesn't matter now*/
+			/*if (fd > 0)*/
+			/*{*/
+				/*i = 0;*/
+				/*while (i < shell->forkamount && shell->forks[i].pid != fd)*/
+					/*i++;*/
+				/*if (i != shell->forkamount)*/
+				/*{*/
+					 /*close(shell->pipes[forknumber][1]);*/
+					 /*if (forknumber > 0)*/
+					 /*{*/
+						 /*close(shell->pipes[forknumber - 1][1]);*/
+						 /*close(shell->pipes[forknumber - 1][0]);*/
+					 /*}*/
+					/*if (shell->forkamount - 1 == i)*/
+						/*shell->code = WEXITSTATUS(status);*/
+					/*forknumber++;*/
+				/*}*/
+			/*}*/
 		}
 	}
 	else

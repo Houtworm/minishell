@@ -6,11 +6,12 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/20 16:39:22 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/09 08:16:18 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/11 02:54:31 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
+#include <stdio.h>
 
 char	*ft_system(char *command, char **envp)
 {
@@ -34,6 +35,9 @@ char	*ft_system(char *command, char **envp)
 		fd = open("/tmp/ft_systemtmpfile", O_RDWR | O_CREAT | O_TRUNC, 0666);
 		dup2(fd, 1);
 		execve(command, cmd, envp);
+		ft_putstr_fd("command not found: ", 2);
+		ft_putendl_fd(command, 2);
+		exit(1);
 	}
 	waitpid(pid, NULL, 0);
 	free(command);
@@ -41,6 +45,8 @@ char	*ft_system(char *command, char **envp)
 	fd = open("/tmp/ft_systemtmpfile", O_RDONLY);
 	pid = read(fd, command, 1000);
 	close(fd);
+	if (pid == 1)
+		return (NULL);
 	command[pid - 1] = '\0';
 	ft_frearr(paths);
 	ft_frearr(cmd);
