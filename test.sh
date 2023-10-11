@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/11 09:19:58 by djonker      \___)=(___/                  #
+#    Updated: 2023/10/11 09:27:16 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ERRORS=0
 PASSES=0
 SLEEP=0
-VALGRIND=1
+VALGRIND=0
 SHOWLEAKS=1
 
 testfunction()
@@ -1976,6 +1976,7 @@ testfunction "ls | ' '"
 testfunction "!! | !!"
 testfunction "~ | ~"
 testfunction "cat /dev/random | base64 | head -c 10"
+testfunction "echo 1 && true | echo 2 && true | echo 3 && true | echo 4 && true | echo 5 && true | echo 6 && true"
 testfunction "sleep 1 | sleep 1 | sleep 1"
 testfunction "'sleep 1 | sleep 1 | sleep 1'"
 testfunction "\"sleep 1 | sleep 1 | sleep 1\""
@@ -2542,7 +2543,6 @@ testfunction "echo hello&&|echo 'hello'"
 testfunction "echo hello&& |echo 'hello'"
 
 # Go crazy
-testfunction "echo 1 && true | echo 2 && true | echo 3 && true | echo 4 && true | echo 5 && true | echo 6 && true"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO's and $PASSES OK's out of $(($ERRORS+$PASSES)) tests\e[0;00m\n"

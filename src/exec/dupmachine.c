@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/11 06:19:45 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/11 10:16:23 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ int	ft_outputfile(char **file, int forknbr)
 
 int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
+	/*char	*temp;*/
+	/*char	*fnbr;*/
+	/*int		fd;*/
+
 	if (shell->debug)
 		ft_printdup(cmds, cmdnbr, forknbr);
 	if (forknbr > 1)
@@ -90,8 +94,18 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	else if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount)
 	{
 		dup2(shell->pipes[forknbr + 1][1], 1);
-		 close(shell->pipes[forknbr + 1][1]);
+		close(shell->pipes[forknbr + 1][1]);
 		close(shell->pipes[forknbr][0]);
 	}
+	/*else //this is for printprompt we print to file first, so the order is correct with many pipes*/
+	/*{*/
+		/*fnbr = ft_itoa(forknbr);*/
+		/*temp = ft_vastrjoin(3, "/tmp/minishelloutputfile", fnbr, ".temp");*/
+		/*free(fnbr);*/
+		/*fd = open(temp, O_RDWR | O_CREAT | O_APPEND, 0666);*/
+		/*free(temp);*/
+		/*dup2(fd, 1);*/
+		/*close(fd);*/
+	/*}*/
 	return (0);
 }

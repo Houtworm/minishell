@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   builtin.c                                          :+:    :+:            */
+/*   builtin.c                                       |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 15:11:33 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/09 21:31:56 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/11 09:26:05 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *shell, int i)
 		if (pid == 0)
 		{
 			if (ft_dupmachine(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell) == 2)
-				return (1);
+				exit (1);
 			exit(shell->builtins[i].func(shell->forks[forknbr].cmds[cmdnbr], shell));
 		}
 		// if (shell->forkamount > 1)
