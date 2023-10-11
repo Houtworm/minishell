@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 10:16:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/11 05:39:21 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/11 08:46:24 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,7 +231,7 @@ int	ft_parseredirection(t_cmds *cmds)
 	if (ft_checkoutquote(cmds->pipeline, '>', 2) >= 0)
 		ft_parseredirectout(cmds);
 	i = 0;
-	while (cmds->infile[i + 1])
+	while (cmds->infile[i])
 	{
 		if (ft_checkinputfile(cmds->infile[i]))
 			return (1);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                 |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/13 04:00:47 by djonker       #+#    #+#                 */
-/*   Updated: 2023/02/07 00:40:43 by houtworm         ###   ########.fr       */
+/*   Updated: 2023/10/11 08:27:16 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@ void	ft_putendl_fd(char *s, int fd)
 {
 	if (!s)
 		return ((void) NULL);
-	while (*s)
-	{
-		write(fd, s, 1);
-		s++;
-	}
+	write(fd, s, ft_strlen(s));
 	write(fd, "\n", 1);
 }

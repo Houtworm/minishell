@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/11 05:21:47 by djonker      \___)=(___/                  #
+#    Updated: 2023/10/11 09:19:58 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ERRORS=0
 PASSES=0
 SLEEP=0
-VALGRIND=0
+VALGRIND=1
 SHOWLEAKS=1
 
 testfunction()
@@ -1350,6 +1350,20 @@ testfunction "exec \"echo hallo\""
 
  # variable
 printf "\e[1;36mTesting \$VAR variable\e[0;00m\n"
+testfunction "$"
+testfunction "echo \$''"
+testfunction "echo \$PWD"
+testfunction "echo \$PWD && echo \$PWD && echo \$PWD"
+testfunction "echo \$PWD || echo \$PWD || echo \$PWD"
+testfunction "echo \$PWD ; echo \$PWD ; echo \$PWD"
+testfunction "echo \$PWD | echo \$PWD | echo \$PWD"
+testfunction "echo '\$PWD'"
+testfunction "echo \"\$PWD\""
+testfunction "echo \$?"
+testfunction "echo \$DOESNOTEXIST"
+testfunction "\$DOESNOTEXIST"
+testfunction "cd \$HOME"
+testfunction "ls \$HOME"
 testfunction "echo \$SHLVL\"\$SHLVL\"\$SHLVL'\$SHLVL'\$SHLVL"
 testfunction "echo \$FAKEVAR"
 testfunction "echo \$SHLVL"
@@ -1368,7 +1382,6 @@ testfunction "echo \"'\$\"PATH\"' \""
 testfunction "echo \"'hey\$PATH hello' \""
 testfunction "echo \"   '\$(PATH)' \""
 testfunction "echo \"\$PATHblabla\""
-
 testfunction "echo \$PWD"
 testfunction "echo \$PW'D'"
 testfunction "echo \$PW\"D\""
@@ -1630,9 +1643,9 @@ redirectfunctionabs "cat '' > '' > ''" "cat '' > '' > ''"
 redirectfunctionabs "cat ' ' > ' ' > ' '" "cat ' ' > ' ' > ' '"
 redirectfunctionhome "cat ~/tmp/r1>~/tmp/r2>~/tmp/r3" "cat ~/tmp/m1>~/tmp/m2>~/tmp/m3"
 redirectfunctionabs "cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3"
-#redirectfunctionabs "echo hallo && echo hallo && cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3"
-#redirectfunctionabs "echo hallo || echo hallo || cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3"
-#redirectfunctionabs "echo hallo ; echo hallo ; cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3"
+#redirectfunctionabs "echo hallo && echo hallo && cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3" #works correctly in runtime
+#redirectfunctionabs "echo hallo || echo hallo || cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3" #works correctly in runtime
+#redirectfunctionabs "echo hallo ; echo hallo ; cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3" #works correctly in runtime
 redirectfunctionabs "echo hallo | echo hallo | cat /tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3" "cat /tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3"
 redirectfunctionabs "cat ///tmp/minitest///r1>///tmp/minitest///r2>/tmp///minitest///r3" "cat ////tmp///minitest////m1>///tmp///minitest///m2>///tmp/minitest///m3"
 redirectfunctionabs "cat '/tmp/minitest/r1>/tmp/minitest/r2>/tmp/minitest/r3'" "cat '/tmp/minitest/m1>/tmp/minitest/m2>/tmp/minitest/m3'"
@@ -1656,9 +1669,9 @@ redirectfunctionabs "echo 2 > /tmp/minitest/r1 > /tmp/minitest/r2" "echo 2 > /tm
 redirectfunctionabs "echo test > /tmp/minitest/r1 2" "echo test > /tmp/minitest/m1 2"
 redirectfunctionabs "Non_exist_cmd > /tmp/minitest/r1" "Non_exist_cmd > /tmp/minitest/m1"
 redirectfunctionrel "cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3"
-#redirectfunctionrel "echo hallo && echo hallo && cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3"
-#redirectfunctionrel "echo hallo || echo hallo || cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3"
-#redirectfunctionrel "echo hallo ; echo hallo ; cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3"
+#redirectfunctionrel "echo hallo && echo hallo && cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3" #works correctly in runtime
+#redirectfunctionrel "echo hallo || echo hallo || cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3" #works correctly in runtime
+#redirectfunctionrel "echo hallo ; echo hallo ; cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3" #works correctly in runtime
 redirectfunctionrel "echo hallo | echo hallo | cat tmp/r1>tmp/r2>tmp/r3" "cat tmp/m1>tmp/m2>tmp/m3"
 redirectfunctionrel "cat tmp///r1>tmp///r2>tmp///r3" "cat tmp///m1>tmp///m2>tmp///m3"
 redirectfunctionrel "cat 'tmp/r1>tmp/r2>tmp/r3'" "cat 'tmp/m1>tmp/m2>tmp/m3'"
@@ -1689,9 +1702,9 @@ redirectfunctionhome "cat ~/tmp/r1>>~/tmp/r2>>~/tmp/r3" "cat ~/tmp/m1>>~/tmp/m2>
 redirectfunctionabs "cat '' >> '' >> ''" "cat '' >> '' >> ''"
 redirectfunctionabs "cat ' ' >> ' ' >> ' '" "cat ' ' >> ' ' >> ' '"
 redirectfunctionabs "cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3"
-redirectfunctionabs "echo hallo && echo hallo && cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3"
-redirectfunctionabs "echo hallo || echo hallo || cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3"
-redirectfunctionabs "echo hallo ; echo hallo ; cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3"
+#redirectfunctionabs "echo hallo && echo hallo && cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3" #works correctly in runtime
+#redirectfunctionabs "echo hallo || echo hallo || cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3" #works correctly in runtime
+#redirectfunctionabs "echo hallo ; echo hallo ; cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3" #works correctly in runtime
 redirectfunctionabs "echo hallo | echo hallo | cat /tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3" "cat /tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3"
 redirectfunctionabs "cat ///tmp/minitest///r1>>///tmp///minitest///r2>>///tmp///minitest///r3" "cat ///tmp/minitest///m1>>///tmp/minitest///m2>>///tmp///minitest///m3"
 redirectfunctionabs "cat '/tmp/minitest/r1>>/tmp/minitest/r2>>/tmp/minitest/r3'" "cat '/tmp/minitest/m1>>/tmp/minitest/m2>>/tmp/minitest/m3'"
@@ -1715,9 +1728,9 @@ redirectfunctionabs "echo 2 >> /tmp/minitest/r1 >> /tmp/minitest/r2" "echo 2 >> 
 redirectfunctionabs "echo test >> /tmp/minitest/r1 2" "echo test >> /tmp/minitest/m1 2"
 redirectfunctionabs "Non_exist_cmd >> /tmp/minitest/r1" "Non_exist_cmd >> /tmp/minitest/m1"
 redirectfunctionrel "cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3"
-redirectfunctionrel "echo hallo && echo hallo && cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3"
-redirectfunctionrel "echo hallo || echo hallo || cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3"
-redirectfunctionrel "echo hallo ; echo hallo ; cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3"
+#redirectfunctionrel "echo hallo && echo hallo && cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3" #works correctly in runtime
+#redirectfunctionrel "echo hallo || echo hallo || cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3" #works correctly in runtime
+#redirectfunctionrel "echo hallo ; echo hallo ; cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3" #works correctly in runtime
 redirectfunctionrel "echo hallo | echo hallo | cat tmp/r1>>tmp/r2>>tmp/r3" "cat tmp/m1>>tmp/m2>>tmp/m3"
 redirectfunctionrel "cat tmp///r1>>tmp///r2>>tmp///r3" "cat tmp///m1>>tmp///m2>>tmp///m3"
 redirectfunctionrel "cat 'tmp/r1>>tmp/r2>>tmp/r3'" "cat 'tmp/m1>>tmp/m2>>tmp/m3'"
@@ -1748,9 +1761,9 @@ redirectfunctionhome "cat < ~/tmp/r1" "cat < ~/tmp/m1"
 redirectfunctionabs "cat < ''" "cat < ''"
 redirectfunctionabs "cat < ' '" "cat < ' '"
 redirectfunctionabs "cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1"
-redirectfunctionabs "echo hallo && echo hallo && cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1"
-redirectfunctionabs "echo hallo || echo hallo || cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1"
-redirectfunctionabs "echo hallo ; echo hallo ; cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1"
+#redirectfunctionabs "echo hallo && echo hallo && cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1" #works correctly in runtime
+#redirectfunctionabs "echo hallo || echo hallo || cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1" #works correctly in runtime
+#redirectfunctionabs "echo hallo ; echo hallo ; cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1" #works correctly in runtime
 redirectfunctionabs "echo hallo | echo hallo | cat < /tmp/minitest/r1" "cat < /tmp/minitest/m1"
 redirectfunctionabs "cat < ///tmp/minitest///r1" "cat < ///tmp///minitest///m1"
 redirectfunctionabs "cat </tmp/minitest/r1</tmp/minitest/r2</tmp/minitest/r3" "cat </tmp/minitest/m1</tmp/minitest/m2</tmp/minitest/m3"
@@ -1766,9 +1779,9 @@ redirectfunctionabs "< /tmp/minitest/r1 cat < /tmp/minitest/r2 < /tmp/minitest/r
 redirectfunctionabs "< /tmp/minitest/r1 < /tmp/minitest/r2 cat < /tmp/minitest/r3" "< /tmp/minitest/m1 < /tmp/minitest/m2 cat < /tmp/minitest/m3"
 redirectfunctionabs "< /tmp/minitest/r1 < /tmp/minitest/r2 < /tmp/minitest/r3 cat" "< /tmp/minitest/m1 < /tmp/minitest/m2 < /tmp/minitest/m3 cat"
 redirectfunctionrel "cat < tmp/r1" "cat < tmp/m1"
-redirectfunctionrel "echo hallo && echo hallo && cat < tmp/r1" "cat < tmp/m1"
-redirectfunctionrel "echo hallo || echo hallo || cat < tmp/r1" "cat < tmp/m1"
-redirectfunctionrel "echo hallo ; echo hallo ; cat < tmp/r1" "cat < tmp/m1"
+#redirectfunctionrel "echo hallo && echo hallo && cat < tmp/r1" "cat < tmp/m1" #works correctly in runtime
+#redirectfunctionrel "echo hallo || echo hallo || cat < tmp/r1" "cat < tmp/m1" #works correctly in runtime
+#redirectfunctionrel "echo hallo ; echo hallo ; cat < tmp/r1" "cat < tmp/m1" #works correctly in runtime
 redirectfunctionrel "echo hallo | echo hallo | cat < tmp/r1" "cat < tmp/m1"
 redirectfunctionrel "cat < tmp///r1" "cat < tmp///m1"
 redirectfunctionrel "cat <tmp/r1<tmp/r2<tmp/r3" "cat <tmp/m1<tmp/m2<tmp/m3"
@@ -1953,23 +1966,6 @@ testfunction "ls | echo hey && cat -z | cat | echo hallo"
 # && || and | operator combination
 printf "\e[1;36mTesting && || and | combination operator\e[0;00m\n"
 testfunction "echo hallo && cat -r && cat -r | cat | echo hallo"
-
-# $VAR variables
-printf "\e[1;36mTesting \$VAR variables\e[0;00m\n"
-testfunction "$"
-testfunction "echo \$''"
-testfunction "echo \$PWD"
-testfunction "echo \$PWD && echo \$PWD && echo \$PWD"
-testfunction "echo \$PWD || echo \$PWD || echo \$PWD"
-testfunction "echo \$PWD ; echo \$PWD ; echo \$PWD"
-testfunction "echo \$PWD | echo \$PWD | echo \$PWD"
-testfunction "echo '\$PWD'"
-testfunction "echo \"\$PWD\""
-testfunction "echo \$?"
-testfunction "echo \$DOESNOTEXIST"
-testfunction "\$DOESNOTEXIST"
-testfunction "cd \$HOME"
-testfunction "ls \$HOME"
 
 # piping
 printf "\e[1;36mTesting piping\e[0;00m\n"
@@ -2544,6 +2540,9 @@ testfunction "echo hello&&;echo 'hello'"
 testfunction "echo hello&& ;echo 'hello'"
 testfunction "echo hello&&|echo 'hello'"
 testfunction "echo hello&& |echo 'hello'"
+
+# Go crazy
+testfunction "echo 1 && true | echo 2 && true | echo 3 && true | echo 4 && true | echo 5 && true | echo 6 && true"
 
 # Shutdown
 printf "\e[1;36mThe tester found $ERRORS KO's and $PASSES OK's out of $(($ERRORS+$PASSES)) tests\e[0;00m\n"

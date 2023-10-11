@@ -6,7 +6,7 @@
 /*   By: djonker <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/13 04:00:47 by djonker       #+#    #+#                 */
-/*   Updated: 2023/02/23 20:14:17 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/11 08:26:48 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@ void	ft_putendl(char *s)
 {
 	if (!s)
 		return ((void) NULL);
-	while (*s)
-	{
-		write(1, s, 1);
-		s++;
-	}
+	write(1, s, ft_strlen(s));
 	write(1, "\n", 1);
 }
