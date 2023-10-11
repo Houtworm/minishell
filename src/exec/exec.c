@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                          |o_o || |                */
+/*   exec.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/11 11:03:34 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/12 01:50:01 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,12 @@ void	ft_checklastcode(t_forks fork)
 	icmd = 0;
 	while (icmd < fork.cmdamount)
 	{
-		if (icmd + 1 != fork.cmdamount && ((fork.cmds[icmd].condition == 1 && fork.cmds[icmd].lastcode != 0)
+		//fork.cmdamount should be removed but it will create more KOs
+		if (((fork.cmds[icmd].condition == 1 && fork.cmds[icmd].lastcode != 0)
 			|| (fork.cmds[icmd].condition == 2 && fork.cmds[icmd].lastcode == 0)))
 		{
-			fd = open("/tmp/minishelllastcode.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+			// ft_putnbr_fd(icmd, 2);
+			fd = open("/tmp/minishelllastcode3.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
 			close(fd);
 			break ;
 		}
@@ -146,8 +148,8 @@ void	ft_checklastcode(t_forks fork)
 
 int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
-	int	status;
-
+	int	status;	
+	// int fd;
 	if (cmds.prio && !shell->forks[forknbr].cmds[cmdnbr - 1].prio)
 	{
 		if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
@@ -168,6 +170,8 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
 	{
 		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
+		// fd = open("/tmp/minishellnotexec.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+		// close(fd);
 		return (cmds.lastcode);
 	}
 	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);
@@ -230,13 +234,10 @@ int	ft_executeforks(int forknbr, t_shell *shell, int condition)
 		if (shell->debug)
 			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
-		// ft_putendl_fd("test2----", 2);
 		if (shell->forks[forknbr].cmds[cmdnbr].outfile[0] && status != 127)
 			ft_executeredirect(shell->forks[forknbr].cmds[cmdnbr].outfile, shell->forks[forknbr].cmds[cmdnbr].append, forknbr);
 		cmdnbr++;
 	}
-	// ft_putnbr_fd(condition, 2);
-	// ft_putendl_fd("  condition", 2);
 	if (condition)
 		ft_checklastcode(shell->forks[forknbr]);
 	return (status);

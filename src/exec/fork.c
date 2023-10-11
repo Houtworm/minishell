@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fork.c                                          |o_o || |                */
+/*   fork.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/11 11:03:46 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/12 01:50:00 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,34 @@ int	**ft_preparepipes(t_shell *shell)
 	return (pipes);
 }
 
-int	ft_checkcondition(t_forks fork)
+int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
 {
+	int	ifork;
 	int	icmd;
 
-	icmd = 0;
-	if (fork.cmdamount <= 2)
-		return (0);
-	while (icmd < fork.cmdamount)
+	ifork = 0;
+	if (!mode)
 	{
-		if (fork.cmds[icmd].condition)
-			return (1);
-		icmd++;
+		icmd = 0;
+		ifork = forknbr;
+		while (icmd < fork[ifork].cmdamount)
+		{
+			if (fork[ifork].cmds[icmd].condition)
+				return (1);
+			icmd++;
+		}
+		return (0);
+	}
+	while (fork[ifork].pipeline)
+	{
+		icmd = 0;
+		while (icmd < fork[ifork].cmdamount)
+		{
+			if (fork[ifork].cmds[icmd].condition)
+				return (1);
+			icmd++;
+		}
+		ifork++;
 	}
 	return (0);
 }
@@ -66,15 +82,15 @@ int	ft_forktheforks(t_shell *shell)
 			pipe(shell->pipes[forknumber + 1]);
 			shell->forks[forknumber].pid = fork();
 			if (shell->forks[forknumber].pid == 0)
-				exit (ft_executeforks(forknumber, shell, ft_checkcondition(shell->forks[forknumber])));		
-			if (ft_checkcondition(shell->forks[forknumber]))
+				exit (ft_executeforks(forknumber, shell, ft_checkcondition(shell->forks, 0, forknumber)));		
+			if (ft_checkcondition(shell->forks, 1, forknumber))
 			{
 				waitpid(shell->forks[forknumber].pid, &status, 0);
 				shell->code = WEXITSTATUS(status);
-				if (shell-> code)
+				if (shell-> code) // this condition is invalid, instead we need to identify whether the cmd gets executed or not
 				{
-					fd = open("/tmp/minishelllastcode.tmp", O_RDONLY);
-					if (fd)
+					fd = open("/tmp/minishelllastcode3.tmp", O_RDONLY);
+					if (fd > 0)
 					{
 						close(fd); 
 						return (shell->code);
