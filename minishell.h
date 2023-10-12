@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/12 12:38:52 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 17:02:30 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,30 +220,30 @@ t_globs 	*ft_initglobstruct(char *pipeline);
 // globsub
 int			ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i);
 // globpoint
-int			ft_nextsubglob(t_globs *globs, int i, int j, int k);
-int			ft_firstsubglob(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_nextglob(t_globs *globs, char *dname, int i, int j);
-int			ft_firstglob(t_globs *globs, char *dname, int i);
+int			ft_nextsubglob(t_globs *globs, int subi, int reali, int globi);
+int			ft_firstsubglob(t_globs *globs, struct dirent *dirents, int subi, int reali);
+int			ft_nextglob(t_globs *globs, char *dname, int reali, int globi);
+int			ft_firstglob(t_globs *globs, char *dname, int reali);
 // globtools
 int			ft_newpipeline(t_globs *globs);
 void		ft_addglobmatch(t_globs *globs, char *match);
 void		ft_backupglob(t_globs *globs);
 void		ft_cleanglob(t_globs *globs);
 // wildcard
-int			ft_nextsubwildcard(t_globs *globs, int i, int j, int k);
-int			ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_nextwildcard(t_globs *globs, char *dname, int i, int j);
- int		ft_firstwildcard(t_globs *globs, char *dname, int i);
+int			ft_nextsubwildcard(t_globs *globs, int subi, int reali, int globi);
+int			ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int subi, int reali);
+int			ft_nextwildcard(t_globs *globs, char *dname, int reali, int globi);
+ int		ft_firstwildcard(t_globs *globs, char *dname, int reali);
 // joker
-int			ft_nextsubjoker(t_globs *globs, int i, int j, int k);
-int			ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_nextjoker(t_globs *globs, char *dname, int i, int j);
- int		ft_firstjoker(t_globs *globs, char *dname, int i);
+int			ft_nextsubjoker(t_globs *globs, int subi, int reali, int globi);
+int			ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int subi, int reali);
+int			ft_nextjoker(t_globs *globs, char *dname, int reali, int globi);
+ int		ft_firstjoker(t_globs *globs, char *dname, int reali);
 // anyof
-int			ft_nextsubanyof(t_globs *globs, int i, int j, int k);
-int			ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int j);
-int			ft_nextanyof(t_globs *globs, char *dname, int i, int j);
- int		ft_firstanyof(t_globs *globs, char *dname, int i);
+int			ft_nextsubanyof(t_globs *globs, int subi, int reali, int globi);
+int			ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int subi, int reali);
+int			ft_nextanyof(t_globs *globs, char *dname, int reali, int globi);
+ int		ft_firstanyof(t_globs *globs, char *dname, int reali);
 
 // TOOLS
 // time

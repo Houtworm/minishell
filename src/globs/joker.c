@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 15:15:57 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 17:03:19 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,23 @@ int		ft_nextsubjoker(t_globs *globs, int i, int j, int k)
 
 int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 {
+	int		ipos;
+
+	ipos = itar - 1;
 	if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 	{
-		while (globs->subdir[i][itar] == '\\' || (dirents->d_name[itar] && globs->subdir[i][itar] && dirents->d_name[itar] == globs->subdir[i][itar])) //while the characters match we skip them
+		while (globs->subdir[i][itar] == '\\' || (dirents->d_name[ipos] && globs->subdir[i][itar] && dirents->d_name[ipos] == globs->subdir[i][itar])) //while the characters match we skip them
 		{
 			if (globs->subdir[i][itar] == '\\')
 				itar++;
 			else
 			{
-				/*printf("ft_firstsubjoker fastmatch: %c, %c\n", globs->subdir[i][itar], dirents->d_name[itar]);*/
+				/*printf("ft_firstsubjoker fastmatch: %c, %c\n", globs->subdir[i][itar], dirents->d_name[ipos]);*/
 				itar++;
 			}
 		}
-		/*printf("ft_firstsubjoker fastmatch broken: %c, %c\n", globs->subdir[i][itar], dirents->d_name[itar - 1]);*/
-		if (globs->subdir[i][itar] == '\0' && dirents->d_name[itar] == '\0') // if the end matches too
+		/*printf("ft_firstsubjoker fastmatch broken: %c, %c\n", globs->subdir[i][itar], dirents->d_name[ipos]);*/
+		if (globs->subdir[i][itar] == '\0' && dirents->d_name[ipos] == '\0') // if the end matches too
 		{
 			if (dirents->d_type == DT_DIR) // check if it is a directory
 			{
@@ -106,7 +109,7 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 				}
 			}
 		}
-		if (globs->subdir[i][itar] == '\0' && dirents->d_name[itar - 1] == '\0') // if both are at their end
+		if (globs->subdir[i][itar] == '\0' && dirents->d_name[ipos] == '\0') // if both are at their end
 		{
 			/*printf("return 1\n");*/
 			return (1);
@@ -203,7 +206,7 @@ int	ft_firstjoker(t_globs *globs, char *dname, int i)
 	int	j;
 
 	j = 0;
-	/*printf("ft_firstjoker starting with dname: %c and gend: %c\n", dname[i + j], globs->gend[j]);*/
+	/*printf("ft_firstjoker starting with dname: %c and gend: %c\n", dname[i], globs->gend[j]);*/
 	if (globs->gstart[0] != '.' && dname[0] == '.') // if there is a period mismatch
 	{
 		return (0); // we don't want to parse this one.

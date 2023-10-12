@@ -6,215 +6,211 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 15:12:50 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 17:38:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_nextsubanyof(t_globs *globs, int i, int j, int k)
+int		ft_nextsubanyof(t_globs *globs, int subi, int gi, int ri)
 {
 	int		l;
 
 	l = 0;
-	while (globs->subdir[i][j] && globs->subdir[i][j] != ']')
+	while (globs->subdir[subi][gi] && globs->subdir[subi][gi] != ']')
 	{
-		globs->anyof[l] = globs->subdir[i][j];
-		j++;
+		globs->anyof[l] = globs->subdir[subi][gi];
+		gi++;
 		l++;
 	}
-	if (!globs->subdir[i][j])
+	if (!globs->subdir[subi][gi])
 		return (0);
 	globs->anyof[l] = '\0';
 	if (globs->anyof[0] == '\0')
 		return (0);
-	/*printf("subdir: %s\n", globs->subdir[i]);*/
-	/*printf("anyof: %s\n", globs->anyof);*/
-	/*printf("dname: %s\n", globs->tempsubdir[i]);*/
-	/*printf("i: %d, j: %d, k: %d\n", i, j, k);*/
-	/*printf("ft_nextsubanyof starting with j: %d k: %d, dname: %c glob: %c\n", j, k, globs->tempsubdir[i][k], globs->subdir[i][j]);*/
-	if (ft_strchr(globs->anyof, globs->tempsubdir[i][k])) // if any of the characters in the anyof match
+	/*printf("ft_nextsubanyof starting with ri: %d gi: %d, dname: %c glob: %c\n", ri, gi, globs->tempsubdir[subi][ri], globs->subdir[subi][gi]);*/
+	if (ft_strchr(globs->anyof, globs->tempsubdir[subi][ri])) // if any of the characters in the anyof match
 	{
-		/*printf("ft_nextsubanyof anyof matches: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
-		j++;
-		k++;
+		/*printf("ft_nextsubanyof anyof matches: %c, %c\n", globs->subdir[subi][gi], globs->tempsubdir[subi][ri]);*/
+		gi++;
+		ri++;
 	}
-	while (globs->subdir[i][j] == '\\' || (globs->subdir[i][j] && globs->tempsubdir[i][k] && globs->tempsubdir[i][k] == globs->subdir[i][j]))
+	while (globs->subdir[subi][gi] == '\\' || (globs->subdir[subi][gi] && globs->tempsubdir[subi][ri] && globs->tempsubdir[subi][ri] == globs->subdir[subi][gi]))
 	{
-		if (globs->subdir[i][j] == '\\')
-			j++;
+		if (globs->subdir[subi][gi] == '\\')
+			gi++;
 		else
 		{
-			/*printf("ft_nextsubanyof fastmatch %c\n", globs->tempsubdir[i][k]);*/
-			j++;
-			k++;
+			/*printf("ft_nextsubanyof fastmatch %c\n", globs->tempsubdir[subi][ri]);*/
+			ri++;
+			gi++;
 		}
 	}
-	/*printf("ft_nextsubanyof fastmatch broken: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
-	if (globs->subdir[i][j] == '\0' && globs->tempsubdir[i][k] == '\0') // if the end matches too
+	/*printf("ft_nextsubanyof fastmatch broken: %c, %c\n", globs->subdir[subi][gi], globs->tempsubdir[subi][ri]);*/
+	if (globs->subdir[subi][gi] == '\0' && globs->tempsubdir[subi][ri] == '\0') // if the end matches too
 	{
 		if (globs->temptype == DT_DIR) // check if it is a directory
 		{
-			/*printf("ft_nextsubanyof glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[i], globs->tempsubdir[i], i);*/
+			/*printf("ft_nextsubanyof glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[subi], globs->tempsubdir[subi], subi);*/
 			return (1); // this one is a match
 		}
 		else
 		{
-			if (globs->subdir[i + 1])
+			if (globs->subdir[subi + 1])
 			{
-				/*printf("ft_nextsubanyof %s is not a dir and we need to go deeper so no match\n", globs->tempsubdir[i]);*/
+				/*printf("ft_nextsubanyof %s is not a dir and we need to go deeper so no match\n", globs->tempsubdir[subi]);*/
 				return (0);
 			}
 			else
 			{
-				/*printf("ft_nextsubanyof %s matches but is not a dir but we are at our dept so match\n", globs->tempsubdir[i]);*/
+				/*printf("ft_nextsubanyof %s matches but is not a dir but we are at our dept so match\n", globs->tempsubdir[subi]);*/
 				return (1);
 			}
 		}
 	}
-	/*if (globs->subdir[i][j] == '\0' || globs->tempsubdir[i][k] == '\0') // mismatch*/
+	/*if (globs->subdir[subi][gi] == '\0' || globs->tempsubdir[subi][ri] == '\0') // mismatch*/
 	/*{*/
 		/*return (0);*/
 	/*}*/
-	/*if (globs->subdir[i][j + 1] == '\0' && globs->tempsubdir[i][j + 1] == '\0') // we are at the end*/
+	/*if (globs->subdir[subi][gi] == '\0' && globs->tempsubdir[subi][ri] == '\0') // we are at the end*/
 	/*{*/
 		/*return (1);*/
 	/*}*/
-	else if (globs->subdir[i][j - 1] != '\\' && globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
+	else if (globs->subdir[subi][gi - 1] != '\\' && globs->subdir[subi][gi] && ft_strchr("*?[", globs->subdir[subi][gi])) // if we find a new glob
 	{
 		/*printf("ft_nextsubanyof found glob going into recursion\n");*/
-		return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
+		return (ft_nextsubglob(globs, subi, gi, ri)); // recursive glob function returns 1 if it eventually matches
 	}
 	return (0);
 }
 
-int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int itar)
+int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int subi, int gi)
 {
-	int	k;
+	int	ri;
 
-	k = 0;
-	while (globs->subdir[i][itar] && (globs->subdir[i][itar] != ']' || globs->subdir[i][itar - 1] == '\\'))
+	ri = 0;
+	while (globs->subdir[subi][gi] && (globs->subdir[subi][gi] != ']' || globs->subdir[subi][gi - 1] == '\\'))
 	{
-		globs->anyof[k] = globs->subdir[i][itar];
-		k++;
-		itar++;
+		globs->anyof[ri] = globs->subdir[subi][gi];
+		ri++;
+		gi++;
 	}
-	if (!globs->subdir[i][itar])
+	if (!globs->subdir[subi][gi])
 		return (0);
-	globs->anyof[k] = '\0';
+	globs->anyof[ri] = '\0';
 	if (globs->anyof[0] == '\0')
 		return (0);
-	k = 0;
-	itar++;
-	while (globs->subdir[i][k + 1] != '[' || globs->subdir[i][k] == '\\')
-		k++;
-	/*printf("ft_firstsubanyof starting with dname: %c and anyof: %s\n", dirents->d_name[k], globs->anyof);*/
-	if (ft_strchr(globs->anyof, dirents->d_name[k])) // if any of the characters in the anyof match
+	ri = 0;
+	gi++;
+	while (globs->subdir[subi][ri + 1] != '[' || globs->subdir[subi][ri] == '\\')
+		ri++;
+	/*printf("ft_firstsubanyof starting with dname: %c and anyof: %s\n", dirents->d_name[ri], globs->anyof);*/
+	if (ft_strchr(globs->anyof, dirents->d_name[ri])) // if any of the characters in the anyof match
 	{
-		/*printf("ft_firstsubanyof anyof matches %c\n", dirents->d_name[k]);*/
-		k++;
-		while (globs->subdir[i][itar] == '\\' || (globs->subdir[i][itar] && dirents->d_name[k] && dirents->d_name[k] == globs->subdir[i][itar]))
+		/*printf("ft_firstsubanyof anyof matches %c\n", dirents->d_name[ri]);*/
+		ri++;
+		while (globs->subdir[subi][gi] == '\\' || (globs->subdir[subi][gi] && dirents->d_name[ri] && dirents->d_name[ri] == globs->subdir[subi][gi]))
 		{
-			if (globs->subdir[i][itar] == '\\')
-				itar++;
+			if (globs->subdir[subi][gi] == '\\')
+				gi++;
 			else
 			{
-				/*printf("ft_firstsubanyof fastmatch %c\n", dirents->d_name[k]);*/
-				itar++;
-				k++;
+				/*printf("ft_firstsubanyof fastmatch %c\n", dirents->d_name[ri]);*/
+				gi++;
+				ri++;
 			}
 		}
-		/*printf("ft_firstsubanyof fastmatch break %c %c\n", dirents->d_name[k], globs->subdir[i][itar]);*/
-		if (dirents->d_name[k] == '\0' && globs->subdir[i][itar] == '\0') // the whole filename matches
+		/*printf("ft_firstsubanyof fastmatch break %c %c\n", dirents->d_name[ri], globs->subdir[subi][gi]);*/
+		if (dirents->d_name[ri] == '\0' && globs->subdir[subi][gi] == '\0') // the whole filename matches
 		{
 			/*printf("ft_firstsubanyof whole filename matches\n");*/
 			if (dirents->d_type == DT_DIR) // check if it is a directory
 			{
-				/*printf("ft_firstsubanyof glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[i], dirents->d_name, i);*/
-				free(globs->tempsubdir[i]);
-				globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+				/*printf("ft_firstsubanyof glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[subi], dirents->d_name, subi);*/
+				free(globs->tempsubdir[subi]);
+				globs->tempsubdir[subi] = ft_strjoin("/", dirents->d_name);
 				return (1); // this one is a match
 			}
 			else
 			{
-				if (globs->subdir[i + 1])
+				if (globs->subdir[subi + 1])
 				{
 					/*printf("ft_firstsubanyof %s is not a dir and we need to go deeper so no match\n", dirents->d_name);*/
 					return (0);
 				}
 				else
 				{
-					free(globs->tempsubdir[i]);
-					globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+					free(globs->tempsubdir[subi]);
+					globs->tempsubdir[subi] = ft_strjoin("/", dirents->d_name);
 					/*printf("ft_firstsubanyof %s matches but is not a dir but we are at our dept so match\n", dirents->d_name);*/
 					return (1);
 				}
 			}
 		}
-		if (dirents->d_name[k] == '\0' || globs->subdir[i][itar] == '\0') // mismatch
+		if (dirents->d_name[ri] == '\0' || globs->subdir[subi][gi] == '\0') // mismatch
 		{
-			/*printf("ft_firstsubanyof mistmatch k: %d, itar: %d, nam: %c, end: %c\n", itar, k, dirents->d_name[k], globs->subdir[i][itar]);*/
+			/*printf("ft_firstsubanyof mistmatch ri: %d, gi: %d, nam: %c, end: %c\n", gi, ri, dirents->d_name[ri], globs->subdir[i][gi]);*/
 			return (0);
 		}
-		if (globs->subdir[i][itar] && ft_strchr("*?[", globs->subdir[i][itar])) // if we find a new glob
+		if (globs->subdir[subi][gi] && ft_strchr("*?[", globs->subdir[subi][gi])) // if we find a new glob
 		{
 			/*printf("ft_firstsubanyof recursive glob found\n");*/
 			globs->temptype = dirents->d_type;
-			free(globs->tempsubdir[i]);
-			globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
-			return (ft_nextsubglob(globs, i, itar, k + 1)); // recursive glob function returns 1 if it eventually matches
+			free(globs->tempsubdir[subi]);
+			globs->tempsubdir[subi] = ft_strjoin("/", dirents->d_name);
+			return (ft_nextsubglob(globs, subi, gi, ri + 1)); // recursive glob function returns 1 if it eventually matches
 		}
 	}
 	/*printf("ft_firstsubanyof return 0?\n");*/
 	return (0);
 }
 
-int	ft_nextanyof(t_globs *globs, char *dname, int i, int j)
+int	ft_nextanyof(t_globs *globs, char *dname, int ri, int gi)
 {
 	char	match;
 	int		k;
 
 	k = 0;
-	match = dname[i];
-	while (globs->gend[j] && globs->gend[j] != ']')
+	match = dname[ri];
+	while (globs->gend[gi] && globs->gend[gi] != ']')
 	{
-		globs->anyof[k] = globs->gend[j];
-		j++;
+		globs->anyof[k] = globs->gend[gi];
+		gi++;
 		k++;
 	}
-	if (!globs->gend[j])
+	if (!globs->gend[gi])
 		return (0);
 	globs->anyof[k] = '\0';
 	if (globs->anyof[0] == '\0')
 		return (0);
-	/*printf("ft_nextanyof starting with dname: %c and anyof: %s\n", dname[i], globs->anyof);*/
+	/*printf("ft_nextanyof starting with dname: %c and anyof: %s\n", dname[ri], globs->anyof);*/
 	if (ft_strchr(globs->anyof, match)) // if any of the characters in the anyof match
 	{
 			/*printf("ft_nextanyof anyof matches %c\n", match);*/
-			j++;
-			i++;
+			gi++;
+			ri++;
 	}
-	while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]))
+	while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
 	{
-		if (globs->gend[j] == '\\')
+		if (globs->gend[gi] == '\\')
 		{
 			/*printf("ft_nextanyof found a \\ in gend\n");*/
-			j++;
+			gi++;
 		}
 		else
 		{
-			/*printf("ft_nextanyof fastmatch %c\n", dname[i]);*/
-			j++;
-			i++;
+			/*printf("ft_nextanyof fastmatch %c\n", dname[ri]);*/
+			gi++;
+			ri++;
 		}
 	}
-	/*printf("ft_nextanyof fastmatch break %c %c %d, %d\n", dname[i], globs->gend[j], i, j);*/
-	if (globs->gend[j - 1] != '\\' && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+	/*printf("ft_nextanyof fastmatch break %c %c %d, %d\n", dname[ri], globs->gend[gi], ri, gi);*/
+	if (globs->gend[gi - 1] != '\\' && globs->gend[gi] && ft_strchr("*?[", globs->gend[gi])) // if we find a new glob
 	{
 		/*printf("ft_nextanyof glob found going into recursion\n");*/
-		return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
+		return (ft_nextglob(globs, dname, ri, gi)); // recursive glob function returns 1 if it eventually matches
 	}
-	if (globs->gend[j] == '\0' && dname[i] == '\0') // the whole filename matches
+	if (globs->gend[gi] == '\0' && dname[ri] == '\0') // the whole filename matches
 	{
 		/*printf("ft_nextanyof reached end of dname\n");*/
 		return (1); // copy it over.
@@ -222,84 +218,84 @@ int	ft_nextanyof(t_globs *globs, char *dname, int i, int j)
 	return (0);
 }
 
-int	ft_firstanyof(t_globs *globs, char *dname, int i)
+int	ft_firstanyof(t_globs *globs, char *dname, int ri)
 {
-	int	j;
+	int		gi;
 	char	*temp;
 
-	j = 0;
+	gi = 0;
 	/*printf("ft_firstanyof baby\n");*/
 	if (!globs->anyof[0])
 	{
-		while (globs->gend[j] && globs->gend[j] != ']')
+		while (globs->gend[gi] && globs->gend[gi] != ']')
 		{
-			globs->glob[j + 1] = globs->gend[j];
-			globs->anyof[j] = globs->gend[j];
-			j++;
+			globs->glob[gi + 1] = globs->gend[gi];
+			globs->anyof[gi] = globs->gend[gi];
+			gi++;
 		}
-		if (!globs->gend[j])
+		if (!globs->gend[gi])
 		{
-			/*printf("no globs->gend[j]\n");*/
+			/*printf("no globs->gend[gi]\n");*/
 			return (0);
 		}
-		globs->anyof[j] = '\0';
-		globs->glob[j + 1] = ']';
-		temp = ft_substr(globs->gend, j + 1, ft_strlen(globs->gend));
+		globs->anyof[gi] = '\0';
+		globs->glob[gi + 1] = ']';
+		temp = ft_substr(globs->gend, gi + 1, ft_strlen(globs->gend));
 		free(globs->gend);
 		globs->gend = ft_strdup(temp);
 		free(temp);
 	}
 	else
 	{
-		while (globs->glob[j + 1] && globs->glob[j + 1] != ']')
+		while (globs->glob[gi + 1] && globs->glob[gi + 1] != ']')
 		{
-			globs->anyof[j] = globs->glob[j + 1];
-			j++;
+			globs->anyof[gi] = globs->glob[gi + 1];
+			gi++;
 		}
-		if (!globs->glob[j + 1])
+		if (!globs->glob[gi + 1])
 		{
-			/*printf("no globs->glob[j + 1]\n");*/
+			/*printf("no globs->glob[gi + 1]\n");*/
 			return (0);
 		}
-		globs->anyof[j] = '\0';
+		globs->anyof[gi] = '\0';
 	}
 	if (globs->anyof[0] == '\0')
 		return (0);
-	/*printf("ft_firstanyof starting with dname: %c and anyof: %s\n", dname[i], globs->anyof);*/
-	if (ft_strchr(globs->anyof, dname[i])) // if any of the characters in the anyof match
+	/*printf("ft_firstanyof starting with dname: %c and anyof: %s\n", dname[ri], globs->anyof);*/
+	if (ft_strchr(globs->anyof, dname[ri])) // if any of the characters in the anyof match
 	{
-		/*printf("ft_firstanyof anyof matches %c\n", dname[i]);*/
-		j = 0;
-		i++;
-		while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]))
+		/*printf("ft_firstanyof anyof matches %c\n", dname[ri]);*/
+		gi = 0;
+		ri++;
+		while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
 		{
-			if (globs->gend[j] == '\\')
+			if (globs->gend[gi] == '\\')
 			{
 				/*printf("ft_firstwildcard found a \\\n");*/
-				j++;
+				gi++;
 			}
 			else
 			{
-				/*printf("ft_firstanyof fastmatch %c\n", dname[i]);*/
-				j++;
-				i++;
+				/*printf("ft_firstanyof fastmatch %c\n", dname[ri]);*/
+				gi++;
+				ri++;
 			}
 		}
-		/*printf("ft_firstanyof fastmatch break %c %c\n", dname[i], globs->gend[j]);*/
-		if (dname[i] == '\0' && globs->gend[j] == '\0') // the whole filename matches
+		/*printf("ft_firstanyof fastmatch break %c %c\n", dname[ri], globs->gend[gi]);*/
+		if (dname[ri] == '\0' && globs->gend[gi] == '\0') // the whole filename matches
 		{
 			/*printf("ft_firstanyof whole filename matches\n");*/
 			return (1); // copy it over.
 		}
-		if (dname[i] == '\0' || globs->gend[j] == '\0') // mismatch
+		if (dname[ri] == '\0' || globs->gend[gi] == '\0') // mismatch
 		{
-			/*printf("ft_firstanyof mismatch i: %d, j: %d, nam: %c, end: %c\n", i, j, dname[i], globs->gend[j]);*/
+			/*printf("ft_firstanyof mismatch ri: %d, gi: %d, nam: %c, end: %c\n", ri, gi, dname[ri], globs->gend[gi]);*/
 			return (0);
 		}
-		if (ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+		if (ft_strchr("*?[", globs->gend[gi])) // if we find a new glob
 		{
 			/*printf("ft_firstanyof recursive glob found\n");*/
-			return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
+			return (ft_nextglob(globs, dname, ri, gi)); // recursive glob function returns 1 if it eventually matches
 		}
 	}
 	/*printf("ft_firstanyof return 0\n");*/

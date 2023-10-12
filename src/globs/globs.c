@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 15:12:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 17:03:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
 			globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos];
 			startpos++;
 		}
-		/*printf("gstart in globlooper: %s, %d\n", globs->gstart, startpos);*/
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:24 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 15:12:43 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 17:03:16 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 					}
 				}
 				/*printf("ft_recursivematchsub fast match broken: %c, %c\n", globs->subdir[i][j + offset], dirents->d_name[j]);*/
-				if (globs->subdir[i][j + offset] && ft_strchr("*?[", globs->subdir[i][j + offset])) // we match the current character with a glob
+				if (globs->subdir[i][j + offset] && globs->subdir[i][j + offset - 1] != '\\' && ft_strchr("*?[", globs->subdir[i][j + offset])) // we match the current character with a glob
 				{
 					/*printf("ft_recursivematchsub glob found for %s\n", dirents->d_name);*/
-					if (ft_firstsubglob(globs, dirents, i, j + 1)) // returns a 1 if the glob matches eventually
+					if (ft_firstsubglob(globs, dirents, i, j + offset)) // returns a 1 if the glob matches eventually
 					{
 						free(globs->tempsubdir[i]);
 						globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
