@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/11 13:31:08 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/12 13:09:55 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,25 @@ int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char type)
 { // match untill glob
 	int 	i;
+	int 	j;
 	char	*temp;
 
 	i = 0;
-	while (dname[i] && globs->gstart[i] == dname[i]) // while characters match
+	j = 0;
+	while (globs->gstart[j + i] == '\\' || (dname[i] && globs->gstart[j + i] == dname[i])) // while characters match
 	{
-		/*printf("match %c\n", dname[i]);*/
-		i++;
+		if (globs->gstart[i + j] == '\\')
+		{
+			/*printf("ft_matchtillglob found \\ skipping one character in gend\n");*/
+			j++;
+		}
+		else
+		{
+			/*printf("ft_matchtillglob fast match before glob: %c, %c\n", globs->gstart[j + i], dname[i]);*/
+			i++;
+		}
 	}
-	if (globs->gstart[i] == '\0') // Glob start matches
+	if (globs->gstart[j + i] == '\0') // Glob start matches
 	{
 		/*printf("ft_matchtillglob globs start matches with %s\n", dname);*/
 		if (ft_firstglob(globs, dname, i)) // check if the rest of the glob also matches

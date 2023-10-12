@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/11 13:31:16 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/12 13:10:01 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 		}
 		if (globs->subdir[i][itar] == '\0' || dirents->d_name[itar - 1] == '\0') // if there is a mismatch
 		{
-			/*printf("return 0\n");*/
+			/*printf("ft_firstsubjoker return 0\n");*/
 			return (0);
 		}
 		if (globs->subdir[i][itar] && ft_strchr("*?[", globs->subdir[i][itar])) // if we find a new glob

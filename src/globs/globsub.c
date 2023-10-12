@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:24 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/11 13:30:51 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/12 13:09:58 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,6 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 						/*printf("ft_recursivematchsub fast match before glob: %c, %c\n", globs->subdir[i][j + offset], dirents->d_name[j]);*/
 						j++;
 					}
-					// h*l*o
-					//    ^
-					// /h\*l\*o
-					//      ^
 				}
 				/*printf("ft_recursivematchsub fast match broken: %c, %c\n", globs->subdir[i][j + offset], dirents->d_name[j]);*/
 				if (globs->subdir[i][j + offset] && ft_strchr("*?[", globs->subdir[i][j + offset])) // we match the current character with a glob
