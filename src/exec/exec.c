@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                             :+:    :+:            */
+/*   exec.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/12 01:50:01 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/12 09:16:20 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	ft_checklastcode(t_forks fork)
 			|| (fork.cmds[icmd].condition == 2 && fork.cmds[icmd].lastcode == 0)))
 		{
 			// ft_putnbr_fd(icmd, 2);
-			fd = open("/tmp/minishelllastcode3.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+			fd = open("/tmp/minishelllastcode.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
 			close(fd);
 			break ;
 		}

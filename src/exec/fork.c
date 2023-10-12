@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fork.c                                             :+:    :+:            */
+/*   fork.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/12 01:50:00 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/12 09:09:50 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	ft_forktheforks(t_shell *shell)
 				shell->code = WEXITSTATUS(status);
 				if (shell-> code) // this condition is invalid, instead we need to identify whether the cmd gets executed or not
 				{
-					fd = open("/tmp/minishelllastcode3.tmp", O_RDONLY);
+					fd = open("/tmp/minishelllastcode.tmp", O_RDONLY);
 					if (fd > 0)
 					{
 						close(fd); 

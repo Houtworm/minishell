@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/11 10:52:51 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/12 09:16:30 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	t_shell	*shell;
 	char	*home;
 
-	ft_seminit("/tmp/minishellprintsem", 1);
 	shell = ft_calloc(100, 8);
 	shell->starttime = ft_gettimems(envp);
+	ft_seminit("/tmp/minishellprintsem", 1);
+	unlink("/tmp/minishelllastcode.tmp");
 	shell->os = ft_getos();
 	ft_charpptofd(envp, shell->envpfd);
 	shell->envp = ft_fdtocharpp(shell->envpfd);
