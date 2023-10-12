@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 13:09:50 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 14:34:56 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,16 @@ int		ft_nextsubanyof(t_globs *globs, int i, int j, int k)
 		j++;
 		k++;
 	}
-	while (globs->subdir[i][j] && globs->tempsubdir[i][k] && globs->tempsubdir[i][k] == globs->subdir[i][j])
+	while (globs->subdir[i][j] == '\\' || (globs->subdir[i][j] && globs->tempsubdir[i][k] && globs->tempsubdir[i][k] == globs->subdir[i][j]))
 	{
-		/*printf("ft_nextsubanyof fastmatch %c\n", globs->tempsubdir[i][k]);*/
-		j++;
-		k++;
+		if (globs->subdir[i][j] == '\\')
+			j++;
+		else
+		{
+			/*printf("ft_nextsubanyof fastmatch %c\n", globs->tempsubdir[i][k]);*/
+			j++;
+			k++;
+		}
 	}
 	/*printf("ft_nextsubanyof fastmatch broken: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
 	if (globs->subdir[i][j] == '\0' && globs->tempsubdir[i][k] == '\0') // if the end matches too
@@ -75,7 +80,7 @@ int		ft_nextsubanyof(t_globs *globs, int i, int j, int k)
 	/*{*/
 		/*return (1);*/
 	/*}*/
-	else if (globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
+	else if (globs->subdir[i][j - 1] != '\\' && globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
 	{
 		/*printf("ft_nextsubanyof found glob going into recursion\n");*/
 		return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
@@ -180,18 +185,26 @@ int	ft_nextanyof(t_globs *globs, char *dname, int i, int j)
 	/*printf("ft_nextanyof starting with dname: %c and anyof: %s\n", dname[i], globs->anyof);*/
 	if (ft_strchr(globs->anyof, match)) // if any of the characters in the anyof match
 	{
-		/*printf("ft_nextanyof anyof matches %c\n", match);*/
-		j++;
-		i++;
+		if (globs->gend[j] == '\\')
+		{
+			/*printf("ft_nextwildcard found a \\ in gend\n");*/
+			j++;
+		}
+		else
+		{
+			/*printf("ft_nextanyof anyof matches %c\n", match);*/
+			j++;
+			i++;
+		}
 	}
-	while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j])
+	while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]))
 	{
 		/*printf("ft_firstanyof fastmatch %c\n", dname[i]);*/
 		j++;
 		i++;
 	}
 	/*printf("ft_nextanyof fastmatch break %c %c %d, %d\n", dname[i], globs->gend[j], i, j);*/
-	if (globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+	if (globs->gend[j - 1] != '\\' && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
 	{
 		/*printf("ft_nextanyof glob found going into recursion\n");*/
 		return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches

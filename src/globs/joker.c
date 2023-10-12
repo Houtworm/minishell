@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 14:18:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 14:25:33 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int	ft_nextjoker(t_globs *globs, char *dname, int i, int j)
 		}
 	}
 	/*printf("ft_nextjoker fastmatch break %c %c\n", dname[i], globs->gend[j]);*/
-	if (dname[i] && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+	if (dname[i] && globs->gend[j] && ft_strchr("*?[", globs->gend[j]) && globs->gend[j - 1] != '\\') // if we find a new glob
 	{
 		/*printf("ft_nextjoker glob found going into recursion\n");*/
 		return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
@@ -180,7 +180,7 @@ int	ft_nextjoker(t_globs *globs, char *dname, int i, int j)
 		/*printf("ft_nextjoker reached end of dname\n");*/
 		return (1); // copy it over.
 	}
-	if (globs->gend[j] == '*' && dname[i] == '\0') // the whole filename matches
+	if (globs->gend[j - 1] != '\\' && globs->gend[j] == '*' && dname[i] == '\0') // the whole filename matches
 	{
 		/*printf("ft_nextjoker ends with *\n");*/
 		return (ft_nextglob(globs, dname, i, j)); //fuck this.

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 14:07:05 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 14:24:21 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,17 +223,10 @@ int	ft_nextwildcard(t_globs *globs, char *dname, int i, int j)
 				}
 			}
 			/*printf("ft_nextwildcard fastmatch break %c %c\n", dname[i], globs->gend[j]);*/
-			if (globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+			if (globs->gend[j - 1] != '\\' && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
 			{
-				if (j > 0 && globs->gend[j - 1] == '\\')
-				{
-					/*printf("skipping this not glob\n");*/
-				}
-				else
-				{
-					/*printf("ft_nextwildcard glob found going into recursion\n");*/
-					return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
-				}
+				/*printf("ft_nextwildcard glob found going into recursion\n");*/
+				return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
 			}
 			if (dname[i] == '\0') // the whole filename matches
 			{
@@ -246,7 +239,7 @@ int	ft_nextwildcard(t_globs *globs, char *dname, int i, int j)
 				j = tempj;
 			}
 		}
-		if (globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+		if (globs->gend[j - 1] != '\\' && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
 		{
 			/*printf("ft_nextwildcard glob found going into recursion\n");*/
 			return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
