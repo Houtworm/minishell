@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 14:25:33 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 15:15:57 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,15 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 {
 	if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 	{
-		while (dirents->d_name[itar] && globs->subdir[i][itar] && dirents->d_name[itar] == globs->subdir[i][itar]) //while the characters match we skip them
+		while (globs->subdir[i][itar] == '\\' || (dirents->d_name[itar] && globs->subdir[i][itar] && dirents->d_name[itar] == globs->subdir[i][itar])) //while the characters match we skip them
 		{
-			/*printf("ft_firstsubjoker fastmatch: %c, %c\n", globs->subdir[i][itar], dirents->d_name[itar]);*/
-			itar++;
+			if (globs->subdir[i][itar] == '\\')
+				itar++;
+			else
+			{
+				/*printf("ft_firstsubjoker fastmatch: %c, %c\n", globs->subdir[i][itar], dirents->d_name[itar]);*/
+				itar++;
+			}
 		}
 		/*printf("ft_firstsubjoker fastmatch broken: %c, %c\n", globs->subdir[i][itar], dirents->d_name[itar - 1]);*/
 		if (globs->subdir[i][itar] == '\0' && dirents->d_name[itar] == '\0') // if the end matches too
@@ -159,7 +164,7 @@ int	ft_nextjoker(t_globs *globs, char *dname, int i, int j)
 	{
 		if (globs->gend[j] == '\\')
 		{
-			/*printf("ft_nextwildcard found a \\ in gend\n");*/
+			/*printf("ft_nextjoker found a \\ in gend\n");*/
 			j++;
 		}
 		else

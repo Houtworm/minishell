@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 14:34:56 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 15:12:50 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int itar)
 	int	k;
 
 	k = 0;
-	while (globs->subdir[i][itar] && globs->subdir[i][itar] != ']')
+	while (globs->subdir[i][itar] && (globs->subdir[i][itar] != ']' || globs->subdir[i][itar - 1] == '\\'))
 	{
 		globs->anyof[k] = globs->subdir[i][itar];
 		k++;
@@ -106,18 +106,23 @@ int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int i, int itar)
 		return (0);
 	k = 0;
 	itar++;
-	while (globs->subdir[i][k + 1] != '[')
+	while (globs->subdir[i][k + 1] != '[' || globs->subdir[i][k] == '\\')
 		k++;
 	/*printf("ft_firstsubanyof starting with dname: %c and anyof: %s\n", dirents->d_name[k], globs->anyof);*/
 	if (ft_strchr(globs->anyof, dirents->d_name[k])) // if any of the characters in the anyof match
 	{
 		/*printf("ft_firstsubanyof anyof matches %c\n", dirents->d_name[k]);*/
 		k++;
-		while (globs->subdir[i][itar] && dirents->d_name[k] && dirents->d_name[k] == globs->subdir[i][itar])
+		while (globs->subdir[i][itar] == '\\' || (globs->subdir[i][itar] && dirents->d_name[k] && dirents->d_name[k] == globs->subdir[i][itar]))
 		{
-			/*printf("ft_firstsubanyof fastmatch %c\n", dirents->d_name[k]);*/
-			itar++;
-			k++;
+			if (globs->subdir[i][itar] == '\\')
+				itar++;
+			else
+			{
+				/*printf("ft_firstsubanyof fastmatch %c\n", dirents->d_name[k]);*/
+				itar++;
+				k++;
+			}
 		}
 		/*printf("ft_firstsubanyof fastmatch break %c %c\n", dirents->d_name[k], globs->subdir[i][itar]);*/
 		if (dirents->d_name[k] == '\0' && globs->subdir[i][itar] == '\0') // the whole filename matches
@@ -185,23 +190,23 @@ int	ft_nextanyof(t_globs *globs, char *dname, int i, int j)
 	/*printf("ft_nextanyof starting with dname: %c and anyof: %s\n", dname[i], globs->anyof);*/
 	if (ft_strchr(globs->anyof, match)) // if any of the characters in the anyof match
 	{
+			/*printf("ft_nextanyof anyof matches %c\n", match);*/
+			j++;
+			i++;
+	}
+	while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]))
+	{
 		if (globs->gend[j] == '\\')
 		{
-			/*printf("ft_nextwildcard found a \\ in gend\n");*/
+			/*printf("ft_nextanyof found a \\ in gend\n");*/
 			j++;
 		}
 		else
 		{
-			/*printf("ft_nextanyof anyof matches %c\n", match);*/
+			/*printf("ft_nextanyof fastmatch %c\n", dname[i]);*/
 			j++;
 			i++;
 		}
-	}
-	while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]))
-	{
-		/*printf("ft_firstanyof fastmatch %c\n", dname[i]);*/
-		j++;
-		i++;
 	}
 	/*printf("ft_nextanyof fastmatch break %c %c %d, %d\n", dname[i], globs->gend[j], i, j);*/
 	if (globs->gend[j - 1] != '\\' && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
@@ -266,11 +271,19 @@ int	ft_firstanyof(t_globs *globs, char *dname, int i)
 		/*printf("ft_firstanyof anyof matches %c\n", dname[i]);*/
 		j = 0;
 		i++;
-		while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j])
+		while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]))
 		{
-			/*printf("ft_firstanyof fastmatch %c\n", dname[i]);*/
-			j++;
-			i++;
+			if (globs->gend[j] == '\\')
+			{
+				/*printf("ft_firstwildcard found a \\\n");*/
+				j++;
+			}
+			else
+			{
+				/*printf("ft_firstanyof fastmatch %c\n", dname[i]);*/
+				j++;
+				i++;
+			}
 		}
 		/*printf("ft_firstanyof fastmatch break %c %c\n", dname[i], globs->gend[j]);*/
 		if (dname[i] == '\0' && globs->gend[j] == '\0') // the whole filename matches
