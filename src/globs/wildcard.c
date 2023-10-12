@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 18:14:26 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 20:57:41 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_nextsubwildcard(t_globs *globs, int si, int gi, int ri)
+int		ft_nextsubwildcard(t_globs *globs, int si, int ri, int gi)
 {
 	int	ti;
 
@@ -66,7 +66,7 @@ int		ft_nextsubwildcard(t_globs *globs, int si, int gi, int ri)
 			else if (globs->subdir[si][gi - 1] != '\\' && globs->subdir[si][gi] && ft_strchr("*?[", globs->subdir[si][gi])) // if we find a new glob
 			{
 				/*printf("ft_nextsubwildcard found %c going into recursion\n", globs->subdir[si][gi]);*/
-				return (ft_nextsubglob(globs, si, gi, ri)); // recursive glob function returns 1 if it eventually matches
+				return (ft_nextsubglob(globs, si, ri, gi)); // recursive glob function returns 1 if it eventually matches
 			}
 			else
 				gi = ti;
@@ -74,7 +74,7 @@ int		ft_nextsubwildcard(t_globs *globs, int si, int gi, int ri)
 		else if (globs->subdir[si][gi - 1] != '\\' && globs->subdir[si][gi] && ft_strchr("*?[", globs->subdir[si][gi])) // if we find a new glob
 		{
 			/*printf("ft_nextsubwildcard found %c going into recursion\n", globs->subdir[si][gi]);*/
-			return (ft_nextsubglob(globs, si, gi, ri)); // recursive glob function returns 1 if it eventually matches
+			return (ft_nextsubglob(globs, si, ri, gi)); // recursive glob function returns 1 if it eventually matches
 		}
 		ri++;
 	}
@@ -150,7 +150,7 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int si, int gi)
 					free(globs->tempsubdir[si]);
 					globs->tempsubdir[si] = ft_strjoin("/", dirents->d_name);
 					globs->temptype = dirents->d_type;
-					if (ft_nextsubglob(globs, si, gi, ri + 1)) // recursive glob function returns 1 if it eventually matches
+					if (ft_nextsubglob(globs, si, ri + 1, gi)) // recursive glob function returns 1 if it eventually matches
 					{
 						if (dirents->d_type == DT_DIR) // check if it is a directory
 						{

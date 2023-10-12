@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 18:30:08 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 20:59:42 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_nextsubjoker(t_globs *globs, int si, int gi, int ri)
+int		ft_nextsubjoker(t_globs *globs, int si, int ri, int gi)
 {
 	/*printf("ft_nextsubjoker starting with j: %d k: %d, dname: %c glob: %c\n", gi, ri, globs->tempsubdir[si][ri], globs->subdir[si][gi]);*/
 	while (globs->subdir[si][gi] == '\\' || (globs->tempsubdir[si][ri] && globs->subdir[si][gi] && globs->tempsubdir[si][ri] == globs->subdir[si][gi])) //while the characters match we skip them
@@ -51,7 +51,7 @@ int		ft_nextsubjoker(t_globs *globs, int si, int gi, int ri)
 	if (globs->subdir[si][gi - 1] != '\\' && globs->subdir[si][gi] == '*' && globs->tempsubdir[si][ri] == '\0') // the whole filename matches
 	{
 		/*printf("ft_nextjoker ends with *\n");*/
-		return (ft_nextsubglob(globs, si, gi, ri));
+		return (ft_nextsubglob(globs, si, ri, gi));
 	}
 	if (globs->subdir[si][gi] == '\0' || globs->tempsubdir[si][ri] == '\0') // mismatch
 	{
@@ -61,7 +61,7 @@ int		ft_nextsubjoker(t_globs *globs, int si, int gi, int ri)
 	else if (globs->subdir[si][gi - 1] != '\\' && globs->subdir[si][gi] && ft_strchr("*?[", globs->subdir[si][gi])) // if we find a new glob
 	{
 		/*printf("ft_nextsubjoker found glob going into recursion\n");*/
-		return (ft_nextsubglob(globs, si, gi, ri)); // recursive glob function returns 1 if it eventually matches
+		return (ft_nextsubglob(globs, si, ri, gi)); // recursive glob function returns 1 if it eventually matches
 	}
 	return (0);
 }

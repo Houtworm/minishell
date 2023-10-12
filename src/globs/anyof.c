@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 18:14:42 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 21:04:37 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_nextsubanyof(t_globs *globs, int si, int gi, int ri)
+int		ft_nextsubanyof(t_globs *globs, int si, int ri, int gi)
 {
 	int		l;
 
@@ -79,7 +79,7 @@ int		ft_nextsubanyof(t_globs *globs, int si, int gi, int ri)
 	else if (globs->subdir[si][gi - 1] != '\\' && globs->subdir[si][gi] && ft_strchr("*?[", globs->subdir[si][gi])) // if we find a new glob
 	{
 		/*printf("ft_nextsubanyof found glob going into recursion\n");*/
-		return (ft_nextsubglob(globs, si, gi, ri)); // recursive glob function returns 1 if it eventually matches
+		return (ft_nextsubglob(globs, si, ri, gi)); // recursive glob function returns 1 if it eventually matches
 	}
 	return (0);
 }
@@ -158,7 +158,7 @@ int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int si, int gi)
 			globs->temptype = dirents->d_type;
 			free(globs->tempsubdir[si]);
 			globs->tempsubdir[si] = ft_strjoin("/", dirents->d_name);
-			return (ft_nextsubglob(globs, si, gi, ri + 1)); // recursive glob function returns 1 if it eventually matches
+			return (ft_nextsubglob(globs, si, ri + 1, gi)); // recursive glob function returns 1 if it eventually matches
 		}
 	}
 	/*printf("ft_firstsubanyof return 0?\n");*/
