@@ -6,229 +6,229 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 17:03:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 18:14:26 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_nextsubwildcard(t_globs *globs, int i, int j, int k)
+int		ft_nextsubwildcard(t_globs *globs, int si, int gi, int ri)
 {
-	int	tempj;
+	int	ti;
 
-	/*printf("ft_nextsubwildcard starting with j: %d k: %d, dname: %c glob: %c\n", j, k, globs->tempsubdir[i][k], globs->subdir[i][j]);*/
-	while (globs->subdir[i][j] == '*')
-		j++;
-	if (globs->subdir[i][j] == '\0') // no globend means every end matches
+	/*printf("ft_nextsubwildcard starting with j: %d k: %d, dname: %c glob: %c\n", gi, ri, globs->tempsubdir[si][ri], globs->subdir[si][gi]);*/
+	while (globs->subdir[si][gi] == '*')
+		gi++;
+	if (globs->subdir[si][gi] == '\0') // no globend means every end matches
 	{
 		/*printf("ft_nextsubwildcard end of glob\n");*/
 		return (1); // this one is a match
 	}
-	/*printf("ft_nextsubwildcard after skip * with j: %d k: %d, dname: %c glob: %c\n", j, k, globs->tempsubdir[i][k], globs->subdir[i][j]);*/
-	tempj = j;
-	while (globs->tempsubdir[i][k] && globs->subdir[i][j]) // while there are characters in filename 
+	/*printf("ft_nextsubwildcard after skip * with gi: %d ri: %d, dname: %c glob: %c\n", gi, ri, globs->tempsubdir[si][ri], globs->subdir[si][gi]);*/
+	ti = gi;
+	while (globs->tempsubdir[si][ri] && globs->subdir[si][gi]) // while there are characters in filename 
 	{
-		if (globs->tempsubdir[i][k] == globs->subdir[i][j])
+		if (globs->tempsubdir[si][ri] == globs->subdir[si][gi])
 		{
-			while (globs->subdir[i][j] == '\\' || (globs->tempsubdir[i][k] && globs->subdir[i][j] && globs->tempsubdir[i][k] == globs->subdir[i][j])) //while the characters match we skip them
+			while (globs->subdir[si][gi] == '\\' || (globs->tempsubdir[si][ri] && globs->subdir[si][gi] && globs->tempsubdir[si][ri] == globs->subdir[si][gi])) //while the characters match we skip them
 			{
-				if (globs->subdir[i][j] == '\\')
-					j++;
+				if (globs->subdir[si][gi] == '\\')
+					gi++;
 				else
 				{
-					/*printf("ft_nextsubwildcard fastmatch: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
-					j++;
-					k++;
+					/*printf("ft_nextsubwildcard fastmatch: %c, %c\n", globs->subdir[si][gi], globs->tempsubdir[si][ri]);*/
+					gi++;
+					ri++;
 				}
 			}
-			/*printf("ft_nextsubwildcard fastmatch broken: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
-			if (globs->subdir[i][j] == '\0') // if the end matches too
+			/*printf("ft_nextsubwildcard fastmatch broken: %c, %c\n", globs->subdir[si][gi], globs->tempsubdir[si][ri]);*/
+			if (globs->subdir[si][gi] == '\0') // if the end matches too
 			{
 				if (globs->temptype == DT_DIR) // check if it is a directory
 				{
-					/*printf("ft_nextsubwildcard glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[i], globs->tempsubdir[i], i);*/
+					/*printf("ft_nextsubwildcard glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[si], globs->tempsubdir[si], si);*/
 					return (1); // this one is a match
 				}
 				else
 				{
-					if (globs->subdir[i + 1])
+					if (globs->subdir[si + 1])
 					{
-						/*printf("ft_nextsubwildcard %s is not a dir and we need to go deeper so no match\n", globs->tempsubdir[i]);*/
+						/*printf("ft_nextsubwildcard %s is not a dir and we need to go deeper so no match\n", globs->tempsubdir[si]);*/
 						return (0);
 					}
 					else
 					{
-						/*printf("ft_nextsubwildcard %s matches but is not a dir but we are at our dept so match\n", globs->tempsubdir[i]);*/
+						/*printf("ft_nextsubwildcard %s matches but is not a dir but we are at our dept so match\n", globs->tempsubdir[si]);*/
 						return (1);
 					}
 				}
 			}
-			else if (globs->subdir[i][j - 1] != '\\' && globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
+			else if (globs->subdir[si][gi - 1] != '\\' && globs->subdir[si][gi] && ft_strchr("*?[", globs->subdir[si][gi])) // if we find a new glob
 			{
-				/*printf("ft_nextsubwildcard found %c going into recursion\n", globs->subdir[i][j]);*/
-				return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
+				/*printf("ft_nextsubwildcard found %c going into recursion\n", globs->subdir[si][gi]);*/
+				return (ft_nextsubglob(globs, si, gi, ri)); // recursive glob function returns 1 if it eventually matches
 			}
 			else
-				j = tempj;
+				gi = ti;
 		}
-		else if (globs->subdir[i][j - 1] != '\\' && globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
+		else if (globs->subdir[si][gi - 1] != '\\' && globs->subdir[si][gi] && ft_strchr("*?[", globs->subdir[si][gi])) // if we find a new glob
 		{
-			/*printf("ft_nextsubwildcard found %c going into recursion\n", globs->subdir[i][j]);*/
-			return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
+			/*printf("ft_nextsubwildcard found %c going into recursion\n", globs->subdir[si][gi]);*/
+			return (ft_nextsubglob(globs, si, gi, ri)); // recursive glob function returns 1 if it eventually matches
 		}
-		k++;
+		ri++;
 	}
-	/*printf("ft_nextsubwildcard return 0 j: %d, k: %d\n", j, k);*/
+	/*printf("ft_nextsubwildcard return 0 gi: %d, ri: %d\n", gi, ri);*/
 	return (0);
 }
 
-int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int i, int itar)
+int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int si, int gi)
 {
-	int	ipos;
+	int	ri;
 
-	ipos = itar - 1;
-	while (globs->subdir[i][itar] == '*')
-		itar++;
-	if ((globs->subdir[i][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
+	ri = gi - 1;
+	while (globs->subdir[si][gi] == '*')
+		gi++;
+	if ((globs->subdir[si][0] == '.' && dirents->d_name[0] == '.') || (globs->subdir[si][0] != '.' && dirents->d_name[0] != '.')) // if first character of globstart is not a .
 	{
 		/*printf("ft_firstsubwildcard periods match for %s\n", dirents->d_name);*/
-		while (dirents->d_name[ipos]) // while there are characters in filename 
+		while (dirents->d_name[ri]) // while there are characters in filename 
 		{
-			if (globs->subdir[i][itar] == '\0') // the whole filename matches
+			if (globs->subdir[si][gi] == '\0') // the whole filename matches
 			{
 				/*printf("ft_firstsubwildcard just a * so %s is an easy match\n", dirents->d_name);*/
-				free(globs->tempsubdir[i]);
-				globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+				free(globs->tempsubdir[si]);
+				globs->tempsubdir[si] = ft_strjoin("/", dirents->d_name);
 				return (1); // copy it over.
 			}
-			while (globs->subdir[i][itar] == '\\' || (dirents->d_name[ipos] && globs->subdir[i][itar] && dirents->d_name[ipos] == globs->subdir[i][itar])) //while the characters match we skip them
+			while (globs->subdir[si][gi] == '\\' || (dirents->d_name[ri] && globs->subdir[si][gi] && dirents->d_name[ri] == globs->subdir[si][gi])) //while the characters match we skip them
 			{
-				/*printf("ft_firstsubwildcard fastmatch: %c, %c\n", globs->subdir[i][itar], dirents->d_name[ipos]);*/
-				if (globs->subdir[i][itar] == '\\')
-					itar++;
+				/*printf("ft_firstsubwildcard fastmatch: %c, %c\n", globs->subdir[si][gi], dirents->d_name[ri]);*/
+				if (globs->subdir[si][gi] == '\\')
+					gi++;
 				else
 				{
-					itar++;
-					ipos++;
+					gi++;
+					ri++;
 				}
 			}
-			/*printf("ft_firstsubwildcard fastmatch broken: %c, %c j: %d, k: %d\n", globs->subdir[i][itar], dirents->d_name[ipos], itar, ipos);*/
-			if (globs->subdir[i][itar] == '\0') // if the end matches too
+			/*printf("ft_firstsubwildcard fastmatch broken: %c, %c j: %d, k: %d\n", globs->subdir[si][gi], dirents->d_name[ri], gi, ri);*/
+			if (globs->subdir[si][gi] == '\0') // if the end matches too
 			{
 				if (dirents->d_type == DT_DIR) // check if it is a directory
 				{
-					/*printf("ft_firstsubwildcard glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[i], dirents->d_name, i);*/
-					free(globs->tempsubdir[i]);
-					globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+					/*printf("ft_firstsubwildcard glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[si], dirents->d_name, si);*/
+					free(globs->tempsubdir[si]);
+					globs->tempsubdir[si] = ft_strjoin("/", dirents->d_name);
 					return (1); // this one is a match
 				}
 				else
 				{
-					if (globs->subdir[i + 1])
+					if (globs->subdir[si + 1])
 					{
 						/*printf("ft_firstsubwildcard %s is not a dir and we need to go deeper so no match\n", dirents->d_name);*/
 						return (0);
 					}
 					else
 					{
-						free(globs->tempsubdir[i]);
-						globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+						free(globs->tempsubdir[si]);
+						globs->tempsubdir[si] = ft_strjoin("/", dirents->d_name);
 						/*printf("ft_firstsubwildcard %s matches but is not a dir but we are at our dept so match\n", dirents->d_name);*/
 						return (1);
 					}
 				}
 			}
-			else if (globs->subdir[i][itar] && ft_strchr("*?[", globs->subdir[i][itar])) // if we find a new glob
+			else if (globs->subdir[si][gi] && ft_strchr("*?[", globs->subdir[si][gi])) // if we find a new glob
 			{
-				if (itar > 0 && globs->subdir[i][itar - 1] == '\\')
+				if (gi > 0 && globs->subdir[si][gi - 1] == '\\')
 				{
 					/*printf("skipping this not glob\n");*/
 				}
 				else
 				{
 					/*printf("ft_firstsubwildcard found glob going into recursion\n");*/
-					free(globs->tempsubdir[i]);
-					globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+					free(globs->tempsubdir[si]);
+					globs->tempsubdir[si] = ft_strjoin("/", dirents->d_name);
 					globs->temptype = dirents->d_type;
-					if (ft_nextsubglob(globs, i, itar, ipos + 1)) // recursive glob function returns 1 if it eventually matches
+					if (ft_nextsubglob(globs, si, gi, ri + 1)) // recursive glob function returns 1 if it eventually matches
 					{
 						if (dirents->d_type == DT_DIR) // check if it is a directory
 						{
-							/*printf("ft_firstsubwildcard glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[i], dirents->d_name, i);*/
-							free(globs->tempsubdir[i]);
-							globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+							/*printf("ft_firstsubwildcard glob matches %s will be replaced with /%s in subdir %d\n", globs->subdir[si], dirents->d_name, si);*/
+							free(globs->tempsubdir[si]);
+							globs->tempsubdir[si] = ft_strjoin("/", dirents->d_name);
 							return (1); // this one is a match
 						}
 						else
 						{
-							if (globs->subdir[i + 1])
+							if (globs->subdir[si + 1])
 							{
 								/*printf("ft_firstsubwildcard %s is not a dir and we need to go deeper so no match\n", dirents->d_name);*/
 								return (0);
 							}
 							else
 							{
-								free(globs->tempsubdir[i]);
-								globs->tempsubdir[i] = ft_strjoin("/", dirents->d_name);
+								free(globs->tempsubdir[si]);
+								globs->tempsubdir[si] = ft_strjoin("/", dirents->d_name);
 								/*printf("ft_firstsubwildcard %s matches but is not a dir but we are at our dept so match\n", dirents->d_name);*/
 								return (1);
 							}
 						}
 					}
-					else if (globs->subdir[i][itar - 1] != '*' && globs->subdir[i][itar] == '?' && !globs->tempsubdir[i][ipos + 3] && !globs->subdir[i][itar + 1])
+					else if (globs->subdir[si][gi - 1] != '*' && globs->subdir[si][gi] == '?' && !globs->tempsubdir[si][ri + 3] && !globs->subdir[si][gi + 1])
 					{
 						/*printf("target hit\n");*/
 						return (0);
 					}
 				}
-				/*printf("dname[ipos + 2]: %c, subdir[i][itar]: %c\n", globs->tempsubdir[i][ipos + 3], globs->subdir[i][itar]);*/
+				/*printf("dname[ri + 2]: %c, subdir[si][gi]: %c\n", globs->tempsubdir[si][ri + 3], globs->subdir[si][gi]);*/
 			}
-			ipos++;
+			ri++;
 		}
 	}
 	/*printf("ft_firstsubwildcard return 0?\n");*/
 	return (0);
 }
 
-int	ft_nextwildcard(t_globs *globs, char *dname, int i, int j)
+int	ft_nextwildcard(t_globs *globs, char *dname, int ri, int gi)
 {
 	int		tempj;
 	int		tempi;
 
-	while (globs->gend[j] == '*')
-		j++;
-	tempj = j;
-	tempi = i;
-	if (globs->gend[j] == '\0') // no globend means every end matches
+	while (globs->gend[gi] == '*')
+		gi++;
+	tempj = gi;
+	tempi = ri;
+	if (globs->gend[gi] == '\0') // no globend means every end matches
 	{
 		/*printf("ft_nextwildcard end of glob\n");*/
 		return (1); // this one is a match
 	}
-	while (dname[i]) // while there are characters in filename 
+	while (dname[ri]) // while there are characters in filename 
 	{
-		if (globs->gend[j] == '\\' || dname[i] == globs->gend[j]) // if the first character matches or there is no globend
+		if (globs->gend[gi] == '\\' || dname[ri] == globs->gend[gi]) // if the first character matches or there is no globend
 		{
-			while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j])) //while the first character was a match but globend exists
+			while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi])) //while the first character was a match but globend exists
 			{
-				if (globs->gend[j] == '\\')
+				if (globs->gend[gi] == '\\')
 				{
 					/*printf("ft_nextwildcard found a \\ in gend\n");*/
-					j++;
+					gi++;
 				}
 				else
 				{
-					/*printf("ft_nextwildcard fastmatch %c\n", dname[i]);*/
-					j++;
-					i++;
+					/*printf("ft_nextwildcard fastmatch %c\n", dname[ri]);*/
+					gi++;
+					ri++;
 				}
 			}
-			/*printf("ft_nextwildcard fastmatch break %c %c\n", dname[i], globs->gend[j]);*/
-			if (globs->gend[j - 1] != '\\' && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+			/*printf("ft_nextwildcard fastmatch break %c %c\n", dname[ri], globs->gend[gi]);*/
+			if (globs->gend[gi - 1] != '\\' && globs->gend[gi] && ft_strchr("*?[", globs->gend[gi])) // if we find a new glob
 			{
 				/*printf("ft_nextwildcard glob found going into recursion\n");*/
-				return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
+				return (ft_nextglob(globs, dname, ri, gi)); // recursive glob function returns 1 if it eventually matches
 			}
-			if (dname[i] == '\0') // the whole filename matches
+			if (dname[ri] == '\0') // the whole filename matches
 			{
 				/*printf("ft_nextwilcard reached end of dname\n");*/
 				return (1); // copy it over.
@@ -236,103 +236,103 @@ int	ft_nextwildcard(t_globs *globs, char *dname, int i, int j)
 			else // we have no match and reset the globend counter.
 			{
 				/*printf("ft_nextwildcard skipping one character\n");*/
-				j = tempj;
+				gi = tempj;
 			}
 		}
-		if (globs->gend[j - 1] != '\\' && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+		if (globs->gend[gi - 1] != '\\' && globs->gend[gi] && ft_strchr("*?[", globs->gend[gi])) // if we find a new glob
 		{
 			/*printf("ft_nextwildcard glob found going into recursion\n");*/
-			return (ft_nextglob(globs, dname, i, j)); // recursive glob function returns 1 if it eventually matches
+			return (ft_nextglob(globs, dname, ri, gi)); // recursive glob function returns 1 if it eventually matches
 		}
 		tempi++;
-		i = tempi;
+		ri = tempi;
 	}
 	return (0);
 }
 
-int	ft_firstwildcard(t_globs *globs, char *dname, int i)
+int	ft_firstwildcard(t_globs *globs, char *dname, int ri)
 {
 	int	temp;
 	int	ret;
-	int	j;
+	int	gi;
 
-	j = 0;
-	temp = i;
+	gi = 0;
+	temp = ri;
 	if (globs->gstart[0] != '.' && dname[0] == '.') // if there is a period mismatch
 	{
 		/*printf("ft_firstwildcard Periods don't match\n");*/
 		return (0); // we don't want to parse this one.
 	}
-	while (globs->gend[j] == '*')
-		j++;
-	if (globs->gend[j] == '\0' && dname[i] == '\0')
+	while (globs->gend[gi] == '*')
+		gi++;
+	if (globs->gend[gi] == '\0' && dname[ri] == '\0')
 		return (1);
-	while (dname[i]) // while there are characters in filename 
+	while (dname[ri]) // while there are characters in filename 
 	{
-		while (globs->gend[j] == '*')
-			j++;
-		/*printf("ft_firstwilcard trying to match dname %c with gend %c\n", dname[i], globs->gend[j]);*/
-		if (dname[i] == globs->gend[j] || globs->gend[0] == '\0') // if the first character matches or there is no globend
+		while (globs->gend[gi] == '*')
+			gi++;
+		/*printf("ft_firstwilcard trying to match dname %c with gend %c\n", dname[ri], globs->gend[gi]);*/
+		if (dname[ri] == globs->gend[gi] || globs->gend[0] == '\0') // if the first character matches or there is no globend
 		{
 			if (globs->gend[0] == '\0') // no globend means every end matches
 			{
 				/*printf("ft_firstwildcard no characters after glob so this matches\n");*/
 				return (1); // this one is a match
 			}
-			while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j])) //while the first character was a match but globend exists
+			while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi])) //while the first character was a match but globend exists
 			{
-				if (globs->gend[j] == '\\')
+				if (globs->gend[gi] == '\\')
 				{
 					/*printf("ft_firstwildcard found a \\\n");*/
-					j++;
+					gi++;
 				}
 				else
 				{
-					/*printf("ft_firstwildcard fastmatch %c\n", dname[i]);*/
-					j++;
-					i++;
+					/*printf("ft_firstwildcard fastmatch %c\n", dname[ri]);*/
+					gi++;
+					ri++;
 				}
 			}
-			if (dname[i] == '\0' && globs->gend[j] == '\0') // the whole filename matches
+			if (dname[ri] == '\0' && globs->gend[gi] == '\0') // the whole filename matches
 			{
 				/*printf("ft_firstwildcard whole filename matches\n");*/
 				return (1); // copy it over.
 			}
-			if (ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+			if (ft_strchr("*?[", globs->gend[gi])) // if we find a new glob
 			{
-				if (j > 0 && globs->gend[j - 1] == '\\')
+				if (globs->gend[gi - 1] == '\\')
 				{
 					/*printf("skipping this not glob\n");*/
 				}
 				else
 				{
 					/*printf("ft_firstwildcard recursive glob found\n");*/
-					ret = ft_nextglob(globs, dname, i, j); // recursive glob function returns 1 if it eventually matches
+					ret = ft_nextglob(globs, dname, ri, gi); // recursive glob function returns 1 if it eventually matches
 					if (ret == 1)
 						return (ret);
-					i++;
-					j = 0;
+					ri++;
+					gi = 0;
 				}
 			}
 			else // we have no match and reset the globend counter.
 			{
-				i++;
-				j = 0;
+				ri++;
+				gi = 0;
 			}
 		}
-		else if (ft_strchr("*?[", globs->gend[j])) // if we find a new glob
+		else if (ft_strchr("*?[", globs->gend[gi])) // if we find a new glob
 		{
 			/*printf("ft_firstwildcard recursive glob found\n");*/
-			ret = ft_nextglob(globs, dname, i, j); // recursive glob function returns 1 if it eventually matches
+			ret = ft_nextglob(globs, dname, ri, gi); // recursive glob function returns 1 if it eventually matches
 			if (ret == 1)
 				return (ret);
 			temp++;
-			i = temp;
+			ri = temp;
 		}
 		else // no matching first character means we can move over a character and try to match from there.
 		{
 			temp++;
-			i = temp;
+			ri = temp;
 		}
 	}
 	/*printf("ft_firstwildcard return 0\n");*/
