@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 13:19:52 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 14:07:05 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ int		ft_nextsubwildcard(t_globs *globs, int i, int j, int k)
 		{
 			while (globs->subdir[i][j] == '\\' || (globs->tempsubdir[i][k] && globs->subdir[i][j] && globs->tempsubdir[i][k] == globs->subdir[i][j])) //while the characters match we skip them
 			{
-				/*printf("ft_nextsubwildcard fastmatch: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
 				if (globs->subdir[i][j] == '\\')
 					j++;
 				else
 				{
+					/*printf("ft_nextsubwildcard fastmatch: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
 					j++;
 					k++;
 				}
@@ -63,32 +63,18 @@ int		ft_nextsubwildcard(t_globs *globs, int i, int j, int k)
 					}
 				}
 			}
-			else if (globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
-			{
-				if (j > 0 && globs->subdir[i][j - 1] == '\\')
-				{
-					/*printf("skipping this not glob\n");*/
-				}
-				else
-				{
-					/*printf("ft_nextsubwildcard found %c going into recursion\n", globs->subdir[i][j]);*/
-					return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
-				}
-			}
-			else
-				j = tempj;
-		}
-		else if (globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
-		{
-			if (j > 0 && globs->subdir[i][j - 1] == '\\')
-			{
-				/*printf("skipping this not glob\n");*/
-			}
-			else
+			else if (globs->subdir[i][j - 1] != '\\' && globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
 			{
 				/*printf("ft_nextsubwildcard found %c going into recursion\n", globs->subdir[i][j]);*/
 				return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
 			}
+			else
+				j = tempj;
+		}
+		else if (globs->subdir[i][j - 1] != '\\' && globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
+		{
+			/*printf("ft_nextsubwildcard found %c going into recursion\n", globs->subdir[i][j]);*/
+			return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
 		}
 		k++;
 	}

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:51:17 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 13:10:01 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 14:18:22 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 int		ft_nextsubjoker(t_globs *globs, int i, int j, int k)
 {
 	/*printf("ft_nextsubjoker starting with j: %d k: %d, dname: %c glob: %c\n", j, k, globs->tempsubdir[i][k], globs->subdir[i][j]);*/
-	while (globs->tempsubdir[i][k] && globs->subdir[i][j] && globs->tempsubdir[i][k] == globs->subdir[i][j]) //while the characters match we skip them
+	while (globs->subdir[i][j] == '\\' || (globs->tempsubdir[i][k] && globs->subdir[i][j] && globs->tempsubdir[i][k] == globs->subdir[i][j])) //while the characters match we skip them
 	{
-		/*printf("ft_nextsubjoker fastmatch: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
-		j++;
-		k++;
+		if (globs->subdir[i][j] == '\\')
+			j++;
+		else
+		{
+			/*printf("ft_nextsubjoker fastmatch: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
+			j++;
+			k++;
+		}
 	}
 	/*printf("ft_nextsubjoker fastmatch broken: %c, %c\n", globs->subdir[i][j], globs->tempsubdir[i][k]);*/
 	if (globs->subdir[i][j] == '\0' && globs->tempsubdir[i][k] == '\0') // if the end matches too
@@ -43,7 +48,7 @@ int		ft_nextsubjoker(t_globs *globs, int i, int j, int k)
 			}
 		}
 	}
-	if (globs->subdir[i][j] == '*' && globs->tempsubdir[i][k] == '\0') // the whole filename matches
+	if (globs->subdir[i][j - 1] != '\\' && globs->subdir[i][j] == '*' && globs->tempsubdir[i][k] == '\0') // the whole filename matches
 	{
 		/*printf("ft_nextjoker ends with *\n");*/
 		return (ft_nextsubglob(globs, i, j, k));
@@ -53,7 +58,7 @@ int		ft_nextsubjoker(t_globs *globs, int i, int j, int k)
 		/*printf("mismatch\n");*/
 		return (0);
 	}
-	else if (globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
+	else if (globs->subdir[i][j - 1] != '\\' && globs->subdir[i][j] && ft_strchr("*?[", globs->subdir[i][j])) // if we find a new glob
 	{
 		/*printf("ft_nextsubjoker found glob going into recursion\n");*/
 		return (ft_nextsubglob(globs, i, j, k)); // recursive glob function returns 1 if it eventually matches
@@ -150,11 +155,19 @@ int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int i, int itar)
 
 int	ft_nextjoker(t_globs *globs, char *dname, int i, int j)
 {
-	while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]) //while the characters match
+	while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j])) //while the characters match
 	{
-		/*printf("ft_nextjoker fastmatch %c\n", dname[i + j]);*/
-		j++;
-		i++;
+		if (globs->gend[j] == '\\')
+		{
+			/*printf("ft_nextwildcard found a \\ in gend\n");*/
+			j++;
+		}
+		else
+		{
+			/*printf("ft_nextjoker fastmatch %c\n", dname[i + j]);*/
+			j++;
+			i++;
+		}
 	}
 	/*printf("ft_nextjoker fastmatch break %c %c\n", dname[i], globs->gend[j]);*/
 	if (dname[i] && globs->gend[j] && ft_strchr("*?[", globs->gend[j])) // if we find a new glob
@@ -190,11 +203,19 @@ int	ft_firstjoker(t_globs *globs, char *dname, int i)
 	{
 		return (0); // we don't want to parse this one.
 	}
-	while (dname[i] && globs->gend[j] && dname[i] == globs->gend[j]) //while the first character was a match but globend exists
+	while (globs->gend[j] == '\\' || (dname[i] && globs->gend[j] && dname[i] == globs->gend[j])) //while the first character was a match but globend exists
 	{
-		/*printf("ft_firstjoker fastmatch %c\n", dname[i]);*/
-		j++;
-		i++;
+		if (globs->gend[j] == '\\')
+		{
+			/*printf("ft_firstwildcard found a \\\n");*/
+			j++;
+		}
+		else
+		{
+			/*printf("ft_firstjoker fastmatch %c\n", dname[i]);*/
+			j++;
+			i++;
+		}
 	}
 	if (dname[i] == '\0' && globs->gend[j] == '\0') // the whole filename matches
 	{
