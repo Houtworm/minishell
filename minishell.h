@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                     |o_o || |                */
+/*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/12 23:09:56 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/13 23:42:52 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_forks
 	char	*pipeline;
 	int		pid;
 	int		cmdamount;
+	int		waitforlast;
 }	t_forks;
 
 typedef struct s_shell
