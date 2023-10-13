@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:32:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 20:57:09 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 22:45:55 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_getsubdir(t_globs *globs)
 			globs->gend[k] = '\0'; // here we set the endpoint for the globend as subdirectories shouldn't be there
 			/*if (globs->gend[k + 1] == '\0')*/
 				/*break;*/
-			globs->subdir[i] = ft_calloc(ft_strlen(globs->gend + 1), 8); // malloc
+			globs->subdir[i] = ft_calloc(500, 8); // malloc
 			globs->subdir[i][0] = '/'; // subdirs start with a / for easy joining
 			j = 1;
 			while(globs->gend[k + j] && globs->gend[k + j] != '/') // we just copy untill we find a next slash
@@ -123,14 +123,14 @@ t_globs *ft_initglobstruct(char *pipeline)
 	linelenght = ft_strlen(pipeline);
 	globs = ft_calloc(linelenght , 128);
 	globs->gstart = ft_calloc(linelenght, 8);
-	globs->gend = ft_calloc(linelenght, 8);
+	globs->gend = ft_calloc(500, 8);
 	globs->start = ft_calloc(linelenght, 8);
 	globs->end = ft_calloc(linelenght, 8);
 	globs->glob = ft_calloc(linelenght, 8);
 	globs->backup = ft_calloc(linelenght, 8);
 	globs->subdir = ft_calloc(linelenght, 128);
 	globs->tempsubdir = ft_calloc(linelenght, 128);
-	globs->pardir = ft_calloc(linelenght, 8);
+	globs->pardir = ft_calloc(linelenght * 2, 8);
 	globs->anyof = ft_calloc(linelenght, 8);
 	globs->matches = ft_calloc(linelenght, 4096);
 	globs->pipeline = ft_strdup(pipeline);

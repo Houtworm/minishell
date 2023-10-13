@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 20:57:33 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 22:50:00 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_cleanpardir(t_globs *globs)
 	int		newcount;
 
 	oldcount = 0;
+	newcount = 0;
 	while (globs->pardir[oldcount])
 	{
 		if (globs->pardir[oldcount] == '/')
@@ -33,7 +34,6 @@ void	ft_cleanpardir(t_globs *globs)
 					oldcount++;
 					newcount++;
 				}
-
 		}
 		oldcount++;
 	}
@@ -330,7 +330,9 @@ int	ft_newpipeline(t_globs *globs)
 	free(globs->anyof);
 	globs->anyof = ft_calloc(100, 8);
 	free(globs->backup);
-	globs->backup = ft_calloc(100, 8);
+	globs->backup = ft_calloc(10000, 8);
+	free(globs->gend);
+	globs->gend = ft_calloc(1000, 8);
 	globs->matchcount = 0;
 	free(temp);
 	return (0);

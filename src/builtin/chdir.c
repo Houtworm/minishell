@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/10 06:15:55 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 22:14:48 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	ft_chdir(t_cmds cmds, t_shell *shell)
 		return (1);
 	}
 	free(line);
-	ft_setenv(shell->envp, "OLDPWD", oldcwd);
+	if (oldcwd[0] == '/')
+		ft_setenv(shell->envp, "OLDPWD", oldcwd);
 	free(oldcwd);
 	newcwd = malloc(512);
 	getcwd(newcwd, 512);

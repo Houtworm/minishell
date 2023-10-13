@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/12 17:02:30 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 23:09:56 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ int			ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell);
 //verify
 int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);
-int			ft_checkcommand(t_cmds cmds, char **envp);
+int			ft_checkcommand(char **arguments, char **envp);
 
 // BUILTINS
 // builtin

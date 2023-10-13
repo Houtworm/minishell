@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   variable.c                                         :+:    :+:            */
+/*   variable.c                                      |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/09 17:42:27 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/12 21:39:00 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,13 @@ int	ft_parsevariable(t_cmds *cmd, t_shell shell)
 			val = ft_itoa(shell.pid);
 			i++;
 		}
-		else if (cmd->pipeline[i] == ' ' || !cmd->pipeline[i])
+		else if (cmd->pipeline[i] == ' ')
 		{
 			val = ft_strdup("$");
 			i++;
 		}
+		else if (!cmd->pipeline[i])
+			val = ft_strdup("$");
 		else
 		{
 			j = 0;

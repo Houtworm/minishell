@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/28 13:26:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/07 01:31:57 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/13 02:19:34 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_shell	*ft_parsepipe(t_shell *shell)
 	int	i;
 	int	k;
 
-	shell->forks = ft_calloc(100, sizeof(t_forks));
+	shell->forks = ft_calloc(200, 16);
 	i = 0;
 	shell->forkamount = 0;
 	while (shell->line[i])

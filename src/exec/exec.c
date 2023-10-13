@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/12 21:13:31 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/12 23:10:08 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,22 +150,25 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	status;	
 	// int fd;
-	if (cmds.prio && !shell->forks[forknbr].cmds[cmdnbr - 1].prio)
+	if (cmdnbr > 0)
 	{
-		if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
+		if (cmds.prio && !shell->forks[forknbr].cmds[cmdnbr - 1].prio)
+		{
+			if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
+			{
+				if (cmds.prio != 2)
+					shell->forks[forknbr].cmds[cmdnbr].prio = 3;
+				shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
+				return (cmds.lastcode);
+			}
+		}
+		if (cmds.prio && shell->forks[forknbr].cmds[cmdnbr - 1].prio == 3)
 		{
 			if (cmds.prio != 2)
 				shell->forks[forknbr].cmds[cmdnbr].prio = 3;
 			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
 			return (cmds.lastcode);
 		}
-	}
-	if (cmds.prio && shell->forks[forknbr].cmds[cmdnbr - 1].prio == 3)
-	{
-		if (cmds.prio != 2)
-			shell->forks[forknbr].cmds[cmdnbr].prio = 3;
-		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
-		return (cmds.lastcode);
 	}
 	if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
 	{
@@ -177,7 +180,7 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);
 	if (cmds.code == -1111)
 	{
-		status = ft_checkcommand(cmds, shell->envp);
+		status = ft_checkcommand(cmds.arguments, shell->envp);
 		if (status)
 		{
 			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = status;
