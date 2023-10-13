@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/11 10:57:15 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/14 00:55:01 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,6 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 					shell->forks[forknumber].cmds[icmd].pipeline = ft_strjoin(start, end);
 					free(tmp);
 					free(delimiter);
-					free(start);
-					free(end);
 				}
 				else
 				{
