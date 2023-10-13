@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/14 00:55:01 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/14 01:24:14 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_heredoc(char *delimiter, char *file)
 			ft_errorexit("Error allocating memory", "malloc", 1);
 	}
 	free(line);
-	/*close(fdi);*/
+	close(fdi);
 	return (fdi);
 }
 
