@@ -6,44 +6,11 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/11 10:16:13 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/13 03:27:04 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	ft_printprint(t_shell *shell)
-{
-	int		i;
-	char	*temp;
-	char	*fnbr;
-	char	*line;
-	int		fd;
-	int		ret;
-
-	i = 0;
-	while (i < shell->forkamount)
-	{
-		fnbr = ft_itoa(i);
-		temp = ft_vastrjoin(3, "/tmp/minishelloutputfile", fnbr, ".temp");
-		free(fnbr);
-		fd = open(temp, O_RDONLY);
-		ret = 1;
-		while (ret)
-		{
-			ret = get_next_line(fd, &line);
-			if (!line)
-				break;
-			ft_putstr(line);
-			free(line);
-		}
-		unlink(temp);
-		free(temp);
-		close(fd);
-		i++;
-		
-	}
-}
 
 int	ft_mainloop(t_shell *shell)
 {
@@ -52,7 +19,7 @@ int	ft_mainloop(t_shell *shell)
 
 	shell->stop = 0;
 	ft_printprompt(shell, shell->envp);
-	line = readline("$ "); // ❯ causes issues :(
+	line = readline("$ ");
 	if (!line)
 		ft_freeexit(shell, 0);
 	shell->starttime = ft_gettimems(shell->envp);
@@ -70,7 +37,6 @@ int	ft_mainloop(t_shell *shell)
 		if (ret == 1)
 			return (1);
 		shell->code = ft_forktheforks(shell);
-		/*ft_printprint(shell);*/
 		ft_freenewprompt(shell);
 		free(line);
 	}

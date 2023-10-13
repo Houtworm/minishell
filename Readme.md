@@ -8,7 +8,6 @@ is a lightweight implementation of bash
 ### Environment
 - Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
 ### Parser
-- redirection has some issues with quotes;
 - Syntax checking can be improved a lot
 - heredoc should parse all but only input the last heredoc file
 - just a $ is hanging the shell
@@ -26,6 +25,7 @@ is a lightweight implementation of bash
 - Check for forbidden functions
 - look for optimizations anywhere in the code
 - No memory leaks found in any testcase
+- protect all mallocs
 - Break up code into digestable functions
 - Norminette
 - Push to 42 git

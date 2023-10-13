@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/26 03:56:16 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 22:07:10 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/13 03:37:19 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	**ft_fdtocharpp(int	fd)
 
 	fd = open("/tmp/minishellenvpfile.tmp", O_RDONLY);
 	i = 0;
-	ret = ft_calloc(100, 8);
+	ret = ft_calloc(10000, 8);
 	status = get_next_line(fd, &line);
 	while (status > 0)
 	{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   print.c                                            :+:    :+:            */
+/*   print.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/09/26 21:47:54 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/13 03:27:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void	ft_printglobs(t_globs globs, char *function)
 	}
 	printf("\e[1;31mstart: %s\e[0;00m\n", globs.start);
 	printf("\e[1;31mend: %s\e[0;00m\n", globs.end);
-	/*printf("\e[1;31mmatches: %s\e[0;00m\n", ft_cpptostr(globs.matches));*/
 }
 
 void	ft_printdup(t_cmds cmds, int cmdnbr, int forknbr)
