@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/14 04:19:16 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/14 05:20:58 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,55 +84,33 @@ int	ft_forktheforks(t_shell *shell)
 				waitpid(shell->forks[forknumber - 1].pid, &status, 0);
 				shell->code = WEXITSTATUS(status);
 				fd = open("/tmp/minishelllastcode.tmp", O_RDONLY);
-				if (fd > 0) // this condition is invalid, instead we need to identify whether the cmd gets executed or not
+				if (fd > 0)
 				{
-					if (fd > 0)
-						close(fd); 
+					close(fd);
 					return (shell->code);
 				}
 			}
 			pipe(shell->pipes[forknumber + 1]);
 			shell->forks[forknumber].pid = fork();
 			if (shell->forks[forknumber].pid == 0)
-				exit (ft_executeforks(forknumber, shell, ft_checkcondition(shell->forks, 0, forknumber)));		
-			// if (ft_checkcondition(shell->forks, 1, forknumber))
-			 /*close(shell->pipes[forknumber][1]); // this one breaks something in the tester*/
-			 /*close(shell->pipes[forknumber][0]); // this one breaks osmething in the tester*/
+				exit (ft_executeforks(forknumber, shell, ft_checkcondition(shell->forks, 0, forknumber)));
+			close(shell->pipes[forknumber][1]); // this one breaks pipes for the second command
+			close(shell->pipes[forknumber][0]); // this one breaks pipes for the second command
 			forknumber++;
-			close(shell->pipes[forknumber][1]);
 		}
-		 close(shell->pipes[forknumber][0]);
 		forknumber = 0;
 		while (shell->forkamount > forknumber)
 		{
+			 close(shell->pipes[forknumber][0]);
 			 close(shell->pipes[forknumber][1]);
 			 if (forknumber > 0)
 			 {
 				 close(shell->pipes[forknumber - 1][1]);
 				 close(shell->pipes[forknumber - 1][0]);
 			 }
-			waitpid(shell->forks[forknumber].pid, &status, 0); // old line is replaced by the whole if below, buut I am not sure if it makes a difference
+			waitpid(shell->forks[forknumber].pid, &status, 0);
 			shell->code = WEXITSTATUS(status);
 			forknumber++;
-			/*fd = waitpid(-1, &status, 0); // This calls waits too but waits for any child, then compares the pid if it is one of the ones we are waiting for. the difference is that the order doesn't matter now*/
-			/*if (fd > 0)*/
-			/*{*/
-				/*i = 0;*/
-				/*while (i < shell->forkamount && shell->forks[i].pid != fd)*/
-					/*i++;*/
-				/*if (i != shell->forkamount)*/
-				/*{*/
-					 /*close(shell->pipes[forknumber][1]);*/
-					 /*if (forknumber > 0)*/
-					 /*{*/
-						 /*close(shell->pipes[forknumber - 1][1]);*/
-						 /*close(shell->pipes[forknumber - 1][0]);*/
-					 /*}*/
-					/*if (shell->forkamount - 1 == i)*/
-						/*shell->code = WEXITSTATUS(status);*/
-					/*forknumber++;*/
-				/*}*/
-			/*}*/
 		}
 	}
 	else

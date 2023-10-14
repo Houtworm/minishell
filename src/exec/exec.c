@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/14 04:19:31 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/14 05:28:24 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,18 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			signal(SIGQUIT, ft_sighandler);
 			if (ft_dupmachine(cmds, cmdnbr, forknbr, shell) == 2)
 				return (1);
+			if (shell->forkamount > 1)
+			{
+				close(shell->pipes[forknbr][1]);
+				close(shell->pipes[forknbr][0]);
+				/*if (forknbr > 0)*/
+				/*{*/
+					/*close(shell->pipes[forknbr - 1][1]);*/
+					/*close(shell->pipes[forknbr - 1][0]);*/
+				/*}*/
+				close(shell->pipes[forknbr + 1][1]);
+				close(shell->pipes[forknbr + 1][0]);
+			}
 			execve(cmds.absolute, cmds.arguments, shell->envp);
 			ft_errorexit("command not found", cmds.absolute, 127);
 		}
@@ -197,12 +209,11 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		{
 			close(shell->pipes[forknbr][1]);
 			close(shell->pipes[forknbr][0]);
-			if (forknbr > 0)
-			{
-				close(shell->pipes[forknbr - 1][1]);
-				close(shell->pipes[forknbr - 1][0]);
-			}
-			/*close(shell->pipes[forknbr + 1][1]); //this one breaks something*/
+			/*if (forknbr > 0)*/
+			/*{*/
+				/*close(shell->pipes[forknbr - 1][1]);*/
+				/*close(shell->pipes[forknbr - 1][0]);*/
+			/*}*/
 			close(shell->pipes[forknbr + 1][0]);
 		}
 		waitpid(cmds.pid, &status, 0);

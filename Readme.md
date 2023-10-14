@@ -10,10 +10,6 @@ is a lightweight implementation of bash
 ### Parser
 - Syntax checking can be improved a lot
 - heredoc should parse all but only input the last heredoc file
-- just a $ is hanging the shell
-### Exec
-- somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
-- cat | cat | cat | ls // should exit when enter is pressed 3 times // same issue?
 ### Builtins
 #### alias
 - is already implemented and used during init, it just can't be called from the shell yet
