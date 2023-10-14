@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/14 05:20:58 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/14 05:46:10 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	ft_forktheforks(t_shell *shell)
 	int	status;
 	int forknumber;
 	int	fd;
-	/*int	i;*/
 
 	forknumber = 0;
 	status = 1;
@@ -94,8 +93,8 @@ int	ft_forktheforks(t_shell *shell)
 			shell->forks[forknumber].pid = fork();
 			if (shell->forks[forknumber].pid == 0)
 				exit (ft_executeforks(forknumber, shell, ft_checkcondition(shell->forks, 0, forknumber)));
-			close(shell->pipes[forknumber][1]); // this one breaks pipes for the second command
-			close(shell->pipes[forknumber][0]); // this one breaks pipes for the second command
+			close(shell->pipes[forknumber][1]);
+			close(shell->pipes[forknumber][0]);
 			forknumber++;
 		}
 		forknumber = 0;

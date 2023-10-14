@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/14 05:28:24 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/14 05:57:02 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	while (ret)
 	{
 		ret = get_next_line(fdread, &line);
-		/*printf("line: %s\n\n", line);*/
 		if (!line)
 			ft_errorexit("Error allocating memory", "malloc", 1);
 		if (ret == 0)
@@ -58,7 +57,7 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	free(outtmp);
 }
 
-/*void	ft_executeredirect(char **outfile, int *append, int forknbr)*/ // zsh behaviour
+/*void	ft_executeredirect(char **outfile, int *append, int forknbr)*/ // zsh behaviour which I think is better
 /*{*/
 	/*int		fdread;*/
 	/*int		fdo;*/
@@ -133,7 +132,6 @@ void	ft_checklastcode(t_forks fork)
 	icmd = 0;
 	while (icmd < fork.cmdamount)
 	{
-		//fork.cmdamount should be removed but it will create more KOs
 		if (((fork.cmds[icmd].condition == 1 && fork.cmds[icmd].lastcode != 0)
 			|| (fork.cmds[icmd].condition == 2 && fork.cmds[icmd].lastcode == 0)))
 		{
@@ -194,11 +192,6 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			{
 				close(shell->pipes[forknbr][1]);
 				close(shell->pipes[forknbr][0]);
-				/*if (forknbr > 0)*/
-				/*{*/
-					/*close(shell->pipes[forknbr - 1][1]);*/
-					/*close(shell->pipes[forknbr - 1][0]);*/
-				/*}*/
 				close(shell->pipes[forknbr + 1][1]);
 				close(shell->pipes[forknbr + 1][0]);
 			}
@@ -209,11 +202,6 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		{
 			close(shell->pipes[forknbr][1]);
 			close(shell->pipes[forknbr][0]);
-			/*if (forknbr > 0)*/
-			/*{*/
-				/*close(shell->pipes[forknbr - 1][1]);*/
-				/*close(shell->pipes[forknbr - 1][0]);*/
-			/*}*/
 			close(shell->pipes[forknbr + 1][0]);
 		}
 		waitpid(cmds.pid, &status, 0);
