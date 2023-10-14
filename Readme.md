@@ -8,9 +8,6 @@ is a lightweight implementation of bash
 ### Parser
 - Syntax checking can be improved a lot
 - heredoc should parse all but only input the last heredoc file
-### Builtins
-#### alias
-- is already implemented and used during init, it just can't be called from the shell yet
 
 ---
 ### Cleanup

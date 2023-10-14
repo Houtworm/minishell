@@ -6,27 +6,46 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:19 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/06 17:06:24 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/14 08:51:31 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_printalias(void)
+int	ft_printalias(t_shell *shell)
 {
-	int		status;
-	int		fd;
-	char	*line;
+	int		i;
+	char	*str;
 
-	fd = open("/tmp/minishellenvpfile.tmp", O_RDONLY);
-	status = get_next_line(fd, &line);
-	while (status > 0)
+	i = 0;
+	while (shell->alias[i].var)
 	{
-		ft_putendl(line);
-		free(line);
-		status = get_next_line(fd, &line);
+		str = ft_vastrjoin(3, shell->alias[i].var, "=", shell->alias[i].val);
+		ft_putendl(str);
+		free(str);
+		i++;
 	}
-	close(fd);
+	return (0);
+}
+
+int	ft_addalias(t_shell *shell, char *var, char *val)
+{
+	int		i;
+
+	while (shell->alias[i].var)
+	{
+		if (!ft_strncmp(var, shell->alias[i].var, 100))
+		{
+			free(shell->alias[i].var);
+			shell->alias[i].var = ft_strdup(val);
+		}
+		i++;
+	}
+	if (!shell->alias[i].var)
+	{
+		shell->alias[i].var = ft_strdup(var);
+		shell->alias[i].val = ft_strdup(val);
+	}
 	return (0);
 }
 
@@ -39,28 +58,31 @@ int	ft_alias(t_cmds cmd, t_shell *shell)
 
 	i = 0;
 	j = 0;
-	var = ft_calloc(512, 1);
-	val = ft_calloc(512, 1);
 	if (!cmd.arguments[1])
 	{
-		ft_printalias();
+		ft_printalias(shell);
 		return (0);	
 	}
+	var = ft_calloc(512, 1);
+	val = ft_calloc(512, 1);
 	while (cmd.arguments[1][i] != '\0' && cmd.arguments[1][i] != '=')
 	{
 		var[i] = cmd.arguments[1][i];
 		i++;
 	}
 	if (cmd.arguments[1][i] != '=')
-		return (1);
+	{
+		free(var);
+		free(val);
+		return (ft_moderrorreturn("not found", "alias", cmd.arguments[1], 1));
+	}
 	while (cmd.arguments[1][i + j + 1] != '\0')
 	{
 		val[j] = cmd.arguments[1][1 + j + i];
 		j++;
 	}
-	ft_setenv(shell->envp, var, val);
+	ft_addalias(shell, var, val);
 	free(var);
 	free(val);
-	ft_charpptofd(shell->envp, shell->envpfd);
 	return (0);
 }
