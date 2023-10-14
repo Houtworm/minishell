@@ -6,7 +6,7 @@ is a lightweight implementation of bash
 ### Tester
 - we should add a lot of bad syntax to make sure we won't segfault during evaluation.
 ### Environment
-- Writing all temporary files to a folder in /tmp/ so we can easily remove the folder afterwards for clean execution.
+- we delete all used files at init and at exit, create a function for it that is being called in those places
 ### Parser
 - Syntax checking can be improved a lot
 - heredoc should parse all but only input the last heredoc file
@@ -15,8 +15,6 @@ is a lightweight implementation of bash
 - somehow terminate a foreground process if the next command says it had enough example: ```cat /dev/random | head -n 100```
 - cat | cat | cat | ls // should exit when enter is pressed 3 times // same issue?
 ### Builtins
-#### env
-- shlvl in env is not updated right away?
 #### alias
 - is already implemented and used during init, it just can't be called from the shell yet
 

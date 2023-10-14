@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   quote.c                                            :+:    :+:            */
+/*   quote.c                                         |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/09 17:42:44 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/14 02:24:14 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ int	ft_checkoutquotevar(char *line)
 	{
 		while (line[i])
 		{
-			if (line[i] == '$' && line[i + 1] != '(')
+			if (line[i] == '$' && line[i + 1] && ((line[i + 1] >= 'A' && line[i + 1] <= 'Z') || (line[i + 1] >= 'a' && line[i + 1] <= 'z' ) || ft_strchr("_?$\"\'", line[i + 1])))
 				return (i);
 			if (line[i] == '\"')
 			{
 				i++;
 				while (line[i] != '\"')
 				{
-					if (line[i] == '$' && line[i + 1] != '\'' && line[i + 1] != '\"' && line[i + 1] != '(')
+					if (line[i] == '$' && line[i + 1] && ((line[i + 1] >= 'A' && line[i + 1] <= 'Z') || (line[i + 1] >= 'a' && line[i + 1] <= 'z' ) || ft_strchr("_?$", line[i + 1])))
 						return (i);
 					i++;
 				}
