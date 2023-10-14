@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fork.c                                             :+:    :+:            */
+/*   fork.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/14 01:54:24 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/14 04:19:16 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,21 +96,21 @@ int	ft_forktheforks(t_shell *shell)
 			if (shell->forks[forknumber].pid == 0)
 				exit (ft_executeforks(forknumber, shell, ft_checkcondition(shell->forks, 0, forknumber)));		
 			// if (ft_checkcondition(shell->forks, 1, forknumber))
-			 /*close(shell->pipes[forknumber][1]);*/
-			 /*close(shell->pipes[forknumber][0]);*/
+			 /*close(shell->pipes[forknumber][1]); // this one breaks something in the tester*/
+			 /*close(shell->pipes[forknumber][0]); // this one breaks osmething in the tester*/
 			forknumber++;
 			close(shell->pipes[forknumber][1]);
 		}
-		 /*close(shell->pipes[forknumber][0]);*/
+		 close(shell->pipes[forknumber][0]);
 		forknumber = 0;
 		while (shell->forkamount > forknumber)
 		{
-			 /*close(shell->pipes[forknumber][1]);*/
-			 /*if (forknumber > 0)*/
-			 /*{*/
-				 /*close(shell->pipes[forknumber - 1][1]);*/
-				 /*close(shell->pipes[forknumber - 1][0]);*/
-			 /*}*/
+			 close(shell->pipes[forknumber][1]);
+			 if (forknumber > 0)
+			 {
+				 close(shell->pipes[forknumber - 1][1]);
+				 close(shell->pipes[forknumber - 1][0]);
+			 }
 			waitpid(shell->forks[forknumber].pid, &status, 0); // old line is replaced by the whole if below, buut I am not sure if it makes a difference
 			shell->code = WEXITSTATUS(status);
 			forknumber++;

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/13 01:34:58 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/14 04:07:44 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_getpid(void)
 				i++;
 			pid = ft_atoi(&line[i]);
 			free (line);
-			/*close(fd); // error in mshrc?*/
+			close(fd); // error in mshrc?
 			return (pid);
 		}
 		free (line);
@@ -73,8 +73,8 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	shell->historyfile = ft_strjoin(home, "/.mshhistory");
 	free(home);
 	shell->oldline = ft_calloc(2, 8);
-	shell->pid = ft_getpid();
 	shell->alias = ft_parsemshrc(envp);
+	shell->pid = ft_getpid();
 	shell->code = 256;
 	shell->stop = 0;
 	shell->debug = debugmode;
