@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/14 01:57:27 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/14 06:54:32 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,23 @@ char	**ft_removequotes(char **args)
 			while (args[i][j] && args[i][j] != '\'' && args[i][j] != '\"')
 			{
 				new[i][k] = args[i][j];
-				/*printf("i: %d, j: %d %c k: %d %c\n", i, j, args[i][j], k, new[i][k]);*/
 				j++;
 				k++;
 			}
 			if (args[i][j] == '\'' || args[i][j] == '\"')
 			{
 				quote = args[i][j];
-				/*printf("skipping quote %c\n", quote);*/
 				j++;
 				while (args[i][j] && args[i][j] != quote)
 				{
 					new[i][k] = args[i][j];
-					/*printf("i: %d, j: %d %c k: %d %c\n", i, j, args[i][j], k, new[i][k]);*/
 					j++;
 					k++;
 				}
-				/*printf("closing quote %c\n", quote);*/
 				j++;
 			}
 		}
 		new[i][k] = '\0';
-		/*printf("i: %d, j: %d %c k: %d %c\n", i, j, args[i][j], k, new[i][k]);*/
 		i++;
 	}
 	ft_frearr(args);
@@ -139,7 +134,7 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 
 	shell->forks[forknumber].cmds[cmdnumber].debug = shell->debug;
 	shell->forks[forknumber].cmds[cmdnumber].forkamount = shell->forkamount;
-	shell->forks[forknumber].cmds[cmdnumber].prio = ft_priority(shell->forks[forknumber].cmds, cmdnumber); //0;
+	shell->forks[forknumber].cmds[cmdnumber].prio = ft_priority(shell->forks[forknumber].cmds, cmdnumber);
 	ft_parsealiases(&shell->forks[forknumber].cmds[cmdnumber], *shell);
 	ft_parsevariable(&shell->forks[forknumber].cmds[cmdnumber], *shell);
 	ft_parsetilde(&shell->forks[forknumber].cmds[cmdnumber], *shell);
@@ -149,7 +144,7 @@ t_shell *ft_parsecmds(t_shell *shell, int forknumber, int cmdnumber)
 		return (shell);
 	}
 	ft_executepriority(&shell->forks[forknumber].cmds[cmdnumber], shell->envp);
-	ft_parseglobs(&shell->forks[forknumber].cmds[cmdnumber], shell->envp); //should be moved to ft_parseline()
+	ft_parseglobs(&shell->forks[forknumber].cmds[cmdnumber], shell->envp);
 	paths = ft_splitcmd(shell->forks[forknumber].cmds[cmdnumber].pipeline);
 	shell->forks[forknumber].cmds[cmdnumber].arguments = ft_removequotes(paths);
 	if (!shell->forks[forknumber].cmds[cmdnumber].arguments[0])

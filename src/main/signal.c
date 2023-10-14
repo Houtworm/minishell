@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   signal.c                                           :+:    :+:            */
+/*   signal.c                                        |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 22:27:48 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/04 00:24:39 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/14 06:53:57 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,14 @@ int ft_sighook(void)
 
 void	ft_sighandler(int sig)
 {
-	if (sig == SIGINT) // C //
+	if (sig == SIGINT)
 	{
 		rl_replace_line("", 0);
 		rl_done = 1;
 	}
-	if (sig == SIGQUIT) // \ //
+	if (sig == SIGQUIT)
 	{
-		ft_putstr_fd("Quit (core dumped)", 0); // not really printing for some reason?
-	}
-	if (sig == SIGTSTP) // Z //
-	{
-		sigset_t mask;
-		int		mpid;
-
-		mpid = getpid(); // FORBIDDEN FUNCTION REWRITE IT!
-		tcsetpgrp(STDIN_FILENO, mpid);
-		tcsetpgrp(STDOUT_FILENO, mpid);
-		sigemptyset(&mask);
-		sigaddset(&mask, SIGTSTP);
-		sigprocmask(SIG_UNBLOCK, &mask, NULL);
-		signal(SIGTSTP, SIG_DFL);
+		ft_putstr_fd("Quit (core dumped)", 0);
 	}
 }
 

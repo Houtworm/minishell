@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/12 22:50:00 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/14 06:32:57 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	ft_removequotesfromsubdir(t_globs *globs)
 						globs->subdir[i][k] = '\\';
 						k++;
 					}
-					globs->subdir[i][k] = globs->subdir[i][j]; // copy it over
+					globs->subdir[i][k] = globs->subdir[i][j];
 					j++;
 					k++;
 				}
@@ -125,7 +125,7 @@ void	ft_removequotesfromsubdir(t_globs *globs)
 			}
 			if (globs->subdir[i][j])
 			{
-				globs->subdir[i][k] = globs->subdir[i][j]; // copy it over
+				globs->subdir[i][k] = globs->subdir[i][j];
 				k++;
 				j++;
 			}
@@ -147,13 +147,11 @@ void	ft_removequotesfrompardir(t_globs *globs)
 	{
 		if (ft_strchr("\'\"", globs->pardir[i]))
 		{
-			/*printf("found first quote\n");*/
 			quote = globs->pardir[i];
 			i++;
 			while (globs->pardir[i] != quote)
 			{
-				/*printf("copy over %c\n", globs->pardir[i]);*/
-				globs->pardir[j] = globs->pardir[i]; // copy it over
+				globs->pardir[j] = globs->pardir[i];
 				j++;
 				i++;
 			}
@@ -161,8 +159,7 @@ void	ft_removequotesfrompardir(t_globs *globs)
 		}
 		while (globs->pardir[i] && !ft_strchr("\'\"", globs->pardir[i]))
 		{
-			/*printf("copy over %c\n", globs->pardir[i]);*/
-			globs->pardir[j] = globs->pardir[i]; // copy it over
+			globs->pardir[j] = globs->pardir[i];
 			j++;
 			i++;
 		}
@@ -182,13 +179,11 @@ void	ft_removequotesfromglobstart(t_globs *globs)
 	{
 		if (ft_strchr("\'\"", globs->gstart[i]))
 		{
-			/*printf("found first quote\n");*/
 			quote = globs->gstart[i];
 			i++;
 			while (globs->gstart[i] != quote)
 			{
-				/*printf("copy over %c\n", globs->gstart[i]);*/
-				globs->gstart[j] = globs->gstart[i]; // copy it over
+				globs->gstart[j] = globs->gstart[i];
 				j++;
 				i++;
 			}
@@ -196,8 +191,7 @@ void	ft_removequotesfromglobstart(t_globs *globs)
 		}
 		while (globs->gstart[i] && !ft_strchr("\'\"", globs->gstart[i]))
 		{
-			/*printf("copy over %c\n", globs->gstart[i]);*/
-			globs->gstart[j] = globs->gstart[i]; // copy it over
+			globs->gstart[j] = globs->gstart[i];
 			j++;
 			i++;
 		}
@@ -217,7 +211,6 @@ void	ft_removequotesfromglobend(t_globs *globs)
 	{
 		if (ft_strchr("\'\"", globs->gend[i]))
 		{
-			/*printf("found first quote\n");*/
 			quote = globs->gend[i];
 			i++;
 			while (globs->gend[i] != quote)
@@ -227,8 +220,7 @@ void	ft_removequotesfromglobend(t_globs *globs)
 					globs->gend[j] = '\\';
 					j++;
 				}
-				/*printf("copy over %c\n", globs->gend[i]);*/
-				globs->gend[j] = globs->gend[i]; // copy it over
+				globs->gend[j] = globs->gend[i];
 				j++;
 				i++;
 			}
@@ -236,8 +228,7 @@ void	ft_removequotesfromglobend(t_globs *globs)
 		}
 		while (globs->gend[i] && !ft_strchr("\'\"", globs->gend[i]))
 		{
-			/*printf("copy over %c\n", globs->gend[i]);*/
-			globs->gend[j] = globs->gend[i]; // copy it over
+			globs->gend[j] = globs->gend[i];
 			j++;
 			i++;
 		}
@@ -263,22 +254,21 @@ void	ft_backupglob(t_globs *globs)
 	if (globs->subdir[0])
 	{
 		temp = ft_cpptostr(globs->subdir);
-		globs->backup = ft_vastrjoin(5, globs->pardir, globs->gstart, globs->glob, globs->gend, temp); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
+		globs->backup = ft_vastrjoin(5, globs->pardir, globs->gstart, globs->glob, globs->gend, temp);
 		free(temp);
 	}
 	else
-		globs->backup = ft_vastrjoin(4, globs->pardir, globs->gstart, globs->glob, globs->gend); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
+		globs->backup = ft_vastrjoin(4, globs->pardir, globs->gstart, globs->glob, globs->gend);
 }
 
 void	ft_addglobmatch(t_globs *globs, char *match)
 {
-	globs->matches[globs->matchcount] = ft_strdup(match); // add the match
-	/*printf("ft_addglobmatch added %s as a match\n", match);*/
+	globs->matches[globs->matchcount] = ft_strdup(match);
 	globs->matchcount++;
 }
 
 int	ft_newpipeline(t_globs *globs)
-{ // simply parses the results into the new pipeline
+{
 	int		i;
 	int		j;
 	int		k;
@@ -286,8 +276,7 @@ int	ft_newpipeline(t_globs *globs)
 
 	if (!globs->matches[0])
 	{
-		/*printf("ft_newpipeline no matches found\n");*/
-		temp = ft_strdup(globs->backup); // if there are no matches at all we need to restore the pipeline. subdirs are not correct here.
+		temp = ft_strdup(globs->backup);
 		globs->linecount = globs->linecount + ft_strlen(temp);
 	}
 	else
@@ -322,10 +311,10 @@ int	ft_newpipeline(t_globs *globs)
 		ft_frearr(globs->matches);
 		globs->matches = ft_calloc(100, 4096);
 		free(globs->pipeline);
-		globs->pipeline = ft_vastrjoin(3, globs->start, temp, globs->end); // new pipeline
+		globs->pipeline = ft_vastrjoin(3, globs->start, temp, globs->end);
 		ft_frearr(globs->subdir);
 		globs->subdir = ft_calloc(100, 128);
-		globs->linecount = globs->linecount + k; // new linecount
+		globs->linecount = globs->linecount + k;
 	}
 	free(globs->anyof);
 	globs->anyof = ft_calloc(100, 8);

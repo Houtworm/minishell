@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/14 02:17:29 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/14 06:54:55 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,10 @@ int	ft_parsevariable(t_cmds *cmd, t_shell shell)
 			j++;
 		}
 		rest[j] = '\0';
-		// if (!cmd->pipeline[i])
-		// 	last = 1;
 		free (cmd->pipeline);
 		cmd->pipeline = ft_vastrjoin(3, begin, val, rest);
 		free (val);
 	}
-		// ft_putendl_fd(begin, 2);
-		// ft_putendl_fd(var, 2);
-		// ft_putendl_fd(rest, 2);
 	ft_vafree(3, begin, var, rest);
 	return (0);
 }
