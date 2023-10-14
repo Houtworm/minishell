@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/13 02:19:28 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/14 07:29:41 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_freecmds(t_cmds *cmds)
 		 free(cmds[i].pipeline);
 		free(cmds[i].absolute);
 		if (cmds[i].arguments)
-			ft_frearr(cmds[i].arguments); // crashes with tester, needs an if
+			ft_frearr(cmds[i].arguments);
 		if (cmds[i].outfile)
 		ft_frearr(cmds[i].outfile);
 		if (cmds[i].infile)
@@ -84,6 +84,7 @@ void	ft_freeexit(t_shell *shell, int code)
 	// free(shell->builtins);
 	// free(shell);
 	shell = shell;
+	ft_removemshfiles();
 	exit (code);
 }
 

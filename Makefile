@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/14 05:29:30 by djonker      \___)=(___/                  #
+#    Updated: 2023/10/14 07:30:32 by djonker      \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ SRC		=src/main/main.c\
 		 src/tools/fd.c\
 		 src/tools/error.c\
 		 src/tools/print.c\
+		 src/tools/files.c\
 		 src/tools/environment.c\
 		 src/tools/semaphore.c\
 		 src/tools/cleanup.c

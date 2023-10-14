@@ -5,8 +5,6 @@ is a lightweight implementation of bash
 ## Todo
 ### Tester
 - we should add a lot of bad syntax to make sure we won't segfault during evaluation.
-### Environment
-- we delete all used files at init and at exit, create a function for it that is being called in those places
 ### Parser
 - Syntax checking can be improved a lot
 - heredoc should parse all but only input the last heredoc file

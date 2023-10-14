@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/14 01:57:13 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/14 07:18:18 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,8 @@ void		ft_printdup(t_cmds cmds, int cmdnbr, int forknbr);
 char		**ft_setenv(char **envp, char *var, char *val);
 char		**ft_fdtocharpp(int	fd);
 void		ft_charpptofd(char **array, int fd);
+// files	
+int			ft_removemshfiles(void);
 // error
 int			ft_errorexit(char *reason, char *cmd, int code);
 int			ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);
