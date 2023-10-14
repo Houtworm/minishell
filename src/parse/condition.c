@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   condition.c                                     |o_o || |                */
+/*   condition.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/07 01:39:19 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/14 00:24:44 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ t_forks ft_parseendcondition(t_shell *shell, int forknumber)
 		}
 		else
 			shell->forks[forknumber].cmds[icmd + 1].condition = 0;
+		if (shell->forks[forknumber].cmds[icmd + 1].condition && shell->forkamount >forknumber)
+			shell->forks[forknumber + 1].waitforlast = 1;
 		ifpip++;
 		icmd++;
 	}

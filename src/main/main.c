@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                          |o_o || |                */
+/*   main.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/13 03:27:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/14 01:02:38 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_mainloop(t_shell *shell)
 	int		ret;
 
 	shell->stop = 0;
+	unlink("/tmp/minishelllastcode.tmp");
 	ft_printprompt(shell, shell->envp);
 	line = readline("$ ");
 	if (!line)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                          |o_o || |                */
+/*   exec.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/12 23:10:08 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/14 02:02:31 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	ft_checklastcode(t_forks fork)
 		if (((fork.cmds[icmd].condition == 1 && fork.cmds[icmd].lastcode != 0)
 			|| (fork.cmds[icmd].condition == 2 && fork.cmds[icmd].lastcode == 0)))
 		{
-			// ft_putnbr_fd(icmd, 2);
+			unlink("/tmp/minishelllastcode.tmp");
 			fd = open("/tmp/minishelllastcode.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
 			close(fd);
 			break ;
@@ -149,7 +149,7 @@ void	ft_checklastcode(t_forks fork)
 int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	status;	
-	// int fd;
+
 	if (cmdnbr > 0)
 	{
 		if (cmds.prio && !shell->forks[forknbr].cmds[cmdnbr - 1].prio)
@@ -173,8 +173,6 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
 	{
 		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
-		// fd = open("/tmp/minishellnotexec.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
-		// close(fd);
 		return (cmds.lastcode);
 	}
 	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);

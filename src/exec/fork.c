@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fork.c                                          |o_o || |                */
+/*   fork.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/12 09:09:50 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/14 01:54:24 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,24 +79,23 @@ int	ft_forktheforks(t_shell *shell)
 		pipe(shell->pipes[forknumber]);
 		while (shell->forkamount > forknumber)
 		{
+			if (shell->forks[forknumber].waitforlast)
+			{
+				waitpid(shell->forks[forknumber - 1].pid, &status, 0);
+				shell->code = WEXITSTATUS(status);
+				fd = open("/tmp/minishelllastcode.tmp", O_RDONLY);
+				if (fd > 0) // this condition is invalid, instead we need to identify whether the cmd gets executed or not
+				{
+					if (fd > 0)
+						close(fd); 
+					return (shell->code);
+				}
+			}
 			pipe(shell->pipes[forknumber + 1]);
 			shell->forks[forknumber].pid = fork();
 			if (shell->forks[forknumber].pid == 0)
 				exit (ft_executeforks(forknumber, shell, ft_checkcondition(shell->forks, 0, forknumber)));		
-			if (ft_checkcondition(shell->forks, 1, forknumber))
-			{
-				waitpid(shell->forks[forknumber].pid, &status, 0);
-				shell->code = WEXITSTATUS(status);
-				if (shell-> code) // this condition is invalid, instead we need to identify whether the cmd gets executed or not
-				{
-					fd = open("/tmp/minishelllastcode.tmp", O_RDONLY);
-					if (fd > 0)
-					{
-						close(fd); 
-						return (shell->code);
-					}
-				}
-			}
+			// if (ft_checkcondition(shell->forks, 1, forknumber))
 			 /*close(shell->pipes[forknumber][1]);*/
 			 /*close(shell->pipes[forknumber][0]);*/
 			forknumber++;
