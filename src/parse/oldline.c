@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/06 16:38:21 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/07 00:47:54 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/14 07:47:30 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ char	*ft_parseoldline(t_shell *shell)
 		{
 			if (!shell->oldline[0])
 			{
-				free(shell->oldline);
-				shell->oldline = ft_strdup(shell->line);
 				ft_vafree(2, begin, rest);
 				return (shell->line);
 			}
