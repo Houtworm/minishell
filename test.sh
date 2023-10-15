@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/14 09:00:17 by djonker      \___)=(___/                  #
+#    Updated: 2023/10/15 05:18:40 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ERRORS=0
 PASSES=0
 SLEEP=0
-VALGRIND=1
+VALGRIND=0
 SHOWLEAKS=1
 
 testfunction()
@@ -2635,6 +2635,6 @@ testfunction "echo hello&& |echo 'hello'"
 # Go crazy
 
 # Shutdown
-rm ' '
+rm ' ' file
 printf "\e[1;36mThe tester found $ERRORS KO's and $PASSES OK's out of $(($ERRORS+$PASSES)) tests\e[0;00m\n"
 exit $ERRORS

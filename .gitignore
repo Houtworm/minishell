@@ -8,8 +8,4 @@ tmp
 .git
 .ccls-cache
 .vscode
-file*
 vgcore*
-*m[123]*
-\' \'
-''
