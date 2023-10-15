@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   heredoc.c                                       |o_o || |                */
+/*   heredoc.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 08:26:58 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/15 14:04:48 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,56 @@ int	ft_heredoc(char *delimiter, char *file)
 	return (fdi);
 }
 
+// void	ft_heredocloop(char *line, int forknumber, int icmd, int i)
+// {
+// 	char	*delimiter;
+// 	char	*tmp;
+// 	char	*frkn;
+// 	char	*cmdn;
+// 	int		j;
+
+// 	delimiter = ft_calloc(ft_strlen(line), 8);
+// 	i = i + 2;
+// 	while (line[i] == ' ')
+// 		i++;
+// 	j = 0;
+// 	while (line[i] && line[i] != ' ')
+// 	{
+// 		delimiter[j] = line[i];
+// 		i++;
+// 		j++;
+// 	}
+// 	delimiter[j] = '\0';
+// 	j = 0;
+// 	while (line[i] == ' ')
+// 		i++;
+// 	while (line[i])
+// 	{
+// 		end[j] = line[i];
+// 		i++;
+// 		j++;
+// 	}
+// 	end[j] = '\0';
+// 	frkn = ft_itoa(forknumber);
+// 	cmdn = ft_itoa(icmd);
+// 	tmp = ft_vastrjoin(6, "/tmp/minishell/heredoc", ".", frkn, ".", cmdn, ".tmp");
+// 	free(frkn);
+// 	free(cmdn);
+// 	shell->forks[forknumber].cmds[icmd].heredoc += 1;
+// 	ft_heredoc(delimiter, tmp);
+// 	if (ft_checkoutquote(end, '<', 2) >= 0)
+// 		ft_heredocloop(end, );
+// 	shell->forks[forknumber].cmds[icmd].pipeline = ft_strjoin(start, end);
+// 	ft_printf("delimeter = %s\n", delimiter);
+// 	free(tmp);
+// 	free(delimiter);
+// }
+
+
 t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 {
 	int		icmd;
-	int		hdid;
+	char	*hdn;
 	int		i;
 	int		j;
 	char	*tmp;
@@ -51,7 +97,8 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 	char	*frkn;
 	char	*cmdn;
 
-	hdid = 1;
+
+	// hdid = 1;
 	icmd = 0;
 	i = 0;
 	while (icmd < shell->forks[forknumber].cmdamount)
@@ -103,23 +150,28 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 					j = 0;
 					while (shell->forks[forknumber].cmds[icmd].pipeline[i] == ' ')
 						i++;
-					while (shell->forks[forknumber].cmds[icmd].pipeline[i])
-					{
-						end[j] = shell->forks[forknumber].cmds[icmd].pipeline[i];
-						i++;
-						j++;
-					}
-					end[j] = '\0';
 					frkn = ft_itoa(forknumber);
 					cmdn = ft_itoa(icmd);
-					tmp = ft_vastrjoin(6, "/tmp/minishell/heredoc", ".", frkn, ".", cmdn, ".tmp");
+					hdn = ft_itoa(shell->forks[forknumber].cmds[icmd].heredoc);
+					tmp = ft_vastrjoin(8, "/tmp/minishell/heredoc", ".", frkn, ".", cmdn, ".", hdn, ".tmp");
 					free(frkn);
 					free(cmdn);
-					shell->forks[forknumber].cmds[icmd].heredoc = 1;
+					free(hdn);
+					shell->forks[forknumber].cmds[icmd].heredoc++;
 					ft_heredoc(delimiter, tmp);
-					shell->forks[forknumber].cmds[icmd].pipeline = ft_strjoin(start, end);
 					free(tmp);
 					free(delimiter);
+					if (ft_checkoutquote(shell->forks[forknumber].cmds[icmd].pipeline + i, '<', 2) < 0)
+					{
+						while (shell->forks[forknumber].cmds[icmd].pipeline[i])
+						{
+							end[j] = shell->forks[forknumber].cmds[icmd].pipeline[i];
+							i++;
+							j++;
+						}
+						end[j] = '\0';
+						shell->forks[forknumber].cmds[icmd].pipeline = ft_strjoin(start, end);
+					}
 				}
 				else
 				{
@@ -129,7 +181,7 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 			}
 			free(start);
 			free(end);
-			hdid++;
+			// hdid++;
 		}
 		icmd++;
 	}

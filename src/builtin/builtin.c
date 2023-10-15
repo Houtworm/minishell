@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   builtin.c                                       |o_o || |                */
+/*   builtin.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 15:11:33 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 06:29:59 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/15 13:43:31 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,40 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *shell, int i)
 	int		ret;
 	char	*itoa;
 	char	*outtmp;
+	int		hdn;
 
+	hdn = 0;
 	if (i < 10)
 	{
+		if (shell->forks[forknbr].cmds[cmdnbr].heredoc)
+		{
+			while (hdn + 1 < shell->forks[forknbr].cmds[cmdnbr].heredoc)
+			{
+				pid = fork();
+				if (pid == 0)
+				{
+					if (ft_dupmachine(cmdnbr, forknbr, hdn, shell) == 2)
+						exit (1);
+					if (shell->forkamount > 1)
+					{
+						close(shell->pipes[forknbr][1]);
+						close(shell->pipes[forknbr][0]);
+						close(shell->pipes[forknbr + 1][1]);
+						close(shell->pipes[forknbr + 1][0]);
+					}
+					exit(shell->builtins[i].func(shell->forks[forknbr].cmds[cmdnbr], shell));
+				}
+				waitpid(pid, &ret, 0);
+				shell->code = WEXITSTATUS(ret);
+				if (i == 8 || i == 9)
+					ft_freeexit(shell, shell->code);
+				hdn++;
+			}
+		}
 		pid = fork();
 		if (pid == 0)
 		{
-			if (ft_dupmachine(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell) == 2)
+			if (ft_dupmachine(cmdnbr, forknbr, hdn, shell) == 2)
 				exit (1);
 			 if (shell->forkamount > 1)
 			 {

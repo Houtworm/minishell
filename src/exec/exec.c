@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                          |o_o || |                */
+/*   exec.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/15 07:26:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/15 13:51:22 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,13 @@ void	ft_checklastcode(t_forks fork)
 	}
 }
 
+
 int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
-	int	status;	
+	int	status;
+	int	hdn;
 
+	hdn = 0;
 	if (cmdnbr > 0)
 	{
 		if (cmds.prio && !shell->forks[forknbr].cmds[cmdnbr - 1].prio)
@@ -182,11 +185,43 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = status;
 			return (status);
 		}
+		if (shell->forks[forknbr].cmds[cmdnbr].heredoc)
+		{
+			while (hdn + 1 < shell->forks[forknbr].cmds[cmdnbr].heredoc)
+			{
+				cmds.pid = fork();
+				if (cmds.pid == 0)
+				{
+					signal(SIGQUIT, ft_sighandler);
+					if (ft_dupmachine(cmdnbr, forknbr, hdn, shell) == 2)
+						return (1);
+					if (shell->forkamount > 1)
+					{
+						close(shell->pipes[forknbr][1]);
+						close(shell->pipes[forknbr][0]);
+						close(shell->pipes[forknbr + 1][1]);
+						close(shell->pipes[forknbr + 1][0]);
+					}
+					execve(cmds.absolute, cmds.arguments, shell->envp);
+					ft_errorexit("command not found", cmds.absolute, 127);
+				}
+				if (shell->forkamount > 1)
+				{
+					close(shell->pipes[forknbr][1]);
+					close(shell->pipes[forknbr][0]);
+					close(shell->pipes[forknbr + 1][0]);
+				}
+				waitpid(cmds.pid, &status, 0);
+				cmds.code = WEXITSTATUS(status);
+				hdn++;
+			}
+
+		}
 		cmds.pid = fork();
 		if (cmds.pid == 0)
 		{
 			signal(SIGQUIT, ft_sighandler);
-			if (ft_dupmachine(cmds, cmdnbr, forknbr, shell) == 2)
+			if (ft_dupmachine(cmdnbr, forknbr, hdn, shell) == 2)
 				return (1);
 			if (shell->forkamount > 1)
 			{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   dupmachine.c                                    |o_o || |                */
+/*   dupmachine.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 08:27:12 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/15 13:51:24 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_outputfile(char **file, int forknbr)
 	return (0);
 }
 
-int	ft_heredocfile(int forknumber, int cmdnumber)
+int	ft_heredocfile(int forknumber, int cmdnumber, char *hdn)
 {
 	char	*tmp;
 	int		fd;
@@ -67,20 +67,23 @@ int	ft_heredocfile(int forknumber, int cmdnumber)
 
 	frkn = ft_itoa(forknumber);
 	cmdn = ft_itoa(cmdnumber);
-	tmp = ft_vastrjoin(6, "/tmp/minishell/heredoc", ".", frkn, ".", cmdn, ".tmp");
+	tmp = ft_vastrjoin(8, "/tmp/minishell/heredoc", ".", frkn, ".", cmdn, ".", hdn, ".tmp");
+	// ft_putendl_fd(tmp, 2);
 	fd = open(tmp, O_RDONLY);
 	dup2(fd, 0);
 	free(frkn);
 	free(cmdn);
 	free(tmp);
+	free(hdn);
 	close(fd);
+	// ft_putendl_fd("heredoc dup", 2);
 	return (0);
 }
 
-int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
+int	ft_dupmachine(int cmdnbr, int forknbr, int hdn, t_shell *shell)
 {
 	if (shell->debug)
-		ft_printdup(cmds, cmdnbr, forknbr);
+		ft_printdup(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
 	if (forknbr > 1)
 	{
 		close(shell->pipes[forknbr][1]);
@@ -94,16 +97,16 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		close(shell->pipes[forknbr + 1][0]);
 	}
 	else if (shell->forks[forknbr].cmds[cmdnbr].heredoc)
-		ft_heredocfile(forknbr, cmdnbr);
-	else if (cmds.infile[0])
-		if (ft_inputfile(cmds.infile))
+		ft_heredocfile(forknbr, cmdnbr, ft_itoa(hdn));
+	else if (shell->forks[forknbr].cmds[cmdnbr].infile[0])
+		if (ft_inputfile(shell->forks[forknbr].cmds[cmdnbr].infile))
 			return (2);
-	if (cmds.outfile[0])
+	if (shell->forks[forknbr].cmds[cmdnbr].outfile[0])
 	{
-		if (ft_outputfile(cmds.outfile, forknbr))
+		if (ft_outputfile(shell->forks[forknbr].cmds[cmdnbr].outfile, forknbr))
 			return (1);
 	}
-	else if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount)
+	else if (cmdnbr + 1 == shell->forks[forknbr].cmds[cmdnbr].cmdamount && forknbr + 1 < shell->forks[forknbr].cmds[cmdnbr].forkamount)
 	{
 		dup2(shell->pipes[forknbr + 1][1], 1);
 		close(shell->pipes[forknbr + 1][1]);
