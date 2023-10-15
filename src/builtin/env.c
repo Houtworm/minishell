@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 18:13:16 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/09 04:14:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/15 05:37:48 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_env(t_cmds cmds, t_shell *shell)
 	}
 	if (cmds.arguments[0][3] == ' ')
 		return (ft_moderrorreturn("command not found", "env", cmds.arguments[1], 127));
-	fd = open("/tmp/minishellenvpfile.tmp", O_RDONLY);
+	fd = open("/tmp/minishell/envpfile.tmp", O_RDONLY);
 	status = get_next_line(fd, &line);
 	while (status > 0)
 	{

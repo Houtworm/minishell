@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:12:44 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/07 04:07:05 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/15 05:40:52 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_printexport(void)
 	char	*line;
 	int 	i;
 
-	fd = open("/tmp/minishellenvpfile.tmp", O_RDONLY);
+	fd = open("/tmp/minishell/envpfile.tmp", O_RDONLY);
 	status = get_next_line(fd, &line);
 	while (status > 0)
 	{

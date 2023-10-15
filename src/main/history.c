@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/01 02:06:31 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/04 04:03:03 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/15 05:38:53 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_writehistory(char *line, char *file)
 
 		rl_clear_history();
 		histfd = open(file, O_RDONLY);
-		tempfd = open("/tmp/minishellhistory.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+		tempfd = open("/tmp/minishell/history.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
 		while (get_next_line(histfd, &gnl) > 0)
 		{
 			if (ft_strncmp(line, gnl, 500))
@@ -31,7 +31,7 @@ void	ft_writehistory(char *line, char *file)
 		ft_putendl_fd(line, tempfd);
 		close(tempfd);
 		close(histfd);
-		tempfd = open("/tmp/minishellhistory.tmp", O_RDONLY);
+		tempfd = open("/tmp/minishell/history.tmp", O_RDONLY);
 		histfd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 		while (get_next_line(tempfd, &gnl) > 0)
 		{

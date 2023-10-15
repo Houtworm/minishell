@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/14 05:57:02 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/15 06:20:07 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	int		ret;
 
 	line = ft_itoa(forknbr);
-	outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", line, ".tmp");
+	outtmp = ft_vastrjoin(3, "/tmp/minishell/outputfile", line, ".tmp");
 	free(line);
 	i = 0;
 	while (outfile[i])
@@ -45,7 +45,7 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	{
 		ret = get_next_line(fdread, &line);
 		if (!line)
-			ft_errorexit("Error allocating memory", "malloc", 1);
+			ft_errorexit("Error allocating memory", "ft_executeredirect", 1);
 		if (ret == 0)
 			ft_putstr_fd(line, fdo);
 		else
@@ -66,7 +66,7 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	/*char	*outtmp;*/
 	/*int		ret;*/
 
-	/*outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", ft_itoa(forknbr), ".tmp");*/
+	/*outtmp = ft_vastrjoin(3, "/tmp/minishell/outputfile", ft_itoa(forknbr), ".tmp");*/
 	/*i = 0;*/
 	/*while (outfile[i])*/
 	/*{*/
@@ -135,8 +135,8 @@ void	ft_checklastcode(t_forks fork)
 		if (((fork.cmds[icmd].condition == 1 && fork.cmds[icmd].lastcode != 0)
 			|| (fork.cmds[icmd].condition == 2 && fork.cmds[icmd].lastcode == 0)))
 		{
-			unlink("/tmp/minishelllastcode.tmp");
-			fd = open("/tmp/minishelllastcode.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+			unlink("/tmp/minishell/lastcode.tmp");
+			fd = open("/tmp/minishell/lastcode.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
 			close(fd);
 			break ;
 		}

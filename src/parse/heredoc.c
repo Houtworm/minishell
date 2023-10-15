@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/14 01:24:14 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/15 05:39:49 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 						j++;
 					}
 					end[j] = '\0';
-					tmp = ft_vastrjoin(3, "/tmp/minishellheredocfile", ft_itoa(hdid), ".tmp");
+					tmp = ft_vastrjoin(3, "/tmp/minishell/heredocfile", ft_itoa(hdid), ".tmp");
 					shell->forks[forknumber].cmds[icmd].hdfd = ft_heredoc(delimiter, tmp);
 					shell->forks[forknumber].cmds[icmd].pipeline = ft_strjoin(start, end);
 					free(tmp);

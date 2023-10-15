@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/12 22:14:48 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/15 05:37:42 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_adddirtoz(char *cwd, char **envp)
 	line = ft_gethome(envp);
 	home = ft_strjoin(line, "/.mshz");
 	mshzfd = open(home, O_RDONLY);
-	tempfd = open("/tmp/minishelltempz.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+	tempfd = open("/tmp/minishell/tempz.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	free(line);
 	ft_putendl_fd(cwd, tempfd);
 	while (get_next_line(mshzfd, &line) > 0)
@@ -34,7 +34,7 @@ void	ft_adddirtoz(char *cwd, char **envp)
 	free(line);
 	close(tempfd);
 	close(mshzfd);
-	tempfd = open("/tmp/minishelltempz.tmp", O_RDONLY);
+	tempfd = open("/tmp/minishell/tempz.tmp", O_RDONLY);
 	mshzfd = open(home, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	while (get_next_line(tempfd, &line) > 0)
 	{

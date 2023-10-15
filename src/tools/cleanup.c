@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/14 07:29:41 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/15 06:00:31 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_freeexit(t_shell *shell, int code)
 	// free(shell->builtins);
 	// free(shell);
 	shell = shell;
-	ft_removemshfiles();
+	ft_rmdir("/tmp/minishell", shell->envp);
 	exit (code);
 }
 

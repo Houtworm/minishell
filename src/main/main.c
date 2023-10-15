@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/14 01:02:38 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/15 05:39:37 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_mainloop(t_shell *shell)
 	int		ret;
 
 	shell->stop = 0;
-	unlink("/tmp/minishelllastcode.tmp");
+	unlink("/tmp/minishell/lastcode.tmp");
 	ft_printprompt(shell, shell->envp);
 	line = readline("$ ");
 	if (!line)

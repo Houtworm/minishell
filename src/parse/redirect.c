@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 10:16:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/11 08:46:24 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/15 06:06:37 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_parseredirectin(t_cmds *cmd)
 	free(cmd->infile);
 	cmd->infile = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 	if (cmd->infile == NULL)
-		ft_errorexit("Error allocating memory", "malloc", 1);
+		ft_errorexit("Error allocating memory", "ft_parseredirectin", 1);
 	i = 0;
 	k = 0;
 	while (cmd->pipeline[i] && ft_checkoutquote(cmd->pipeline, '<', 2) >= 0)
@@ -32,10 +32,10 @@ void	ft_parseredirectin(t_cmds *cmd)
 		begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 		rest = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
 		if (begin == NULL || rest == NULL)
-			ft_errorexit("Error allocating memory", "malloc", 1);
+			ft_errorexit("Error allocating memory", "ft_parseredirectin", 1);
 		cmd->infile[k] = ft_calloc(ft_strlen(cmd->pipeline) + 1, 8);
 		if (cmd->infile[k] == NULL)
-			ft_errorexit("Error allocating memory", "malloc", 1);
+			ft_errorexit("Error allocating memory", "ft_parseredirectin", 1);
 		j = 0;
 		while (cmd->pipeline[i] && cmd->pipeline[i] != '<')
 		{
@@ -131,7 +131,7 @@ void	ft_parseredirectout(t_cmds *cmd)
 	free(cmd->outfile);
 	cmd->outfile = ft_calloc(100, 8);
 	if (cmd->outfile == NULL)
-		ft_errorexit("Error allocating memory", "malloc", 1);
+		ft_errorexit("Error allocating memory", "ft_parseredirectout", 1);
 	k = 0;
 	i = 0;
 	while (ft_checkoutquote(cmd->pipeline, '>', 2) >= 0)
@@ -139,11 +139,11 @@ void	ft_parseredirectout(t_cmds *cmd)
 		begin = ft_calloc((ft_strlen(cmd->pipeline) + 1), 8);
 		rest = ft_calloc((ft_strlen(cmd->pipeline) + 1), 8);
 		if (begin == NULL || rest == NULL)
-			ft_errorexit("Error allocating memory", "malloc", 1);
+			ft_errorexit("Error allocating memory", "ft_parseredirectout", 1);
 		i = 0;
 		cmd->outfile[k] = ft_calloc(ft_strlen(cmd->pipeline) + 1, 8);
 		if (cmd->outfile[k] == NULL)
-			ft_errorexit("Error allocating memory", "malloc", 1);
+			ft_errorexit("Error allocating memory", "ft_parseredirectout", 1);
 		j = 0;
 		while (cmd->pipeline[i] && cmd->pipeline[i] != '>')
 		{

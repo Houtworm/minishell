@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/14 04:36:51 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/15 06:22:53 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_outputfile(char **file, int forknbr)
 	tmpnbr = ft_itoa(forknbr);
 	if (!tmpnbr)
 		return (1);
-	outtmp = ft_vastrjoin(3, "/tmp/minishelloutputfile", tmpnbr, ".tmp");
+	outtmp = ft_vastrjoin(3, "/tmp/minishell/outputfile", tmpnbr, ".tmp");
 	fdo = open(outtmp, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (fdo == -1) 
 		return (ft_errorreturn("Is a directory", outtmp, 1));

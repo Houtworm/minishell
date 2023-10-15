@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 15:11:33 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/14 08:53:34 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/15 06:29:59 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ t_builtin	*ft_getbuiltins(void)
 
 int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *shell, int i)
 {
-	int	pid;
-	int	ret;
+	int		pid;
+	int		ret;
+	char	*itoa;
+	char	*outtmp;
 
 	if (i < 10)
 	{
@@ -79,7 +81,15 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *shell, int i)
 			ft_freeexit(shell, shell->code);
 	}
 	else
+	{
+		itoa = ft_itoa(forknbr);
+		outtmp = ft_vastrjoin(3, "/tmp/minishell/outputfile", itoa, ".tmp");
+		pid = open(outtmp, O_RDWR | O_CREAT | O_TRUNC, 0666);
+		free(itoa);
+		free(outtmp);
+		close(pid);
 		shell-> code = shell->builtins[i].func(shell->forks[forknbr].cmds[cmdnbr], shell);
+	}
 	return (shell->code);
 }
 

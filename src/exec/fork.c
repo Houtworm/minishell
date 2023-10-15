@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/14 07:06:01 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/15 05:38:35 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_forktheforks(t_shell *shell)
 			{
 				waitpid(shell->forks[forknumber - 1].pid, &status, 0);
 				shell->code = WEXITSTATUS(status);
-				fd = open("/tmp/minishelllastcode.tmp", O_RDONLY);
+				fd = open("/tmp/minishell/lastcode.tmp", O_RDONLY);
 				if (fd > 0)
 				{
 					close(fd);
