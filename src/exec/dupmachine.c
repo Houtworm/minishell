@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 06:22:53 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/15 08:27:12 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,25 @@ int	ft_outputfile(char **file, int forknbr)
 	return (0);
 }
 
+int	ft_heredocfile(int forknumber, int cmdnumber)
+{
+	char	*tmp;
+	int		fd;
+	char	*frkn;
+	char	*cmdn;
+
+	frkn = ft_itoa(forknumber);
+	cmdn = ft_itoa(cmdnumber);
+	tmp = ft_vastrjoin(6, "/tmp/minishell/heredoc", ".", frkn, ".", cmdn, ".tmp");
+	fd = open(tmp, O_RDONLY);
+	dup2(fd, 0);
+	free(frkn);
+	free(cmdn);
+	free(tmp);
+	close(fd);
+	return (0);
+}
+
 int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 {
 	if (shell->debug)
@@ -74,16 +93,11 @@ int	ft_dupmachine(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 		close(shell->pipes[forknbr][1]);
 		close(shell->pipes[forknbr + 1][0]);
 	}
-	else if (shell->forks[forknbr].cmds[cmdnbr].hdfd > 0)
-	{
-		dup2(cmds.hdfd, 0);
-		close(cmds.hdfd);
-	}
+	else if (shell->forks[forknbr].cmds[cmdnbr].heredoc)
+		ft_heredocfile(forknbr, cmdnbr);
 	else if (cmds.infile[0])
-	{
 		if (ft_inputfile(cmds.infile))
 			return (2);
-	}
 	if (cmds.outfile[0])
 	{
 		if (ft_outputfile(cmds.outfile, forknbr))

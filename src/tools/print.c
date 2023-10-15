@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/13 03:27:46 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/15 08:32:20 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	ft_printredirect(t_cmds cmd)
 			printf("\e[1;36mredirect %d output trunctuating: %s \e[0;00m\n", i, cmd.outfile[i]);
 		i++;
 	}
-	if (cmd.hdfd)
-		printf("\e[1;36mredirect %d input from heredoc with file descriptor: %d\e[0;00m\n", i + 1, cmd.hdfd);
+	if (cmd.heredoc)
+		printf("\e[1;36mredirect %d input from heredoc\e[0;00m\n", i + 1);
 }
 
 void	ft_printcmds(t_cmds cmds, int cmdnbr, int forknbr)
@@ -103,7 +103,7 @@ void	ft_printdup(t_cmds cmds, int cmdnbr, int forknbr)
 	printf("\e[1;32mdupmachine cmd %d fork %d\e[0;00m\n", cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		printf("\e[1;32minput from pipe\e[0;00m\n");
-	else if (cmds.hdfd > 0)
+	else if (cmds.heredoc)
 		printf("\e[1;32minput from heredoc\e[0;00m\n");
 	else if (cmds.infile[0])
 	{

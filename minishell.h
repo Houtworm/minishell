@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/15 05:54:56 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/15 08:51:21 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_cmds
 	char	**infile;
 	char	**outfile;
 	int		*append;
-	int		hdfd;
+	int		heredoc;
 	int		prio;	
 }	t_cmds;
 
@@ -103,7 +103,6 @@ typedef struct s_shell
 	t_alias		*alias;
 	t_builtin	*builtins;
 	int			envpfd;
-	int			hdfd; // whu?
 	char		**envp;
 	long long	starttime;
 	int			code;
@@ -262,7 +261,6 @@ void		ft_charpptofd(char **array, int fd);
 // files	
 int			ft_mkdir(char *dirname, char **envp);
 int			ft_rmdir(char *dirname, char **envp);
-int			ft_removemshfiles(void);
 // error
 int			ft_errorexit(char *reason, char *cmd, int code);
 int			ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code);

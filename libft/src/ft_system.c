@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/20 16:39:22 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/11 10:58:07 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/15 08:29:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_system(char *command, char **envp)
 	{
 		fd = open("/tmp/ft_systemtmpfile", O_RDWR | O_CREAT | O_TRUNC, 0666);
 		dup2(fd, 1);
-		/*close(fd);*/
+		close(fd);
 		execve(command, cmd, envp);
 		ft_putstr_fd("command not found: ", 2);
 		ft_putendl_fd(command, 2);

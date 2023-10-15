@@ -6,7 +6,6 @@ is a lightweight implementation of bash
 ### Tester
 - we should add a lot of bad syntax to make sure we won't segfault during evaluation.
 ### Parser
-- Syntax checking can be improved a lot
 - heredoc should parse all but only input the last heredoc file
 
 ---

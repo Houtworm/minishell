@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 05:39:49 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/15 08:26:58 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 	char	*start;
 	char	*end;
 	char	*delimiter;
+	char	*frkn;
+	char	*cmdn;
 
 	hdid = 1;
 	icmd = 0;
 	i = 0;
 	while (icmd < shell->forks[forknumber].cmdamount)
 	{
-		shell->forks[forknumber].cmds[icmd].hdfd = 0;
+		shell->forks[forknumber].cmds[icmd].heredoc = 0;
 		if (ft_checkoutquote(shell->forks[forknumber].cmds[icmd].pipeline, '<', 2) >= 0)
 		{
 			start = ft_calloc(ft_strlen(shell->forks[forknumber].cmds[icmd].pipeline), 8);
@@ -86,10 +88,8 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 				else if (shell->forks[forknumber].cmds[icmd].pipeline[i] == '<' && shell->forks[forknumber].cmds[icmd].pipeline[i + 1] == '<')
 				{
 					delimiter = ft_calloc(ft_strlen(shell->forks[forknumber].cmds[icmd].pipeline), 8);
-					start[j] = '\0';
+					start[i] = '\0';
 					i = i + 2;
-					if (shell->forks[forknumber].cmds[icmd].pipeline[i] == '<')
-						ft_errorexit("wtf?", "syntax error", 1);
 					while (shell->forks[forknumber].cmds[icmd].pipeline[i] == ' ')
 						i++;
 					j = 0;
@@ -110,8 +110,13 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 						j++;
 					}
 					end[j] = '\0';
-					tmp = ft_vastrjoin(3, "/tmp/minishell/heredocfile", ft_itoa(hdid), ".tmp");
-					shell->forks[forknumber].cmds[icmd].hdfd = ft_heredoc(delimiter, tmp);
+					frkn = ft_itoa(forknumber);
+					cmdn = ft_itoa(icmd);
+					tmp = ft_vastrjoin(6, "/tmp/minishell/heredoc", ".", frkn, ".", cmdn, ".tmp");
+					free(frkn);
+					free(cmdn);
+					shell->forks[forknumber].cmds[icmd].heredoc = 1;
+					ft_heredoc(delimiter, tmp);
 					shell->forks[forknumber].cmds[icmd].pipeline = ft_strjoin(start, end);
 					free(tmp);
 					free(delimiter);
