@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 16:40:41 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 23:51:19 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,13 +155,16 @@ char	*ft_expandheredoc(char *line, char **delimiter, t_shell msh)
 	return (line);
 }
 
-int	ft_heredoc(char **delimiter, char *file, t_shell msh)
+int	ft_heredoc(char **delimiter, char *file, t_shell msh, int heredoc)
 {
 	int		fdi;
 	char	*line;
 	int		length;
 
-	fdi = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	if (heredoc)
+		fdi = open(file, O_RDWR | O_CREAT | O_APPEND, 0666);
+	else
+		fdi = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	length = ft_strlen(*delimiter);
 	ft_putstr_fd("minishell heredoc> ", 0);
 	get_next_line(0, &line);
@@ -172,7 +175,7 @@ int	ft_heredoc(char **delimiter, char *file, t_shell msh)
 		ft_putstr_fd("minishell heredoc> ", 0);
 		line = ft_expandheredoc(line, delimiter, msh);
 		ft_putendl_fd(line, fdi);
-		// free(line);
+		 /*free(line);*/
 		get_next_line(0, &line);
 		if (!line)
 			ft_errorexit("Error allocating memory", "malloc", 1);
@@ -185,7 +188,6 @@ int	ft_heredoc(char **delimiter, char *file, t_shell msh)
 t_forks ft_parseheredoc(t_shell *msh, int forknumber)
 {
 	int		icmd;
-	char	*hdn;
 	int		i;
 	int		j;
 	char	*tmp;
@@ -248,13 +250,11 @@ t_forks ft_parseheredoc(t_shell *msh, int forknumber)
 						i++;
 					frkn = ft_itoa(forknumber);
 					cmdn = ft_itoa(icmd);
-					hdn = ft_itoa(msh->frk[forknumber].cmd[icmd].heredoc);
-					tmp = ft_vastrjoin(9, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".", hdn, ".tmp");
+					tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
 					free(frkn);
 					free(cmdn);
-					free(hdn);
+					ft_heredoc(&delimiter, tmp, *msh, msh->frk[forknumber].cmd[icmd].heredoc);
 					msh->frk[forknumber].cmd[icmd].heredoc++;
-					ft_heredoc(&delimiter, tmp, *msh);
 					free(tmp);
 					free(delimiter);
 					if (ft_checkoutquote(msh->frk[forknumber].cmd[icmd].pipeline + i, '<', 2) < 0)

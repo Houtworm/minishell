@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 16:45:33 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 22:53:12 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ void		ft_executepriority(t_commands *cmd, char **envp);
 // exec
 int			ft_executeforks(int forknbr, t_shell *msh, int condition);
 // dupmachine
-int			ft_dupmachine(int cmdnbr, int forknbr, int hdn, t_shell *msh);
+int			ft_dupmachine(int cmdnbr, int forknbr, t_shell *msh);
 //verify
 int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);

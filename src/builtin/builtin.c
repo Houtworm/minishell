@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 15:11:33 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 16:12:28 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 22:52:49 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,40 +58,37 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
 	int		ret;
 	char	*itoa;
 	char	*outtmp;
-	int		hdn;
+	/*int		hdn;*/
 
-	hdn = 0;
+	/*hdn = 0;*/
 	if (i < 10)
 	{
-		if (msh->frk[forknbr].cmd[cmdnbr].heredoc)
-		{
-			while (hdn + 1 < msh->frk[forknbr].cmd[cmdnbr].heredoc)
-			{
-				pid = fork();
-				if (pid == 0)
-				{
-					if (ft_dupmachine(cmdnbr, forknbr, hdn, msh) == 2)
-						exit (1);
-					if (msh->forkamount > 1)
-					{
-						close(msh->pipes[forknbr][1]);
-						close(msh->pipes[forknbr][0]);
-						close(msh->pipes[forknbr + 1][1]);
-						close(msh->pipes[forknbr + 1][0]);
-					}
-					exit(msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh));
-				}
-				waitpid(pid, &ret, 0);
-				msh->code = WEXITSTATUS(ret);
-				if (i == 8 || i == 9)
-					ft_freeexit(msh, msh->code);
-				hdn++;
-			}
-		}
+		/*while (hdn <= msh->frk[forknbr].cmd[cmdnbr].heredoc)*/
+		/*{*/
+			/*pid = fork();*/
+			/*if (pid == 0)*/
+			/*{*/
+				/*if (ft_dupmachine(cmdnbr, forknbr, hdn, msh) == 2)*/
+					/*exit (1);*/
+				/*if (msh->forkamount > 1)*/
+				/*{*/
+					/*close(msh->pipes[forknbr][1]);*/
+					/*close(msh->pipes[forknbr][0]);*/
+					/*close(msh->pipes[forknbr + 1][1]);*/
+					/*close(msh->pipes[forknbr + 1][0]);*/
+				/*}*/
+				/*exit(msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh));*/
+			/*}*/
+			/*waitpid(pid, &ret, 0);*/
+			/*msh->code = WEXITSTATUS(ret);*/
+			/*if (i == 8 || i == 9)*/
+				/*ft_freeexit(msh, msh->code);*/
+			/*hdn++;*/
+		/*}*/
 		pid = fork();
 		if (pid == 0)
 		{
-			if (ft_dupmachine(cmdnbr, forknbr, hdn, msh) == 2)
+			if (ft_dupmachine(cmdnbr, forknbr, msh) == 2)
 				exit (1);
 			if (msh->forkamount > 1)
 			{

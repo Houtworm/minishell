@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 17:19:42 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 23:05:26 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr, t_shell *msh) 
 	/*int		ret;*/
 
 	/*line = ft_itoa(forknbr);*/
-	/*outtmp = ft_vastrjoin(4, msh->tmpdir, "/tmp/minishell/outputfile", line, ".tmp");*/
+	/*outtmp = ft_vastrjoin(4, msh->tmpdir, "outputfile", line, ".tmp");*/
 	/*free(line);*/
 	/*i = 0;*/
 	/*while (outfile[i])*/
@@ -152,9 +152,7 @@ void	ft_checklastcode(t_forks fork, t_shell *msh)
 int	ft_executecommand(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 {
 	int	status;
-	int	hdn;
 
-	hdn = 0;
 	if (cmdnbr > 0)
 	{
 		if (cmd.prio && !msh->frk[forknbr].cmd[cmdnbr - 1].prio)
@@ -189,43 +187,11 @@ int	ft_executecommand(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 			msh->frk[forknbr].cmd[cmdnbr + 1].lastcode = status;
 			return (status);
 		}
-		if (msh->frk[forknbr].cmd[cmdnbr].heredoc)
-		{
-			while (hdn + 1 < msh->frk[forknbr].cmd[cmdnbr].heredoc)
-			{
-				cmd.pid = fork();
-				if (cmd.pid == 0)
-				{
-					signal(SIGQUIT, ft_sighandler);
-					if (ft_dupmachine(cmdnbr, forknbr, hdn, msh) == 2)
-						return (1);
-					if (msh->forkamount > 1)
-					{
-						close(msh->pipes[forknbr][1]);
-						close(msh->pipes[forknbr][0]);
-						close(msh->pipes[forknbr + 1][1]);
-						close(msh->pipes[forknbr + 1][0]);
-					}
-					execve(cmd.absolute, cmd.arg, msh->envp);
-					ft_errorexit("command not found", cmd.absolute, 127);
-				}
-				if (msh->forkamount > 1)
-				{
-					close(msh->pipes[forknbr][1]);
-					close(msh->pipes[forknbr][0]);
-					close(msh->pipes[forknbr + 1][0]);
-				}
-				waitpid(cmd.pid, &status, 0);
-				cmd.code = WEXITSTATUS(status);
-				hdn++;
-			}
-
-		}
 		cmd.pid = fork();
 		if (cmd.pid == 0)
 		{
 			signal(SIGQUIT, ft_sighandler);
-			if (ft_dupmachine(cmdnbr, forknbr, hdn, msh) == 2)
+			if (ft_dupmachine(cmdnbr, forknbr, msh) == 2)
 				return (1);
 			if (msh->forkamount > 1)
 			{

@@ -1,6 +1,4 @@
 # Minishell
-is a lightweight implementation of bash
-
 ---
 ## Todo
 ### Tester

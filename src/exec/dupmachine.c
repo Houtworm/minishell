@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 16:28:55 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 23:30:32 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_outputfile(char **file, int forknbr, t_shell *msh)
 	return (0);
 }
 
-int	ft_heredocfile(int forknumber, int cmdnumber, char *hdn, t_shell *msh)
+int	ft_heredocfile(int forknumber, int cmdnumber, t_shell *msh)
 {
 	char	*tmp;
 	int		fd;
@@ -67,20 +67,17 @@ int	ft_heredocfile(int forknumber, int cmdnumber, char *hdn, t_shell *msh)
 
 	frkn = ft_itoa(forknumber);
 	cmdn = ft_itoa(cmdnumber);
-	tmp = ft_vastrjoin(9, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".", hdn, ".tmp");
-	// ft_putendl_fd(tmp, 2);
+	tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
 	fd = open(tmp, O_RDONLY);
 	dup2(fd, 0);
 	free(frkn);
 	free(cmdn);
 	free(tmp);
-	free(hdn);
 	close(fd);
-	// ft_putendl_fd("heredoc dup", 2);
 	return (0);
 }
 
-int	ft_dupmachine(int cmdnbr, int forknbr, int hdn, t_shell *msh)
+int	ft_dupmachine(int cmdnbr, int forknbr, t_shell *msh)
 {
 	if (msh->debug)
 		ft_printdup(msh->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr);
@@ -97,7 +94,7 @@ int	ft_dupmachine(int cmdnbr, int forknbr, int hdn, t_shell *msh)
 		close(msh->pipes[forknbr + 1][0]);
 	}
 	else if (msh->frk[forknbr].cmd[cmdnbr].heredoc)
-		ft_heredocfile(forknbr, cmdnbr, ft_itoa(hdn), msh);
+		ft_heredocfile(forknbr, cmdnbr, msh);
 	else if (msh->frk[forknbr].cmd[cmdnbr].infile[0])
 		if (ft_inputfile(msh->frk[forknbr].cmd[cmdnbr].infile))
 			return (2);
