@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 08:32:20 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 10:54:07 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_printforks(t_forks forks, int forknumber)
 	printf("\e[1;35mcmdamount: %d\e[0;00m\n", forks.cmdamount);
 }
 
-void	ft_printredirect(t_cmds cmd)
+void	ft_printredirect(t_commands cmd)
 {
 	int	i;
 
@@ -49,30 +49,30 @@ void	ft_printredirect(t_cmds cmd)
 		printf("\e[1;36mredirect %d input from heredoc\e[0;00m\n", i + 1);
 }
 
-void	ft_printcmds(t_cmds cmds, int cmdnbr, int forknbr)
+void	ft_printcommands(t_commands cmd, int cmdnbr, int forknbr)
 {
 	int		i;
 
-	printf("\e[1;36mcmds struct %d of fork %d\e[0;00m\n", cmdnbr, forknbr);
-	printf("\e[1;36mpipeline: %s\e[0;00m\n", cmds.pipeline);
+	printf("\e[1;36mcmd struct %d of fork %d\e[0;00m\n", cmdnbr, forknbr);
+	printf("\e[1;36mpipeline: %s\e[0;00m\n", cmd.pipeline);
 	i = 0;
-	while (cmds.arguments[i])
+	while (cmd.arg[i])
 	{
-		printf("\e[1;36margument %d: %s\e[0;00m\n", i, cmds.arguments[i]);
+		printf("\e[1;36margument %d: %s\e[0;00m\n", i, cmd.arg[i]);
 		i++;
 	}
-	printf("\e[1;36mabsolute: %s\e[0;00m\n", cmds.absolute);
-	if (cmds.condition == 1)
+	printf("\e[1;36mabsolute: %s\e[0;00m\n", cmd.absolute);
+	if (cmd.condition == 1)
 		printf("\e[1;36mcondition: &&\e[0;00m\n");
-	else if (cmds.condition == 2)
+	else if (cmd.condition == 2)
 		printf("\e[1;36mcondition: ||\e[0;00m\n");
 	else
 		printf("\e[1;36mcondition: unconditional\e[0;00m\n");
-	if (cmds.detatch)
+	if (cmd.detatch)
 		printf("\e[1;36mprogram will detatch\e[0;00m\n");
-	if (cmds.prio)
+	if (cmd.prio)
 		printf("\e[1;36mcmd gets priority\e[0;00m\n");
-	 ft_printredirect(cmds);
+	ft_printredirect(cmd);
 }
 
 void	ft_printglobs(t_globs globs, char *function)
@@ -95,7 +95,7 @@ void	ft_printglobs(t_globs globs, char *function)
 	printf("\e[1;31mend: %s\e[0;00m\n", globs.end);
 }
 
-void	ft_printdup(t_cmds cmds, int cmdnbr, int forknbr)
+void	ft_printdup(t_commands cmd, int cmdnbr, int forknbr)
 {
 	int	i;
 
@@ -103,20 +103,20 @@ void	ft_printdup(t_cmds cmds, int cmdnbr, int forknbr)
 	printf("\e[1;32mdupmachine cmd %d fork %d\e[0;00m\n", cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		printf("\e[1;32minput from pipe\e[0;00m\n");
-	else if (cmds.heredoc)
+	else if (cmd.heredoc)
 		printf("\e[1;32minput from heredoc\e[0;00m\n");
-	else if (cmds.infile[0])
+	else if (cmd.infile[0])
 	{
-		while (cmds.infile[i])
+		while (cmd.infile[i])
 			i++;
-		printf("\e[1;32minput from file %s\e[0;00m\n", cmds.infile[i - 1]);
+		printf("\e[1;32minput from file %s\e[0;00m\n", cmd.infile[i - 1]);
 	}
 	else
 		printf("\e[1;32minput from stdin\e[0;00m\n");
-	if (cmdnbr + 1 == cmds.cmdamount && forknbr + 1 < cmds.forkamount)
+	if (cmdnbr + 1 == cmd.cmdamount && forknbr + 1 < cmd.forkamount)
 		printf("\e[1;32moutput to pipe\e[0;00m\n");
-	else if (cmds.outfile[0])
-		printf("\e[1;32moutput to file %s\e[0;00m\n", cmds.outfile[0]);
+	else if (cmd.outfile[0])
+		printf("\e[1;32moutput to file %s\e[0;00m\n", cmd.outfile[0]);
 	else
 		printf("\e[1;32moutput to stdout\e[0;00m\n");
 }

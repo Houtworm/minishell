@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/14 06:32:57 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 10:51:17 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ void	ft_cleanglob(t_globs *globs)
 
 void	ft_backupglob(t_globs *globs)
 {
-  	char	*temp;
+	char	*temp;
 
 	free(globs->backup);
 	if (globs->subdir[0])

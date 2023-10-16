@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   builtin.c                                          :+:    :+:            */
+/*   builtin.c                                       |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 15:11:33 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 13:43:31 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/16 10:58:54 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_builtin	*ft_getbuiltins(void)
 	return (builtins);
 }
 
-int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *shell, int i)
+int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
 {
 	int		pid;
 	int		ret;
@@ -63,49 +63,49 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *shell, int i)
 	hdn = 0;
 	if (i < 10)
 	{
-		if (shell->forks[forknbr].cmds[cmdnbr].heredoc)
+		if (msh->frk[forknbr].cmd[cmdnbr].heredoc)
 		{
-			while (hdn + 1 < shell->forks[forknbr].cmds[cmdnbr].heredoc)
+			while (hdn + 1 < msh->frk[forknbr].cmd[cmdnbr].heredoc)
 			{
 				pid = fork();
 				if (pid == 0)
 				{
-					if (ft_dupmachine(cmdnbr, forknbr, hdn, shell) == 2)
+					if (ft_dupmachine(cmdnbr, forknbr, hdn, msh) == 2)
 						exit (1);
-					if (shell->forkamount > 1)
+					if (msh->forkamount > 1)
 					{
-						close(shell->pipes[forknbr][1]);
-						close(shell->pipes[forknbr][0]);
-						close(shell->pipes[forknbr + 1][1]);
-						close(shell->pipes[forknbr + 1][0]);
+						close(msh->pipes[forknbr][1]);
+						close(msh->pipes[forknbr][0]);
+						close(msh->pipes[forknbr + 1][1]);
+						close(msh->pipes[forknbr + 1][0]);
 					}
-					exit(shell->builtins[i].func(shell->forks[forknbr].cmds[cmdnbr], shell));
+					exit(msh->builtins[i].func(msh->frk[forknbr].cmd[cmdnbr], msh));
 				}
 				waitpid(pid, &ret, 0);
-				shell->code = WEXITSTATUS(ret);
+				msh->code = WEXITSTATUS(ret);
 				if (i == 8 || i == 9)
-					ft_freeexit(shell, shell->code);
+					ft_freeexit(msh, msh->code);
 				hdn++;
 			}
 		}
 		pid = fork();
 		if (pid == 0)
 		{
-			if (ft_dupmachine(cmdnbr, forknbr, hdn, shell) == 2)
+			if (ft_dupmachine(cmdnbr, forknbr, hdn, msh) == 2)
 				exit (1);
-			 if (shell->forkamount > 1)
-			 {
-				 close(shell->pipes[forknbr][1]);
-				 close(shell->pipes[forknbr][0]);
-				 close(shell->pipes[forknbr + 1][1]);
-				 close(shell->pipes[forknbr + 1][0]);
-			 }
-			exit(shell->builtins[i].func(shell->forks[forknbr].cmds[cmdnbr], shell));
+			if (msh->forkamount > 1)
+			{
+				close(msh->pipes[forknbr][1]);
+				close(msh->pipes[forknbr][0]);
+				close(msh->pipes[forknbr + 1][1]);
+				close(msh->pipes[forknbr + 1][0]);
+			}
+			exit(msh->builtins[i].func(msh->frk[forknbr].cmd[cmdnbr], msh));
 		}
 		waitpid(pid, &ret, 0);
-		shell->code = WEXITSTATUS(ret);
+		msh->code = WEXITSTATUS(ret);
 		if (i == 8 || i == 9)
-			ft_freeexit(shell, shell->code);
+			ft_freeexit(msh, msh->code);
 	}
 	else
 	{
@@ -115,12 +115,12 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *shell, int i)
 		free(itoa);
 		free(outtmp);
 		close(pid);
-		shell-> code = shell->builtins[i].func(shell->forks[forknbr].cmds[cmdnbr], shell);
+		msh-> code = msh->builtins[i].func(msh->frk[forknbr].cmd[cmdnbr], msh);
 	}
-	return (shell->code);
+	return (msh->code);
 }
 
-int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
+int	ft_builtincheck(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 {
 	int i;
 	int	j;
@@ -129,8 +129,8 @@ int	ft_builtincheck(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	j = 0;
 	while (i < 13)
 	{
-		if (!ft_strncmp(cmds.arguments[0], shell->builtins[i].compare, ft_strlen(shell->builtins[i].compare) + j))
-			return (ft_builtinexecute(cmdnbr, forknbr, shell, i));
+		if (!ft_strncmp(cmd.arg[0], msh->builtins[i].compare, ft_strlen(msh->builtins[i].compare) + j))
+			return (ft_builtinexecute(cmdnbr, forknbr, msh, i));
 		if (i == 1)
 			j = 1;
 		i++;

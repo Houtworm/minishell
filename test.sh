@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                            :+:    :+:             #
+#    test.sh                                         |o_o || |                 #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/15 15:00:18 by yitoh         ########   odam.nl          #
+#    Updated: 2023/10/16 10:55:25 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ERRORS=0
 PASSES=0
 SLEEP=0
-VALGRIND=1
+VALGRIND=0
 SHOWLEAKS=1
 
 testfunction()
@@ -1312,90 +1312,90 @@ testfunction "echo \"hey\"&"
 testfunction "echo \"hey\"\"hey\""
 
  # exec
-printf "\e[1;36mTesting exec\e[0;00m\n"
-testfunction "exec bla"
-testfunction "  exec   bla  "
-testfunction "exec ''"
-testfunction "exec ' '"
-testfunction "exec \"bla\""
-testfunction "exec 'bla'"
-testfunction "exec cat"
-testfunction "exec ls"
-testfunction "exec ls && exec ls && exec ls"
-testfunction "exec ls || exec ls || exec ls"
-testfunction "exec ls ; exec ls ; exec ls"
-testfunction "exec ls | exec ls | exec ls"
-testfunction "exec 'ls'"
-testfunction "exec \"ls\""
-testfunction "exec exit"
-testfunction "exec 'exit'"
-testfunction "exec \"exit\""
-testfunction "exec \"'exit'\""
-testfunction "exec '\"exit\"'"
-testfunction "exec exit 123"
-testfunction "exec 'exit' 123"
-testfunction "exec 'exit 123'"
-testfunction "exec \"exit\" 123"
-testfunction "exec \"exit 123\""
-testfunction "exec cat -r"
-testfunction "exec 'cat' -r"
-testfunction "exec \"cat\" -r"
-testfunction "exec 'cat -r'"
-testfunction "exec \"cat -r\""
-testfunction "exec echo hallo"
-testfunction "exec 'echo' hallo"
-testfunction "exec \"echo\" hallo"
-testfunction "exec 'echo hallo'"
-testfunction "exec \"echo hallo\""
+ printf "\e[1;36mTesting exec\e[0;00m\n"
+ testfunction "exec bla"
+ testfunction "  exec   bla  "
+ testfunction "exec ''"
+ testfunction "exec ' '"
+ testfunction "exec \"bla\""
+ testfunction "exec 'bla'"
+ testfunction "exec cat"
+ testfunction "exec ls"
+ testfunction "exec ls && exec ls && exec ls"
+ testfunction "exec ls || exec ls || exec ls"
+ testfunction "exec ls ; exec ls ; exec ls"
+ testfunction "exec ls | exec ls | exec ls"
+ testfunction "exec 'ls'"
+ testfunction "exec \"ls\""
+ testfunction "exec exit"
+ testfunction "exec 'exit'"
+ testfunction "exec \"exit\""
+ testfunction "exec \"'exit'\""
+ testfunction "exec '\"exit\"'"
+ testfunction "exec exit 123"
+ testfunction "exec 'exit' 123"
+ testfunction "exec 'exit 123'"
+ testfunction "exec \"exit\" 123"
+ testfunction "exec \"exit 123\""
+ testfunction "exec cat -r"
+ testfunction "exec 'cat' -r"
+ testfunction "exec \"cat\" -r"
+ testfunction "exec 'cat -r'"
+ testfunction "exec \"cat -r\""
+ testfunction "exec echo hallo"
+ testfunction "exec 'echo' hallo"
+ testfunction "exec \"echo\" hallo"
+ testfunction "exec 'echo hallo'"
+ testfunction "exec \"echo hallo\""
 
  # variable
-printf "\e[1;36mTesting \$VAR variable\e[0;00m\n"
-testfunction "$"
-testfunction "echo \$''"
-testfunction "echo \$PWD"
-testfunction "echo \$PWD && echo \$PWD && echo \$PWD"
-testfunction "echo \$PWD || echo \$PWD || echo \$PWD"
-testfunction "echo \$PWD ; echo \$PWD ; echo \$PWD"
-testfunction "echo \$PWD | echo \$PWD | echo \$PWD"
-testfunction "echo '\$PWD'"
-testfunction "echo \"\$PWD\""
-testfunction "echo \$?"
-testfunction "echo \$DOESNOTEXIST"
-testfunction "\$DOESNOTEXIST"
-testfunction "cd \$HOME"
-testfunction "ls \$HOME"
-testfunction "echo \$SHLVL\"\$SHLVL\"\$SHLVL'\$SHLVL'\$SHLVL"
-testfunction "echo \$FAKEVAR"
-testfunction "echo \$SHLVL"
-testfunction "echo \$SHLVL \$PWD \$USER \$?"
-testfunction "echo \$SHLVL && echo \$SHLVL && echo \$SHLVL"
-testfunction "echo \$SHLVL || echo \$SHLVL || echo \$SHLVL"
-testfunction "echo \$SHLVL ; echo \$SHLVL ; echo \$SHLVL"
-testfunction "echo \$SHLVL | echo \$SHLVL | echo \$SHLVL"
-testfunction "echo '\$SHLVL'"
-testfunction "echo \"\$SHLVL\""
-testfunction "echo \"'\$SHLVL'\""
-testfunction "echo '\"\$SHLVL\"'"
-testfunction "echo \"   '\$PATH' \""
-testfunction "echo \"'\$'PATH''\""
-testfunction "echo \"'\$\"PATH\"' \""
-testfunction "echo \"'hey\$PATH hello' \""
-testfunction "echo \"   '\$(PATH)' \""
-testfunction "echo \"\$PATHblabla\""
-testfunction "echo \$PWD"
-testfunction "echo \$PW'D'"
-testfunction "echo \$PW\"D\""
-testfunction "echo \$?"
-#testfunction "echo \$\$" # test is ok, but PID will always be different
-testfunction "printf \$SHLVL\"\$SHLVL\"\$SHLVL'\$SHLVL'\$SHLVL"
-#testfunction "printf \$FAKEVAR" # will fail because of bash using builtin, and we use /usr/bin/printf
-testfunction "printf \$SHLVL"
-testfunction "printf \$SHL VL"
-testfunction "printf \$PWD"
-testfunction "printf \$PW'D'"
-testfunction "printf \$PW\"D\""
-testfunction "printf \$?"
-#testfunction "printf \$\$" # test is ok, but PID will always be different
+ printf "\e[1;36mTesting \$VAR variable\e[0;00m\n"
+ testfunction "$"
+ testfunction "echo \$''"
+ testfunction "echo \$PWD"
+ testfunction "echo \$PWD && echo \$PWD && echo \$PWD"
+ testfunction "echo \$PWD || echo \$PWD || echo \$PWD"
+ testfunction "echo \$PWD ; echo \$PWD ; echo \$PWD"
+ testfunction "echo \$PWD | echo \$PWD | echo \$PWD"
+ testfunction "echo '\$PWD'"
+ testfunction "echo \"\$PWD\""
+ testfunction "echo \$?"
+ testfunction "echo \$DOESNOTEXIST"
+ testfunction "\$DOESNOTEXIST"
+ testfunction "cd \$HOME"
+ testfunction "ls \$HOME"
+ testfunction "echo \$SHLVL\"\$SHLVL\"\$SHLVL'\$SHLVL'\$SHLVL"
+ testfunction "echo \$FAKEVAR"
+ testfunction "echo \$SHLVL"
+ testfunction "echo \$SHLVL \$PWD \$USER \$?"
+ testfunction "echo \$SHLVL && echo \$SHLVL && echo \$SHLVL"
+ testfunction "echo \$SHLVL || echo \$SHLVL || echo \$SHLVL"
+ testfunction "echo \$SHLVL ; echo \$SHLVL ; echo \$SHLVL"
+ testfunction "echo \$SHLVL | echo \$SHLVL | echo \$SHLVL"
+ testfunction "echo '\$SHLVL'"
+ testfunction "echo \"\$SHLVL\""
+ testfunction "echo \"'\$SHLVL'\""
+ testfunction "echo '\"\$SHLVL\"'"
+ testfunction "echo \"   '\$PATH' \""
+ testfunction "echo \"'\$'PATH''\""
+ testfunction "echo \"'\$\"PATH\"' \""
+ testfunction "echo \"'hey\$PATH hello' \""
+ testfunction "echo \"   '\$(PATH)' \""
+ testfunction "echo \"\$PATHblabla\""
+ testfunction "echo \$PWD"
+ testfunction "echo \$PW'D'"
+ testfunction "echo \$PW\"D\""
+ testfunction "echo \$?"
+ #testfunction "echo \$\$" # test is ok, but PID will always be different
+ testfunction "printf \$SHLVL\"\$SHLVL\"\$SHLVL'\$SHLVL'\$SHLVL"
+ #testfunction "printf \$FAKEVAR" # will fail because of bash using builtin, and we use /usr/bin/printf
+ testfunction "printf \$SHLVL"
+ testfunction "printf \$SHL VL"
+ testfunction "printf \$PWD"
+ testfunction "printf \$PW'D'"
+ testfunction "printf \$PW\"D\""
+ testfunction "printf \$?"
+ #testfunction "printf \$\$" # test is ok, but PID will always be different
 
 # export
 printf "\e[1;36mTesting export\e[0;00m\n"
@@ -1587,7 +1587,7 @@ testfunction "cd ../../../../../../../../../.. && pwd"
 testfunction "cd ..///..///..///..////..///..///..//..///..///.. && pwd"
 testfunction "cd ."
 testfunction "cd . && pwd"
-testfunction "cd ~" 
+testfunction "cd ~"
 testfunction "cd ~ && pwd"
 testfunction "unset HOME && cd ~"
 testfunction "unset HOME && cd ~ && pwd"
@@ -1596,7 +1596,7 @@ testfunction "export HOME=/home/user42 && cd ~ && pwd"
 testfunction "export HOME=///home///user42 && cd ~ && pwd"
 testfunction "cd -"
 #testfunction "cd - && pwd" # double prints for some reason not an issue in runtime
-testfunction "cd src && cd -" 
+testfunction "cd src && cd -"
 #testfunction "cd src && cd - && pwd" # also double prints for some reason
 testfunction "cd src"
 testfunction "cd src && pwd"
@@ -1825,12 +1825,12 @@ testfunction "<<"
 #EOF"
 #testfunction "cat << EOF
 #t e s t
-#EOF 
+#EOF
 #EOF
 #"
 #testfunction "cat << EOF
 #t e s t
- #EOF
+#EOF
 #EOF
 #"
 #testfunction "echo << EOF
@@ -1858,12 +1858,12 @@ testfunction "<<"
 #EOF"
 #testfunction "echo << EOF
 #t e s t
-#EOF 
+#EOF
 #EOF
 #"
 #testfunction "echo << EOF
 #t e s t
- #EOF
+#EOF
 #EOF
 #"
 

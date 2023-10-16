@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 10:16:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 07:32:08 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 10:29:53 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_parseredirectin(t_cmds *cmd)
+void	ft_parseredirectin(t_commands *cmd)
 {
 	int		i;
 	int		j;
@@ -119,7 +119,7 @@ void	ft_parseredirectin(t_cmds *cmd)
 	}
 }
 
-void	ft_parseredirectout(t_cmds *cmd)
+void	ft_parseredirectout(t_commands *cmd)
 {
 	int		i;
 	int		j;
@@ -219,31 +219,31 @@ void	ft_parseredirectout(t_cmds *cmd)
 	}
 }
 
-int	ft_parseredirection(t_cmds *cmds)
+int	ft_parseredirection(t_commands *cmd)
 {
 	int	i;
 
-	cmds->infile = ft_calloc(1000 * 8, 1);
-	cmds->outfile = ft_calloc(1000 * 8, 1);
-	cmds->append = ft_calloc(1000 * 8, 1);
-	if (ft_checkoutquote(cmds->pipeline, '<', 2) >= 0)
-		ft_parseredirectin(cmds);
-	if (ft_checkoutquote(cmds->pipeline, '>', 2) >= 0)
-		ft_parseredirectout(cmds);
+	cmd->infile = ft_calloc(1000 * 8, 1);
+	cmd->outfile = ft_calloc(1000 * 8, 1);
+	cmd->append = ft_calloc(1000 * 8, 1);
+	if (ft_checkoutquote(cmd->pipeline, '<', 2) >= 0)
+		ft_parseredirectin(cmd);
+	if (ft_checkoutquote(cmd->pipeline, '>', 2) >= 0)
+		ft_parseredirectout(cmd);
 	i = 0;
-	while (cmds->infile[i])
+	while (cmd->infile[i])
 	{
-		if (ft_checkinputfile(cmds->infile[i]))
+		if (ft_checkinputfile(cmd->infile[i]))
 			return (1);
 		i++;
 	}
 	i = 0;
-	while (cmds->outfile[i + 1])
+	while (cmd->outfile[i + 1])
 	{
-		if (ft_checkoutputfile(cmds->outfile[i]))
+		if (ft_checkoutputfile(cmd->outfile[i]))
 			return (1);
 		i++;
 	}
-	ft_createfdo(*cmds);
+	ft_createfdo(*cmd);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/15 05:39:37 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 10:51:51 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	ft_mainloop(t_shell *shell)
 	char	*line;
 	int		ret;
 
-	shell->stop = 0;
-	unlink("/tmp/minishell/lastcode.tmp");
 	ft_printprompt(shell, shell->envp);
 	line = readline("$ ");
 	if (!line)
@@ -34,7 +32,7 @@ int	ft_mainloop(t_shell *shell)
 			return (2);
 		}
 		if (ret == 127)
-			return (ft_errorreturn("command not found", "!!", 127));
+			return (ft_errorret("command not found", "!!", 127));
 		if (ret == 1)
 			return (1);
 		shell->code = ft_forktheforks(shell);

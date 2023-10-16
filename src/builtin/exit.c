@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 18:48:08 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/11 11:03:11 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 10:46:43 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@ unsigned long long	ft_atoull(char *str, int c)
 	}
 	return (r);
 }
-int	ft_checklonglong(char *str)
+
+int	ft_checklonglong(char *str, int i)
 {
 	unsigned long long 	number;
 	unsigned long long 	compare;
-	int					i;
 	int					negative;
 
 	compare = 9223372036854775807;
-	i = 0;
 	negative = 1;
 	while (str[i] && (str[i] == 32 || (str[i] > 8 && str[i] < 14)))
 		i++;
@@ -56,29 +55,29 @@ int	ft_checklonglong(char *str)
 	return (0);
 }
 
-int	ft_exit(t_cmds cmds, t_shell *shell)
+int	ft_exit(t_commands cmd, t_shell *shell)
 {
 	int	i;
 
 	i = 0;
-	if (!cmds.arguments[1])
+	if (!cmd.arg[1])
 		exit(0);
-	if (cmds.arguments[1][0] == '\0')
-		return (ft_moderrorreturn ("numeric argument required", "exit", cmds.arguments[1], 2));
-	if (ft_checklonglong(cmds.arguments[1]))
-		return (ft_errorreturn ("numeric argument required", "exit", 2));
-	if (cmds.arguments[1][i] == '-')
+	if (cmd.arg[1][0] == '\0')
+		return (ft_errorret2("numeric argument required", "exit", cmd.arg[1], 2));
+	if (ft_checklonglong(cmd.arg[1], 0))
+		return (ft_errorret("numeric argument required", "exit", 2));
+	if (cmd.arg[1][i] == '-')
 		i++;
-	while (cmds.arguments[1][i])
+	while (cmd.arg[1][i])
 	{
-		if (cmds.arguments[1][i] < '0' || cmds.arguments[1][i] > '9' )
+		if (cmd.arg[1][i] < '0' || cmd.arg[1][i] > '9' )
 		{
 			ft_putendl_fd("exit", 2);
-			return (ft_moderrorreturn ("numeric argument required", "exit", cmds.arguments[1], 2));
+			return (ft_errorret2 ("numeric argument required", "exit", cmd.arg[1], 2));
 		}
 		i++;
 	}
-		return (ft_atol(cmds.arguments[1]));
+		return (ft_atol(cmd.arg[1]));
 	return (0);
 	shell = shell;
 }

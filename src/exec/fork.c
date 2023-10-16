@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 05:38:35 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 10:12:53 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
 		ifork = forknbr;
 		while (icmd < fork[ifork].cmdamount)
 		{
-			if (fork[ifork].cmds[icmd].condition)
+			if (fork[ifork].cmd[icmd].condition)
 				return (1);
 			icmd++;
 		}
@@ -54,7 +54,7 @@ int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
 		icmd = 0;
 		while (icmd < fork[ifork].cmdamount)
 		{
-			if (fork[ifork].cmds[icmd].condition)
+			if (fork[ifork].cmd[icmd].condition)
 				return (1);
 			icmd++;
 		}
@@ -78,9 +78,9 @@ int	ft_forktheforks(t_shell *shell)
 		pipe(shell->pipes[forknumber]);
 		while (shell->forkamount > forknumber)
 		{
-			if (shell->forks[forknumber].waitforlast)
+			if (shell->frk[forknumber].waitforlast)
 			{
-				waitpid(shell->forks[forknumber - 1].pid, &status, 0);
+				waitpid(shell->frk[forknumber - 1].pid, &status, 0);
 				shell->code = WEXITSTATUS(status);
 				fd = open("/tmp/minishell/lastcode.tmp", O_RDONLY);
 				if (fd > 0)
@@ -90,9 +90,9 @@ int	ft_forktheforks(t_shell *shell)
 				}
 			}
 			pipe(shell->pipes[forknumber + 1]);
-			shell->forks[forknumber].pid = fork();
-			if (shell->forks[forknumber].pid == 0)
-				exit (ft_executeforks(forknumber, shell, ft_checkcondition(shell->forks, 0, forknumber)));
+			shell->frk[forknumber].pid = fork();
+			if (shell->frk[forknumber].pid == 0)
+				exit (ft_executeforks(forknumber, shell, ft_checkcondition(shell->frk, 0, forknumber)));
 			close(shell->pipes[forknumber][1]);
 			close(shell->pipes[forknumber][0]);
 			forknumber++;
@@ -102,7 +102,7 @@ int	ft_forktheforks(t_shell *shell)
 		{
 			close(shell->pipes[forknumber][0]);
 			close(shell->pipes[forknumber][1]);
-			waitpid(shell->forks[forknumber].pid, &status, 0);
+			waitpid(shell->frk[forknumber].pid, &status, 0);
 			shell->code = WEXITSTATUS(status);
 			forknumber++;
 		}

@@ -6,13 +6,13 @@
 /*   By: djonker <codam@houtworm.net>               //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/02 03:23:02 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/02 04:54:09 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 10:27:52 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_parsealiases(t_cmds *cmds, t_shell shell)
+void	ft_parsealiases(t_commands *cmd, t_shell shell)
 {
 	int		i;
 	char	*temp;
@@ -22,13 +22,13 @@ void	ft_parsealiases(t_cmds *cmds, t_shell shell)
 	while (shell.alias[i].var)
 	{
 		varlen = ft_strlen(shell.alias[i].var);
-		if (!ft_strncmp(shell.alias[i].var, cmds->pipeline, varlen))
+		if (!ft_strncmp(shell.alias[i].var, cmd->pipeline, varlen))
 		{
-			if (cmds->pipeline[varlen] == ' ' || cmds->pipeline[varlen] == '\0')
+			if (cmd->pipeline[varlen] == ' ' || cmd->pipeline[varlen] == '\0')
 			{
-				temp = ft_strjoin(shell.alias[i].val, &cmds->pipeline[varlen]);
-				free(cmds->pipeline);
-				cmds->pipeline = ft_strdup(temp);
+				temp = ft_strjoin(shell.alias[i].val, &cmd->pipeline[varlen]);
+				free(cmd->pipeline);
+				cmd->pipeline = ft_strdup(temp);
 				free(temp);
 			}
 		}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec.c                                             :+:    :+:            */
+/*   exec.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/15 13:51:22 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/16 10:36:59 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,20 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	/*free(outtmp);*/
 /*}*/
 
-void	ft_printlastcode(t_cmds	cmds)
+void	ft_printlastcode(t_commands	cmd)
 {
-	ft_putstr_fd(cmds.pipeline, 2);
+	ft_putstr_fd(cmd.pipeline, 2);
 	ft_putendl_fd("------------", 2);
 	ft_putstr_fd("last code is ", 2);
-	ft_putnbr_fd(cmds.lastcode, 2);
+	ft_putnbr_fd(cmd.lastcode, 2);
 	ft_putstr_fd("  condition is ", 2);
-	ft_putnbr_fd(cmds.condition, 2);
+	ft_putnbr_fd(cmd.condition, 2);
 	// ft_putstr_fd("  prio is ", 2);
-	// ft_putnbr_fd(cmds.prio, 2);
+	// ft_putnbr_fd(cmd.prio, 2);
 	ft_putendl_fd("", 2);
 }
 
-void	ft_createfdo(t_cmds cmd)
+void	ft_createfdo(t_commands cmd)
 {
 	int	fdo;
 	int	i;
@@ -132,8 +132,7 @@ void	ft_checklastcode(t_forks fork)
 	icmd = 0;
 	while (icmd < fork.cmdamount)
 	{
-		if (((fork.cmds[icmd].condition == 1 && fork.cmds[icmd].lastcode != 0)
-			|| (fork.cmds[icmd].condition == 2 && fork.cmds[icmd].lastcode == 0)))
+		if (((fork.cmd[icmd].condition == 1 && fork.cmd[icmd].lastcode != 0) || (fork.cmd[icmd].condition == 2 && fork.cmd[icmd].lastcode == 0)))
 		{
 			unlink("/tmp/minishell/lastcode.tmp");
 			fd = open("/tmp/minishell/lastcode.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
@@ -145,7 +144,7 @@ void	ft_checklastcode(t_forks fork)
 }
 
 
-int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
+int	ft_executecommand(t_commands cmd, int cmdnbr, int forknbr, t_shell *shell)
 {
 	int	status;
 	int	hdn;
@@ -153,44 +152,44 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 	hdn = 0;
 	if (cmdnbr > 0)
 	{
-		if (cmds.prio && !shell->forks[forknbr].cmds[cmdnbr - 1].prio)
+		if (cmd.prio && !shell->frk[forknbr].cmd[cmdnbr - 1].prio)
 		{
-			if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
+			if ((cmd.condition == 1 && cmd.lastcode != 0) || (cmd.condition == 2 && cmd.lastcode == 0))
 			{
-				if (cmds.prio != 2)
-					shell->forks[forknbr].cmds[cmdnbr].prio = 3;
-				shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
-				return (cmds.lastcode);
+				if (cmd.prio != 2)
+					shell->frk[forknbr].cmd[cmdnbr].prio = 3;
+				shell->frk[forknbr].cmd[cmdnbr + 1].lastcode = cmd.lastcode;
+				return (cmd.lastcode);
 			}
 		}
-		if (cmds.prio && shell->forks[forknbr].cmds[cmdnbr - 1].prio == 3)
+		if (cmd.prio && shell->frk[forknbr].cmd[cmdnbr - 1].prio == 3)
 		{
-			if (cmds.prio != 2)
-				shell->forks[forknbr].cmds[cmdnbr].prio = 3;
-			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
-			return (cmds.lastcode);
+			if (cmd.prio != 2)
+				shell->frk[forknbr].cmd[cmdnbr].prio = 3;
+			shell->frk[forknbr].cmd[cmdnbr + 1].lastcode = cmd.lastcode;
+			return (cmd.lastcode);
 		}
 	}
-	if ((cmds.condition == 1 && cmds.lastcode != 0) || (cmds.condition == 2 && cmds.lastcode == 0))
+	if ((cmd.condition == 1 && cmd.lastcode != 0) || (cmd.condition == 2 && cmd.lastcode == 0))
 	{
-		shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.lastcode;
-		return (cmds.lastcode);
+		shell->frk[forknbr].cmd[cmdnbr + 1].lastcode = cmd.lastcode;
+		return (cmd.lastcode);
 	}
-	cmds.code = ft_builtincheck(cmds, cmdnbr, forknbr, shell);
-	if (cmds.code == -1111)
+	cmd.code = ft_builtincheck(cmd, cmdnbr, forknbr, shell);
+	if (cmd.code == -1111)
 	{
-		status = ft_checkcommand(cmds.arguments, shell->envp);
+		status = ft_checkcommand(cmd.arg, shell->envp);
 		if (status)
 		{
-			shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = status;
+			shell->frk[forknbr].cmd[cmdnbr + 1].lastcode = status;
 			return (status);
 		}
-		if (shell->forks[forknbr].cmds[cmdnbr].heredoc)
+		if (shell->frk[forknbr].cmd[cmdnbr].heredoc)
 		{
-			while (hdn + 1 < shell->forks[forknbr].cmds[cmdnbr].heredoc)
+			while (hdn + 1 < shell->frk[forknbr].cmd[cmdnbr].heredoc)
 			{
-				cmds.pid = fork();
-				if (cmds.pid == 0)
+				cmd.pid = fork();
+				if (cmd.pid == 0)
 				{
 					signal(SIGQUIT, ft_sighandler);
 					if (ft_dupmachine(cmdnbr, forknbr, hdn, shell) == 2)
@@ -202,8 +201,8 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 						close(shell->pipes[forknbr + 1][1]);
 						close(shell->pipes[forknbr + 1][0]);
 					}
-					execve(cmds.absolute, cmds.arguments, shell->envp);
-					ft_errorexit("command not found", cmds.absolute, 127);
+					execve(cmd.absolute, cmd.arg, shell->envp);
+					ft_errorexit("command not found", cmd.absolute, 127);
 				}
 				if (shell->forkamount > 1)
 				{
@@ -211,14 +210,14 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 					close(shell->pipes[forknbr][0]);
 					close(shell->pipes[forknbr + 1][0]);
 				}
-				waitpid(cmds.pid, &status, 0);
-				cmds.code = WEXITSTATUS(status);
+				waitpid(cmd.pid, &status, 0);
+				cmd.code = WEXITSTATUS(status);
 				hdn++;
 			}
 
 		}
-		cmds.pid = fork();
-		if (cmds.pid == 0)
+		cmd.pid = fork();
+		if (cmd.pid == 0)
 		{
 			signal(SIGQUIT, ft_sighandler);
 			if (ft_dupmachine(cmdnbr, forknbr, hdn, shell) == 2)
@@ -230,8 +229,8 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 				close(shell->pipes[forknbr + 1][1]);
 				close(shell->pipes[forknbr + 1][0]);
 			}
-			execve(cmds.absolute, cmds.arguments, shell->envp);
-			ft_errorexit("command not found", cmds.absolute, 127);
+			execve(cmd.absolute, cmd.arg, shell->envp);
+			ft_errorexit("command not found", cmd.absolute, 127);
 		}
 		if (shell->forkamount > 1)
 		{
@@ -239,11 +238,11 @@ int	ft_executecommand(t_cmds cmds, int cmdnbr, int forknbr, t_shell *shell)
 			close(shell->pipes[forknbr][0]);
 			close(shell->pipes[forknbr + 1][0]);
 		}
-		waitpid(cmds.pid, &status, 0);
-		cmds.code = WEXITSTATUS(status);
+		waitpid(cmd.pid, &status, 0);
+		cmd.code = WEXITSTATUS(status);
 	}
-	shell->forks[forknbr].cmds[cmdnbr + 1].lastcode = cmds.code;
-	return (cmds.code);
+	shell->frk[forknbr].cmd[cmdnbr + 1].lastcode = cmd.code;
+	return (cmd.code);
 }
 
 int	ft_executeforks(int forknbr, t_shell *shell, int condition)
@@ -252,14 +251,14 @@ int	ft_executeforks(int forknbr, t_shell *shell, int condition)
 	int	cmdnbr;
 
 	cmdnbr = 0;
-	while (shell->forks[forknbr].cmdamount > cmdnbr)
+	while (shell->frk[forknbr].cmdamount > cmdnbr)
 	{
 		ft_frearr(shell->envp);
 		shell->envp = ft_fdtocharpp(shell->envpfd);
-		shell = ft_parsecmds(shell, forknbr, cmdnbr);
+		shell = ft_parsecommands(shell, forknbr, cmdnbr);
 		if (shell->stop == 1)
 		{
-			ft_createfdo(shell->forks[forknbr].cmds[cmdnbr]);
+			ft_createfdo(shell->frk[forknbr].cmd[cmdnbr]);
 			return (0);
 		}
 		if (shell->stop == 2)
@@ -267,13 +266,13 @@ int	ft_executeforks(int forknbr, t_shell *shell, int condition)
 			return (1);
 		}
 		if (shell->debug)
-			ft_printcmds(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr);
-		status = ft_executecommand(shell->forks[forknbr].cmds[cmdnbr], cmdnbr, forknbr, shell);
-		if (shell->forks[forknbr].cmds[cmdnbr].outfile[0] && status != 127)
-			ft_executeredirect(shell->forks[forknbr].cmds[cmdnbr].outfile, shell->forks[forknbr].cmds[cmdnbr].append, forknbr);
+			ft_printcommands(shell->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr);
+		status = ft_executecommand(shell->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr, shell);
+		if (shell->frk[forknbr].cmd[cmdnbr].outfile[0] && status != 127)
+			ft_executeredirect(shell->frk[forknbr].cmd[cmdnbr].outfile, shell->frk[forknbr].cmd[cmdnbr].append, forknbr);
 		cmdnbr++;
 	}
 	if (condition)
-		ft_checklastcode(shell->forks[forknbr]);
+		ft_checklastcode(shell->frk[forknbr]);
 	return (status);
 }

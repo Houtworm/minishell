@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/14 06:54:55 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 10:30:56 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_parsevariable(t_cmds *cmd, t_shell shell)
+int	ft_parsevariable(t_commands *cmd, t_shell shell)
 {
 	int		i;
 	int		j;

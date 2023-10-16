@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/25 04:57:23 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 05:40:25 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 10:44:01 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_errorexit(char *reason, char *cmd, int code)
 	exit (code);
 }
 
-int	ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code)
+int	ft_errorexit2(char *reason, char *cmd, char *cmd2, int code)
 {
 	char	*str;
 
@@ -36,7 +36,7 @@ int	ft_moderrorexit(char *reason, char *cmd, char *cmd2, int code)
 	exit (code);
 }
 
-int	ft_errorreturn(char *reason, char *cmd, int code)
+int	ft_errorret(char *reason, char *cmd, int code)
 {
 	char	*str;
 
@@ -48,7 +48,7 @@ int	ft_errorreturn(char *reason, char *cmd, int code)
 	return (code);
 }
 
-int	ft_moderrorreturn(char *reason, char *cmd, char *cmd2, int code)
+int	ft_errorret2(char *reason, char *cmd, char *cmd2, int code)
 {
 	char	*str;
 

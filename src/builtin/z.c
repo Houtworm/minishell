@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:10 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 09:18:19 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 10:36:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_zprint(char *file)
 	return (0);
 }
 
-int	ft_ztrydir(t_cmds cmd, t_shell *shell, char *file)
+int	ft_ztrydir(t_commands cmd, t_shell *shell, char *file)
 {
 	int		mshzfd;
 	char	*line;
@@ -50,10 +50,10 @@ int	ft_ztrydir(t_cmds cmd, t_shell *shell, char *file)
 	while (get_next_line(mshzfd, &line) > 0)
 	{
 		temp = ft_strrchr(line, '/');
-		if (ft_strnstr(temp, cmd.arguments[1], ft_strlen(temp)))
+		if (ft_strnstr(temp, cmd.arg[1], ft_strlen(temp)))
 		{
-			free(cmd.arguments[1]);
-			cmd.arguments[1] = ft_strdup(line);
+			free(cmd.arg[1]);
+			cmd.arg[1] = ft_strdup(line);
 			free(file);
 			free(line);
 			close(mshzfd);
@@ -67,7 +67,7 @@ int	ft_ztrydir(t_cmds cmd, t_shell *shell, char *file)
 	return (0);
 }
 
-int	ft_ztrypath(t_cmds cmd, t_shell *shell, char *file)
+int	ft_ztrypath(t_commands cmd, t_shell *shell, char *file)
 {
 	int		mshzfd;
 	char	*line;
@@ -75,10 +75,10 @@ int	ft_ztrypath(t_cmds cmd, t_shell *shell, char *file)
 	mshzfd = open(file, O_RDONLY);
 	while (get_next_line(mshzfd, &line) > 0)
 	{
-		if (ft_strnstr(line, cmd.arguments[1], ft_strlen(line)))
+		if (ft_strnstr(line, cmd.arg[1], ft_strlen(line)))
 		{
-			free(cmd.arguments[1]);
-			cmd.arguments[1] = ft_strdup(line);
+			free(cmd.arg[1]);
+			cmd.arg[1] = ft_strdup(line);
 			free(line);
 			free(file);
 			close(mshzfd);
@@ -92,12 +92,12 @@ int	ft_ztrypath(t_cmds cmd, t_shell *shell, char *file)
 	return (0);
 }
 
-int	ft_z(t_cmds cmd, t_shell *shell)
+int	ft_z(t_commands cmd, t_shell *shell)
 {
 	char	*file;
 
 	file = ft_zgetfile(shell);
-	if (!cmd.arguments[1])
+	if (!cmd.arg[1])
 		return (ft_zprint(file));
 	if (ft_ztrydir(cmd, shell, file))
 		return (0);

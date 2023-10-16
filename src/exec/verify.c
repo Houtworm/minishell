@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/25 04:55:07 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/15 07:48:36 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 10:59:24 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	ft_checkinputfile(char *inputfile)
 		if (access(inputfile, R_OK) < 0)
 		{
 			if (access(inputfile, F_OK) < 0)
-				return (ft_errorreturn("no such file or directory", inputfile, 1));
-			return (ft_errorreturn("permission denied", inputfile, 1));
+				return (ft_errorret("no such file or directory", inputfile, 1));
+			return (ft_errorret("permission denied", inputfile, 1));
 		}
 	}
 	return (0);
@@ -41,17 +41,17 @@ int	ft_checkoutputfile(char *outputfile)
 				i--;
 			}
 			if (i == 0)
-				return (ft_errorreturn("is a directory", outputfile, 1));
+				return (ft_errorret("is a directory", outputfile, 1));
 			if (!outputfile)
 				outputfile[i] = '\0';
 			if (access(outputfile, F_OK) < 0)
-				return (ft_errorreturn("no such file or directory", outputfile, 1));
+				return (ft_errorret("no such file or directory", outputfile, 1));
 		}
 		else if (access(outputfile, W_OK) < 0)
 		{
-			return (ft_errorreturn("permission denied", outputfile, 1));
+			return (ft_errorret("permission denied", outputfile, 1));
 		}
-	}	
+	}
 	return (0);
 }
 
@@ -69,7 +69,7 @@ int	ft_checkcommand(char **arguments, char **envp)
 	else
 	{
 		if (!paths)
-			return (ft_errorreturn("command not found", arguments[0], 127));
+			return (ft_errorret("command not found", arguments[0], 127));
 		temp = ft_strjoin(paths[i], arguments[0]);
 	}
 	while (access(temp, F_OK) && paths[i] && !ft_chrstr('/', arguments[0]))
@@ -82,13 +82,13 @@ int	ft_checkcommand(char **arguments, char **envp)
 	{
 		free (temp);
 		ft_frearr(paths);
-		return (ft_errorreturn("command not found", arguments[0], 127));
+		return (ft_errorret("command not found", arguments[0], 127));
 	}
 	ft_frearr(paths);
 	if (access(temp, X_OK))
 	{
 		free (temp);
-		return (ft_errorreturn("permission denied", arguments[0], 126));
+		return (ft_errorret("permission denied", arguments[0], 126));
 	}
 	free (temp);
 	return (0);

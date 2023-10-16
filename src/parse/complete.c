@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/03 18:38:40 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/14 06:54:02 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 10:52:08 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_closeline(t_shell *shell)
 }
 
 char	*ft_completeline(t_shell *shell, int k)
-{	
+{
 	char	*temp;
 	int		ret;
 	char	*gnl;

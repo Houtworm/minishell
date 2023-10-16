@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/04 22:22:12 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/14 01:56:50 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 10:49:02 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_checkoutsinglequote(char *line, char target)
 	return (-1);
 }
 
-void	ft_executedollarsign(t_cmds *cmd, char **envp)
+void	ft_executedollarsign(t_commands *cmd, char **envp)
 {
 	int		i;
 	int		j;
@@ -129,7 +129,7 @@ void	ft_executedollarsign(t_cmds *cmd, char **envp)
 	ft_vafree(3, begin, var, rest);
 }
 
-void	ft_executebacktick(t_cmds *cmd, char **envp)
+void	ft_executebacktick(t_commands *cmd, char **envp)
 {
 	int		i;
 	int		j;
@@ -212,9 +212,8 @@ void	ft_executebacktick(t_cmds *cmd, char **envp)
 	ft_vafree(3, begin, var, rest);
 }
 
-void	ft_executepriority(t_cmds *cmd, char **envp)
+void	ft_executepriority(t_commands *cmd, char **envp)
 {
 	ft_executedollarsign(cmd, envp);
 	ft_executebacktick(cmd, envp);
-
 }

@@ -6,29 +6,29 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/07 10:35:27 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 10:35:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int ft_echorecursion(t_cmds cmds, char *print, int i, int j)
+int ft_echorecursion(t_commands cmd, char *print, int i, int j)
 {
 	int k;
 
 	k = 0;
-	if (!cmds.arguments[j])
+	if (!cmd.arg[j])
 		return (0);
-	while (cmds.arguments[j][k] != '\0')
+	while (cmd.arg[j][k] != '\0')
 	{
-		print[i] = cmds.arguments[j][k];
+		print[i] = cmd.arg[j][k];
 		i++;
 		k++;
 	}
-	if (cmds.arguments[j + 1])
+	if (cmd.arg[j + 1])
 	{
 		print[i] = ' ';
-		ft_echorecursion(cmds, print, i + 1, j + 1);
+		ft_echorecursion(cmd, print, i + 1, j + 1);
 	}
 	else
 		print[i] = '\0';
@@ -36,7 +36,7 @@ int ft_echorecursion(t_cmds cmds, char *print, int i, int j)
 }
 
 
-int	ft_echo(t_cmds cmds, t_shell *shell)
+int	ft_echo(t_commands cmd, t_shell *shell)
 {
 	char	*print;
 	int		i;
@@ -48,25 +48,25 @@ int	ft_echo(t_cmds cmds, t_shell *shell)
 	j = 1;
 	l = 0;
 	flag = 0;
-	if (cmds.arguments[1])
+	if (cmd.arg[1])
 	{
 		print = ft_calloc(1000, 8);
-		if (cmds.arguments[j][0] == '-')
+		if (cmd.arg[j][0] == '-')
 		{
 			l++;
-			while (cmds.arguments[j][l] == 'n')
+			while (cmd.arg[j][l] == 'n')
 				l++;
-			if (cmds.arguments[j][l] == '\0')
+			if (cmd.arg[j][l] == '\0')
 			{
 				i = i + l;
 				flag = 1;
 				j++;
-				while (cmds.arguments[j] && cmds.arguments[j][0] == '-')
+				while (cmd.arg[j] && cmd.arg[j][0] == '-')
 				{
 					l = 1;
-					while (cmds.arguments[j] && cmds.arguments[j][l] == 'n')
+					while (cmd.arg[j] && cmd.arg[j][l] == 'n')
 						l++;
-					if (cmds.arguments[j][l] == '\0')
+					if (cmd.arg[j][l] == '\0')
 						i = i + l;
 					else
 						break ;
@@ -74,7 +74,7 @@ int	ft_echo(t_cmds cmds, t_shell *shell)
 				}
 			}
 		}
-		ft_echorecursion(cmds, print, 0, j);
+		ft_echorecursion(cmd, print, 0, j);
 		if (flag == 0)
 			printf("%s\n", print);
 		else

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:32:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/14 06:05:11 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 10:50:09 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	ft_getglob(t_globs *globs, int startpos)
 	startpos++;
 	while (globs->pipeline[globs->linecount + startpos + endpos] && globs->pipeline[globs->linecount + startpos + endpos] != ' ')
 	{
-	  	if (ft_strchr("\'\"", globs->pipeline[globs->linecount + startpos + endpos]))
+		if (ft_strchr("\'\"", globs->pipeline[globs->linecount + startpos + endpos]))
 		{
 			quote = globs->pipeline[globs->linecount + startpos + endpos];
 			globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos];

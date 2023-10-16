@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/27 08:14:23 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/14 06:51:51 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 10:51:40 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_nextsubwildcard(t_globs *globs, int si, int ri, int gi)
 	if (globs->subdir[si][gi] == '\0')
 		return (1);
 	ti = gi;
-	while (globs->tempsubdir[si][ri] && globs->subdir[si][gi]) 
+	while (globs->tempsubdir[si][ri] && globs->subdir[si][gi])
 	{
 		if (globs->tempsubdir[si][ri] == globs->subdir[si][gi])
 		{
@@ -194,7 +194,7 @@ int	ft_firstwildcard(t_globs *globs, char *dname, int ri)
 		gi++;
 	if (globs->gend[gi] == '\0' && dname[ri] == '\0')
 		return (1);
-	while (dname[ri]) 
+	while (dname[ri])
 	{
 		while (globs->gend[gi] == '*')
 			gi++;

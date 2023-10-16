@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/14 06:11:12 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 10:50:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 {
 	char	quote;
-	
+
 	if (ft_strchr("\'\"", globs->pipeline[globs->linecount + startpos]))
 	{
 		quote = globs->pipeline[globs->linecount + startpos];
@@ -89,7 +89,7 @@ int	ft_parseglob(t_globs *globs, char **envp)
 	}
 	dir = opendir(checkdir);
 	if (dir)
-	{	
+	{
 		while ((dirents = readdir(dir)))
 		{
 			ft_matchtillglob(globs, dirents->d_name, checkdir, dirents->d_type);
@@ -100,7 +100,7 @@ int	ft_parseglob(t_globs *globs, char **envp)
 	return (0);
 }
 
-void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
+void	ft_globlooper(t_globs *globs, t_commands *cmd, int startpos, char **envp)
 {
 	while (globs->pipeline[globs->linecount + startpos])
 	{
@@ -134,7 +134,7 @@ void	ft_globlooper(t_globs *globs, t_cmds *cmd, int startpos, char **envp)
 	}
 }
 
-int	ft_parseglobs(t_cmds *cmd, char **envp)
+int	ft_parseglobs(t_commands *cmd, char **envp)
 {
 	t_globs			*globs;
 

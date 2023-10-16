@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:03:34 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 09:31:26 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 10:36:41 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_whichcheckbuiltin(t_cmds cmds, t_shell *shell)
+int	ft_whichcheckbuiltin(t_commands cmd, t_shell *shell)
 {
 	int		i;
 	char	*str;
@@ -20,7 +20,7 @@ int	ft_whichcheckbuiltin(t_cmds cmds, t_shell *shell)
 	i = 0;
 	while (i < 13)
 	{
-		if (!ft_strncmp(cmds.arguments[1], shell->builtins[i].compare, 6))
+		if (!ft_strncmp(cmd.arg[1], shell->builtins[i].compare, 6))
 		{
 			str = ft_strjoin(shell->builtins[i].compare, ": shell built-in command");
 			ft_putendl(str);
@@ -32,14 +32,14 @@ int	ft_whichcheckbuiltin(t_cmds cmds, t_shell *shell)
 	return (0);
 }
 
-int	ft_whichcheckpath(t_cmds cmds, t_shell *shell)
+int	ft_whichcheckpath(t_commands cmd, t_shell *shell)
 {
 	char	*absolute;
 	char	**paths;
 	char	*str;
 
 	paths = ft_getpaths(shell->envp, 0);
-	absolute = ft_abspathcmd(paths, cmds.arguments[1]);
+	absolute = ft_abspathcmd(paths, cmd.arg[1]);
 	if (absolute[0] != '/')
 	{
 		str = ft_vastrjoin(3, "which: no ", absolute, " in paths");
@@ -55,14 +55,14 @@ int	ft_whichcheckpath(t_cmds cmds, t_shell *shell)
 	return (1);
 }
 
-int	ft_which(t_cmds cmds, t_shell *shell)
+int	ft_which(t_commands cmd, t_shell *shell)
 {
-	if (!cmds.arguments[1])
+	if (!cmd.arg[1])
 		if (ft_errorexit("which command", "Usage", 0))
 			return (-1);
-	if (ft_whichcheckbuiltin(cmds, shell))
+	if (ft_whichcheckbuiltin(cmd, shell))
 		return (0);
-	if (ft_whichcheckpath(cmds, shell))
+	if (ft_whichcheckpath(cmd, shell))
 		return (0);
 	return (1);
 }

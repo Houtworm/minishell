@@ -6,85 +6,74 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 06:00:31 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 10:53:54 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_freecmds(t_cmds *cmds)
+void	ft_freecommands(t_commands *cmd)
 {
 	int		i;
 
 	i = 0;
-	while (cmds[i].pipeline)
+	while (cmd[i].pipeline)
 	{
-		 free(cmds[i].pipeline);
-		free(cmds[i].absolute);
-		if (cmds[i].arguments)
-			ft_frearr(cmds[i].arguments);
-		if (cmds[i].outfile)
-		ft_frearr(cmds[i].outfile);
-		if (cmds[i].infile)
-		ft_frearr(cmds[i].infile);
-		if (cmds[i].append)
-		free(cmds[i].append);
+		free(cmd[i].pipeline);
+		free(cmd[i].absolute);
+		if (cmd[i].arg)
+			ft_frearr(cmd[i].arg);
+		if (cmd[i].outfile)
+		ft_frearr(cmd[i].outfile);
+		if (cmd[i].infile)
+		ft_frearr(cmd[i].infile);
+		if (cmd[i].append)
+		free(cmd[i].append);
 		i++;
 	}
-	 free(cmds);
+	free(cmd);
 }
 
-void	ft_freeforks(t_forks *forks)
+void	ft_freeforks(t_forks *frk)
 {
 	int		i;
 
 	i = 0;
-	if (forks)
+	if (frk)
 	{
-		while (forks[i].cmds)
+		while (frk[i].cmd)
 		{
-			ft_freecmds(forks[i].cmds);
-			free(forks[i].pipeline);
+			ft_freecommands(frk[i].cmd);
+			free(frk[i].pipeline);
 			i++;
 		}
-		free(forks[i].cmds);
+		free(frk[i].cmd);
 	}
-	free(forks);
+	free(frk);
 }
 
 void	ft_freeexit(t_shell *shell, int code)
 {
-	// int		i;
-	
-	// ft_freeforks(shell->forks);
-	// free(shell->alias->val);
-	// free(shell->alias->var);
-	// free(shell->alias);
-	// free(shell->historyfile);
-	// free(shell->oldline);
-	// free(shell->line);
-	// i = 0;
-	// if (shell->forkamount > 1)
-	// {
-	// 	while (shell->forkamount >= i)
-	// 	{
-	// 		free(shell->pipes[i]);
-	// 		i++;
-	// 	}
-	// 	free(shell->pipes[i]);
-	// 	free(shell->pipes);
-	// }
-	// ft_frearr(shell->envp);
-	// i = 0;
-	// while (i < 13)
-	// {
-	// 	free(shell->builtins[i].compare);
-	// 	i++;
-	// }
-	// free(shell->builtins);
-	// free(shell);
-	shell = shell;
+	int	i;
+
 	ft_rmdir("/tmp/minishell", shell->envp);
+	ft_freeforks(shell->frk);
+	free(shell->alias->val);
+	free(shell->alias->var);
+	free(shell->alias);
+	free(shell->historyfile);
+	free(shell->oldline);
+	free(shell->line);
+	ft_frearr(shell->envp);
+	i = 0;
+	while (i < 13)
+	{
+		free(shell->builtins[i].compare);
+		i++;
+	}
+	free(shell->builtins);
+	free(shell->os);
+	/*free(shell);*/
 	exit (code);
 }
 
@@ -92,7 +81,7 @@ void	ft_freenewprompt(t_shell *shell)
 {
 	int	i;
 
-	ft_freeforks(shell->forks);
+	ft_freeforks(shell->frk);
 	i = 0;
 	if (shell->forkamount > 1)
 	{
@@ -104,6 +93,8 @@ void	ft_freenewprompt(t_shell *shell)
 		free(shell->pipes[i]);
 		free(shell->pipes);
 	}
+	shell->stop = 0;
+	unlink("/tmp/minishell/lastcode.tmp");
 }
 
 void	ft_freeglobs(t_globs *globs)

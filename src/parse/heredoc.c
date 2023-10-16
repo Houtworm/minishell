@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   heredoc.c                                          :+:    :+:            */
+/*   heredoc.c                                       |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/15 15:00:42 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/16 10:52:21 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_expandheredoc(char *line, char **delimiter, t_shell shell)
 				i++;
 				j++;
 			}
-			(*delimiter)[j] = '\0'; 
+			(*delimiter)[j] = '\0';
 			return (line);
 		}
 		if ((*delimiter)[i] == '\"')
@@ -47,7 +47,7 @@ char	*ft_expandheredoc(char *line, char **delimiter, t_shell shell)
 				i++;
 				j++;
 			}
-			(*delimiter)[j] = '\0'; 
+			(*delimiter)[j] = '\0';
 			return (line);
 		}
 		i++;
@@ -197,81 +197,81 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 
 	icmd = 0;
 	i = 0;
-	while (icmd < shell->forks[forknumber].cmdamount)
+	while (icmd < shell->frk[forknumber].cmdamount)
 	{
-		shell->forks[forknumber].cmds[icmd].heredoc = 0;
-		if (ft_checkoutquote(shell->forks[forknumber].cmds[icmd].pipeline, '<', 2) >= 0)
+		shell->frk[forknumber].cmd[icmd].heredoc = 0;
+		if (ft_checkoutquote(shell->frk[forknumber].cmd[icmd].pipeline, '<', 2) >= 0)
 		{
-			start = ft_calloc(ft_strlen(shell->forks[forknumber].cmds[icmd].pipeline), 8);
-			end = ft_calloc(ft_strlen(shell->forks[forknumber].cmds[icmd].pipeline), 8);
-			while (shell->forks[forknumber].cmds[icmd].pipeline[i])
+			start = ft_calloc(ft_strlen(shell->frk[forknumber].cmd[icmd].pipeline), 8);
+			end = ft_calloc(ft_strlen(shell->frk[forknumber].cmd[icmd].pipeline), 8);
+			while (shell->frk[forknumber].cmd[icmd].pipeline[i])
 			{
-				if (shell->forks[forknumber].cmds[icmd].pipeline[i] == '\'')
+				if (shell->frk[forknumber].cmd[icmd].pipeline[i] == '\'')
 				{
-					start[i] = shell->forks[forknumber].cmds[icmd].pipeline[i];
+					start[i] = shell->frk[forknumber].cmd[icmd].pipeline[i];
 					i++;
-					while (shell->forks[forknumber].cmds[icmd].pipeline[i] != '\'' && shell->forks[forknumber].cmds[icmd].pipeline[i])
+					while (shell->frk[forknumber].cmd[icmd].pipeline[i] != '\'' && shell->frk[forknumber].cmd[icmd].pipeline[i])
 					{
-						start[i] = shell->forks[forknumber].cmds[icmd].pipeline[i];
+						start[i] = shell->frk[forknumber].cmd[icmd].pipeline[i];
 						i++;
 					}
 					i++;
 				}
-				else if (shell->forks[forknumber].cmds[icmd].pipeline[i] == '\"')
+				else if (shell->frk[forknumber].cmd[icmd].pipeline[i] == '\"')
 				{
-					start[i] = shell->forks[forknumber].cmds[icmd].pipeline[i];
+					start[i] = shell->frk[forknumber].cmd[icmd].pipeline[i];
 					i++;
-					while (shell->forks[forknumber].cmds[icmd].pipeline[i] != '\"' && shell->forks[forknumber].cmds[icmd].pipeline[i])
+					while (shell->frk[forknumber].cmd[icmd].pipeline[i] != '\"' && shell->frk[forknumber].cmd[icmd].pipeline[i])
 					{
-						start[i] = shell->forks[forknumber].cmds[icmd].pipeline[i];
+						start[i] = shell->frk[forknumber].cmd[icmd].pipeline[i];
 						i++;
 					}
 					i++;
 				}
-				else if (shell->forks[forknumber].cmds[icmd].pipeline[i] == '<' && shell->forks[forknumber].cmds[icmd].pipeline[i + 1] == '<')
+				else if (shell->frk[forknumber].cmd[icmd].pipeline[i] == '<' && shell->frk[forknumber].cmd[icmd].pipeline[i + 1] == '<')
 				{
-					delimiter = ft_calloc(ft_strlen(shell->forks[forknumber].cmds[icmd].pipeline), 8);
+					delimiter = ft_calloc(ft_strlen(shell->frk[forknumber].cmd[icmd].pipeline), 8);
 					start[i] = '\0';
 					i = i + 2;
-					while (shell->forks[forknumber].cmds[icmd].pipeline[i] == ' ')
+					while (shell->frk[forknumber].cmd[icmd].pipeline[i] == ' ')
 						i++;
 					j = 0;
-					while (shell->forks[forknumber].cmds[icmd].pipeline[i] && shell->forks[forknumber].cmds[icmd].pipeline[i] != ' ')
+					while (shell->frk[forknumber].cmd[icmd].pipeline[i] && shell->frk[forknumber].cmd[icmd].pipeline[i] != ' ')
 					{
-						delimiter[j] = shell->forks[forknumber].cmds[icmd].pipeline[i];
+						delimiter[j] = shell->frk[forknumber].cmd[icmd].pipeline[i];
 						i++;
 						j++;
 					}
 					delimiter[j] = '\0';
 					j = 0;
-					while (shell->forks[forknumber].cmds[icmd].pipeline[i] == ' ')
+					while (shell->frk[forknumber].cmd[icmd].pipeline[i] == ' ')
 						i++;
 					frkn = ft_itoa(forknumber);
 					cmdn = ft_itoa(icmd);
-					hdn = ft_itoa(shell->forks[forknumber].cmds[icmd].heredoc);
+					hdn = ft_itoa(shell->frk[forknumber].cmd[icmd].heredoc);
 					tmp = ft_vastrjoin(8, "/tmp/minishell/heredoc", ".", frkn, ".", cmdn, ".", hdn, ".tmp");
 					free(frkn);
 					free(cmdn);
 					free(hdn);
-					shell->forks[forknumber].cmds[icmd].heredoc++;
+					shell->frk[forknumber].cmd[icmd].heredoc++;
 					ft_heredoc(&delimiter, tmp, *shell);
 					free(tmp);
 					free(delimiter);
-					if (ft_checkoutquote(shell->forks[forknumber].cmds[icmd].pipeline + i, '<', 2) < 0)
+					if (ft_checkoutquote(shell->frk[forknumber].cmd[icmd].pipeline + i, '<', 2) < 0)
 					{
-						while (shell->forks[forknumber].cmds[icmd].pipeline[i])
+						while (shell->frk[forknumber].cmd[icmd].pipeline[i])
 						{
-							end[j] = shell->forks[forknumber].cmds[icmd].pipeline[i];
+							end[j] = shell->frk[forknumber].cmd[icmd].pipeline[i];
 							i++;
 							j++;
 						}
 						end[j] = '\0';
-						shell->forks[forknumber].cmds[icmd].pipeline = ft_strjoin(start, end);
+						shell->frk[forknumber].cmd[icmd].pipeline = ft_strjoin(start, end);
 					}
 				}
 				else
 				{
-					start[i] = shell->forks[forknumber].cmds[icmd].pipeline[i];
+					start[i] = shell->frk[forknumber].cmd[icmd].pipeline[i];
 					i++;
 				}
 			}
@@ -280,5 +280,5 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 		}
 		icmd++;
 	}
-	return (shell->forks[forknumber]);
+	return (shell->frk[forknumber]);
 }
