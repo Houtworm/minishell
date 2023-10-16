@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 12:49:00 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 16:45:33 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_shell
 	char		*os;
 	char		*historyfile;
 	char		*oldline;
+	char		*tmpdir;
 	int			stdinfd;
 	int			stdoutfd;
 }	t_shell;
@@ -134,7 +135,7 @@ int			ft_sighook(void);
 // mshrc
 t_alias		*ft_parsemshrc(char **envp);
 // history
-void		ft_writehistory(char *line, char *file);
+void		ft_writehistory(char *line, char *file, t_shell *msh);
 void		ft_readhistory(char *file);
 // insults
 void		ft_printinsult(t_shell *msh);
@@ -254,8 +255,8 @@ void		ft_printglobs(t_globs globs, char *function);
 void		ft_printdup(t_commands cmd, int cmdnbr, int forknbr);
 // environment
 char		**ft_setenv(char **envp, char *var, char *val);
-char		**ft_fdtocharpp(int	fd);
-void		ft_charpptofd(char **array, int fd);
+char		**ft_fdtocharpp(int	fd, t_shell *msh);
+void		ft_charpptofd(char **array, int fd, t_shell *msh);
 // files
 int			ft_mkdir(char *dirname, char **envp);
 int			ft_rmdir(char *dirname, char **envp);

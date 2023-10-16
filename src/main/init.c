@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 12:14:59 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 17:03:56 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,18 @@ void	ft_shelllevelup(char **envp)
 	free(shlvlstr);
 }
 
+char	*ft_createtempdir(char **envp)
+{
+	char	*dir;
+	char	*pid;
+
+	pid = ft_itoa(ft_getpid());
+	dir = ft_vastrjoin(3, "/tmp/minishell", pid, "/");
+	free(pid);
+	ft_mkdir(dir, envp);
+	return (dir);
+}
+
 t_shell	*ft_initstruct(char **envp, int debugmode)
 {
 	t_shell	*msh;
@@ -61,14 +73,12 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 
 	msh = ft_calloc(10000, 8);
 	msh->starttime = ft_gettimems(envp);
-	ft_rmdir("/tmp/minishell", envp);
-	ft_mkdir("/tmp/minishell", envp);
-	ft_seminit("/tmp/minishell/printsem", 1);
+	msh->tmpdir = ft_createtempdir(envp);
 	msh->os = ft_getos();
-	ft_charpptofd(envp, msh->envpfd);
-	msh->envp = ft_fdtocharpp(msh->envpfd);
+	ft_charpptofd(envp, msh->envpfd, msh);
+	msh->envp = ft_fdtocharpp(msh->envpfd, msh);
 	ft_shelllevelup(msh->envp);
-	ft_charpptofd(msh->envp, msh->envpfd);
+	ft_charpptofd(msh->envp, msh->envpfd, msh);
 	msh->bltn = ft_getbuiltins();
 	home = ft_gethome(envp);
 	msh->historyfile = ft_strjoin(home, "/.mshhistory");

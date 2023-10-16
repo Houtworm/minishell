@@ -6,13 +6,13 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 11:39:48 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 17:02:26 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavior
+void	ft_executeredirect(char **outfile, int *append, int forknbr, t_shell *msh) // bash behavior
 {
 	int		fdread;
 	int		fdo;
@@ -22,7 +22,7 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	int		ret;
 
 	line = ft_itoa(forknbr);
-	outtmp = ft_vastrjoin(3, "/tmp/minishell/outputfile", line, ".tmp");
+	outtmp = ft_vastrjoin(4, msh->tmpdir, "outputfile", line, ".tmp");
 	free(line);
 	i = 0;
 	while (outfile[i])
@@ -57,7 +57,7 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	free(outtmp);
 }
 
-/*void	ft_executeredirect(char **outfile, int *append, int forknbr)*/ // zsh behaviour which I think is better
+/*void	ft_executeredirect(char **outfile, int *append, int forknbr, t_shell *msh) // zsh behaviour*/
 /*{*/
 	/*int		fdread;*/
 	/*int		fdo;*/
@@ -66,7 +66,9 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr) // bash behavi
 	/*char	*outtmp;*/
 	/*int		ret;*/
 
-	/*outtmp = ft_vastrjoin(3, "/tmp/minishell/outputfile", ft_itoa(forknbr), ".tmp");*/
+	/*line = ft_itoa(forknbr);*/
+	/*outtmp = ft_vastrjoin(4, msh->tmpdir, "/tmp/minishell/outputfile", line, ".tmp");*/
+	/*free(line);*/
 	/*i = 0;*/
 	/*while (outfile[i])*/
 	/*{*/
@@ -124,18 +126,20 @@ void	ft_createfdo(t_commands cmd)
 	}
 }
 
-void	ft_checklastcode(t_forks fork)
+void	ft_checklastcode(t_forks fork, t_shell *msh)
 {
 	int	fd;
 	int	icmd;
+	char	*file;
 
 	icmd = 0;
+	file = ft_strjoin(msh->tmpdir, "lastcode.tmp");
 	while (icmd < fork.cmdamount)
 	{
 		if (((fork.cmd[icmd].condition == 1 && fork.cmd[icmd].lastcode != 0) || (fork.cmd[icmd].condition == 2 && fork.cmd[icmd].lastcode == 0)))
 		{
-			unlink("/tmp/minishell/lastcode.tmp");
-			fd = open("/tmp/minishell/lastcode.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+			unlink(file);
+			fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 			close(fd);
 			break ;
 		}
@@ -254,7 +258,7 @@ int	ft_executeforks(int forknbr, t_shell *msh, int condition)
 	while (msh->frk[forknbr].cmdamount > cmdnbr)
 	{
 		ft_frearr(msh->envp);
-		msh->envp = ft_fdtocharpp(msh->envpfd);
+		msh->envp = ft_fdtocharpp(msh->envpfd, msh);
 		msh = ft_parsecommands(msh, forknbr, cmdnbr);
 		if (msh->stop == 1)
 		{
@@ -269,10 +273,10 @@ int	ft_executeforks(int forknbr, t_shell *msh, int condition)
 			ft_printcommands(msh->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(msh->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr, msh);
 		if (msh->frk[forknbr].cmd[cmdnbr].outfile[0] && status != 127)
-			ft_executeredirect(msh->frk[forknbr].cmd[cmdnbr].outfile, msh->frk[forknbr].cmd[cmdnbr].append, forknbr);
+			ft_executeredirect(msh->frk[forknbr].cmd[cmdnbr].outfile, msh->frk[forknbr].cmd[cmdnbr].append, forknbr, msh);
 		cmdnbr++;
 	}
 	if (condition)
-		ft_checklastcode(msh->frk[forknbr]);
+		ft_checklastcode(msh->frk[forknbr], msh);
 	return (status);
 }

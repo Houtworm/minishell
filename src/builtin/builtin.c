@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 15:11:33 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 12:18:30 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 16:12:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
 	else
 	{
 		itoa = ft_itoa(forknbr);
-		outtmp = ft_vastrjoin(3, "/tmp/minishell/outputfile", itoa, ".tmp");
+		outtmp = ft_vastrjoin(4, msh->tmpdir, "outputfile", itoa, ".tmp");
 		pid = open(outtmp, O_RDWR | O_CREAT | O_TRUNC, 0666);
 		free(itoa);
 		free(outtmp);

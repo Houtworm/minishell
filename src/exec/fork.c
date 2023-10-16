@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 11:40:26 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 16:34:43 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,10 @@ int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
 
 int	ft_forktheforks(t_shell *msh)
 {
-	int	status;
-	int forknumber;
-	int	fd;
+	int		status;
+	int 	forknumber;
+	int		fd;
+	char	*file;
 
 	forknumber = 0;
 	status = 1;
@@ -82,7 +83,9 @@ int	ft_forktheforks(t_shell *msh)
 			{
 				waitpid(msh->frk[forknumber - 1].pid, &status, 0);
 				msh->code = WEXITSTATUS(status);
-				fd = open("/tmp/minishell/lastcode.tmp", O_RDONLY);
+				file = ft_strjoin(msh->tmpdir, "lastcode.tmp");
+				fd = open(file, O_RDONLY);
+				free(file);
 				if (fd > 0)
 				{
 					close(fd);

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 11:38:30 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 16:28:55 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_inputfile(char **file)
 	return (0);
 }
 
-int	ft_outputfile(char **file, int forknbr)
+int	ft_outputfile(char **file, int forknbr, t_shell *msh)
 {
 	int		fdo;
 	int		i;
@@ -47,7 +47,7 @@ int	ft_outputfile(char **file, int forknbr)
 	tmpnbr = ft_itoa(forknbr);
 	if (!tmpnbr)
 		return (1);
-	outtmp = ft_vastrjoin(3, "/tmp/minishell/outputfile", tmpnbr, ".tmp");
+	outtmp = ft_vastrjoin(4, msh->tmpdir, "outputfile", tmpnbr, ".tmp");
 	fdo = open(outtmp, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (fdo == -1)
 		return (ft_errorret("Is a directory", outtmp, 1));
@@ -58,7 +58,7 @@ int	ft_outputfile(char **file, int forknbr)
 	return (0);
 }
 
-int	ft_heredocfile(int forknumber, int cmdnumber, char *hdn)
+int	ft_heredocfile(int forknumber, int cmdnumber, char *hdn, t_shell *msh)
 {
 	char	*tmp;
 	int		fd;
@@ -67,7 +67,7 @@ int	ft_heredocfile(int forknumber, int cmdnumber, char *hdn)
 
 	frkn = ft_itoa(forknumber);
 	cmdn = ft_itoa(cmdnumber);
-	tmp = ft_vastrjoin(8, "/tmp/minishell/heredoc", ".", frkn, ".", cmdn, ".", hdn, ".tmp");
+	tmp = ft_vastrjoin(9, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".", hdn, ".tmp");
 	// ft_putendl_fd(tmp, 2);
 	fd = open(tmp, O_RDONLY);
 	dup2(fd, 0);
@@ -97,13 +97,13 @@ int	ft_dupmachine(int cmdnbr, int forknbr, int hdn, t_shell *msh)
 		close(msh->pipes[forknbr + 1][0]);
 	}
 	else if (msh->frk[forknbr].cmd[cmdnbr].heredoc)
-		ft_heredocfile(forknbr, cmdnbr, ft_itoa(hdn));
+		ft_heredocfile(forknbr, cmdnbr, ft_itoa(hdn), msh);
 	else if (msh->frk[forknbr].cmd[cmdnbr].infile[0])
 		if (ft_inputfile(msh->frk[forknbr].cmd[cmdnbr].infile))
 			return (2);
 	if (msh->frk[forknbr].cmd[cmdnbr].outfile[0])
 	{
-		if (ft_outputfile(msh->frk[forknbr].cmd[cmdnbr].outfile, forknbr))
+		if (ft_outputfile(msh->frk[forknbr].cmd[cmdnbr].outfile, forknbr, msh))
 			return (1);
 	}
 	else if (cmdnbr + 1 == msh->frk[forknbr].cmd[cmdnbr].cmdamount && forknbr + 1 < msh->frk[forknbr].cmd[cmdnbr].forkamount)

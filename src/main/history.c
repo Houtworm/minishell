@@ -6,20 +6,22 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/01 02:06:31 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 14:32:52 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 16:39:33 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_addlinetohistory(char *line, char *file)
+void	ft_addlinetohistory(char *line, char *file, t_shell *msh)
 {
 	int		histfd;
 	int		tempfd;
 	char	*gnl;
 
 	histfd = open(file, O_RDONLY);
-	tempfd = open("/tmp/minishell/hist.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
+	gnl = ft_strjoin(msh->tmpdir, "history.tmp");
+	tempfd = open(gnl, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	free(gnl);
 	while (get_next_line(histfd, &gnl) > 0)
 	{
 		if (ft_strncmp(line, gnl, 500))
@@ -32,13 +34,15 @@ void	ft_addlinetohistory(char *line, char *file)
 	close(histfd);
 }
 
-void	ft_writenewhistory(char *file)
+void	ft_writenewhistory(char *file, t_shell *msh)
 {
 	int		histfd;
 	int		tempfd;
 	char	*gnl;
 
-	tempfd = open("/tmp/minishell/hist.tmp", O_RDONLY);
+	gnl = ft_strjoin(msh->tmpdir, "history.tmp");
+	tempfd = open(gnl, O_RDONLY);
+	free(gnl);
 	histfd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	while (get_next_line(tempfd, &gnl) > 0)
 	{
@@ -65,10 +69,10 @@ void	ft_readhistory(char *file)
 	close(histfd);
 }
 
-void	ft_writehistory(char *line, char *file)
+void	ft_writehistory(char *line, char *file, t_shell *msh)
 {
 	rl_clear_history();
-	ft_addlinetohistory(line, file);
-	ft_writenewhistory(file);
+	ft_addlinetohistory(line, file, msh);
+	ft_writenewhistory(file, msh);
 	ft_readhistory(file);
 }

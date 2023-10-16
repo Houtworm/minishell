@@ -6,24 +6,26 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 11:29:36 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 16:48:41 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_adddirtoz(char *cwd, char **envp)
+void	ft_adddirtoz(char *cwd, t_shell *msh)
 {
 	int		mshzfd;
 	int		tempfd;
+	char	*tmpfile;
 	char	*line;
 	char	*home;
 
-	line = ft_gethome(envp);
+	line = ft_gethome(msh->envp);
 	home = ft_strjoin(line, "/.mshz");
-	mshzfd = open(home, O_RDONLY);
-	tempfd = open("/tmp/minishell/tempz.tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	free(line);
+	mshzfd = open(home, O_RDONLY);
+	tmpfile = ft_strjoin(msh->tmpdir, "tempz.tmp");
+	tempfd = open(tmpfile, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	ft_putendl_fd(cwd, tempfd);
 	while (get_next_line(mshzfd, &line) > 0)
 	{
@@ -34,7 +36,7 @@ void	ft_adddirtoz(char *cwd, char **envp)
 	free(line);
 	close(tempfd);
 	close(mshzfd);
-	tempfd = open("/tmp/minishell/tempz.tmp", O_RDONLY);
+	tempfd = open(tmpfile, O_RDONLY);
 	mshzfd = open(home, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	while (get_next_line(tempfd, &line) > 0)
 	{
@@ -43,6 +45,7 @@ void	ft_adddirtoz(char *cwd, char **envp)
 	}
 	free(line);
 	free(home);
+	free(tmpfile);
 	close(mshzfd);
 	close(tempfd);
 }
@@ -100,8 +103,8 @@ int	ft_chdir(t_commands cmd, t_shell *msh)
 		ft_errorret2("No such file or directory Seems the current directory does not exist, going home", cmd.arg[0], cmd.arg[1], 1);
 	}
 	ft_setenv(msh->envp, "PWD", newcwd);
-	ft_adddirtoz(newcwd, msh->envp);
+	ft_adddirtoz(newcwd, msh);
 	free(newcwd);
-	ft_charpptofd(msh->envp, msh->envpfd);
+	ft_charpptofd(msh->envp, msh->envpfd, msh);
 	return (0);
 }

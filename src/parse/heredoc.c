@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 11:45:43 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 16:40:41 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ t_forks ft_parseheredoc(t_shell *msh, int forknumber)
 					frkn = ft_itoa(forknumber);
 					cmdn = ft_itoa(icmd);
 					hdn = ft_itoa(msh->frk[forknumber].cmd[icmd].heredoc);
-					tmp = ft_vastrjoin(8, "/tmp/minimsh/heredoc", ".", frkn, ".", cmdn, ".", hdn, ".tmp");
+					tmp = ft_vastrjoin(9, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".", hdn, ".tmp");
 					free(frkn);
 					free(cmdn);
 					free(hdn);

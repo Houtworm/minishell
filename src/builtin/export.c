@@ -6,38 +6,36 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:12:44 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/16 11:36:15 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 16:58:34 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_printexport(void)
+int	ft_printexport(t_shell *msh)
 {
-	int		status;
-	int		fd;
-	char	*line;
 	int 	i;
+	int		j;
+	char	*str;
+	char	*tmp;
 
-	fd = open("/tmp/minishell/envpfile.tmp", O_RDONLY);
-	status = get_next_line(fd, &line);
-	while (status > 0)
+	i = 0;
+	tmp = ft_calloc(1000, 8);
+	while (msh->envp[i])
 	{
-		i = 0;
-		ft_putstr("declare -x ");
-		while (line[i] && line[i] != '=')
+		j = 0;
+		while (msh->envp[i][j] && msh->envp[i][j] != '=')
 		{
-			ft_putchar(line[i]);
-			i++;
+			tmp[j] = msh->envp[i][j];
+			j++;
 		}
-		ft_putstr("=\"");
-		ft_putstr(&line[i + 1]);
-		ft_putendl("\"");
-		free(line);
-		status = get_next_line(fd, &line);
+		tmp[j] = '\0';
+		str = ft_vastrjoin(5, "declare -x ", tmp, "=\"", &msh->envp[i][j + 1], "\"");
+		ft_putendl(str);
+		free(str);
+		i++;
 	}
-	free(line);
-	close(fd);
+	free(tmp);
 	return (0);
 }
 
@@ -53,7 +51,7 @@ int	ft_export(t_commands cmd, t_shell *msh)
 	j = 0;
 	if (!cmd.arg[1])
 	{
-		ft_printexport();
+		ft_printexport(msh);
 		return (0);
 	}
 	if (cmd.arg[1][0] == '-')
@@ -87,7 +85,7 @@ int	ft_export(t_commands cmd, t_shell *msh)
 		j++;
 	}
 	envp = ft_setenv(msh->envp, var, val);
-	ft_charpptofd(envp, msh->envpfd);
+	ft_charpptofd(envp, msh->envpfd, msh);
 	ft_vafree(2, var, val);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 12:15:46 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 16:42:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	ft_freeforks(t_forks *frk)
 
 void	ft_freeexit(t_shell *msh, int code)
 {
-	int	i;
+	int		i;
 
-	ft_rmdir("/tmp/minishell", msh->envp);
+	ft_rmdir(msh->tmpdir, msh->envp);
 	ft_freeforks(msh->frk);
 	free(msh->alias->val);
 	free(msh->alias->var);
@@ -79,7 +79,8 @@ void	ft_freeexit(t_shell *msh, int code)
 
 void	ft_freenewprompt(t_shell *msh)
 {
-	int	i;
+	int		i;
+	char	*file;
 
 	ft_freeforks(msh->frk);
 	i = 0;
@@ -94,7 +95,9 @@ void	ft_freenewprompt(t_shell *msh)
 		free(msh->pipes);
 	}
 	msh->stop = 0;
-	unlink("/tmp/minishell/lastcode.tmp");
+	file = ft_strjoin(msh->tmpdir, "lastcode.tmp");
+	unlink(file);
+	free(file);
 }
 
 void	ft_freeglobs(t_globs *globs)
