@@ -6,18 +6,29 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:19 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 08:32:37 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 08:38:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_printalias(t_shell *shell)
+int	ft_printalias(t_shell *shell, t_cmds cmd, int mode)
 {
 	int		i;
 	char	*str;
 
 	i = 0;
+	if (mode)
+	{
+		while (shell->alias[i].var)
+		{
+			if (!ft_strncmp(cmd.arguments[1], shell->alias[i].var, 100))
+				if (printf("%s=%s\n", shell->alias[i].var, shell->alias[i].val))
+					return (0);
+			i++;
+		}
+		return (ft_moderrorreturn("not found", "alias", cmd.arguments[1], 1));
+	}
 	while (shell->alias[i].var)
 	{
 		str = ft_vastrjoin(3, shell->alias[i].var, "=", shell->alias[i].val);
@@ -94,23 +105,12 @@ int	ft_alias(t_cmds cmd, t_shell *shell)
 {
 	char	*var;
 	char	*val;
-	int		i;
 
 	if (!cmd.arguments[1])
-		return (ft_printalias(shell));	
+		return (ft_printalias(shell, cmd, 0));	
 	var = ft_getvaralias(cmd);
 	if (var == NULL)
-	{
-		i = 0;
-		while (shell->alias[i].var)
-		{
-			if (!ft_strncmp(cmd.arguments[1], shell->alias[i].var, 100))
-				if (printf("%s=%s\n", shell->alias[i].var, shell->alias[i].val))
-					return (0);
-			i++;
-		}
-		return (ft_moderrorreturn("not found", "alias", cmd.arguments[1], 1));
-	}
+		return (ft_printalias(shell, cmd, 1));	
 	val = ft_getvalalias(cmd, ft_strlen(var));
 	ft_addalias(shell, var, val);
 	free(var);

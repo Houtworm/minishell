@@ -6,52 +6,84 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:10 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/07 12:20:41 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 09:04:55 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_z(t_cmds cmd, t_shell *shell)
+char	*ft_zgetfile(t_shell *shell)
+{
+	char	*home;
+	char	*ret;
+
+	home = ft_gethome(shell->envp);
+	ret = ft_strjoin(home, "/.mshz");
+	free(home);
+	return (ret);
+}
+
+int	ft_ztrydir(t_cmds cmd, t_shell *shell, char *file)
 {
 	int		mshzfd;
 	char	*line;
-	char	*home;
 	char	*temp;
 
-	line = ft_gethome(shell->envp);
-	home = ft_strjoin(line, "/.mshz");
-	mshzfd = open(home, O_RDONLY);
-	free(line);
+	mshzfd = open(file, O_RDONLY);
 	while (get_next_line(mshzfd, &line) > 0)
 	{
 		temp = ft_strrchr(line, '/');
 		if (ft_strnstr(temp, cmd.arguments[1], ft_strlen(temp)))
 		{
+			free(cmd.arguments[1]);
 			cmd.arguments[1] = ft_strdup(line);
 			ft_chdir(cmd, shell);
-			free(home);
+			free(file);
 			free(line);
-			return (0);
+			close(mshzfd);
+			return (1);
 		}
 		free(line);
 	}
+	free(line);
 	close(mshzfd);
-	mshzfd = open(home, O_RDONLY);
+	return (0);
+}
+
+int	ft_ztrypath(t_cmds cmd, t_shell *shell, char *file)
+{
+	int		mshzfd;
+	char	*line;
+
+	mshzfd = open(file, O_RDONLY);
 	while (get_next_line(mshzfd, &line) > 0)
 	{
 		if (ft_strnstr(line, cmd.arguments[1], ft_strlen(line)))
 		{
+			free(cmd.arguments[1]);
 			cmd.arguments[1] = ft_strdup(line);
 			ft_chdir(cmd, shell);
 			free(line);
-			free(home);
+			free(file);
 			close(mshzfd);
-			return (0);
+			return (1);
 		}
 		free(line);
 	}
-	free(home);
+	free(line);
 	close(mshzfd);
+	return (0);
+}
+
+int	ft_z(t_cmds cmd, t_shell *shell)
+{
+	char	*file;
+
+	file = ft_zgetfile(shell);
+	if (ft_ztrydir(cmd, shell, file))
+		return (0);
+	if (ft_ztrypath(cmd, shell, file))
+		return (0);
+	free(file);
 	return (1);
 }
