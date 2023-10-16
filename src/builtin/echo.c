@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:13:11 by houtworm          #+#    #+#             */
-/*   Updated: 2023/10/16 11:55:28 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 19:13:27 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,47 +35,49 @@ int ft_echorecursion(t_commands cmd, char *print, int i, int j)
 	return (j);
 }
 
+int	*ft_echooption(t_commands cmd, int *flagcount)
+{
+	int	i;
+
+	i = 1;
+	while (cmd.arg[flagcount[2]][i] == 'n')
+		i++;
+	if (cmd.arg[flagcount[2]][i] == '\0')
+	{
+		flagcount[1] += i;
+		flagcount[0] = 1;
+		flagcount[2]++;
+		while (cmd.arg[flagcount[2]] && cmd.arg[flagcount[2]][0] == '-')
+		{
+			i = 1;
+			while (cmd.arg[flagcount[2]] && cmd.arg[flagcount[2]][i] == 'n')
+				i++;
+			if (cmd.arg[flagcount[2]][i] == '\0')
+				flagcount[1] += i;
+			else
+				break ;
+			flagcount[2]++;
+		}
+	}
+	return (flagcount);
+}
 
 int	ft_echo(t_commands cmd, t_shell *msh)
 {
 	char	*print;
-	int		i;
-	int		j;
-	int		l;
-	int		flag;
+	int		*flagcount;
 
-	i = 0;
-	j = 1;
-	l = 0;
-	flag = 0;
+	flagcount = ft_calloc(4, 32);
+	flagcount[0] = 0;
+	flagcount[1] = 0;
+	flagcount[2] = 1;
 	if (cmd.arg[1])
 	{
 		print = ft_calloc(10000, 8);
-		if (cmd.arg[j][0] == '-')
-		{
-			l++;
-			while (cmd.arg[j][l] == 'n')
-				l++;
-			if (cmd.arg[j][l] == '\0')
-			{
-				i = i + l;
-				flag = 1;
-				j++;
-				while (cmd.arg[j] && cmd.arg[j][0] == '-')
-				{
-					l = 1;
-					while (cmd.arg[j] && cmd.arg[j][l] == 'n')
-						l++;
-					if (cmd.arg[j][l] == '\0')
-						i = i + l;
-					else
-						break ;
-					j++;
-				}
-			}
-		}
-		ft_echorecursion(cmd, print, 0, j);
-		if (flag == 0)
+		if (cmd.arg[1][0] == '-')
+			ft_echooption(cmd, flagcount);
+		ft_echorecursion(cmd, print, 0, flagcount[2]);
+		if (flagcount[0] == 0)
 			printf("%s\n", print);
 		else
 			printf("%s", print);
@@ -83,6 +85,7 @@ int	ft_echo(t_commands cmd, t_shell *msh)
 	}
 	else
 		printf("\n");
-	return (0);
 	msh = msh;
+	free(flagcount);
+	return (0);
 }
