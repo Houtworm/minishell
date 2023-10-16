@@ -6,45 +6,18 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:03:34 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/14 05:53:38 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 09:31:26 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*int	ft_which(t_cmds cmds, t_shell *shell)*/
-/*{*/
-	/*char	*absolute;*/
-	/*char	**paths;*/
-
-	/*if (!cmds.arguments[1])*/
-		/*return (ft_errorreturn("which command", "Usage", -1));*/
-	/*paths = ft_getpaths(shell->envp, 0);*/
-	/*absolute = ft_abspathcmd(paths, cmds.arguments[1]);*/
-	/*ft_frearr(paths);*/
-	/*if (absolute[0] != '/' || cmds.arguments[1][0] == '.')*/
-	/*{*/
-		/*ft_putstr_fd("which: no ", 2);*/
-		/*ft_putstr_fd(absolute, 2);*/
-		/*ft_putendl_fd(" in paths", 2);*/
-		/*free(absolute);*/
-		/*return (1);*/
-	/*}*/
-	/*printf("%s\n", absolute);*/
-	/*free(absolute);*/
-	/*return (0);*/
-/*}*/
-
-int	ft_which(t_cmds cmds, t_shell *shell)
+int	ft_whichcheckbuiltin(t_cmds cmds, t_shell *shell)
 {
-	char	*absolute;
-	char	**paths;
 	int		i;
 	char	*str;
 
-	if (!cmds.arguments[1])
-		if (ft_errorexit("which command", "Usage", 0))
-			return (-1);
+	i = 0;
 	while (i < 13)
 	{
 		if (!ft_strncmp(cmds.arguments[1], shell->builtins[i].compare, 6))
@@ -52,10 +25,19 @@ int	ft_which(t_cmds cmds, t_shell *shell)
 			str = ft_strjoin(shell->builtins[i].compare, ": shell built-in command");
 			ft_putendl(str);
 			free(str);
-			return (0);
+			return (1);
 		}
 		i++;
 	}
+	return (0);
+}
+
+int	ft_whichcheckpath(t_cmds cmds, t_shell *shell)
+{
+	char	*absolute;
+	char	**paths;
+	char	*str;
+
 	paths = ft_getpaths(shell->envp, 0);
 	absolute = ft_abspathcmd(paths, cmds.arguments[1]);
 	if (absolute[0] != '/')
@@ -65,10 +47,22 @@ int	ft_which(t_cmds cmds, t_shell *shell)
 		free(absolute);
 		ft_putendl(str);
 		free(str);
-		return (1);
+		return (0);
 	}
 	ft_frearr(paths);
-	printf("%s\n", absolute);
+	ft_putendl(absolute);
 	free(absolute);
-	return (0);
+	return (1);
+}
+
+int	ft_which(t_cmds cmds, t_shell *shell)
+{
+	if (!cmds.arguments[1])
+		if (ft_errorexit("which command", "Usage", 0))
+			return (-1);
+	if (ft_whichcheckbuiltin(cmds, shell))
+		return (0);
+	if (ft_whichcheckpath(cmds, shell))
+		return (0);
+	return (1);
 }
