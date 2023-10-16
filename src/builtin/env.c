@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 18:13:16 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 11:34:08 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 00:51:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_env(t_commands cmd, t_shell *msh)
 {
 	int		i;
 
+	i = 0;
 	if (cmd.arg[1])
 	{
 		if (cmd.arg[1][0] == '-')

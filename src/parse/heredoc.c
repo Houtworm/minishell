@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 23:51:19 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 01:36:43 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,6 +253,7 @@ t_forks ft_parseheredoc(t_shell *msh, int forknumber)
 					tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
 					free(frkn);
 					free(cmdn);
+					printf("%d\n%d\n%d\n", msh->frk[forknumber].cmd[icmd].heredoc, forknumber, icmd);
 					ft_heredoc(&delimiter, tmp, *msh, msh->frk[forknumber].cmd[icmd].heredoc);
 					msh->frk[forknumber].cmd[icmd].heredoc++;
 					free(tmp);

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 10:16:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 10:29:53 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 01:24:50 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,20 @@ void	ft_parseredirectin(t_commands *cmd)
 		j = 0;
 		while (cmd->pipeline[i] && cmd->pipeline[i] != '<')
 		{
-			if (cmd->pipeline[i] == '\'')
+			if (cmd->pipeline[i] == '\'' || cmd->pipeline[i] == '\"')
 			{
+				quote = cmd->pipeline[i];;
 				begin[j] = cmd->pipeline[i];
 				i++;
 				j++;
-				while (cmd->pipeline[i] && cmd->pipeline[i] != '\'')
+				while (cmd->pipeline[i] && cmd->pipeline[i] != quote)
 				{
 					begin[j] = cmd->pipeline[i];
 					i++;
 					j++;
 				}
 			}
-			else if (cmd->pipeline[i] == '\"')
-			{
-				begin[j] = cmd->pipeline[i];
-				i++;
-				j++;
-				while (cmd->pipeline[i] && cmd->pipeline[i] != '\'')
-				{
-					begin[j] = cmd->pipeline[i];
-					i++;
-					j++;
-				}
-			}
-			else
+			if (cmd->pipeline[i])
 			{
 				begin[j] = cmd->pipeline[i];
 				i++;

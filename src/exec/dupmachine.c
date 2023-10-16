@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 23:30:32 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 00:33:22 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,15 @@ int	ft_dupmachine(int cmdnbr, int forknbr, t_shell *msh)
 		close(msh->pipes[forknbr][1]);
 		close(msh->pipes[forknbr + 1][0]);
 	}
-	if (cmdnbr == 0 && forknbr > 0)
+	if (msh->frk[forknbr].cmd[cmdnbr].heredoc)
+		ft_heredocfile(forknbr, cmdnbr, msh);
+	else if (cmdnbr == 0 && forknbr > 0)
 	{
 		dup2(msh->pipes[forknbr][0], 0);
 		close(msh->pipes[forknbr][0]);
 		close(msh->pipes[forknbr][1]);
 		close(msh->pipes[forknbr + 1][0]);
 	}
-	else if (msh->frk[forknbr].cmd[cmdnbr].heredoc)
-		ft_heredocfile(forknbr, cmdnbr, msh);
 	else if (msh->frk[forknbr].cmd[cmdnbr].infile[0])
 		if (ft_inputfile(msh->frk[forknbr].cmd[cmdnbr].infile))
 			return (2);

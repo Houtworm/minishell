@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/16 23:24:06 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/17 01:07:03 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,6 @@ SRC		=src/main/main.c\
 		 src/globs/joker.c\
 		 src/globs/anyof.c\
 		 src/tools/time.c\
-		 src/tools/fd.c\
 		 src/tools/error.c\
 		 src/tools/print.c\
 		 src/tools/files.c\
