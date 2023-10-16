@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 10:53:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 12:15:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,48 +52,48 @@ void	ft_freeforks(t_forks *frk)
 	free(frk);
 }
 
-void	ft_freeexit(t_shell *shell, int code)
+void	ft_freeexit(t_shell *msh, int code)
 {
 	int	i;
 
-	ft_rmdir("/tmp/minishell", shell->envp);
-	ft_freeforks(shell->frk);
-	free(shell->alias->val);
-	free(shell->alias->var);
-	free(shell->alias);
-	free(shell->historyfile);
-	free(shell->oldline);
-	free(shell->line);
-	ft_frearr(shell->envp);
+	ft_rmdir("/tmp/minishell", msh->envp);
+	ft_freeforks(msh->frk);
+	free(msh->alias->val);
+	free(msh->alias->var);
+	free(msh->alias);
+	free(msh->historyfile);
+	free(msh->oldline);
+	free(msh->line);
+	ft_frearr(msh->envp);
 	i = 0;
 	while (i < 13)
 	{
-		free(shell->builtins[i].compare);
+		free(msh->bltn[i].cmnd);
 		i++;
 	}
-	free(shell->builtins);
-	free(shell->os);
-	/*free(shell);*/
+	free(msh->bltn);
+	free(msh->os);
+	/*free(msh);*/
 	exit (code);
 }
 
-void	ft_freenewprompt(t_shell *shell)
+void	ft_freenewprompt(t_shell *msh)
 {
 	int	i;
 
-	ft_freeforks(shell->frk);
+	ft_freeforks(msh->frk);
 	i = 0;
-	if (shell->forkamount > 1)
+	if (msh->forkamount > 1)
 	{
-		while (shell->forkamount >= i)
+		while (msh->forkamount >= i)
 		{
-			free(shell->pipes[i]);
+			free(msh->pipes[i]);
 			i++;
 		}
-		free(shell->pipes[i]);
-		free(shell->pipes);
+		free(msh->pipes[i]);
+		free(msh->pipes);
 	}
-	shell->stop = 0;
+	msh->stop = 0;
 	unlink("/tmp/minishell/lastcode.tmp");
 }
 

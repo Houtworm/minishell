@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 09:41:24 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 12:14:59 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,29 @@ void	ft_shelllevelup(char **envp)
 
 t_shell	*ft_initstruct(char **envp, int debugmode)
 {
-	t_shell	*shell;
+	t_shell	*msh;
 	char	*home;
 
-	shell = ft_calloc(10000, 8);
-	shell->starttime = ft_gettimems(envp);
+	msh = ft_calloc(10000, 8);
+	msh->starttime = ft_gettimems(envp);
 	ft_rmdir("/tmp/minishell", envp);
 	ft_mkdir("/tmp/minishell", envp);
 	ft_seminit("/tmp/minishell/printsem", 1);
-	shell->os = ft_getos();
-	ft_charpptofd(envp, shell->envpfd);
-	shell->envp = ft_fdtocharpp(shell->envpfd);
-	ft_shelllevelup(shell->envp);
-	ft_charpptofd(shell->envp, shell->envpfd);
-	shell->builtins = ft_getbuiltins();
+	msh->os = ft_getos();
+	ft_charpptofd(envp, msh->envpfd);
+	msh->envp = ft_fdtocharpp(msh->envpfd);
+	ft_shelllevelup(msh->envp);
+	ft_charpptofd(msh->envp, msh->envpfd);
+	msh->bltn = ft_getbuiltins();
 	home = ft_gethome(envp);
-	shell->historyfile = ft_strjoin(home, "/.mshhistory");
+	msh->historyfile = ft_strjoin(home, "/.mshhistory");
 	free(home);
-	shell->oldline = ft_calloc(2, 8);
-	shell->alias = ft_parsemshrc(envp);
-	shell->pid = ft_getpid();
-	shell->code = 256;
-	shell->stop = 0;
-	shell->debug = debugmode;
-	ft_readhistory(shell->historyfile);
-	return (shell);
+	msh->oldline = ft_calloc(2, 8);
+	msh->alias = ft_parsemshrc(envp);
+	msh->pid = ft_getpid();
+	msh->code = 256;
+	msh->stop = 0;
+	msh->debug = debugmode;
+	ft_readhistory(msh->historyfile);
+	return (msh);
 }

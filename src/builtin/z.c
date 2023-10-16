@@ -6,18 +6,18 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:10 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 10:36:45 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:37:47 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*ft_zgetfile(t_shell *shell)
+char	*ft_zgetfile(t_shell *msh)
 {
 	char	*home;
 	char	*ret;
 
-	home = ft_gethome(shell->envp);
+	home = ft_gethome(msh->envp);
 	ret = ft_strjoin(home, "/.mshz");
 	free(home);
 	return (ret);
@@ -40,7 +40,7 @@ int	ft_zprint(char *file)
 	return (0);
 }
 
-int	ft_ztrydir(t_commands cmd, t_shell *shell, char *file)
+int	ft_ztrydir(t_commands cmd, t_shell *msh, char *file)
 {
 	int		mshzfd;
 	char	*line;
@@ -57,7 +57,7 @@ int	ft_ztrydir(t_commands cmd, t_shell *shell, char *file)
 			free(file);
 			free(line);
 			close(mshzfd);
-			ft_chdir(cmd, shell);
+			ft_chdir(cmd, msh);
 			return (1);
 		}
 		free(line);
@@ -67,7 +67,7 @@ int	ft_ztrydir(t_commands cmd, t_shell *shell, char *file)
 	return (0);
 }
 
-int	ft_ztrypath(t_commands cmd, t_shell *shell, char *file)
+int	ft_ztrypath(t_commands cmd, t_shell *msh, char *file)
 {
 	int		mshzfd;
 	char	*line;
@@ -82,7 +82,7 @@ int	ft_ztrypath(t_commands cmd, t_shell *shell, char *file)
 			free(line);
 			free(file);
 			close(mshzfd);
-			ft_chdir(cmd, shell);
+			ft_chdir(cmd, msh);
 			return (1);
 		}
 		free(line);
@@ -92,16 +92,16 @@ int	ft_ztrypath(t_commands cmd, t_shell *shell, char *file)
 	return (0);
 }
 
-int	ft_z(t_commands cmd, t_shell *shell)
+int	ft_z(t_commands cmd, t_shell *msh)
 {
 	char	*file;
 
-	file = ft_zgetfile(shell);
+	file = ft_zgetfile(msh);
 	if (!cmd.arg[1])
 		return (ft_zprint(file));
-	if (ft_ztrydir(cmd, shell, file))
+	if (ft_ztrydir(cmd, msh, file))
 		return (0);
-	if (ft_ztrypath(cmd, shell, file))
+	if (ft_ztrypath(cmd, msh, file))
 		return (0);
 	free(file);
 	return (1);

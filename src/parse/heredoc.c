@@ -6,14 +6,14 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 10:52:21 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:45:43 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
-char	*ft_expandheredoc(char *line, char **delimiter, t_shell shell)
+char	*ft_expandheredoc(char *line, char **delimiter, t_shell msh)
 {
 	int		i;
 	int		j;
@@ -112,12 +112,12 @@ char	*ft_expandheredoc(char *line, char **delimiter, t_shell shell)
 		}
 		if (line[i] == '?')
 		{
-			val = ft_itoa(shell.code % 256);
+			val = ft_itoa(msh.code % 256);
 			i++;
 		}
 		else if (line[i] == '$')
 		{
-			val = ft_itoa(shell.pid);
+			val = ft_itoa(msh.pid);
 			i++;
 		}
 		else if (line[i] == ' ')
@@ -137,7 +137,7 @@ char	*ft_expandheredoc(char *line, char **delimiter, t_shell shell)
 				j++;
 			}
 			var[j] = '\0';
-			val = ft_getenvval(shell.envp, var);
+			val = ft_getenvval(msh.envp, var);
 		}
 		j = 0;
 		while (line[i])
@@ -155,7 +155,7 @@ char	*ft_expandheredoc(char *line, char **delimiter, t_shell shell)
 	return (line);
 }
 
-int	ft_heredoc(char **delimiter, char *file, t_shell shell)
+int	ft_heredoc(char **delimiter, char *file, t_shell msh)
 {
 	int		fdi;
 	char	*line;
@@ -170,7 +170,7 @@ int	ft_heredoc(char **delimiter, char *file, t_shell shell)
 	while (ft_strncmp(line, *delimiter, length + 1))
 	{
 		ft_putstr_fd("minishell heredoc> ", 0);
-		line = ft_expandheredoc(line, delimiter, shell);
+		line = ft_expandheredoc(line, delimiter, msh);
 		ft_putendl_fd(line, fdi);
 		// free(line);
 		get_next_line(0, &line);
@@ -182,7 +182,7 @@ int	ft_heredoc(char **delimiter, char *file, t_shell shell)
 	return (fdi);
 }
 
-t_forks ft_parseheredoc(t_shell *shell, int forknumber)
+t_forks ft_parseheredoc(t_shell *msh, int forknumber)
 {
 	int		icmd;
 	char	*hdn;
@@ -197,81 +197,81 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 
 	icmd = 0;
 	i = 0;
-	while (icmd < shell->frk[forknumber].cmdamount)
+	while (icmd < msh->frk[forknumber].cmdamount)
 	{
-		shell->frk[forknumber].cmd[icmd].heredoc = 0;
-		if (ft_checkoutquote(shell->frk[forknumber].cmd[icmd].pipeline, '<', 2) >= 0)
+		msh->frk[forknumber].cmd[icmd].heredoc = 0;
+		if (ft_checkoutquote(msh->frk[forknumber].cmd[icmd].pipeline, '<', 2) >= 0)
 		{
-			start = ft_calloc(ft_strlen(shell->frk[forknumber].cmd[icmd].pipeline), 8);
-			end = ft_calloc(ft_strlen(shell->frk[forknumber].cmd[icmd].pipeline), 8);
-			while (shell->frk[forknumber].cmd[icmd].pipeline[i])
+			start = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].pipeline), 8);
+			end = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].pipeline), 8);
+			while (msh->frk[forknumber].cmd[icmd].pipeline[i])
 			{
-				if (shell->frk[forknumber].cmd[icmd].pipeline[i] == '\'')
+				if (msh->frk[forknumber].cmd[icmd].pipeline[i] == '\'')
 				{
-					start[i] = shell->frk[forknumber].cmd[icmd].pipeline[i];
+					start[i] = msh->frk[forknumber].cmd[icmd].pipeline[i];
 					i++;
-					while (shell->frk[forknumber].cmd[icmd].pipeline[i] != '\'' && shell->frk[forknumber].cmd[icmd].pipeline[i])
+					while (msh->frk[forknumber].cmd[icmd].pipeline[i] != '\'' && msh->frk[forknumber].cmd[icmd].pipeline[i])
 					{
-						start[i] = shell->frk[forknumber].cmd[icmd].pipeline[i];
+						start[i] = msh->frk[forknumber].cmd[icmd].pipeline[i];
 						i++;
 					}
 					i++;
 				}
-				else if (shell->frk[forknumber].cmd[icmd].pipeline[i] == '\"')
+				else if (msh->frk[forknumber].cmd[icmd].pipeline[i] == '\"')
 				{
-					start[i] = shell->frk[forknumber].cmd[icmd].pipeline[i];
+					start[i] = msh->frk[forknumber].cmd[icmd].pipeline[i];
 					i++;
-					while (shell->frk[forknumber].cmd[icmd].pipeline[i] != '\"' && shell->frk[forknumber].cmd[icmd].pipeline[i])
+					while (msh->frk[forknumber].cmd[icmd].pipeline[i] != '\"' && msh->frk[forknumber].cmd[icmd].pipeline[i])
 					{
-						start[i] = shell->frk[forknumber].cmd[icmd].pipeline[i];
+						start[i] = msh->frk[forknumber].cmd[icmd].pipeline[i];
 						i++;
 					}
 					i++;
 				}
-				else if (shell->frk[forknumber].cmd[icmd].pipeline[i] == '<' && shell->frk[forknumber].cmd[icmd].pipeline[i + 1] == '<')
+				else if (msh->frk[forknumber].cmd[icmd].pipeline[i] == '<' && msh->frk[forknumber].cmd[icmd].pipeline[i + 1] == '<')
 				{
-					delimiter = ft_calloc(ft_strlen(shell->frk[forknumber].cmd[icmd].pipeline), 8);
+					delimiter = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].pipeline), 8);
 					start[i] = '\0';
 					i = i + 2;
-					while (shell->frk[forknumber].cmd[icmd].pipeline[i] == ' ')
+					while (msh->frk[forknumber].cmd[icmd].pipeline[i] == ' ')
 						i++;
 					j = 0;
-					while (shell->frk[forknumber].cmd[icmd].pipeline[i] && shell->frk[forknumber].cmd[icmd].pipeline[i] != ' ')
+					while (msh->frk[forknumber].cmd[icmd].pipeline[i] && msh->frk[forknumber].cmd[icmd].pipeline[i] != ' ')
 					{
-						delimiter[j] = shell->frk[forknumber].cmd[icmd].pipeline[i];
+						delimiter[j] = msh->frk[forknumber].cmd[icmd].pipeline[i];
 						i++;
 						j++;
 					}
 					delimiter[j] = '\0';
 					j = 0;
-					while (shell->frk[forknumber].cmd[icmd].pipeline[i] == ' ')
+					while (msh->frk[forknumber].cmd[icmd].pipeline[i] == ' ')
 						i++;
 					frkn = ft_itoa(forknumber);
 					cmdn = ft_itoa(icmd);
-					hdn = ft_itoa(shell->frk[forknumber].cmd[icmd].heredoc);
-					tmp = ft_vastrjoin(8, "/tmp/minishell/heredoc", ".", frkn, ".", cmdn, ".", hdn, ".tmp");
+					hdn = ft_itoa(msh->frk[forknumber].cmd[icmd].heredoc);
+					tmp = ft_vastrjoin(8, "/tmp/minimsh/heredoc", ".", frkn, ".", cmdn, ".", hdn, ".tmp");
 					free(frkn);
 					free(cmdn);
 					free(hdn);
-					shell->frk[forknumber].cmd[icmd].heredoc++;
-					ft_heredoc(&delimiter, tmp, *shell);
+					msh->frk[forknumber].cmd[icmd].heredoc++;
+					ft_heredoc(&delimiter, tmp, *msh);
 					free(tmp);
 					free(delimiter);
-					if (ft_checkoutquote(shell->frk[forknumber].cmd[icmd].pipeline + i, '<', 2) < 0)
+					if (ft_checkoutquote(msh->frk[forknumber].cmd[icmd].pipeline + i, '<', 2) < 0)
 					{
-						while (shell->frk[forknumber].cmd[icmd].pipeline[i])
+						while (msh->frk[forknumber].cmd[icmd].pipeline[i])
 						{
-							end[j] = shell->frk[forknumber].cmd[icmd].pipeline[i];
+							end[j] = msh->frk[forknumber].cmd[icmd].pipeline[i];
 							i++;
 							j++;
 						}
 						end[j] = '\0';
-						shell->frk[forknumber].cmd[icmd].pipeline = ft_strjoin(start, end);
+						msh->frk[forknumber].cmd[icmd].pipeline = ft_strjoin(start, end);
 					}
 				}
 				else
 				{
-					start[i] = shell->frk[forknumber].cmd[icmd].pipeline[i];
+					start[i] = msh->frk[forknumber].cmd[icmd].pipeline[i];
 					i++;
 				}
 			}
@@ -280,5 +280,5 @@ t_forks ft_parseheredoc(t_shell *shell, int forknumber)
 		}
 		icmd++;
 	}
-	return (shell->frk[forknumber]);
+	return (msh->frk[forknumber]);
 }

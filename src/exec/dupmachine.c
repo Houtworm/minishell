@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 10:48:30 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:38:30 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,39 +80,39 @@ int	ft_heredocfile(int forknumber, int cmdnumber, char *hdn)
 	return (0);
 }
 
-int	ft_dupmachine(int cmdnbr, int forknbr, int hdn, t_shell *shell)
+int	ft_dupmachine(int cmdnbr, int forknbr, int hdn, t_shell *msh)
 {
-	if (shell->debug)
-		ft_printdup(shell->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr);
+	if (msh->debug)
+		ft_printdup(msh->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr);
 	if (forknbr > 1)
 	{
-		close(shell->pipes[forknbr][1]);
-		close(shell->pipes[forknbr + 1][0]);
+		close(msh->pipes[forknbr][1]);
+		close(msh->pipes[forknbr + 1][0]);
 	}
 	if (cmdnbr == 0 && forknbr > 0)
 	{
-		dup2(shell->pipes[forknbr][0], 0);
-		close(shell->pipes[forknbr][0]);
-		close(shell->pipes[forknbr][1]);
-		close(shell->pipes[forknbr + 1][0]);
+		dup2(msh->pipes[forknbr][0], 0);
+		close(msh->pipes[forknbr][0]);
+		close(msh->pipes[forknbr][1]);
+		close(msh->pipes[forknbr + 1][0]);
 	}
-	else if (shell->frk[forknbr].cmd[cmdnbr].heredoc)
+	else if (msh->frk[forknbr].cmd[cmdnbr].heredoc)
 		ft_heredocfile(forknbr, cmdnbr, ft_itoa(hdn));
-	else if (shell->frk[forknbr].cmd[cmdnbr].infile[0])
-		if (ft_inputfile(shell->frk[forknbr].cmd[cmdnbr].infile))
+	else if (msh->frk[forknbr].cmd[cmdnbr].infile[0])
+		if (ft_inputfile(msh->frk[forknbr].cmd[cmdnbr].infile))
 			return (2);
-	if (shell->frk[forknbr].cmd[cmdnbr].outfile[0])
+	if (msh->frk[forknbr].cmd[cmdnbr].outfile[0])
 	{
-		if (ft_outputfile(shell->frk[forknbr].cmd[cmdnbr].outfile, forknbr))
+		if (ft_outputfile(msh->frk[forknbr].cmd[cmdnbr].outfile, forknbr))
 			return (1);
 	}
-	else if (cmdnbr + 1 == shell->frk[forknbr].cmd[cmdnbr].cmdamount && forknbr + 1 < shell->frk[forknbr].cmd[cmdnbr].forkamount)
+	else if (cmdnbr + 1 == msh->frk[forknbr].cmd[cmdnbr].cmdamount && forknbr + 1 < msh->frk[forknbr].cmd[cmdnbr].forkamount)
 	{
-		dup2(shell->pipes[forknbr + 1][1], 1);
-		close(shell->pipes[forknbr + 1][1]);
-		close(shell->pipes[forknbr + 1][0]);
-		close(shell->pipes[forknbr][1]);
-		close(shell->pipes[forknbr][0]);
+		dup2(msh->pipes[forknbr + 1][1], 1);
+		close(msh->pipes[forknbr + 1][1]);
+		close(msh->pipes[forknbr + 1][0]);
+		close(msh->pipes[forknbr][1]);
+		close(msh->pipes[forknbr][0]);
 	}
 	return (0);
 }

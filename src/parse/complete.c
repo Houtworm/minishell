@@ -6,20 +6,20 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/03 18:38:40 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 10:52:08 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:43:40 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*ft_closeline(t_shell *shell)
+char	*ft_closeline(t_shell *msh)
 {
 	int		quote;
 	char	*temp;
 	int		ret;
 	char	*gnl;
 
-	quote = check_quote_closed(shell);
+	quote = check_quote_closed(msh);
 	while (quote)
 	{
 		while (1)
@@ -39,23 +39,23 @@ char	*ft_closeline(t_shell *shell)
 				break ;
 			else
 			{
-				temp = ft_vastrjoin(3, shell->line, "\n", gnl);
+				temp = ft_vastrjoin(3, msh->line, "\n", gnl);
 				free(gnl);
 			}
-			free(shell->line);
-			shell->line = ft_strdup(temp);
+			free(msh->line);
+			msh->line = ft_strdup(temp);
 		}
-		temp = ft_vastrjoin(3, shell->line, "\n", gnl);
+		temp = ft_vastrjoin(3, msh->line, "\n", gnl);
 		free(gnl);
-		free(shell->line);
-		shell->line = ft_strdup(temp);
+		free(msh->line);
+		msh->line = ft_strdup(temp);
 		free (temp);
-		quote = check_quote_closed(shell);
+		quote = check_quote_closed(msh);
 	}
-	return (shell->line);
+	return (msh->line);
 }
 
-char	*ft_completeline(t_shell *shell, int k)
+char	*ft_completeline(t_shell *msh, int k)
 {
 	char	*temp;
 	int		ret;
@@ -63,14 +63,14 @@ char	*ft_completeline(t_shell *shell, int k)
 	int		i;
 
 	i = 0;
-	while (shell->line[i])
+	while (msh->line[i])
 		i++;
 	i--;
-	while (shell->line[i] == ' ')
+	while (msh->line[i] == ' ')
 		i--;
-	if (shell->line[i] != '&' && shell->line[i] != '|')
-		return (shell->line);
-	while ((shell->line[i] == '&' && shell->line[i - 1] == '&') || shell->line[i] == '|')
+	if (msh->line[i] != '&' && msh->line[i] != '|')
+		return (msh->line);
+	while ((msh->line[i] == '&' && msh->line[i - 1] == '&') || msh->line[i] == '|')
 	{
 		ft_putstr("> ");
 		ret = get_next_line(0, &gnl);
@@ -80,12 +80,12 @@ char	*ft_completeline(t_shell *shell, int k)
 			k++;
 		while (gnl[k] == ' ')
 			k--;
-		temp = ft_strjoin(shell->line, gnl);
+		temp = ft_strjoin(msh->line, gnl);
 		free(gnl);
-		free(shell->line);
-		shell->line = ft_strdup(temp);
+		free(msh->line);
+		msh->line = ft_strdup(temp);
 		free (temp);
 		i += k;
 	}
-	return (shell->line);
+	return (msh->line);
 }

@@ -6,17 +6,15 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 18:13:16 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 10:45:58 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:34:08 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_env(t_commands cmd, t_shell *shell)
+int	ft_env(t_commands cmd, t_shell *msh)
 {
-	int		status;
-	int		fd;
-	char	*line;
+	int		i;
 
 	if (cmd.arg[1])
 	{
@@ -27,16 +25,10 @@ int	ft_env(t_commands cmd, t_shell *shell)
 	}
 	if (cmd.arg[0][3] == ' ')
 		return (ft_errorret2("command not found", "env", cmd.arg[1], 127));
-	fd = open("/tmp/minishell/envpfile.tmp", O_RDONLY);
-	status = get_next_line(fd, &line);
-	while (status > 0)
+	while (msh->envp[i])
 	{
-		ft_putendl(line);
-		free(line);
-		status = get_next_line(fd, &line);
+		ft_putendl(msh->envp[i]);
+		i++;
 	}
-	free(line);
-	close(fd);
-	shell = shell;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/14 02:24:14 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 11:48:54 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,24 +119,24 @@ int	ft_checkoutquote2(char *line, char target, char target2, int mode)
 	return (-1);
 }
 
-char	check_quote_closed(t_shell *shell)
+char	check_quote_closed(t_shell *msh)
 {
 	int		i;
 	char	check;
 
 	i = 0;
 	check = '\0';
-	while (shell->line[i])
+	while (msh->line[i])
 	{
-		while (shell->line[i] && !check)
+		while (msh->line[i] && !check)
 		{
-			if (shell->line[i] == '\'' || shell->line[i] == '\"' || shell->line[i] == '`' || shell->line[i] == '(')
-				check = shell->line[i];
+			if (msh->line[i] == '\'' || msh->line[i] == '\"' || msh->line[i] == '`' || msh->line[i] == '(')
+				check = msh->line[i];
 			i++;
 		}
-		while (shell->line[i] && check)
+		while (msh->line[i] && check)
 		{
-			if ((shell->line[i] == check) || (shell->line[i] == ')' && check == '('))
+			if ((msh->line[i] == check) || (msh->line[i] == ')' && check == '('))
 				check = '\0';
 			i++;
 		}

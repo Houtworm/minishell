@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 10:30:56 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:50:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_parsevariable(t_commands *cmd, t_shell shell)
+int	ft_parsevariable(t_commands *cmd, t_shell msh)
 {
 	int		i;
 	int		j;
@@ -81,12 +81,12 @@ int	ft_parsevariable(t_commands *cmd, t_shell shell)
 		}
 		if (cmd->pipeline[i] == '?')
 		{
-			val = ft_itoa(shell.code % 256);
+			val = ft_itoa(msh.code % 256);
 			i++;
 		}
 		else if (cmd->pipeline[i] == '$')
 		{
-			val = ft_itoa(shell.pid);
+			val = ft_itoa(msh.pid);
 			i++;
 		}
 		else if (cmd->pipeline[i] == ' ')
@@ -106,7 +106,7 @@ int	ft_parsevariable(t_commands *cmd, t_shell shell)
 				j++;
 			}
 			var[j] = '\0';
-			val = ft_getenvval(shell.envp, var);
+			val = ft_getenvval(msh.envp, var);
 		}
 		j = 0;
 		while (cmd->pipeline[i])

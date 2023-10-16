@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/25 19:42:14 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/09/25 19:48:56 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 12:31:03 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**ft_getinsults(void)
 	insults[11] = ft_strdup("Why don't you go back to your Mac? ");
 	insults[12] = ft_strdup("You know Cocaine is bad for you right? ");
 	insults[13] = ft_strdup("Your syntax illiteracy makes me a sad shell... ");
-	insults[14] = ft_strdup("Everytime you do this a puppy dies a horrible death ");
+	insults[14] = ft_strdup("Everytime you do this someone gets killed ");
 	insults[15] = ft_strdup("Mi Inglash us coparible toe yoer sienthax ");
 	insults[16] = ft_strdup("RTFM https://gnu.org/software/bash/manual ");
 	insults[17] = ft_strdup("This incident will be reported. ");
@@ -40,13 +40,13 @@ char	**ft_getinsults(void)
 	return (insults);
 }
 
-void	ft_printinsult(t_shell *shell)
+void	ft_printinsult(t_shell *msh)
 {
 	char	**insults;
 	int		random;
 
 	insults = ft_getinsults();
-	random = ft_gettimems(shell->envp) % 20;
+	random = ft_gettimems(msh->envp) % 20;
 	ft_putendl_fd(insults[random], 2);
 	ft_frearr(insults);
 }

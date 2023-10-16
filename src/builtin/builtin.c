@@ -6,50 +6,50 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 15:11:33 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 10:58:54 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 12:18:30 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_setbuiltincompare(t_builtin *builtins)
+void	ft_setbuiltincommand(t_builtin *bltn)
 {
-	builtins[0].compare = ft_strdup(".\0");
-	builtins[1].compare = ft_strdup("/\0");
-	builtins[2].compare = ft_strdup("echo\0");
-	builtins[3].compare = ft_strdup("env\0");
-	builtins[4].compare = ft_strdup("export\0");
-	builtins[5].compare = ft_strdup("unset\0");
-	builtins[6].compare = ft_strdup("pwd\0");
-	builtins[7].compare = ft_strdup("which\0");
-	builtins[8].compare = ft_strdup("exit\0");
-	builtins[9].compare = ft_strdup("exec\0");
-	builtins[10].compare = ft_strdup("alias\0");
-	builtins[11].compare = ft_strdup("cd\0");
-	builtins[12].compare = ft_strdup("z\0");
-	builtins[13].compare = NULL;
+	bltn[0].cmnd = ft_strdup(".\0");
+	bltn[1].cmnd = ft_strdup("/\0");
+	bltn[2].cmnd = ft_strdup("echo\0");
+	bltn[3].cmnd = ft_strdup("env\0");
+	bltn[4].cmnd = ft_strdup("export\0");
+	bltn[5].cmnd = ft_strdup("unset\0");
+	bltn[6].cmnd = ft_strdup("pwd\0");
+	bltn[7].cmnd = ft_strdup("which\0");
+	bltn[8].cmnd = ft_strdup("exit\0");
+	bltn[9].cmnd = ft_strdup("exec\0");
+	bltn[10].cmnd = ft_strdup("alias\0");
+	bltn[11].cmnd = ft_strdup("cd\0");
+	bltn[12].cmnd = ft_strdup("z\0");
+	bltn[13].cmnd = NULL;
 }
 
 t_builtin	*ft_getbuiltins(void)
 {
-	t_builtin	*builtins;
+	t_builtin	*bltn;
 
-	builtins = ft_calloc(14, 16);
-	builtins[0].func = ft_period;
-	builtins[1].func = ft_period;
-	builtins[2].func = ft_echo;
-	builtins[3].func = ft_env;
-	builtins[4].func = ft_export;
-	builtins[5].func = ft_unset;
-	builtins[6].func = ft_pwd;
-	builtins[7].func = ft_which;
-	builtins[8].func = ft_exit;
-	builtins[9].func = ft_exec;
-	builtins[10].func = ft_alias;
-	builtins[11].func = ft_chdir;
-	builtins[12].func = ft_z;
-	ft_setbuiltincompare(builtins);
-	return (builtins);
+	bltn = ft_calloc(14, 16);
+	bltn[0].func = ft_period;
+	bltn[1].func = ft_period;
+	bltn[2].func = ft_echo;
+	bltn[3].func = ft_env;
+	bltn[4].func = ft_export;
+	bltn[5].func = ft_unset;
+	bltn[6].func = ft_pwd;
+	bltn[7].func = ft_which;
+	bltn[8].func = ft_exit;
+	bltn[9].func = ft_exec;
+	bltn[10].func = ft_alias;
+	bltn[11].func = ft_chdir;
+	bltn[12].func = ft_z;
+	ft_setbuiltincommand(bltn);
+	return (bltn);
 }
 
 int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
@@ -79,7 +79,7 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
 						close(msh->pipes[forknbr + 1][1]);
 						close(msh->pipes[forknbr + 1][0]);
 					}
-					exit(msh->builtins[i].func(msh->frk[forknbr].cmd[cmdnbr], msh));
+					exit(msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh));
 				}
 				waitpid(pid, &ret, 0);
 				msh->code = WEXITSTATUS(ret);
@@ -100,7 +100,7 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
 				close(msh->pipes[forknbr + 1][1]);
 				close(msh->pipes[forknbr + 1][0]);
 			}
-			exit(msh->builtins[i].func(msh->frk[forknbr].cmd[cmdnbr], msh));
+			exit(msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh));
 		}
 		waitpid(pid, &ret, 0);
 		msh->code = WEXITSTATUS(ret);
@@ -115,7 +115,7 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
 		free(itoa);
 		free(outtmp);
 		close(pid);
-		msh-> code = msh->builtins[i].func(msh->frk[forknbr].cmd[cmdnbr], msh);
+		msh-> code = msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh);
 	}
 	return (msh->code);
 }
@@ -124,12 +124,14 @@ int	ft_builtincheck(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 {
 	int i;
 	int	j;
+	int	len;
 
 	i = 0;
 	j = 0;
 	while (i < 13)
 	{
-		if (!ft_strncmp(cmd.arg[0], msh->builtins[i].compare, ft_strlen(msh->builtins[i].compare) + j))
+		len = ft_strlen(msh->bltn[i].cmnd) + j;
+		if (!ft_strncmp(cmd.arg[0], msh->bltn[i].cmnd, len))
 			return (ft_builtinexecute(cmdnbr, forknbr, msh, i));
 		if (i == 1)
 			j = 1;

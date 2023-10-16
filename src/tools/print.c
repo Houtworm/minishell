@@ -6,17 +6,17 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 10:54:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:51:42 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_printshell(t_shell shell)
+void	ft_printshell(t_shell msh)
 {
 	printf("\e[1;34mshell struct\e[0;00m\n");
-	printf("\e[1;34mline: %s\e[0;00m\n", shell.line);
-	printf("\e[1;34mforkamount: %d\e[0;00m\n", shell.forkamount);
+	printf("\e[1;34mline: %s\e[0;00m\n", msh.line);
+	printf("\e[1;34mforkamount: %d\e[0;00m\n", msh.forkamount);
 }
 
 void	ft_printforks(t_forks forks, int forknumber)

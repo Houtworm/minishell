@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 10:45:20 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:29:36 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_adddirtoz(char *cwd, char **envp)
 	close(tempfd);
 }
 
-int	ft_chdir(t_commands cmd, t_shell *shell)
+int	ft_chdir(t_commands cmd, t_shell *msh)
 {
 	char	*line;
 	char	*newcwd;
@@ -57,13 +57,13 @@ int	ft_chdir(t_commands cmd, t_shell *shell)
 		return (ft_errorret("too many arguments", "cd", 1));
 	if (!cmd.arg[1] || cmd.arg[1][0] == '\0')
 	{
-		newcwd = ft_getuser(shell->envp);
+		newcwd = ft_getuser(msh->envp);
 		line = ft_vastrjoin(3, "/home/", newcwd, "/");
 		free(newcwd);
 	}
 	else if (!ft_strncmp(cmd.arg[1],  "-\0", 2))
 	{
-		line = ft_getenvval(shell->envp, "OLDPWD");
+		line = ft_getenvval(msh->envp, "OLDPWD");
 		if (!line)
 			return (ft_errorret("OLDPWD not set", "cd", 1));
 		printf("%s\n", line);
@@ -86,22 +86,22 @@ int	ft_chdir(t_commands cmd, t_shell *shell)
 	}
 	free(line);
 	if (oldcwd[0] == '/')
-		ft_setenv(shell->envp, "OLDPWD", oldcwd);
+		ft_setenv(msh->envp, "OLDPWD", oldcwd);
 	free(oldcwd);
 	newcwd = malloc(512);
 	getcwd(newcwd, 512);
 	if (newcwd[0] != '/')
 	{
 		free(newcwd);
-		line = ft_getuser(shell->envp);
+		line = ft_getuser(msh->envp);
 		newcwd = ft_vastrjoin(3, "/home/", line, "/");
 		free(line);
 		chdir(newcwd);
 		ft_errorret2("No such file or directory Seems the current directory does not exist, going home", cmd.arg[0], cmd.arg[1], 1);
 	}
-	ft_setenv(shell->envp, "PWD", newcwd);
-	ft_adddirtoz(newcwd, shell->envp);
+	ft_setenv(msh->envp, "PWD", newcwd);
+	ft_adddirtoz(newcwd, msh->envp);
 	free(newcwd);
-	ft_charpptofd(shell->envp, shell->envpfd);
+	ft_charpptofd(msh->envp, msh->envpfd);
 	return (0);
 }

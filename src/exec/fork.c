@@ -6,22 +6,22 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 10:12:53 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:40:26 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	**ft_preparepipes(t_shell *shell)
+int	**ft_preparepipes(t_shell *msh)
 {
 	int	**pipes;
 	int	i;
 
 	i = 0;
-	pipes = ft_calloc(sizeof(int *) * (shell->forkamount + 2), 1);
+	pipes = ft_calloc(sizeof(int *) * (msh->forkamount + 2), 1);
 	if (pipes == NULL)
 		ft_errorexit("Error allocating memory", "malloc", 1);
-	while (i <= shell->forkamount + 1)
+	while (i <= msh->forkamount + 1)
 	{
 		pipes[i] = ft_calloc(sizeof(int) * 2, 1);
 		if (pipes[i] == NULL)
@@ -63,7 +63,7 @@ int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
 	return (0);
 }
 
-int	ft_forktheforks(t_shell *shell)
+int	ft_forktheforks(t_shell *msh)
 {
 	int	status;
 	int forknumber;
@@ -71,45 +71,45 @@ int	ft_forktheforks(t_shell *shell)
 
 	forknumber = 0;
 	status = 1;
-	shell->starttime = ft_gettimems(shell->envp);
-	if (shell->forkamount > 1)
+	msh->starttime = ft_gettimems(msh->envp);
+	if (msh->forkamount > 1)
 	{
-		shell->pipes = ft_preparepipes(shell);
-		pipe(shell->pipes[forknumber]);
-		while (shell->forkamount > forknumber)
+		msh->pipes = ft_preparepipes(msh);
+		pipe(msh->pipes[forknumber]);
+		while (msh->forkamount > forknumber)
 		{
-			if (shell->frk[forknumber].waitforlast)
+			if (msh->frk[forknumber].waitforlast)
 			{
-				waitpid(shell->frk[forknumber - 1].pid, &status, 0);
-				shell->code = WEXITSTATUS(status);
+				waitpid(msh->frk[forknumber - 1].pid, &status, 0);
+				msh->code = WEXITSTATUS(status);
 				fd = open("/tmp/minishell/lastcode.tmp", O_RDONLY);
 				if (fd > 0)
 				{
 					close(fd);
-					return (shell->code);
+					return (msh->code);
 				}
 			}
-			pipe(shell->pipes[forknumber + 1]);
-			shell->frk[forknumber].pid = fork();
-			if (shell->frk[forknumber].pid == 0)
-				exit (ft_executeforks(forknumber, shell, ft_checkcondition(shell->frk, 0, forknumber)));
-			close(shell->pipes[forknumber][1]);
-			close(shell->pipes[forknumber][0]);
+			pipe(msh->pipes[forknumber + 1]);
+			msh->frk[forknumber].pid = fork();
+			if (msh->frk[forknumber].pid == 0)
+				exit (ft_executeforks(forknumber, msh, ft_checkcondition(msh->frk, 0, forknumber)));
+			close(msh->pipes[forknumber][1]);
+			close(msh->pipes[forknumber][0]);
 			forknumber++;
 		}
 		forknumber = 0;
-		while (shell->forkamount > forknumber)
+		while (msh->forkamount > forknumber)
 		{
-			close(shell->pipes[forknumber][0]);
-			close(shell->pipes[forknumber][1]);
-			waitpid(shell->frk[forknumber].pid, &status, 0);
-			shell->code = WEXITSTATUS(status);
+			close(msh->pipes[forknumber][0]);
+			close(msh->pipes[forknumber][1]);
+			waitpid(msh->frk[forknumber].pid, &status, 0);
+			msh->code = WEXITSTATUS(status);
 			forknumber++;
 		}
 	}
 	else
 	{
-		shell->code = ft_executeforks(forknumber, shell, 0);
+		msh->code = ft_executeforks(forknumber, msh, 0);
 	}
-	return (shell->code);
+	return (msh->code);
 }

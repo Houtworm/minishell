@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 10:57:55 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 12:49:00 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ typedef struct s_alias
 
 typedef struct	s_builtin
 {
-	char		*compare;
-	int			(*func)(t_commands cmd, t_shell *shell);
+	char		*cmnd;
+	int			(*func)(t_commands cmd, t_shell *msh);
 }	t_builtin;
 
 typedef struct s_globs
@@ -101,7 +101,7 @@ typedef struct s_shell
 {
 	t_forks		*frk;
 	t_alias		*alias;
-	t_builtin	*builtins;
+	t_builtin	*bltn;
 	int			envpfd;
 	char		**envp;
 	long long	starttime;
@@ -127,9 +127,7 @@ int			main(int argc, char **argv, char **envp);
 // init
 t_shell		*ft_initstruct(char **envp, int debugmode);
 // prompt
-void		ft_printprompt(t_shell *strct, char **envp);
-// script
-int			ft_runscript(int argc, char **argv, t_shell *shell);
+void		ft_printprompt(t_shell *msh, char **envp);
 // signal
 void		ft_sighandler(int sig);
 int			ft_sighook(void);
@@ -139,54 +137,54 @@ t_alias		*ft_parsemshrc(char **envp);
 void		ft_writehistory(char *line, char *file);
 void		ft_readhistory(char *file);
 // insults
-void		ft_printinsult(t_shell *shell);
+void		ft_printinsult(t_shell *msh);
 
 // PARSE
 // parse
-int			ft_parseline(char *line, t_shell *shell);
-t_shell 	*ft_parsecommands(t_shell *shell, int forknumber, int cmdnumber);
+int			ft_parseline(char *line, t_shell *msh);
+t_shell 	*ft_parsecommands(t_shell *msh, int forknumber, int cmdnumber);
 // hashtag
-char		*ft_parsehashtag(t_shell *shell);
+char		*ft_parsehashtag(t_shell *msh);
 // syntax
-int			ft_checksyntax(t_shell *shell);
-int			ft_startsyntax(t_shell *shell);
+int			ft_checksyntax(t_shell *msh);
+int			ft_startsyntax(t_shell *msh);
 // pipe
-t_shell 	*ft_parsepipe(t_shell *shell);
+t_shell 	*ft_parsepipe(t_shell *msh);
 // alias
-void		ft_parsealiases(t_commands *cmd, t_shell shell);
+void		ft_parsealiases(t_commands *cmd, t_shell msh);
 // complete
-char		*ft_completeline(t_shell *shell, int k);
-char		*ft_closeline(t_shell *shell);
+char		*ft_completeline(t_shell *msh, int k);
+char		*ft_closeline(t_shell *msh);
 // quote
 int			ft_checkoutquotevar(char *line);
 int			ft_checkoutquote(char *line, char target, int mode);
 int			ft_skipquote(char *s, int i);
-char		check_quote_closed(t_shell *shell);
+char		check_quote_closed(t_shell *msh);
 // heredoc
-t_forks		ft_parseheredoc(t_shell *shell, int forknumber);
+t_forks		ft_parseheredoc(t_shell *msh, int forknumber);
 // redirect
 int			ft_parseredirection(t_commands *cmd);
 // condition
 void		ft_copyquote(char **cmdline, char	*forkline, int icpip, int ifpip);
-t_forks		ft_parseendcondition(t_shell *shell, int forknumber);
+t_forks		ft_parseendcondition(t_shell *msh, int forknumber);
 //priority
 int 		ft_priority(t_commands *cmd, int cmdnbr);
 // variable
-int 		ft_parsevariable(t_commands *cmd, t_shell shell);
+int 		ft_parsevariable(t_commands *cmd, t_shell msh);
 // tilde
-void		ft_parsetilde(t_commands *cmd, t_shell shell);
+void		ft_parsetilde(t_commands *cmd, t_shell msh);
 // oldline
-char		*ft_parseoldline(t_shell *shell);
+char		*ft_parseoldline(t_shell *msh);
 
 // EXEC
 // fork
-int			ft_forktheforks(t_shell *shell);
+int			ft_forktheforks(t_shell *msh);
 // priority
 void		ft_executepriority(t_commands *cmd, char **envp);
 // exec
-int			ft_executeforks(int forknbr, t_shell *shell, int condition);
+int			ft_executeforks(int forknbr, t_shell *msh, int condition);
 // dupmachine
-int			ft_dupmachine(int cmdnbr, int forknbr, int hdn, t_shell *shell);
+int			ft_dupmachine(int cmdnbr, int forknbr, int hdn, t_shell *msh);
 //verify
 int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);
@@ -195,19 +193,19 @@ int			ft_checkcommand(char **arguments, char **envp);
 // BUILTINS
 // builtin
 t_builtin	*ft_getbuiltins(void);
-int			ft_builtincheck(t_commands cmd, int cmdnbr, int forknbr, t_shell *shell);
-int			ft_alias(t_commands cmd, t_shell *shell);
-int			ft_chdir(t_commands cmd, t_shell *shell);
-int			ft_exit(t_commands cmd, t_shell *shell);
-int			ft_unset(t_commands cmd, t_shell *shell);
-int			ft_export(t_commands cmd, t_shell *shell);
-int			ft_env(t_commands cmd, t_shell *shell);
-int			ft_pwd(t_commands cmd, t_shell *shell);
-int			ft_echo(t_commands cmd, t_shell *shell);
-int			ft_z(t_commands cmd, t_shell *shell);
-int			ft_period(t_commands cmd, t_shell *shell);
-int			ft_exec(t_commands cmd, t_shell *shell);
-int			ft_which(t_commands cmd, t_shell *shell);
+int			ft_builtincheck(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh);
+int			ft_alias(t_commands cmd, t_shell *msh);
+int			ft_chdir(t_commands cmd, t_shell *msh);
+int			ft_exit(t_commands cmd, t_shell *msh);
+int			ft_unset(t_commands cmd, t_shell *msh);
+int			ft_export(t_commands cmd, t_shell *msh);
+int			ft_env(t_commands cmd, t_shell *msh);
+int			ft_pwd(t_commands cmd, t_shell *msh);
+int			ft_echo(t_commands cmd, t_shell *msh);
+int			ft_z(t_commands cmd, t_shell *msh);
+int			ft_period(t_commands cmd, t_shell *msh);
+int			ft_exec(t_commands cmd, t_shell *msh);
+int			ft_which(t_commands cmd, t_shell *msh);
 
 // GLOBS
 // globs
@@ -249,7 +247,7 @@ int			ft_firstanyof(t_globs *globs, char *dname, int reali);
 // time
 long long	ft_gettimems(char **envp);
 // print
-void		ft_printshell(t_shell shell);
+void		ft_printshell(t_shell msh);
 void		ft_printforks(t_forks forks, int forknumber);
 void		ft_printcommands(t_commands cmd, int cmdnbr, int forknbr);
 void		ft_printglobs(t_globs globs, char *function);
@@ -267,13 +265,13 @@ int			ft_errorexit2(char *reason, char *cmd, char *cmd2, int code);
 int			ft_errorret(char *reason, char *cmd, int code);
 int			ft_errorret2(char *reason, char *cmd, char *cmd2, int code);
 // cleanup
-void		ft_freeexit(t_shell *shell, int code);
+void		ft_freeexit(t_shell *msh, int code);
 void		ft_freeglobs(t_globs *globs);
-void		ft_freenewprompt(t_shell *shell);
+void		ft_freenewprompt(t_shell *msh);
 // fd
 void		ft_safeclosefd(int	fd);
-void		ft_closepipes(t_shell *shell);
-void		ft_restorefds(t_shell *shell);
+void		ft_closepipes(t_shell *msh);
+void		ft_restorefds(t_shell *msh);
 void		ft_createfdo(t_commands cmd);
 // semaphore
 int			ft_seminit(char *file, int number);

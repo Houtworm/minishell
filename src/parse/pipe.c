@@ -6,76 +6,76 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/28 13:26:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 10:52:50 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:48:19 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_shell	*ft_parsepipe(t_shell *shell)
+t_shell	*ft_parsepipe(t_shell *msh)
 {
 	int	i;
 	int	k;
 
-	shell->frk = ft_calloc(2000, 16);
+	msh->frk = ft_calloc(2000, 16);
 	i = 0;
-	shell->forkamount = 0;
-	while (shell->line[i])
+	msh->forkamount = 0;
+	while (msh->line[i])
 	{
 		k = 0;
-		shell->frk[shell->forkamount].pipeline = ft_calloc(ft_strlen(shell->line) * 8, 1);
-		while (!ft_strchr("|\"\'", shell->line[i]))
+		msh->frk[msh->forkamount].pipeline = ft_calloc(ft_strlen(msh->line) * 8, 1);
+		while (!ft_strchr("|\"\'", msh->line[i]))
 		{
-			shell->frk[shell->forkamount].pipeline[k] = shell->line[i];
+			msh->frk[msh->forkamount].pipeline[k] = msh->line[i];
 			i++;
 			k++;
-			if (shell->line[i] == '|' && shell->line[i + 1] == '|')
+			if (msh->line[i] == '|' && msh->line[i + 1] == '|')
 			{
-				shell->frk[shell->forkamount].pipeline[k] = shell->line[i];
-				shell->frk[shell->forkamount].pipeline[k + 1] = shell->line[i + 1];
+				msh->frk[msh->forkamount].pipeline[k] = msh->line[i];
+				msh->frk[msh->forkamount].pipeline[k + 1] = msh->line[i + 1];
 				i += 2;
 				k += 2;
 			}
 		}
-		if (shell->line[i] == '\"' || shell->line[i] == '\'')
+		if (msh->line[i] == '\"' || msh->line[i] == '\'')
 		{
-			ft_copyquote(&(shell->frk[shell->forkamount].pipeline), shell->line, k, i);
-			k = ft_strlen(shell->frk[shell->forkamount].pipeline);
-			i = ft_skipquote(shell->line, i) + 1;
-			if (shell->line[i] == '\"' || shell->line[i] == '\'')
+			ft_copyquote(&(msh->frk[msh->forkamount].pipeline), msh->line, k, i);
+			k = ft_strlen(msh->frk[msh->forkamount].pipeline);
+			i = ft_skipquote(msh->line, i) + 1;
+			if (msh->line[i] == '\"' || msh->line[i] == '\'')
 			{
-				ft_copyquote(&(shell->frk[shell->forkamount].pipeline), shell->line, k, i);
-				k = ft_strlen(shell->frk[shell->forkamount].pipeline);
-				i = ft_skipquote(shell->line, i) + 1;
+				ft_copyquote(&(msh->frk[msh->forkamount].pipeline), msh->line, k, i);
+				k = ft_strlen(msh->frk[msh->forkamount].pipeline);
+				i = ft_skipquote(msh->line, i) + 1;
 			}
-			if (shell->line[i] == '|' && shell->line[i + 1] == '|')
+			if (msh->line[i] == '|' && msh->line[i + 1] == '|')
 			{
-				shell->frk[shell->forkamount].pipeline[k] = shell->line[i];
-				shell->frk[shell->forkamount].pipeline[k + 1] = shell->line[i + 1];
+				msh->frk[msh->forkamount].pipeline[k] = msh->line[i];
+				msh->frk[msh->forkamount].pipeline[k + 1] = msh->line[i + 1];
 				i += 2;
 				k += 2;
 			}
-			while (shell->line[i] && shell->line[i] != '|')
+			while (msh->line[i] && msh->line[i] != '|')
 			{
-				shell->frk[shell->forkamount].pipeline[k] = shell->line[i];
+				msh->frk[msh->forkamount].pipeline[k] = msh->line[i];
 				i++;
 				k++;
-				if (shell->line[i] == '|' && shell->line[i + 1] == '|')
+				if (msh->line[i] == '|' && msh->line[i + 1] == '|')
 				{
-					shell->frk[shell->forkamount].pipeline[k] = shell->line[i];
-					shell->frk[shell->forkamount].pipeline[k + 1] = shell->line[i + 1];
+					msh->frk[msh->forkamount].pipeline[k] = msh->line[i];
+					msh->frk[msh->forkamount].pipeline[k + 1] = msh->line[i + 1];
 					i += 2;
 					k += 2;
 				}
 			}
 		}
-		shell->frk[shell->forkamount].pipeline[k] = '\0';
-		if (shell->line[i] == '|'  && shell->line[i + 1] != '|')
+		msh->frk[msh->forkamount].pipeline[k] = '\0';
+		if (msh->line[i] == '|'  && msh->line[i + 1] != '|')
 		{
 			i++;
-			shell->forkamount++;
+			msh->forkamount++;
 		}
 	}
-	shell->forkamount++;
-	return (shell);
+	msh->forkamount++;
+	return (msh);
 }

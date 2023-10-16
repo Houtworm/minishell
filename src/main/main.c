@@ -6,46 +6,85 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 10:51:51 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 13:29:34 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_mainloop(t_shell *shell)
+int	ft_mainloop(t_shell *msh)
 {
 	char	*line;
 	int		ret;
 
-	ft_printprompt(shell, shell->envp);
+	ft_printprompt(msh, msh->envp);
 	line = readline("$ ");
 	if (!line)
-		ft_freeexit(shell, 0);
-	shell->starttime = ft_gettimems(shell->envp);
+		ft_freeexit(msh, 0);
+	msh->starttime = ft_gettimems(msh->envp);
 	if (!ft_isallbyte(line, ' '))
 	{
-		ft_writehistory(line, shell->historyfile);
-		ret = ft_parseline(line, shell);
+		ft_writehistory(line, msh->historyfile);
+		ret = ft_parseline(line, msh);
 		if (ret == 2)
-		{
-			shell->code = 2;
 			return (2);
-		}
 		if (ret == 127)
 			return (ft_errorret("command not found", "!!", 127));
 		if (ret == 1)
 			return (1);
-		shell->code = ft_forktheforks(shell);
-		ft_freenewprompt(shell);
+		msh->code = ft_forktheforks(msh);
+		ft_freenewprompt(msh);
 		free(line);
 	}
 	return (0);
 }
 
+int	ft_runscript(char *file, t_shell *msh)
+{
+	int		fd;
+	char	*line;
+	int		ret;
+	int		code;
+
+	ret = 1;
+	code = ft_strlen(file);
+	if (file[code - 1] != 'h' || file[code - 2] != 's' || file[code - 3] != '.')
+		return (ft_errorret("Can only execute scripts", "argument", 1));
+	fd = open(file, O_RDONLY);
+	while (ret > 0)
+	{
+		ret = get_next_line(fd, &line);
+		if (ft_parseline(line, msh))
+		{
+			close(fd);
+			free(line);
+			return (2);
+		}
+		code = ft_forktheforks(msh);
+		ft_freenewprompt(msh);
+		free(line);
+	}
+	close(fd);
+	return (code);
+}
+
+int	ft_singlecommand(t_shell *msh, char *line)
+{
+	int		ret;
+
+	ret = ft_parseline(line, msh);
+	if (ret == 1)
+		return (0);
+	if (ret == 2)
+		return (2);
+	if (ret == 127)
+		return (ft_errorret("command not found", "!!", 127));
+	return (ft_forktheforks(msh));
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell	*shell;
-	int		code;
+	t_shell	*msh;
 
 	rl_event_hook = ft_sighook;
 	signal(SIGINT, ft_sighandler);
@@ -53,17 +92,19 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1)
 	{
 		if (ft_strncmp(argv[1], "-d\0", 3) == 0)
-			shell =	ft_initstruct(envp, 1);
+			msh = ft_initstruct(envp, 1);
 		else
 		{
-			shell = ft_initstruct(envp, 0);
-			code = ft_runscript(argc, argv, shell);
-			ft_freeexit(shell, code);
+			msh = ft_initstruct(envp, 0);
+			if (ft_strncmp(argv[1], "-c\0", 3) == 0)
+				ft_freeexit(msh, ft_singlecommand(msh, argv[2]));
+			else
+				ft_freeexit(msh, ft_runscript(argv[1], msh));
 		}
 	}
 	else
-		shell =	ft_initstruct(envp, 0);
+		msh =	ft_initstruct(envp, 0);
 	while (1)
-		ft_mainloop(shell);
-	ft_freeexit(shell, 0);
+		ft_mainloop(msh);
+	ft_freeexit(msh, 0);
 }

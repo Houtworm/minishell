@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/30 04:01:18 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 10:47:42 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:36:33 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_checkperiod(t_commands cmd)
 	return (0);
 }
 
-int	ft_period(t_commands cmd, t_shell *shell)
+int	ft_period(t_commands cmd, t_shell *msh)
 {
 	int		status;
 	int		fd;
@@ -42,7 +42,7 @@ int	ft_period(t_commands cmd, t_shell *shell)
 		status = ft_checkperiod(cmd);
 		if (status)
 			return (status);
-		execve(cmd.absolute, cmd.arg, shell->envp);
+		execve(cmd.absolute, cmd.arg, msh->envp);
 		fd = open(cmd.absolute, O_RDONLY);
 		if (fd == -1)
 			return (ft_errorret("command not found", cmd.absolute, 127));
@@ -54,20 +54,20 @@ int	ft_period(t_commands cmd, t_shell *shell)
 			{
 				free(line);
 				close(fd);
-				return (shell->code);
+				return (msh->code);
 			}
-			ft_freenewprompt(shell);
-			if (ft_parseline(line, shell))
+			ft_freenewprompt(msh);
+			if (ft_parseline(line, msh))
 			{
 				free(line);
 				close(fd);
 				return (2);
 			}
 			free(line);
-			shell->code = ft_forktheforks(shell);
+			msh->code = ft_forktheforks(msh);
 		}
 		close(fd);
-		return(shell->code);
+		return(msh->code);
 	}
 	else
 		return (ft_errorret("command not found", cmd.arg[0], 127));

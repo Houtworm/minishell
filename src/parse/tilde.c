@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/06 16:38:04 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 10:30:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:50:17 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_parsetilde(t_commands *cmd, t_shell shell)
+void	ft_parsetilde(t_commands *cmd, t_shell msh)
 {
 	int		i;
 	int		j;
@@ -69,7 +69,7 @@ void	ft_parsetilde(t_commands *cmd, t_shell shell)
 			}
 			rest[j] = '\0';
 			free(cmd->pipeline);
-			temp = ft_gethome(shell.envp);
+			temp = ft_gethome(msh.envp);
 			if (temp == NULL)
 				cmd->pipeline = ft_strjoin(begin, rest);
 			else

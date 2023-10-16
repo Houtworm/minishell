@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 10:40:03 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:47:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,72 +128,72 @@ char	**ft_splitcmd(char *cmd)
 	return (arguments);
 }
 
-t_shell *ft_parsecommands(t_shell *shell, int forknumber, int cmdnumber)
+t_shell *ft_parsecommands(t_shell *msh, int forknumber, int cmdnumber)
 {
 	char	**paths;
 
-	shell->frk[forknumber].cmd[cmdnumber].debug = shell->debug;
-	shell->frk[forknumber].cmd[cmdnumber].forkamount = shell->forkamount;
-	shell->frk[forknumber].cmd[cmdnumber].prio = ft_priority(shell->frk[forknumber].cmd, cmdnumber);
-	ft_parsealiases(&shell->frk[forknumber].cmd[cmdnumber], *shell);
-	ft_parsevariable(&shell->frk[forknumber].cmd[cmdnumber], *shell);
-	ft_parsetilde(&shell->frk[forknumber].cmd[cmdnumber], *shell);
-	if (ft_parseredirection(&shell->frk[forknumber].cmd[cmdnumber]))
+	msh->frk[forknumber].cmd[cmdnumber].debug = msh->debug;
+	msh->frk[forknumber].cmd[cmdnumber].forkamount = msh->forkamount;
+	msh->frk[forknumber].cmd[cmdnumber].prio = ft_priority(msh->frk[forknumber].cmd, cmdnumber);
+	ft_parsealiases(&msh->frk[forknumber].cmd[cmdnumber], *msh);
+	ft_parsevariable(&msh->frk[forknumber].cmd[cmdnumber], *msh);
+	ft_parsetilde(&msh->frk[forknumber].cmd[cmdnumber], *msh);
+	if (ft_parseredirection(&msh->frk[forknumber].cmd[cmdnumber]))
 	{
-		shell->stop = 2;
-		return (shell);
+		msh->stop = 2;
+		return (msh);
 	}
-	ft_executepriority(&shell->frk[forknumber].cmd[cmdnumber], shell->envp);
-	ft_parseglobs(&shell->frk[forknumber].cmd[cmdnumber], shell->envp);
-	paths = ft_splitcmd(shell->frk[forknumber].cmd[cmdnumber].pipeline);
-	shell->frk[forknumber].cmd[cmdnumber].arg = ft_removequotes(paths);
-	if (!shell->frk[forknumber].cmd[cmdnumber].arg[0])
+	ft_executepriority(&msh->frk[forknumber].cmd[cmdnumber], msh->envp);
+	ft_parseglobs(&msh->frk[forknumber].cmd[cmdnumber], msh->envp);
+	paths = ft_splitcmd(msh->frk[forknumber].cmd[cmdnumber].pipeline);
+	msh->frk[forknumber].cmd[cmdnumber].arg = ft_removequotes(paths);
+	if (!msh->frk[forknumber].cmd[cmdnumber].arg[0])
 	{
-		shell->stop = 1;
-		return (shell);
+		msh->stop = 1;
+		return (msh);
 	}
-	shell->frk[forknumber].cmd[cmdnumber].cmdamount = shell->frk[forknumber].cmdamount;
-	paths = ft_getpaths(shell->envp, 1);
+	msh->frk[forknumber].cmd[cmdnumber].cmdamount = msh->frk[forknumber].cmdamount;
+	paths = ft_getpaths(msh->envp, 1);
 	if (!paths)
-		shell->frk[forknumber].cmd[cmdnumber].absolute = ft_strdup(shell->frk[forknumber].cmd[cmdnumber].arg[0]);
+		msh->frk[forknumber].cmd[cmdnumber].absolute = ft_strdup(msh->frk[forknumber].cmd[cmdnumber].arg[0]);
 	else
 	{
-		shell->frk[forknumber].cmd[cmdnumber].absolute = ft_abspathcmd(paths, shell->frk[forknumber].cmd[cmdnumber].arg[0]);
+		msh->frk[forknumber].cmd[cmdnumber].absolute = ft_abspathcmd(paths, msh->frk[forknumber].cmd[cmdnumber].arg[0]);
 		ft_frearr(paths);
 	}
-	return (shell);
+	return (msh);
 }
 
-int	ft_parseline(char *line, t_shell *shell)
+int	ft_parseline(char *line, t_shell *msh)
 {
 	int	forknumber;
 
-	free(shell->line);
-	shell->line = ft_strdup(line);
-	if (!ft_parseoldline(shell))
+	free(msh->line);
+	msh->line = ft_strdup(line);
+	if (!ft_parseoldline(msh))
 		return (127);
-	if (ft_startsyntax(shell))
+	if (ft_startsyntax(msh))
 		return (2);
-	while (check_quote_closed(shell))
+	while (check_quote_closed(msh))
 	{
-		ft_closeline(shell);
-		ft_completeline(shell, 0);
+		ft_closeline(msh);
+		ft_completeline(msh, 0);
 	}
-	ft_parsehashtag(shell);
-	if (shell->line[0] == '\0')
+	ft_parsehashtag(msh);
+	if (msh->line[0] == '\0')
 		return (1);
-	if (ft_checksyntax(shell))
+	if (ft_checksyntax(msh))
 		return (2);
-	ft_parsepipe(shell);
-	if (shell->debug)
-		ft_printshell(*shell);
+	ft_parsepipe(msh);
+	if (msh->debug)
+		ft_printshell(*msh);
 	forknumber = 0;
-	while (shell->forkamount > forknumber)
+	while (msh->forkamount > forknumber)
 	{
-		ft_parseendcondition(shell, forknumber);
-		ft_parseheredoc(shell, forknumber);
-		if (shell->debug)
-			ft_printforks(shell->frk[forknumber], forknumber);
+		ft_parseendcondition(msh, forknumber);
+		ft_parseheredoc(msh, forknumber);
+		if (msh->debug)
+			ft_printforks(msh->frk[forknumber], forknumber);
 		forknumber++;
 	}
 	return (0);

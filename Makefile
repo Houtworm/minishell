@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/16 09:59:21 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/16 12:49:07 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ RM		=rm -f
 SRC		=src/main/main.c\
 		 src/main/init.c\
 		 src/main/prompt.c\
-		 src/main/script.c\
 		 src/main/signal.c\
 		 src/main/mshrc.c\
 		 src/main/history.c\

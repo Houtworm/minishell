@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/08 02:51:38 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/08 02:51:40 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 11:51:22 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@ void	ft_safeclosefd(int	fd)
 		close(fd);
 }
 
-void	ft_closepipes(t_shell *shell)
+void	ft_closepipes(t_shell *msh)
 {
 	int	i;
 
 	i = 0;
-	while  (i < shell->forkamount + 1)
+	while  (i < msh->forkamount + 1)
 	{
-		ft_safeclosefd(shell->pipes[i][0]);
-		ft_safeclosefd(shell->pipes[i][1]);
+		ft_safeclosefd(msh->pipes[i][0]);
+		ft_safeclosefd(msh->pipes[i][1]);
 		i++;
 	}
 }
 
-void	ft_restorefds(t_shell *shell)
+void	ft_restorefds(t_shell *msh)
 {
-	dup2(shell->stdinfd, 0);
-	dup2(shell->stdoutfd, 1);
+	dup2(msh->stdinfd, 0);
+	dup2(msh->stdoutfd, 1);
 }

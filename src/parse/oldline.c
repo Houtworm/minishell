@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/06 16:38:21 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/14 07:47:30 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/16 11:46:21 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*ft_parseoldline(t_shell *shell)
+char	*ft_parseoldline(t_shell *msh)
 {
 	int		i;
 	int		j;
@@ -20,55 +20,55 @@ char	*ft_parseoldline(t_shell *shell)
 	char	*rest;
 
 	i = 0;
-	while (shell->line[i])
+	while (msh->line[i])
 	{
 		j = 0;
-		begin = ft_calloc((ft_strlen(shell->line) + 1) * 8, 1);
-		rest = ft_calloc((ft_strlen(shell->line) + 1) * 8, 1);
-		while (shell->line[i] && (shell->line[i] != '!' || shell->line[i + 1] != '!'))
+		begin = ft_calloc((ft_strlen(msh->line) + 1) * 8, 1);
+		rest = ft_calloc((ft_strlen(msh->line) + 1) * 8, 1);
+		while (msh->line[i] && (msh->line[i] != '!' || msh->line[i + 1] != '!'))
 		{
-			if (shell->line[i] == '\'')
+			if (msh->line[i] == '\'')
 			{
-				begin[j] = shell->line[i];
+				begin[j] = msh->line[i];
 				i++;
 				j++;
-				while (shell->line[i] && shell->line[i] != '\'')
+				while (msh->line[i] && msh->line[i] != '\'')
 				{
-					begin[j] = shell->line[i];
+					begin[j] = msh->line[i];
 					i++;
 					j++;
 				}
 			}
-			begin[j] = shell->line[i];
+			begin[j] = msh->line[i];
 			i++;
 			j++;
 		}
-		if (shell->line[i] == '!' && shell->line[i + 1] == '!')
+		if (msh->line[i] == '!' && msh->line[i + 1] == '!')
 		{
-			if (!shell->oldline[0])
+			if (!msh->oldline[0])
 			{
 				ft_vafree(2, begin, rest);
-				return (shell->line);
+				return (msh->line);
 			}
 			begin[j] = '\0';
 			i++;
 			i++;
 			j = 0;
-			while (shell->line[i])
+			while (msh->line[i])
 			{
-				rest[j] = shell->line[i];
+				rest[j] = msh->line[i];
 				i++;
 				j++;
 			}
 			rest[j] = '\0';
-			free(shell->line);
-			shell->line = ft_vastrjoin(3, begin, shell->oldline, rest);
+			free(msh->line);
+			msh->line = ft_vastrjoin(3, begin, msh->oldline, rest);
 			i = 0;
 		}
 		free(rest);
 		free(begin);
 	}
-	free(shell->oldline);
-	shell->oldline = ft_strdup(shell->line);
-	return (shell->line);
+	free(msh->oldline);
+	msh->oldline = ft_strdup(msh->line);
+	return (msh->line);
 }
