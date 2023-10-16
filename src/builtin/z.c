@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:10 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 09:04:55 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 09:18:19 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,23 @@ char	*ft_zgetfile(t_shell *shell)
 	return (ret);
 }
 
+int	ft_zprint(char *file)
+{
+	int		mshzfd;
+	char	*line;
+
+	mshzfd = open(file, O_RDONLY);
+	while (get_next_line(mshzfd, &line) > 0)
+	{
+		ft_putendl(line);
+		free(line);
+	}
+	free(file);
+	free(line);
+	close(mshzfd);
+	return (0);
+}
+
 int	ft_ztrydir(t_cmds cmd, t_shell *shell, char *file)
 {
 	int		mshzfd;
@@ -37,10 +54,10 @@ int	ft_ztrydir(t_cmds cmd, t_shell *shell, char *file)
 		{
 			free(cmd.arguments[1]);
 			cmd.arguments[1] = ft_strdup(line);
-			ft_chdir(cmd, shell);
 			free(file);
 			free(line);
 			close(mshzfd);
+			ft_chdir(cmd, shell);
 			return (1);
 		}
 		free(line);
@@ -62,10 +79,10 @@ int	ft_ztrypath(t_cmds cmd, t_shell *shell, char *file)
 		{
 			free(cmd.arguments[1]);
 			cmd.arguments[1] = ft_strdup(line);
-			ft_chdir(cmd, shell);
 			free(line);
 			free(file);
 			close(mshzfd);
+			ft_chdir(cmd, shell);
 			return (1);
 		}
 		free(line);
@@ -80,6 +97,8 @@ int	ft_z(t_cmds cmd, t_shell *shell)
 	char	*file;
 
 	file = ft_zgetfile(shell);
+	if (!cmd.arguments[1])
+		return (ft_zprint(file));
 	if (ft_ztrydir(cmd, shell, file))
 		return (0);
 	if (ft_ztrypath(cmd, shell, file))
