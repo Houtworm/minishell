@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:19 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/15 05:10:46 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 08:32:37 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,15 @@ int	ft_addalias(t_shell *shell, char *var, char *val)
 	int		i;
 
 	i = 0;
+	printf("var: %s\nval: %s\n", var, val);
 	while (shell->alias[i].var)
 	{
+		printf("alias: %s\nnewar: %s\n", shell->alias[i].var, var);
 		if (!ft_strncmp(var, shell->alias[i].var, 100))
 		{
-			free(shell->alias[i].var);
-			shell->alias[i].var = ft_strdup(val);
+			free(shell->alias[i].val);
+			shell->alias[i].val = ft_strdup(val);
+			return (0);
 		}
 		i++;
 	}
@@ -50,38 +53,65 @@ int	ft_addalias(t_shell *shell, char *var, char *val)
 	return (0);
 }
 
-int	ft_alias(t_cmds cmd, t_shell *shell)
+char	*ft_getvaralias(t_cmds cmd)
 {
 	char	*var;
-	char	*val;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
-	if (!cmd.arguments[1])
-	{
-		ft_printalias(shell);
-		return (0);	
-	}
 	var = ft_calloc(512, 1);
-	val = ft_calloc(512, 1);
 	while (cmd.arguments[1][i] != '\0' && cmd.arguments[1][i] != '=')
 	{
 		var[i] = cmd.arguments[1][i];
 		i++;
 	}
+	var[i] = '\0';
 	if (cmd.arguments[1][i] != '=')
 	{
 		free(var);
-		free(val);
-		return (ft_moderrorreturn("not found", "alias", cmd.arguments[1], 1));
+		return (NULL);
 	}
+	return (var);
+}
+
+char	*ft_getvalalias(t_cmds cmd, int i)
+{
+	char	*val;
+	int		j;
+
+	j = 0;
+	val = ft_calloc(512, 1);
 	while (cmd.arguments[1][i + j + 1] != '\0')
 	{
 		val[j] = cmd.arguments[1][1 + j + i];
 		j++;
 	}
+	val[j] = '\0';
+	return (val);
+}
+
+int	ft_alias(t_cmds cmd, t_shell *shell)
+{
+	char	*var;
+	char	*val;
+	int		i;
+
+	if (!cmd.arguments[1])
+		return (ft_printalias(shell));	
+	var = ft_getvaralias(cmd);
+	if (var == NULL)
+	{
+		i = 0;
+		while (shell->alias[i].var)
+		{
+			if (!ft_strncmp(cmd.arguments[1], shell->alias[i].var, 100))
+				if (printf("%s=%s\n", shell->alias[i].var, shell->alias[i].val))
+					return (0);
+			i++;
+		}
+		return (ft_moderrorreturn("not found", "alias", cmd.arguments[1], 1));
+	}
+	val = ft_getvalalias(cmd, ft_strlen(var));
 	ft_addalias(shell, var, val);
 	free(var);
 	free(val);

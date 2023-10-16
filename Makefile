@@ -6,13 +6,13 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/14 07:30:32 by djonker      \___)=(___/                  #
+#    Updated: 2023/10/15 17:42:05 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=minishell
 CC		=gcc
-CFLAGS	=-Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS	=-Wall -Werror -Wextra -g -fsanitize=address
 RM		=rm -f
 SRC		=src/main/main.c\
 		 src/main/init.c\
