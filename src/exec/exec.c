@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 17:02:26 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/16 17:19:42 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void	ft_checklastcode(t_forks fork, t_shell *msh)
 		}
 		icmd++;
 	}
+	free(file);
 }
 
 
