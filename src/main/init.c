@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 17:03:56 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:50:07 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	msh->alias = ft_parsemshrc(envp);
 	msh->pid = ft_getpid();
 	msh->code = 256;
-	msh->stop = 0;
+	/*msh->stop = 0;*/
 	msh->debug = debugmode;
 	ft_readhistory(msh->historyfile);
 	return (msh);

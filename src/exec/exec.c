@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 16:37:37 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:48:38 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,16 +226,14 @@ int	ft_executeforks(int forknbr, t_shell *msh, int condition)
 	{
 		ft_frearr(msh->envp);
 		msh->envp = ft_fdtocharpp(msh->envpfd, msh);
-		msh = ft_parsecommands(msh, forknbr, cmdnbr);
-		if (msh->stop == 1)
+		status = ft_parsecommands(msh, forknbr, cmdnbr);
+		if (status == 1)
 		{
 			ft_createfdo(msh->frk[forknbr].cmd[cmdnbr]);
 			return (0);
 		}
-		if (msh->stop == 2)
-		{
+		if (status == 2)
 			return (1);
-		}
 		if (msh->debug)
 			ft_printcommands(msh->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(msh->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr, msh);

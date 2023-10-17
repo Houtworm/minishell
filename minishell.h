@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 16:30:45 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:50:04 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct	s_builtin
 
 typedef struct s_globs
 {
+	char		*line;
 	char		*gstart;
 	char		*gend;
 	char		*start;
@@ -61,7 +62,6 @@ typedef struct s_globs
 	int			temptype;
 	char		*pardir;
 	char		**matches;
-	char		*line;
 	char		*subdirs;
 	int			linecount;
 	int			matchcount;
@@ -70,10 +70,10 @@ typedef struct s_globs
 
 typedef struct s_commands
 {
+	char		*line;
 	char		*absolute;
 	char		**arg;
 	int			detatch;
-	char		*line;
 	int			condition;
 	int			pid;
 	int			code;
@@ -81,7 +81,6 @@ typedef struct s_commands
 	int			debug;
 	int			cmdamount;
 	int			forkamount;
-	//char		**infile;
 	char		**outfile;
 	int			*append;
 	int			input;
@@ -102,6 +101,7 @@ typedef struct s_shell
 	t_forks		*frk;
 	t_alias		*alias;
 	t_builtin	*bltn;
+	char		*line;
 	int			envpfd;
 	char		**envp;
 	long long	starttime;
@@ -109,13 +109,11 @@ typedef struct s_shell
 	int			debug;
 	int			**pipes;
 	int			forkamount;
-	int			stdincount;
-	int			stop;
-	int			pid;
-	char		*line;
-	char		*os;
-	char		*historyfile;
+	//int			stop;
 	char		*oldline;
+	char		*os;
+	int			pid;
+	char		*historyfile;
 	char		*tmpdir;
 }	t_shell;
 
@@ -142,7 +140,7 @@ void		ft_printinsult(t_shell *msh);
 // PARSE
 // parse
 int			ft_parseline(char *line, t_shell *msh);
-t_shell 	*ft_parsecommands(t_shell *msh, int forknumber, int cmdnumber);
+int		 	ft_parsecommands(t_shell *msh, int forknumber, int cmdnumber);
 // hashtag
 char		*ft_parsehashtag(t_shell *msh);
 // syntax

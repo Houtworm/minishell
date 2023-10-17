@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 16:36:57 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:50:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	ft_freenewprompt(t_shell *msh)
 		free(msh->pipes[i]);
 		free(msh->pipes);
 	}
-	msh->stop = 0;
 	file = ft_strjoin(msh->tmpdir, "lastcode.tmp");
 	unlink(file);
 	free(file);

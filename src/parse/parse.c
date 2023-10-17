@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 16:36:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:47:18 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char	**ft_splitcmd(char *cmd)
 	return (arguments);
 }
 
-t_shell *ft_parsecommands(t_shell *msh, int frkn, int cmdn)
+int	ft_parsecommands(t_shell *msh, int frkn, int cmdn)
 {
 	char	**paths;
 
@@ -139,19 +139,19 @@ t_shell *ft_parsecommands(t_shell *msh, int frkn, int cmdn)
 	ft_parsevariable(&msh->frk[frkn].cmd[cmdn], *msh);
 	msh->frk[frkn].cmd[cmdn].line = ft_parsetilde(msh->frk[frkn].cmd[cmdn].line, *msh);
 	if (ft_parseoutputfiles(&msh->frk[frkn].cmd[cmdn]))
-	{
-		msh->stop = 2;
-		return (msh);
-	}
+	/*{*/
+		/*msh->stop = 2;*/
+		return (2);
+	/*}*/
 	ft_executepriority(&msh->frk[frkn].cmd[cmdn], msh->envp);
 	ft_parseglobs(&msh->frk[frkn].cmd[cmdn], msh->envp);
 	paths = ft_splitcmd(msh->frk[frkn].cmd[cmdn].line);
 	msh->frk[frkn].cmd[cmdn].arg = ft_removequotes(paths);
 	if (!msh->frk[frkn].cmd[cmdn].arg[0])
-	{
-		msh->stop = 1;
-		return (msh);
-	}
+	/*{*/
+		/*msh->stop = 1;*/
+		return (1);
+	/*}*/
 	msh->frk[frkn].cmd[cmdn].cmdamount = msh->frk[frkn].cmdamount;
 	paths = ft_getpaths(msh->envp, 1);
 	if (!paths)
@@ -161,7 +161,7 @@ t_shell *ft_parsecommands(t_shell *msh, int frkn, int cmdn)
 		msh->frk[frkn].cmd[cmdn].absolute = ft_abspathcmd(paths, msh->frk[frkn].cmd[cmdn].arg[0]);
 		ft_frearr(paths);
 	}
-	return (msh);
+	return (0);
 }
 
 int	ft_parseline(char *line, t_shell *msh)
