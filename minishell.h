@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 15:28:46 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 15:49:00 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int			ft_checkoutquote(char *line, char target, int mode);
 int			ft_skipquote(char *s, int i);
 char		check_quote_closed(t_shell *msh);
 // heredoc
-int			ft_parseheredoc(t_shell *msh, int forknumber);
+int			ft_parseinputfiles(t_shell *msh, int forknumber);
 // redirect
 int			ft_parseredirection(t_commands *cmd);
 // condition

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 15:36:00 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 15:48:42 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,6 @@ int	ft_inputtofd(char *infile, char *tmpfile, int inputnumber)
 	/*else // Comment out for Bash Behavior*/
 		tempfd = open(tmpfile, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	fdi = open(infile, O_RDONLY);
-	/*if (!line)*/
-		/*ft_errorexit("Error allocating memory", "ft_inputtofd", 1);*/
 	while ((ret = get_next_line(fdi, &line)) > 0)
 	{
 		if (!line)
@@ -214,7 +212,7 @@ int	ft_inputtofd(char *infile, char *tmpfile, int inputnumber)
 	return (fdi);
 }
 
-int ft_parseheredoc(t_shell *msh, int forknumber)
+int ft_parseinputfiles(t_shell *msh, int forknumber)
 {
 	int		icmd;
 	int		i;
@@ -278,14 +276,10 @@ int ft_parseheredoc(t_shell *msh, int forknumber)
 						tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
 						free(frkn);
 						free(cmdn);
-						/*printf("%d\n%d\n%d\n", msh->frk[forknumber].cmd[icmd].input, forknumber, icmd);*/
-						/*printf("heredoc: %s\n\n", delimiter);*/
 						ft_heredoc(&delimiter, tmp, *msh, msh->frk[forknumber].cmd[icmd].input);
 						msh->frk[forknumber].cmd[icmd].input++;
 						free(tmp);
 						free(delimiter);
-						/*if (ft_checkoutquote(msh->frk[forknumber].cmd[icmd].pipeline + i, '<', 2) < 0)*/
-						/*{*/
 						while (msh->frk[forknumber].cmd[icmd].pipeline[i])
 						{
 							end[j] = msh->frk[forknumber].cmd[icmd].pipeline[i];
@@ -295,7 +289,6 @@ int ft_parseheredoc(t_shell *msh, int forknumber)
 						end[j] = '\0';
 						free (msh->frk[forknumber].cmd[icmd].pipeline);
 						msh->frk[forknumber].cmd[icmd].pipeline = ft_strjoin(start, end);
-						/*}*/
 						j = 0;
 						i = 0;
 					}
@@ -338,14 +331,9 @@ int ft_parseheredoc(t_shell *msh, int forknumber)
 						tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
 						free(frkn);
 						free(cmdn);
-						/*printf("%d\n%d\n%d\n", msh->frk[forknumber].cmd[icmd].input, forknumber, icmd);*/
-						/*printf("file: %s\n\n", file);*/
 						ft_inputtofd(file, tmp, msh->frk[forknumber].cmd[icmd].input);
 						free(tmp);
 						msh->frk[forknumber].cmd[icmd].input++;
-						/*msh->frk[forknumber].cmd[icmd].pipeline = ft_strjoin(start, end);*/
-						/*if (ft_checkoutquote(msh->frk[forknumber].cmd[icmd].pipeline + i, '<', 2) < 0)*/
-						/*{*/
 						while (msh->frk[forknumber].cmd[icmd].pipeline[i])
 						{
 							end[j] = msh->frk[forknumber].cmd[icmd].pipeline[i];
@@ -355,7 +343,6 @@ int ft_parseheredoc(t_shell *msh, int forknumber)
 						end[j] = '\0';
 						free (msh->frk[forknumber].cmd[icmd].pipeline);
 						msh->frk[forknumber].cmd[icmd].pipeline = ft_strjoin(start, end);
-						/*}*/
 						j = 0;
 						i = 0;
 					}
