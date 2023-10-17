@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 16:31:45 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 20:19:25 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_forktheforks(t_shell *msh)
 
 	forknumber = 0;
 	status = 1;
-	msh->starttime = ft_gettimems(msh->envp);
+	msh->starttime = ft_gettimemsdate(msh->envp);
 	if (msh->forkamount > 1)
 	{
 		msh->pipes = ft_preparepipes(msh);

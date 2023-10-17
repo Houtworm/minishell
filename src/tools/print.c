@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 17:33:50 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 20:01:50 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ void	ft_printdup(t_commands cmd, int cmdnbr, int forknbr)
 		while (cmd.outfile[i])
 		{
 			if (cmd.append[i])
-				printf("\e[1;36mredirect %d output appended to: %s \e[0;00m\n", i, cmd.outfile[i]);
+				printf("\e[1;36moutput %d appending to: %s \e[0;00m\n", i, cmd.outfile[i]);
 			else
-				printf("\e[1;36mredirect %d output trunctuating: %s \e[0;00m\n", i, cmd.outfile[i]);
+				printf("\e[1;36moutput %d trunctuating: %s \e[0;00m\n", i, cmd.outfile[i]);
 			i++;
 		}
 	}

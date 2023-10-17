@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 17:19:52 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 20:20:07 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,8 @@ int			ft_dupmachine(int cmdnbr, int forknbr, t_shell *msh);
 int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);
 int			ft_checkcommand(char **arguments, char **envp);
+//redirect
+void		ft_executeredirect(char **outfile, int *append, int forknbr, t_shell *msh);
 
 // BUILTINS
 // builtin
@@ -241,8 +243,6 @@ int			ft_nextanyof(t_globs *globs, char *dname, int reali, int globi);
 int			ft_firstanyof(t_globs *globs, char *dname, int reali);
 
 // TOOLS
-// time
-long long	ft_gettimems(char **envp);
 // print
 void		ft_printshell(t_shell msh);
 void		ft_printforks(t_forks forks, int forknumber);
@@ -253,9 +253,6 @@ void		ft_printdup(t_commands cmd, int cmdnbr, int forknbr);
 char		**ft_setenv(char **envp, char *var, char *val);
 char		**ft_fdtocharpp(t_shell *msh);
 void		ft_charpptofd(char **array, t_shell *msh);
-// files
-int			ft_mkdir(char *dirname, char **envp);
-int			ft_rmdir(char *dirname, char **envp);
 // error
 int			ft_errorexit(char *reason, char *cmd, int code);
 int			ft_errorexit2(char *reason, char *cmd, char *cmd2, int code);
@@ -266,13 +263,6 @@ void		ft_freeexit(t_shell *msh, int code);
 void		ft_freeglobs(t_globs *globs);
 void		ft_freenewprompt(t_shell *msh);
 // fd
-void		ft_safeclosefd(int	fd);
-void		ft_closepipes(t_shell *msh);
-void		ft_restorefds(t_shell *msh);
 void		ft_createfdo(t_commands cmd);
-// semaphore
-int			ft_seminit(char *file, int number);
-int			ft_semwait(char *file);
-int			ft_semfree(char *file);
 
 #endif

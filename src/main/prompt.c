@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/03/22 13:26:25 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 11:42:47 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 20:18:03 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_addexecutiontime(t_shell *msh, char *temp, char **envp)
 	char				*prompt;
 	long long			diff;
 
-	diff = ft_gettimems(envp) - msh->starttime;
+	diff = ft_gettimemsdate(envp) - msh->starttime;
 	date = ft_ltoa(diff);
 	prompt = ft_vastrjoin(3, temp, "\e[0;30;44m ", date);
 	ft_vafree(2, date, temp);

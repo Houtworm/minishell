@@ -6,7 +6,7 @@
 /*   By: djonker <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/11 16:02:53 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/09 10:20:49 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 20:16:42 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,5 +175,11 @@ char				*ft_getenvval(char **envp, char *var);
 char				*ft_abspathcmd(char **paths, char *command);
 void				ft_cppbzero(char **cpp);
 char				*ft_cpptostr(char **cpp);
+int					ft_seminit(char *file, int number);
+int					ft_semwait(char *file);
+int					ft_semfree(char *file);
+long long			ft_gettimemsdate(char **envp);
+int					ft_mkdir(char *dirname, char **envp);
+int					ft_rmdir(char *dirname, char **envp);
 
 #endif

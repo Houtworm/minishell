@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 16:56:19 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 20:17:51 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	char	*home;
 
 	msh = ft_calloc(10000, 8);
-	msh->starttime = ft_gettimems(envp);
+	msh->starttime = ft_gettimemsdate(envp);
 	msh->tmpdir = ft_createtempdir(envp);
 	msh->os = ft_getos();
 	ft_charpptofd(envp, msh);

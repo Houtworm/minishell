@@ -6,7 +6,7 @@
 #    By: djonker <marvin@codam.nl>                    +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/10/27 15:02:02 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/09 10:20:25 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/17 20:14:23 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -149,6 +149,12 @@ SRC			=src/ft_atoi.c \
 			src/ft_system.c \
 			src/ft_getpaths.c \
 			src/ft_getenvval.c \
+			src/ft_seminit.c \
+			src/ft_semwait.c \
+			src/ft_semfree.c \
+			src/ft_gettimemsdate.c \
+			src/ft_mkdir.c \
+			src/ft_rmdir.c \
 			src/ft_abspathcmd.c \
 			src/ft_cppbzero.c \
 			src/ft_cpptostr.c

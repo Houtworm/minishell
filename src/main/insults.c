@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/25 19:42:14 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 12:31:03 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 20:18:16 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_printinsult(t_shell *msh)
 	int		random;
 
 	insults = ft_getinsults();
-	random = ft_gettimems(msh->envp) % 20;
+	random = ft_gettimemsdate(msh->envp) % 20;
 	ft_putendl_fd(insults[random], 2);
 	ft_frearr(insults);
 }
