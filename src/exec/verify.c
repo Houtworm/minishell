@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   verify.c                                           :+:    :+:            */
+/*   verify.c                                        |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/25 04:55:07 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 18:39:58 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/17 19:37:04 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,38 @@ int	ft_checkinputfile(char *file)
 int	ft_checkoutputfile(char *file)
 {
 	int		i;
+	int		fd;
 
 	i = ft_strlen(file) - 1;
 	if (file)
 	{
+		
+		if (file[0] == '\0')
+			return (ft_errorret("no such file or directory", file, 1));
+		fd = open(file, O_RDONLY | O_CREAT);
+		close(fd);
 		if (access(file, F_OK) < 0)
 		{
-			while (i > 0 && file[i] != '/')
+			if (ft_chrstr('/', file))
 			{
+				while (i > 0 && file[i] != '/')
+				{
+					file[i] = '\0';
+					i--;
+				}
 				file[i] = '\0';
-				i--;
+				if (access(file, F_OK) < 0)
+					return (ft_errorret("no such file or directory", file, 1));
 			}
-			if (i == 0)
+			else
 				return (ft_errorret("is a directory", file, 1));
-			if (!file)
-				file[i] = '\0';
-			if (access(file, F_OK) < 0)
-				return (ft_errorret("no such file or directory", file, 1));
 		}
 		else if (access(file, W_OK) < 0)
 		{
 			return (ft_errorret("permission denied", file, 1));
 		}
+		else if (fd == -1) 
+			return (ft_errorret("is a directory", file, 1));
 	}
 	return (0);
 }

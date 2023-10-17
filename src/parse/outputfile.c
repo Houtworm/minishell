@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   outputfile.c                                       :+:    :+:            */
+/*   outputfile.c                                    |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 10:16:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 18:05:59 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/17 19:29:11 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,12 @@ int	ft_parseoutputfiles(t_commands *cmd)
 	if (ft_checkoutquote(cmd->line, '>', 2) >= 0)
 		ft_parseredirectout(cmd);
 	i = 0;
-	while (cmd->outfile[i + 1])
+	ft_createfdo(*cmd);
+	while (cmd->outfile[i])
 	{
 		if (ft_checkoutputfile(cmd->outfile[i]))
 			return (1);
 		i++;
 	}
-	ft_createfdo(*cmd);
 	return (0);
 }
