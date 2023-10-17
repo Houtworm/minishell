@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 16:48:41 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:56:40 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,6 @@ int	ft_chdir(t_commands cmd, t_shell *msh)
 	ft_setenv(msh->envp, "PWD", newcwd);
 	ft_adddirtoz(newcwd, msh);
 	free(newcwd);
-	ft_charpptofd(msh->envp, msh->envpfd, msh);
+	ft_charpptofd(msh->envp, msh);
 	return (0);
 }

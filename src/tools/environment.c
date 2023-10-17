@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/08/26 03:56:16 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 16:56:49 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:55:53 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,13 @@ char	**ft_setenv(char **envp, char *var, char *val)
 	return (envp);
 }
 
-char	**ft_fdtocharpp(int	fd, t_shell *msh)
+char	**ft_fdtocharpp(t_shell *msh)
 {
 	char	*line;
 	char	**ret;
 	int		i;
 	int		status;
+	int		fd;
 
 	line = ft_strjoin(msh->tmpdir, "envpfile.tmp");
 	fd = open(line, O_RDONLY);
@@ -95,10 +96,11 @@ char	**ft_fdtocharpp(int	fd, t_shell *msh)
 	return (ret);
 }
 
-void	ft_charpptofd(char **array, int fd, t_shell *msh)
+void	ft_charpptofd(char **array, t_shell *msh)
 {
 	int 	i;
 	char	*temp;
+	int		fd;
 
 	temp = ft_strjoin(msh->tmpdir, "envpfile.tmp");
 	fd = open(temp, O_RDWR | O_CREAT | O_TRUNC, 0666);

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 16:50:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:56:19 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	msh->starttime = ft_gettimems(envp);
 	msh->tmpdir = ft_createtempdir(envp);
 	msh->os = ft_getos();
-	ft_charpptofd(envp, msh->envpfd, msh);
-	msh->envp = ft_fdtocharpp(msh->envpfd, msh);
+	ft_charpptofd(envp, msh);
+	msh->envp = ft_fdtocharpp(msh);
 	ft_shelllevelup(msh->envp);
-	ft_charpptofd(msh->envp, msh->envpfd, msh);
+	ft_charpptofd(msh->envp, msh);
 	msh->bltn = ft_getbuiltins();
 	home = ft_gethome(envp);
 	msh->historyfile = ft_strjoin(home, "/.mshhistory");
@@ -87,7 +87,6 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	msh->alias = ft_parsemshrc(envp);
 	msh->pid = ft_getpid();
 	msh->code = 256;
-	/*msh->stop = 0;*/
 	msh->debug = debugmode;
 	ft_readhistory(msh->historyfile);
 	return (msh);

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 16:35:02 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 17:21:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ t_forks ft_parseendcondition(t_shell *msh, int forknumber)
 				ifpip++;
 				msh->frk[forknumber].cmd[icmd + 1].condition = 1;
 			}
-			else
-				msh->frk[forknumber].cmd[icmd].detatch++;
+			/*else*/
+				/*msh->frk[forknumber].cmd[icmd].detatch++;*/
 		}
 		else
 			msh->frk[forknumber].cmd[icmd + 1].condition = 0;

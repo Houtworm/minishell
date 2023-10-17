@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 16:48:38 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 17:18:57 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ void	ft_checklastcode(t_forks fork, t_shell *msh)
 int	ft_executecommand(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 {
 	int	status;
+	int	pid;
 
 	if (cmdnbr > 0)
 	{
@@ -187,8 +188,8 @@ int	ft_executecommand(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 			msh->frk[forknbr].cmd[cmdnbr + 1].lastcode = status;
 			return (status);
 		}
-		cmd.pid = fork();
-		if (cmd.pid == 0)
+		pid = fork();
+		if (pid == 0)
 		{
 			signal(SIGQUIT, ft_sighandler);
 			if (ft_dupmachine(cmdnbr, forknbr, msh) == 2)
@@ -209,7 +210,7 @@ int	ft_executecommand(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 			close(msh->pipes[forknbr][0]);
 			close(msh->pipes[forknbr + 1][0]);
 		}
-		waitpid(cmd.pid, &status, 0);
+		waitpid(pid, &status, 0);
 		cmd.code = WEXITSTATUS(status);
 	}
 	msh->frk[forknbr].cmd[cmdnbr + 1].lastcode = cmd.code;
@@ -225,7 +226,7 @@ int	ft_executeforks(int forknbr, t_shell *msh, int condition)
 	while (msh->frk[forknbr].cmdamount > cmdnbr)
 	{
 		ft_frearr(msh->envp);
-		msh->envp = ft_fdtocharpp(msh->envpfd, msh);
+		msh->envp = ft_fdtocharpp(msh);
 		status = ft_parsecommands(msh, forknbr, cmdnbr);
 		if (status == 1)
 		{

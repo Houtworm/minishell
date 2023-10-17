@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/17 16:21:59 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/17 16:35:27 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 17:11:53 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int ft_parseinputfiles(t_shell *msh, int forknumber)
 	icmd = 0;
 	while (icmd < msh->frk[forknumber].cmdamount)
 	{
-		msh->frk[forknumber].cmd[icmd].input = 0;
+		msh->frk[forknumber].cmd[icmd].infiles = 0;
 		if (ft_checkoutquote(msh->frk[forknumber].cmd[icmd].line, '<', 2) >= 0)
 		{
 			start = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
@@ -102,8 +102,8 @@ int ft_parseinputfiles(t_shell *msh, int forknumber)
 						tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
 						free(frkn);
 						free(cmdn);
-						ft_heredoc(&delimiter, tmp, *msh, msh->frk[forknumber].cmd[icmd].input);
-						msh->frk[forknumber].cmd[icmd].input++;
+						ft_heredoc(&delimiter, tmp, *msh, msh->frk[forknumber].cmd[icmd].infiles);
+						msh->frk[forknumber].cmd[icmd].infiles++;
 						free(tmp);
 						free(delimiter);
 						while (msh->frk[forknumber].cmd[icmd].line[i])
@@ -157,9 +157,9 @@ int ft_parseinputfiles(t_shell *msh, int forknumber)
 						tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
 						free(frkn);
 						free(cmdn);
-						ft_inputtofd(file, tmp, msh->frk[forknumber].cmd[icmd].input);
+						ft_inputtofd(file, tmp, msh->frk[forknumber].cmd[icmd].infiles);
 						free(tmp);
-						msh->frk[forknumber].cmd[icmd].input++;
+						msh->frk[forknumber].cmd[icmd].infiles++;
 						while (msh->frk[forknumber].cmd[icmd].line[i])
 						{
 							end[j] = msh->frk[forknumber].cmd[icmd].line[i];

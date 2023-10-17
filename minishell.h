@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 16:50:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 17:19:52 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,28 +70,27 @@ typedef struct s_globs
 
 typedef struct s_commands
 {
+	int			forkamount;
+	int			lastcode;
+	int			condition;
+	int			prio;
+	int			infiles;
+	char		**outfile;
+	int			*append;
 	char		*line;
 	char		*absolute;
 	char		**arg;
-	int			detatch;
-	int			condition;
-	int			pid;
+	//int			detatch;
 	int			code;
-	int			lastcode;
-	int			debug;
 	int			cmdamount;
-	int			forkamount;
-	char		**outfile;
-	int			*append;
-	int			input;
-	int			prio;
+	int			debug;
 }	t_commands;
 
 typedef struct s_forks
 {
 	t_commands	*cmd;
-	char		*line;
 	int			pid;
+	char		*line;
 	int			cmdamount;
 	int			waitforlast;
 }	t_forks;
@@ -101,20 +100,18 @@ typedef struct s_shell
 	t_forks		*frk;
 	t_alias		*alias;
 	t_builtin	*bltn;
-	char		*line;
-	int			envpfd;
-	char		**envp;
-	long long	starttime;
-	int			code;
-	int			debug;
-	int			**pipes;
-	int			forkamount;
-	//int			stop;
-	char		*oldline;
 	char		*os;
 	int			pid;
 	char		*historyfile;
 	char		*tmpdir;
+	char		**envp;
+	long long	starttime;
+	int			**pipes;
+	char		*oldline;
+	char		*line;
+	int			forkamount;
+	int			code;
+	int			debug;
 }	t_shell;
 
 // Prototypes
@@ -171,10 +168,8 @@ t_forks		ft_parseendcondition(t_shell *msh, int forknumber);
 int 		ft_priority(t_commands *cmd, int cmdnbr);
 // variable
 int 		ft_parsevariable(t_commands *cmd, t_shell msh);
-//int 		ft_parsevariable(t_shell *msh, int forknumber);
 // tilde
 char		*ft_parsetilde(char *line, t_shell msh);
-//void		ft_parsetilde(t_shell *msh, int forknumber);
 // oldline
 char		*ft_parseoldline(t_shell *msh);
 
@@ -256,8 +251,8 @@ void		ft_printglobs(t_globs globs, char *function);
 void		ft_printdup(t_commands cmd, int cmdnbr, int forknbr);
 // environment
 char		**ft_setenv(char **envp, char *var, char *val);
-char		**ft_fdtocharpp(int	fd, t_shell *msh);
-void		ft_charpptofd(char **array, int fd, t_shell *msh);
+char		**ft_fdtocharpp(t_shell *msh);
+void		ft_charpptofd(char **array, t_shell *msh);
 // files
 int			ft_mkdir(char *dirname, char **envp);
 int			ft_rmdir(char *dirname, char **envp);
