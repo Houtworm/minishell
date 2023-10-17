@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/06 16:38:04 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 11:50:17 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 15:28:36 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_parsetilde(t_commands *cmd, t_shell msh)
+char	*ft_parsetilde(char *line, t_shell msh)
 {
 	int		i;
 	int		j;
@@ -20,63 +20,64 @@ void	ft_parsetilde(t_commands *cmd, t_shell msh)
 	char	*temp;
 	char	*rest;
 
-	begin = ft_calloc((ft_strlen(cmd->pipeline) + 1), 8);
-	rest = ft_calloc((ft_strlen(cmd->pipeline) + 1), 8);
+	begin = ft_calloc((ft_strlen(line) + 1), 8);
+	rest = ft_calloc((ft_strlen(line) + 1), 8);
 	i = 0;
-	while (cmd->pipeline[i])
+	while (line[i])
 	{
 		j = 0;
-		while (cmd->pipeline[i] && cmd->pipeline[i] != '~')
+		while (line[i] && line[i] != '~')
 		{
-			if (cmd->pipeline[i] == '\'')
+			if (line[i] == '\'')
 			{
-				begin[j] = cmd->pipeline[i];
+				begin[j] = line[i];
 				i++;
 				j++;
-				while (cmd->pipeline[i] && cmd->pipeline[i] != '\'')
+				while (line[i] && line[i] != '\'')
 				{
-					begin[j] = cmd->pipeline[i];
+					begin[j] = line[i];
 					i++;
 					j++;
 				}
 			}
-			else if (cmd->pipeline[i] == '\"')
+			else if (line[i] == '\"')
 			{
-				begin[j] = cmd->pipeline[i];
+				begin[j] = line[i];
 				i++;
 				j++;
-				while (cmd->pipeline[i] && cmd->pipeline[i] != '\"')
+				while (line[i] && line[i] != '\"')
 				{
-					begin[j] = cmd->pipeline[i];
+					begin[j] = line[i];
 					i++;
 					j++;
 				}
 			}
-			begin[j] = cmd->pipeline[i];
+			begin[j] = line[i];
 			i++;
 			j++;
 		}
-		if (cmd->pipeline[i] == '~')
+		if (line[i] == '~')
 		{
 			begin[j] = '\0';
 			i++;
 			j = 0;
-			while (cmd->pipeline[i])
+			while (line[i])
 			{
-				rest[j] = cmd->pipeline[i];
+				rest[j] = line[i];
 				i++;
 				j++;
 			}
 			rest[j] = '\0';
-			free(cmd->pipeline);
+			free(line);
 			temp = ft_gethome(msh.envp);
 			if (temp == NULL)
-				cmd->pipeline = ft_strjoin(begin, rest);
+				line = ft_strjoin(begin, rest);
 			else
-				cmd->pipeline = ft_vastrjoin(3, begin, temp, rest);
+				line = ft_vastrjoin(3, begin, temp, rest);
 			i = 0;
 			free(temp);
 		}
 	}
 	ft_vafree(2, begin, rest);
+	return (line);
 }

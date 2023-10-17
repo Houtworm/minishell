@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 01:17:06 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 15:30:06 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ t_shell *ft_parsecommands(t_shell *msh, int forknumber, int cmdnumber)
 	msh->frk[forknumber].cmd[cmdnumber].prio = ft_priority(msh->frk[forknumber].cmd, cmdnumber);
 	ft_parsealiases(&msh->frk[forknumber].cmd[cmdnumber], *msh);
 	ft_parsevariable(&msh->frk[forknumber].cmd[cmdnumber], *msh);
-	ft_parsetilde(&msh->frk[forknumber].cmd[cmdnumber], *msh);
+	msh->frk[forknumber].cmd[cmdnumber].pipeline = ft_parsetilde(msh->frk[forknumber].cmd[cmdnumber].pipeline, *msh);
 	if (ft_parseredirection(&msh->frk[forknumber].cmd[cmdnumber]))
 	{
 		msh->stop = 2;
@@ -190,8 +190,11 @@ int	ft_parseline(char *line, t_shell *msh)
 	forknumber = 0;
 	while (msh->forkamount > forknumber)
 	{
+		/*ft_parsevariable(msh, forknumber);*/
+		/*ft_parsetilde(msh, forknumber);*/
 		ft_parseendcondition(msh, forknumber);
-		ft_parseheredoc(msh, forknumber);
+		if (ft_parseheredoc(msh, forknumber))
+			return (3);
 		if (msh->debug)
 			ft_printforks(msh->frk[forknumber], forknumber);
 		forknumber++;

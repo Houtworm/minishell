@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 01:04:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 15:28:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ typedef struct s_commands
 	int			debug;
 	int			cmdamount;
 	int			forkamount;
-	char		**infile;
+	//char		**infile;
 	char		**outfile;
 	int			*append;
-	int			heredoc;
+	int			input;
 	int			prio;
 }	t_commands;
 
@@ -161,7 +161,7 @@ int			ft_checkoutquote(char *line, char target, int mode);
 int			ft_skipquote(char *s, int i);
 char		check_quote_closed(t_shell *msh);
 // heredoc
-t_forks		ft_parseheredoc(t_shell *msh, int forknumber);
+int			ft_parseheredoc(t_shell *msh, int forknumber);
 // redirect
 int			ft_parseredirection(t_commands *cmd);
 // condition
@@ -171,8 +171,10 @@ t_forks		ft_parseendcondition(t_shell *msh, int forknumber);
 int 		ft_priority(t_commands *cmd, int cmdnbr);
 // variable
 int 		ft_parsevariable(t_commands *cmd, t_shell msh);
+//int 		ft_parsevariable(t_shell *msh, int forknumber);
 // tilde
-void		ft_parsetilde(t_commands *cmd, t_shell msh);
+char		*ft_parsetilde(char *line, t_shell msh);
+//void		ft_parsetilde(t_shell *msh, int forknumber);
 // oldline
 char		*ft_parseoldline(t_shell *msh);
 

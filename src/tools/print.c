@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 11:51:42 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 02:27:38 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ void	ft_printredirect(t_commands cmd)
 	int	i;
 
 	i = 0;
-	while (cmd.infile[i])
-	{
-		printf("\e[1;36mredirect %d input from file: %s\e[0;00m\n", i, cmd.infile[i]);
-		i++;
-	}
+	/*while (cmd.infile[i])*/
+	/*{*/
+		/*printf("\e[1;36mredirect %d input from file: %s\e[0;00m\n", i, cmd.infile[i]);*/
+		/*i++;*/
+	/*}*/
 	i = 0;
 	while (cmd.outfile[i])
 	{
@@ -45,8 +45,8 @@ void	ft_printredirect(t_commands cmd)
 			printf("\e[1;36mredirect %d output trunctuating: %s \e[0;00m\n", i, cmd.outfile[i]);
 		i++;
 	}
-	if (cmd.heredoc)
-		printf("\e[1;36mredirect %d input from heredoc\e[0;00m\n", i + 1);
+	/*if (cmd.heredoc)*/
+		/*printf("\e[1;36mredirect %d input from heredoc\e[0;00m\n", i + 1);*/
 }
 
 void	ft_printcommands(t_commands cmd, int cmdnbr, int forknbr)
@@ -97,20 +97,20 @@ void	ft_printglobs(t_globs globs, char *function)
 
 void	ft_printdup(t_commands cmd, int cmdnbr, int forknbr)
 {
-	int	i;
+	/*int	i;*/
 
-	i = 0;
+	/*i = 0;*/
 	printf("\e[1;32mdupmachine cmd %d fork %d\e[0;00m\n", cmdnbr, forknbr);
 	if (cmdnbr == 0 && forknbr > 0)
 		printf("\e[1;32minput from pipe\e[0;00m\n");
-	else if (cmd.heredoc)
-		printf("\e[1;32minput from heredoc\e[0;00m\n");
-	else if (cmd.infile[0])
-	{
-		while (cmd.infile[i])
-			i++;
-		printf("\e[1;32minput from file %s\e[0;00m\n", cmd.infile[i - 1]);
-	}
+	/*else if (cmd.heredoc)*/
+		/*printf("\e[1;32minput from heredoc\e[0;00m\n");*/
+	/*else if (cmd.infile[0])*/
+	/*{*/
+		/*while (cmd.infile[i])*/
+			/*i++;*/
+		/*printf("\e[1;32minput from file %s\e[0;00m\n", cmd.infile[i - 1]);*/
+	/*}*/
 	else
 		printf("\e[1;32minput from stdin\e[0;00m\n");
 	if (cmdnbr + 1 == cmd.cmdamount && forknbr + 1 < cmd.forkamount)

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 16:45:52 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 14:52:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ int	ft_mainloop(t_shell *msh)
 			return (2);
 		if (ret == 127)
 			return (ft_errorret("command not found", "!!", 127));
-		if (ret == 1)
+		if (ret == 3)
+		{
+			msh->code = 1;
 			return (1);
+		}
 		msh->code = ft_forktheforks(msh);
 		ft_freenewprompt(msh);
 		free(line);
@@ -75,6 +78,8 @@ int	ft_singlecommand(t_shell *msh, char *line)
 	ret = ft_parseline(line, msh);
 	if (ret == 1)
 		return (0);
+	if (ret == 3)
+		return (1);
 	if (ret == 2)
 		return (2);
 	if (ret == 127)
