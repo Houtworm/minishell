@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 19:54:50 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 21:10:27 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int	ft_executeforks(int forknbr, t_shell *msh, int condition)
 			ft_printcommands(msh->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(msh->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr, msh);
 		if (msh->frk[forknbr].cmd[cmdnbr].outfile[0] && status != 127)
-			ft_executeredirect(msh->frk[forknbr].cmd[cmdnbr].outfile, msh->frk[forknbr].cmd[cmdnbr].append, forknbr, msh);
+			ft_redirectoutput(msh->frk[forknbr].cmd[cmdnbr].outfile, msh->frk[forknbr].cmd[cmdnbr].append, forknbr, msh);
 		cmdnbr++;
 	}
 	if (condition)

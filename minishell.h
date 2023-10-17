@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 20:20:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 21:10:11 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);
 int			ft_checkcommand(char **arguments, char **envp);
 //redirect
-void		ft_executeredirect(char **outfile, int *append, int forknbr, t_shell *msh);
+void		ft_redirectoutput(char **outfile, int *append, int forknbr, t_shell *msh);
 
 // BUILTINS
 // builtin
