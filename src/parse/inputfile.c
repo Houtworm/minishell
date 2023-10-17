@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/17 16:21:59 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/17 23:47:07 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 00:16:28 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,51 +36,6 @@ int	ft_inputtofd(char *infile, char *tmpfile, int inputnumber)
 	close(fdi);
 	close(tempfd);
 	return (fdi);
-}
-
-void	ft_heredocinit(int i, t_shell *msh, int forknumber, int icmd, char *start)
-{
-	int		j;
-	char	*delimiter;
-	char	*cmdn;
-	char	*frkn;
-	char	*end;
-	char	*tmp;
-
-	delimiter = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
-	end = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
-	i = i + 2;
-	while (msh->frk[forknumber].cmd[icmd].line[i] == ' ')
-		i++;
-	j = 0;
-	while (msh->frk[forknumber].cmd[icmd].line[i] && msh->frk[forknumber].cmd[icmd].line[i] != ' ')
-	{
-		delimiter[j] = msh->frk[forknumber].cmd[icmd].line[i];
-		i++;
-		j++;
-	}
-	delimiter[j] = '\0';
-	j = 0;
-	while (msh->frk[forknumber].cmd[icmd].line[i] == ' ')
-		i++;
-	frkn = ft_itoa(forknumber);
-	cmdn = ft_itoa(icmd);
-	tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
-	free(frkn);
-	free(cmdn);
-	ft_heredoc(delimiter, tmp, *msh, msh->frk[forknumber].cmd[icmd].infiles);
-	msh->frk[forknumber].cmd[icmd].infiles++;
-	free(tmp);
-	free(delimiter);
-	while (msh->frk[forknumber].cmd[icmd].line[i])
-	{
-		end[j] = msh->frk[forknumber].cmd[icmd].line[i];
-		i++;
-		j++;
-	}
-	end[j] = '\0';
-	free (msh->frk[forknumber].cmd[icmd].line);
-	msh->frk[forknumber].cmd[icmd].line = ft_strjoin(start, end);
 }
 
 int	ft_infileinit(int i, t_shell *msh, int forknumber, int icmd, char *start)
@@ -151,39 +106,55 @@ int	ft_infileinit(int i, t_shell *msh, int forknumber, int icmd, char *start)
 	return (0);
 }
 
+char	*ft_foundquoteinputfile(t_shell *msh, int frkn, int icmd, char *start)
+{
+	char	quote;
+	int		i;
 
+	i = ft_strlen(start);
+	quote = msh->frk[frkn].cmd[icmd].line[i];
+	start[i] = msh->frk[frkn].cmd[icmd].line[i];
+	i++;
+	while (msh->frk[frkn].cmd[icmd].line[i] && msh->frk[frkn].cmd[icmd].line[i] != quote)
+	{
+		start[i] = msh->frk[frkn].cmd[icmd].line[i];
+		i++;
+	}
+	start[i] = msh->frk[frkn].cmd[icmd].line[i];
+	i++;
+	return (start);
+}
 
-char	*ft_getstart(t_shell *msh, int frkn, int icmd)
+int	ft_foundinputfile(t_shell *msh, int frkn, int icmd, char *start)
 {
 	int		i;
-	char	*start;
-	char	quote;
+
+	i = ft_strlen(start);
+	if (msh->frk[frkn].cmd[icmd].line[i + 1] == '<')
+		ft_heredocinit(i, msh, frkn, icmd, start);
+	else
+		if (ft_infileinit(i, msh, frkn, icmd, start))
+			return (2);
+	return (0);
+}
+
+char	*ft_getstart(t_shell *msh, int frkn, int icmd, char *start)
+{
+	int		i;
 
 	i = 0;
-	start = ft_calloc(ft_strlen(msh->frk[frkn].cmd[icmd].line), 8);
 	while (msh->frk[frkn].cmd[icmd].line[i])
 	{
 		if (ft_strchr("\'\"", msh->frk[frkn].cmd[icmd].line[i]))
 		{
-			quote = msh->frk[frkn].cmd[icmd].line[i];
-			start[i] = msh->frk[frkn].cmd[icmd].line[i];
-			i++;
-			while (msh->frk[frkn].cmd[icmd].line[i] && msh->frk[frkn].cmd[icmd].line[i] != quote)
-			{
-				start[i] = msh->frk[frkn].cmd[icmd].line[i];
-				i++;
-			}
-			start[i] = msh->frk[frkn].cmd[icmd].line[i];
-			i++;
+			start = ft_foundquoteinputfile(msh, frkn, icmd, start);
+			i = ft_strlen(start);
 		}
 		else if (msh->frk[frkn].cmd[icmd].line[i] == '<')
 		{
 			start[i] = '\0';
-			if (msh->frk[frkn].cmd[icmd].line[i + 1] == '<')
-				ft_heredocinit(i, msh, frkn, icmd, start);
-			else
-				if (ft_infileinit(i, msh, frkn, icmd, start))
-					return (NULL);
+			if (ft_foundinputfile(msh, frkn, icmd, start))
+				return (NULL);
 			i = 0;
 		}
 		else
@@ -192,7 +163,6 @@ char	*ft_getstart(t_shell *msh, int frkn, int icmd)
 			i++;
 		}
 	}
-	start[i] = '\0';
 	return (start);
 }
 
@@ -202,16 +172,18 @@ int ft_parseinputfiles(t_shell *msh, int frkn)
 	char	*start;
 
 	icmd = 0;
+	start = ft_calloc(ft_strlen(msh->frk[frkn].cmd[icmd].line), 8);
 	while (icmd < msh->frk[frkn].cmdamount)
 	{
 		msh->frk[frkn].cmd[icmd].infiles = 0;
 		if (ft_checkoutquote(msh->frk[frkn].cmd[icmd].line, '<', 2) >= 0)
 		{
-			start = ft_getstart(msh, frkn, icmd);
+			start = ft_getstart(msh, frkn, icmd, start);
 			if (!start)
 				return (2);
 		}
 		icmd++;
 	}
+	free(start);
 	return (0);
 }
