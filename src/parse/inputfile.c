@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/17 16:21:59 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/17 21:58:24 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 22:48:34 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,132 @@ int	ft_inputtofd(char *infile, char *tmpfile, int inputnumber)
 	return (fdi);
 }
 
+void	ft_heredocinit(int i, t_shell *msh, int forknumber, int icmd, char *start)
+{
+	int		j;
+	char	*delimiter;
+	char	*cmdn;
+	char	*frkn;
+	char	*end;
+	char	*tmp;
+
+	delimiter = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
+	end = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
+	i = i + 2;
+	while (msh->frk[forknumber].cmd[icmd].line[i] == ' ')
+		i++;
+	j = 0;
+	while (msh->frk[forknumber].cmd[icmd].line[i] && msh->frk[forknumber].cmd[icmd].line[i] != ' ')
+	{
+		delimiter[j] = msh->frk[forknumber].cmd[icmd].line[i];
+		i++;
+		j++;
+	}
+	delimiter[j] = '\0';
+	j = 0;
+	while (msh->frk[forknumber].cmd[icmd].line[i] == ' ')
+		i++;
+	frkn = ft_itoa(forknumber);
+	cmdn = ft_itoa(icmd);
+	tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
+	free(frkn);
+	free(cmdn);
+	ft_heredoc(delimiter, tmp, *msh, msh->frk[forknumber].cmd[icmd].infiles);
+	msh->frk[forknumber].cmd[icmd].infiles++;
+	free(tmp);
+	free(delimiter);
+	while (msh->frk[forknumber].cmd[icmd].line[i])
+	{
+		end[j] = msh->frk[forknumber].cmd[icmd].line[i];
+		i++;
+		j++;
+	}
+	end[j] = '\0';
+	free (msh->frk[forknumber].cmd[icmd].line);
+	msh->frk[forknumber].cmd[icmd].line = ft_strjoin(start, end);
+}
+
+int	ft_infileinit(int i, t_shell *msh, int forknumber, int icmd, char *start)
+{
+	int		j;
+	/*char	*delimiter;*/
+	char	*cmdn;
+	char	*frkn;
+	char	*end;
+	char	*tmp;
+	char	quote;
+	char	*file;
+
+	i++;
+	file = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
+	end = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
+	while (msh->frk[forknumber].cmd[icmd].line[i] && msh->frk[forknumber].cmd[icmd].line[i] == ' ')
+		i++;
+	j = 0;
+	while (msh->frk[forknumber].cmd[icmd].line[i] && msh->frk[forknumber].cmd[icmd].line[i] != ' ' && msh->frk[forknumber].cmd[icmd].line[i] != '<')
+	{
+		if (msh->frk[forknumber].cmd[icmd].line[i] == '\'' || msh->frk[forknumber].cmd[icmd].line[i] == '\"')
+		{
+			quote = msh->frk[forknumber].cmd[icmd].line[i];
+			i++;
+			while (msh->frk[forknumber].cmd[icmd].line[i] != quote)
+			{
+				file[j] = msh->frk[forknumber].cmd[icmd].line[i];
+				i++;
+				j++;
+			}
+			i++;
+		}
+		else
+		{
+			file[j] = msh->frk[forknumber].cmd[icmd].line[i];
+			i++;
+			j++;
+		}
+	}
+	file[j] = '\0';
+	file = ft_parsetilde(file, *msh);
+	if (ft_checkinputfile(file))
+	{
+		free(file);
+		return (2);
+	}
+	j = 0;
+	while (msh->frk[forknumber].cmd[icmd].line[i] == ' ')
+		i++;
+	frkn = ft_itoa(forknumber);
+	cmdn = ft_itoa(icmd);
+	tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
+	free(frkn);
+	free(cmdn);
+	ft_inputtofd(file, tmp, msh->frk[forknumber].cmd[icmd].infiles);
+	free(tmp);
+	msh->frk[forknumber].cmd[icmd].infiles++;
+	while (msh->frk[forknumber].cmd[icmd].line[i])
+	{
+		end[j] = msh->frk[forknumber].cmd[icmd].line[i];
+		i++;
+		j++;
+	}
+	end[j] = '\0';
+	free (msh->frk[forknumber].cmd[icmd].line);
+	msh->frk[forknumber].cmd[icmd].line = ft_strjoin(start, end);
+	free(file);
+	return (0);
+}
+
 int ft_parseinputfiles(t_shell *msh, int forknumber)
 {
 	int		icmd;
 	int		i;
-	int		j;
+	/*int		j;*/
 	char	quote;
-	char	*tmp;
+	/*char	*tmp;*/
 	char	*start;
-	char	*end;
-	char	*delimiter;
-	char	*frkn;
-	char	*cmdn;
+	/*char	*end;*/
+	/*char	*delimiter;*/
+	/*char	*frkn;*/
+	/*char	*cmdn;*/
 	char	*file;
 
 	icmd = 0;
@@ -59,7 +173,6 @@ int ft_parseinputfiles(t_shell *msh, int forknumber)
 		if (ft_checkoutquote(msh->frk[forknumber].cmd[icmd].line, '<', 2) >= 0)
 		{
 			start = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
-			end = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
 			file = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
 			i = 0;
 			while (msh->frk[forknumber].cmd[icmd].line[i])
@@ -81,97 +194,11 @@ int ft_parseinputfiles(t_shell *msh, int forknumber)
 				{
 					start[i] = '\0';
 					if (msh->frk[forknumber].cmd[icmd].line[i + 1] == '<')
-					{
-						delimiter = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
-						i = i + 2;
-						while (msh->frk[forknumber].cmd[icmd].line[i] == ' ')
-							i++;
-						j = 0;
-						while (msh->frk[forknumber].cmd[icmd].line[i] && msh->frk[forknumber].cmd[icmd].line[i] != ' ')
-						{
-							delimiter[j] = msh->frk[forknumber].cmd[icmd].line[i];
-							i++;
-							j++;
-						}
-						delimiter[j] = '\0';
-						j = 0;
-						while (msh->frk[forknumber].cmd[icmd].line[i] == ' ')
-							i++;
-						frkn = ft_itoa(forknumber);
-						cmdn = ft_itoa(icmd);
-						tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
-						free(frkn);
-						free(cmdn);
-						ft_heredoc(delimiter, tmp, *msh, msh->frk[forknumber].cmd[icmd].infiles);
-						msh->frk[forknumber].cmd[icmd].infiles++;
-						free(tmp);
-						free(delimiter);
-						while (msh->frk[forknumber].cmd[icmd].line[i])
-						{
-							end[j] = msh->frk[forknumber].cmd[icmd].line[i];
-							i++;
-							j++;
-						}
-						end[j] = '\0';
-						free (msh->frk[forknumber].cmd[icmd].line);
-						msh->frk[forknumber].cmd[icmd].line = ft_strjoin(start, end);
-						j = 0;
-						i = 0;
-					}
+						ft_heredocinit(i, msh, forknumber, icmd, start);
 					else
-					{
-						i++;
-						while (msh->frk[forknumber].cmd[icmd].line[i] && msh->frk[forknumber].cmd[icmd].line[i] == ' ')
-							i++;
-						j = 0;
-						while (msh->frk[forknumber].cmd[icmd].line[i] && msh->frk[forknumber].cmd[icmd].line[i] != ' ' && msh->frk[forknumber].cmd[icmd].line[i] != '<')
-						{
-							if (msh->frk[forknumber].cmd[icmd].line[i] == '\'' || msh->frk[forknumber].cmd[icmd].line[i] == '\"')
-							{
-								quote = msh->frk[forknumber].cmd[icmd].line[i];
-								i++;
-								while (msh->frk[forknumber].cmd[icmd].line[i] != quote)
-								{
-									file[j] = msh->frk[forknumber].cmd[icmd].line[i];
-									i++;
-									j++;
-								}
-								i++;
-							}
-							else
-							{
-								file[j] = msh->frk[forknumber].cmd[icmd].line[i];
-								i++;
-								j++;
-							}
-						}
-						file[j] = '\0';
-						file = ft_parsetilde(file, *msh);
-						if (ft_checkinputfile(file))
+						if (ft_infileinit(i, msh, forknumber, icmd, start))
 							return (2);
-						j = 0;
-						while (msh->frk[forknumber].cmd[icmd].line[i] == ' ')
-							i++;
-						frkn = ft_itoa(forknumber);
-						cmdn = ft_itoa(icmd);
-						tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
-						free(frkn);
-						free(cmdn);
-						ft_inputtofd(file, tmp, msh->frk[forknumber].cmd[icmd].infiles);
-						free(tmp);
-						msh->frk[forknumber].cmd[icmd].infiles++;
-						while (msh->frk[forknumber].cmd[icmd].line[i])
-						{
-							end[j] = msh->frk[forknumber].cmd[icmd].line[i];
-							i++;
-							j++;
-						}
-						end[j] = '\0';
-						free (msh->frk[forknumber].cmd[icmd].line);
-						msh->frk[forknumber].cmd[icmd].line = ft_strjoin(start, end);
-						j = 0;
-						i = 0;
-					}
+					i = 0;
 				}
 				else
 				{
@@ -180,7 +207,6 @@ int ft_parseinputfiles(t_shell *msh, int forknumber)
 				}
 			}
 			free(start);
-			free(end);
 			free(file);
 		}
 		icmd++;
