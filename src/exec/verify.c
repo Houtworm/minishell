@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/25 04:55:07 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 19:37:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 20:46:54 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 
 int	ft_checkinputfile(char *file)
 {
+	int		fd;
+
 	if (file)
 	{
+		fd = open(file, O_RDWR);
+		if (errno == EISDIR) 
+			return (ft_errorret("is a directory", file, 1));
+		close(fd);
 		if (access(file, R_OK) < 0)
 		{
 			if (access(file, F_OK) < 0)

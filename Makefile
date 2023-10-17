@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/17 20:21:54 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/17 20:33:46 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,12 +63,9 @@ SRC		=src/main/main.c\
 		 src/globs/wildcard.c\
 		 src/globs/joker.c\
 		 src/globs/anyof.c\
-		 src/tools/time.c\
 		 src/tools/error.c\
 		 src/tools/print.c\
-		 src/tools/files.c\
 		 src/tools/environment.c\
-		 src/tools/semaphore.c\
 		 src/tools/cleanup.c
 OBJ		=$(SRC:src/%.c=obj/%.o)
 LIB		=printf/ft_printf.a getnextline/get_next_line.a libft/libft.a
