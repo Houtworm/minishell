@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/17 16:21:59 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/17 23:22:04 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 23:47:07 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	ft_heredocinit(int i, t_shell *msh, int forknumber, int icmd, char *start)
 int	ft_infileinit(int i, t_shell *msh, int forknumber, int icmd, char *start)
 {
 	int		j;
-	/*char	*delimiter;*/
 	char	*cmdn;
 	char	*frkn;
 	char	*end;
@@ -152,29 +151,7 @@ int	ft_infileinit(int i, t_shell *msh, int forknumber, int icmd, char *start)
 	return (0);
 }
 
-int	ft_getpos(t_shell *msh, int frkn, int icmd)
-{
-	int		i;
-	char	quote;
 
-	i = 0;
-	while (msh->frk[frkn].cmd[icmd].line[i])
-	{
-		if (ft_strchr("\'\"", msh->frk[frkn].cmd[icmd].line[i]))
-		{
-			quote = msh->frk[frkn].cmd[icmd].line[i];
-			i++;
-			while (msh->frk[frkn].cmd[icmd].line[i] && msh->frk[frkn].cmd[icmd].line[i] != quote)
-				i++;
-			i++;
-		}
-		else if (msh->frk[frkn].cmd[icmd].line[i] == '<')
-			break ;
-		else
-			i++;
-	}
-	return (i);
-}
 
 char	*ft_getstart(t_shell *msh, int frkn, int icmd)
 {
@@ -201,7 +178,13 @@ char	*ft_getstart(t_shell *msh, int frkn, int icmd)
 		}
 		else if (msh->frk[frkn].cmd[icmd].line[i] == '<')
 		{
-			break ;
+			start[i] = '\0';
+			if (msh->frk[frkn].cmd[icmd].line[i + 1] == '<')
+				ft_heredocinit(i, msh, frkn, icmd, start);
+			else
+				if (ft_infileinit(i, msh, frkn, icmd, start))
+					return (NULL);
+			i = 0;
 		}
 		else
 		{
@@ -216,16 +199,7 @@ char	*ft_getstart(t_shell *msh, int frkn, int icmd)
 int ft_parseinputfiles(t_shell *msh, int frkn)
 {
 	int		icmd;
-	int		i;
-	/*int		j;*/
-	char	quote;
-	/*char	*tmp;*/
 	char	*start;
-	/*char	*end;*/
-	/*char	*delimiter;*/
-	/*char	*frkn;*/
-	/*char	*cmdn;*/
-	char	*file;
 
 	icmd = 0;
 	while (icmd < msh->frk[frkn].cmdamount)
@@ -233,42 +207,9 @@ int ft_parseinputfiles(t_shell *msh, int frkn)
 		msh->frk[frkn].cmd[icmd].infiles = 0;
 		if (ft_checkoutquote(msh->frk[frkn].cmd[icmd].line, '<', 2) >= 0)
 		{
-			start = ft_calloc(ft_strlen(msh->frk[frkn].cmd[icmd].line), 8);
-			file = ft_calloc(ft_strlen(msh->frk[frkn].cmd[icmd].line), 8);
-			i = 0;
-			while (msh->frk[frkn].cmd[icmd].line[i])
-			{
-				if (ft_strchr("\'\"", msh->frk[frkn].cmd[icmd].line[i]))
-				{
-					quote = msh->frk[frkn].cmd[icmd].line[i];
-					start[i] = msh->frk[frkn].cmd[icmd].line[i];
-					i++;
-					while (msh->frk[frkn].cmd[icmd].line[i] && msh->frk[frkn].cmd[icmd].line[i] != quote)
-					{
-						start[i] = msh->frk[frkn].cmd[icmd].line[i];
-						i++;
-					}
-					start[i] = msh->frk[frkn].cmd[icmd].line[i];
-					i++;
-				}
-				else if (msh->frk[frkn].cmd[icmd].line[i] == '<')
-				{
-					start[i] = '\0';
-					if (msh->frk[frkn].cmd[icmd].line[i + 1] == '<')
-						ft_heredocinit(i, msh, frkn, icmd, start);
-					else
-						if (ft_infileinit(i, msh, frkn, icmd, start))
-							return (2);
-					i = 0;
-				}
-				else
-				{
-					start[i] = msh->frk[frkn].cmd[icmd].line[i];
-					i++;
-				}
-			}
-			free(start);
-			free(file);
+			start = ft_getstart(msh, frkn, icmd);
+			if (!start)
+				return (2);
 		}
 		icmd++;
 	}
