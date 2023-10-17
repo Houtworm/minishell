@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 11:44:15 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:35:02 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,47 +72,47 @@ t_forks ft_parseendcondition(t_shell *msh, int forknumber)
 	int		ifpip;
 	int		icpip;
 
-	msh->frk[forknumber].cmdamount = ft_countendconditions(msh->frk[forknumber].pipeline, 0, 0);
+	msh->frk[forknumber].cmdamount = ft_countendconditions(msh->frk[forknumber].line, 0, 0);
 	msh->frk[forknumber].cmd = ft_calloc(10000 * sizeof(t_commands), 1);
 	icmd = 0;
 	ifpip = 0;
-	while (msh->frk[forknumber].pipeline[ifpip] && icmd < msh->frk[forknumber].cmdamount)
+	while (msh->frk[forknumber].line[ifpip] && icmd < msh->frk[forknumber].cmdamount)
 	{
 		icpip = 0;
-		msh->frk[forknumber].cmd[icmd].pipeline = ft_calloc(1000 * 8, 1);
-		while (!ft_strchr("&|;\"\'", msh->frk[forknumber].pipeline[ifpip]))
+		msh->frk[forknumber].cmd[icmd].line = ft_calloc(1000 * 8, 1);
+		while (!ft_strchr("&|;\"\'", msh->frk[forknumber].line[ifpip]))
 		{
-			msh->frk[forknumber].cmd[icmd].pipeline[icpip] = msh->frk[forknumber].pipeline[ifpip];
+			msh->frk[forknumber].cmd[icmd].line[icpip] = msh->frk[forknumber].line[ifpip];
 			ifpip++;
 			icpip++;
 		}
-		if (msh->frk[forknumber].pipeline[ifpip] == '\"' || msh->frk[forknumber].pipeline[ifpip] == '\'')
+		if (msh->frk[forknumber].line[ifpip] == '\"' || msh->frk[forknumber].line[ifpip] == '\'')
 		{
-			ft_copyquote(&(msh->frk[forknumber].cmd[icmd].pipeline), msh->frk[forknumber].pipeline, icpip, ifpip);
-			icpip = ft_strlen(msh->frk[forknumber].cmd[icmd].pipeline);
-			ifpip = ft_skipquote(msh->frk[forknumber].pipeline, ifpip) + 1;
-			if (msh->frk[forknumber].pipeline[ifpip] == '\"' || msh->frk[forknumber].pipeline[ifpip] == '\'')
+			ft_copyquote(&(msh->frk[forknumber].cmd[icmd].line), msh->frk[forknumber].line, icpip, ifpip);
+			icpip = ft_strlen(msh->frk[forknumber].cmd[icmd].line);
+			ifpip = ft_skipquote(msh->frk[forknumber].line, ifpip) + 1;
+			if (msh->frk[forknumber].line[ifpip] == '\"' || msh->frk[forknumber].line[ifpip] == '\'')
 			{
-				ft_copyquote(&(msh->frk[forknumber].cmd[icmd].pipeline), msh->frk[forknumber].pipeline, icpip, ifpip);
-				icpip = ft_strlen(msh->frk[forknumber].cmd[icmd].pipeline);
-				ifpip = ft_skipquote(msh->frk[forknumber].pipeline, ifpip) + 1;
+				ft_copyquote(&(msh->frk[forknumber].cmd[icmd].line), msh->frk[forknumber].line, icpip, ifpip);
+				icpip = ft_strlen(msh->frk[forknumber].cmd[icmd].line);
+				ifpip = ft_skipquote(msh->frk[forknumber].line, ifpip) + 1;
 			}
-			while (msh->frk[forknumber].pipeline[ifpip] && !ft_strchr("&|;", msh->frk[forknumber].pipeline[ifpip]))
+			while (msh->frk[forknumber].line[ifpip] && !ft_strchr("&|;", msh->frk[forknumber].line[ifpip]))
 			{
-					msh->frk[forknumber].cmd[icmd].pipeline[icpip] = msh->frk[forknumber].pipeline[ifpip];
+					msh->frk[forknumber].cmd[icmd].line[icpip] = msh->frk[forknumber].line[ifpip];
 					ifpip++;
 					icpip++;
 			}
 		}
-		msh->frk[forknumber].cmd[icmd].pipeline[icpip] = '\0';
-		if (msh->frk[forknumber].pipeline[ifpip] == '|')
+		msh->frk[forknumber].cmd[icmd].line[icpip] = '\0';
+		if (msh->frk[forknumber].line[ifpip] == '|')
 		{
 			ifpip++;
 			msh->frk[forknumber].cmd[icmd + 1].condition = 2;
 		}
-		else if (msh->frk[forknumber].pipeline[ifpip] == '&')
+		else if (msh->frk[forknumber].line[ifpip] == '&')
 		{
-			if (msh->frk[forknumber].pipeline[ifpip + 1] == '&')
+			if (msh->frk[forknumber].line[ifpip + 1] == '&')
 			{
 				ifpip++;
 				msh->frk[forknumber].cmd[icmd + 1].condition = 1;

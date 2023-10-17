@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 02:28:02 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:36:57 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	ft_freecommands(t_commands *cmd)
 	int		i;
 
 	i = 0;
-	while (cmd[i].pipeline)
+	while (cmd[i].line)
 	{
-		free(cmd[i].pipeline);
+		free(cmd[i].line);
 		free(cmd[i].absolute);
 		if (cmd[i].arg)
 			ft_frearr(cmd[i].arg);
@@ -44,7 +44,7 @@ void	ft_freeforks(t_forks *frk)
 		while (frk[i].cmd)
 		{
 			ft_freecommands(frk[i].cmd);
-			free(frk[i].pipeline);
+			free(frk[i].line);
 			i++;
 		}
 		free(frk[i].cmd);
@@ -102,7 +102,7 @@ void	ft_freenewprompt(t_shell *msh)
 
 void	ft_freeglobs(t_globs *globs)
 {
-	free(globs->pipeline);
+	free(globs->line);
 	free(globs->gstart);
 	free(globs->gend);
 	free(globs->start);

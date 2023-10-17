@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/03 09:12:54 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 10:50:28 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:34:17 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 {
 	char	quote;
 
-	if (ft_strchr("\'\"", globs->pipeline[globs->linecount + startpos]))
+	if (ft_strchr("\'\"", globs->line[globs->linecount + startpos]))
 	{
-		quote = globs->pipeline[globs->linecount + startpos];
-		globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos];
+		quote = globs->line[globs->linecount + startpos];
+		globs->gstart[startpos] = globs->line[globs->linecount + startpos];
 		startpos++;
-		while (globs->pipeline[globs->linecount + startpos] != quote)
+		while (globs->line[globs->linecount + startpos] != quote)
 		{
-			globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos];
+			globs->gstart[startpos] = globs->line[globs->linecount + startpos];
 			startpos++;
 		}
-		globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos];
+		globs->gstart[startpos] = globs->line[globs->linecount + startpos];
 		startpos++;
 	}
 	return (startpos);
@@ -102,19 +102,19 @@ int	ft_parseglob(t_globs *globs, char **envp)
 
 void	ft_globlooper(t_globs *globs, t_commands *cmd, int startpos, char **envp)
 {
-	while (globs->pipeline[globs->linecount + startpos])
+	while (globs->line[globs->linecount + startpos])
 	{
-		if (ft_strchr("\'\"", globs->pipeline[globs->linecount + startpos]))
+		if (ft_strchr("\'\"", globs->line[globs->linecount + startpos]))
 			startpos = ft_skipbutcopygstart(globs, startpos);
-		else if (globs->pipeline[globs->linecount + startpos] == ' ')
+		else if (globs->line[globs->linecount + startpos] == ' ')
 		{
 			globs->linecount = globs->linecount + startpos + 1;
 			ft_bzero(globs->gstart, startpos);
 			startpos = 0;
 		}
-		else if (ft_strchr("*?[", globs->pipeline[globs->linecount + startpos]))
+		else if (ft_strchr("*?[", globs->line[globs->linecount + startpos]))
 		{
-			globs->glob[0] = globs->pipeline[globs->linecount + startpos];
+			globs->glob[0] = globs->line[globs->linecount + startpos];
 			ft_getglob(globs, startpos);
 			ft_getparent(globs);
 			ft_getsubdir(globs);
@@ -126,9 +126,9 @@ void	ft_globlooper(t_globs *globs, t_commands *cmd, int startpos, char **envp)
 				ft_printglobs(*globs, "globlooper");
 			startpos = 0;
 		}
-		else if (globs->pipeline[globs->linecount + startpos])
+		else if (globs->line[globs->linecount + startpos])
 		{
-			globs->gstart[startpos] = globs->pipeline[globs->linecount + startpos];
+			globs->gstart[startpos] = globs->line[globs->linecount + startpos];
 			startpos++;
 		}
 	}
@@ -138,17 +138,17 @@ int	ft_parseglobs(t_commands *cmd, char **envp)
 {
 	t_globs			*globs;
 
-	if (ft_checkoutquote(cmd->pipeline, '*', 2) >= 0)
-		globs = ft_initglobstruct(cmd->pipeline);
-	else if (ft_checkoutquote(cmd->pipeline, '?', 2) >= 0)
-		globs = ft_initglobstruct(cmd->pipeline);
-	else if (ft_checkoutquote(cmd->pipeline, '[', 2) >= 0)
-		globs = ft_initglobstruct(cmd->pipeline);
+	if (ft_checkoutquote(cmd->line, '*', 2) >= 0)
+		globs = ft_initglobstruct(cmd->line);
+	else if (ft_checkoutquote(cmd->line, '?', 2) >= 0)
+		globs = ft_initglobstruct(cmd->line);
+	else if (ft_checkoutquote(cmd->line, '[', 2) >= 0)
+		globs = ft_initglobstruct(cmd->line);
 	else
 		return (0);
 	ft_globlooper(globs, cmd, 0, envp);
-	free(cmd->pipeline);
-	cmd->pipeline = ft_strdup(globs->pipeline);
+	free(cmd->line);
+	cmd->line = ft_strdup(globs->line);
 	ft_freeglobs(globs);
 	return (0);
 }

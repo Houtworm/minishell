@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 02:27:38 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:31:18 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_printshell(t_shell msh)
 void	ft_printforks(t_forks forks, int forknumber)
 {
 	printf("\e[1;35mforks struct %d\e[0;00m\n", forknumber);
-	printf("\e[1;35mpipeline: %s\e[0;00m\n", forks.pipeline);
+	printf("\e[1;35mpipeline: %s\e[0;00m\n", forks.line);
 	printf("\e[1;35mcmdamount: %d\e[0;00m\n", forks.cmdamount);
 }
 
@@ -54,7 +54,7 @@ void	ft_printcommands(t_commands cmd, int cmdnbr, int forknbr)
 	int		i;
 
 	printf("\e[1;36mcmd struct %d of fork %d\e[0;00m\n", cmdnbr, forknbr);
-	printf("\e[1;36mpipeline: %s\e[0;00m\n", cmd.pipeline);
+	printf("\e[1;36mpipeline: %s\e[0;00m\n", cmd.line);
 	i = 0;
 	while (cmd.arg[i])
 	{
@@ -81,7 +81,7 @@ void	ft_printglobs(t_globs globs, char *function)
 
 	i = 0;
 	printf("\e[1;31mglobs struct in %s\e[0;00m\n", function);
-	printf("\e[1;31mpipeline: %s\e[0;00m\n", globs.pipeline);
+	printf("\e[1;31mpipeline: %s\e[0;00m\n", globs.line);
 	printf("\e[1;31mpardir: %s\e[0;00m\n", globs.pardir);
 	printf("\e[1;31mgstart: %s\e[0;00m\n", globs.gstart);
 	printf("\e[1;31mglob: %c\e[0;00m\n", globs.glob[0]);

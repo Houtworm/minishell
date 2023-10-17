@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/16 16:34:43 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:31:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
 		}
 		return (0);
 	}
-	while (fork[ifork].pipeline)
+	while (fork[ifork].line)
 	{
 		icmd = 0;
 		while (icmd < fork[ifork].cmdamount)

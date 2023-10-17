@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:34:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 10:51:17 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:34:31 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,8 +310,8 @@ int	ft_newpipeline(t_globs *globs)
 		temp[k] = '\0';
 		ft_frearr(globs->matches);
 		globs->matches = ft_calloc(100, 4096);
-		free(globs->pipeline);
-		globs->pipeline = ft_vastrjoin(3, globs->start, temp, globs->end);
+		free(globs->line);
+		globs->line = ft_vastrjoin(3, globs->start, temp, globs->end);
 		ft_frearr(globs->subdir);
 		globs->subdir = ft_calloc(100, 128);
 		globs->linecount = globs->linecount + k;

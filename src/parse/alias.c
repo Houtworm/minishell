@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>               //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/02 03:23:02 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 11:43:10 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:34:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	ft_parsealiases(t_commands *cmd, t_shell msh)
 	while (msh.alias[i].var)
 	{
 		varlen = ft_strlen(msh.alias[i].var);
-		if (!ft_strncmp(msh.alias[i].var, cmd->pipeline, varlen))
+		if (!ft_strncmp(msh.alias[i].var, cmd->line, varlen))
 		{
-			if (cmd->pipeline[varlen] == ' ' || cmd->pipeline[varlen] == '\0')
+			if (cmd->line[varlen] == ' ' || cmd->line[varlen] == '\0')
 			{
-				temp = ft_strjoin(msh.alias[i].val, &cmd->pipeline[varlen]);
-				free(cmd->pipeline);
-				cmd->pipeline = ft_strdup(temp);
+				temp = ft_strjoin(msh.alias[i].val, &cmd->line[varlen]);
+				free(cmd->line);
+				cmd->line = ft_strdup(temp);
 				free(temp);
 			}
 		}

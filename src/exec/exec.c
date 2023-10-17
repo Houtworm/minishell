@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/16 23:05:26 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:37:37 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	ft_executeredirect(char **outfile, int *append, int forknbr, t_shell *msh) 
 
 void	ft_printlastcode(t_commands	cmd)
 {
-	ft_putstr_fd(cmd.pipeline, 2);
+	ft_putstr_fd(cmd.line, 2);
 	ft_putendl_fd("------------", 2);
 	ft_putstr_fd("last code is ", 2);
 	ft_putnbr_fd(cmd.lastcode, 2);

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:32:43 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 10:50:09 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:33:39 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_getsubdir(t_globs *globs)
 	i = 0;
 	k = 0;
 	ft_frearr(globs->subdir);
-	globs->subdir = ft_calloc(ft_strlen(globs->pipeline), 128);
+	globs->subdir = ft_calloc(ft_strlen(globs->line), 128);
 	while (globs->gend[k])
 	{
 		if (globs->gend[k] == '/')
@@ -82,41 +82,41 @@ int	ft_getglob(t_globs *globs, int startpos)
 	endpos = 0;
 	globs->gstart[startpos] = '\0';
 	startpos++;
-	while (globs->pipeline[globs->linecount + startpos + endpos] && globs->pipeline[globs->linecount + startpos + endpos] != ' ')
+	while (globs->line[globs->linecount + startpos + endpos] && globs->line[globs->linecount + startpos + endpos] != ' ')
 	{
-		if (ft_strchr("\'\"", globs->pipeline[globs->linecount + startpos + endpos]))
+		if (ft_strchr("\'\"", globs->line[globs->linecount + startpos + endpos]))
 		{
-			quote = globs->pipeline[globs->linecount + startpos + endpos];
-			globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos];
+			quote = globs->line[globs->linecount + startpos + endpos];
+			globs->gend[endpos] = globs->line[globs->linecount + startpos + endpos];
 			endpos++;
-			while (globs->pipeline[globs->linecount + startpos + endpos] != quote)
+			while (globs->line[globs->linecount + startpos + endpos] != quote)
 			{
-				globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos];
+				globs->gend[endpos] = globs->line[globs->linecount + startpos + endpos];
 				endpos++;
 			}
-			globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos];
+			globs->gend[endpos] = globs->line[globs->linecount + startpos + endpos];
 			endpos++;
 		}
 		else
 		{
-			globs->gend[endpos] = globs->pipeline[globs->linecount + startpos + endpos];
+			globs->gend[endpos] = globs->line[globs->linecount + startpos + endpos];
 			endpos++;
 		}
 	}
 	globs->gend[endpos] = '\0';
 	free(globs->start);
-	globs->start = ft_substr(globs->pipeline, 0, globs->linecount);
+	globs->start = ft_substr(globs->line, 0, globs->linecount);
 	free(globs->end);
-	globs->end = ft_strdup(&globs->pipeline[globs->linecount + startpos + endpos]);
+	globs->end = ft_strdup(&globs->line[globs->linecount + startpos + endpos]);
 	return (endpos);
 }
 
-t_globs *ft_initglobstruct(char *pipeline)
+t_globs *ft_initglobstruct(char *line)
 {
 	t_globs			*globs;
 	int				linelenght;
 
-	linelenght = ft_strlen(pipeline);
+	linelenght = ft_strlen(line);
 	globs = ft_calloc(linelenght , 128);
 	globs->gstart = ft_calloc(linelenght, 8);
 	globs->gend = ft_calloc(500, 8);
@@ -129,7 +129,7 @@ t_globs *ft_initglobstruct(char *pipeline)
 	globs->pardir = ft_calloc(linelenght * 2, 8);
 	globs->anyof = ft_calloc(linelenght, 8);
 	globs->matches = ft_calloc(linelenght, 4096);
-	globs->pipeline = ft_strdup(pipeline);
+	globs->line = ft_strdup(line);
 	globs->linecount = 0;
 	globs->matchcount = 0;
 	return (globs);

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 15:49:00 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:30:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_globs
 	int			temptype;
 	char		*pardir;
 	char		**matches;
-	char		*pipeline;
+	char		*line;
 	char		*subdirs;
 	int			linecount;
 	int			matchcount;
@@ -73,7 +73,7 @@ typedef struct s_commands
 	char		*absolute;
 	char		**arg;
 	int			detatch;
-	char		*pipeline;
+	char		*line;
 	int			condition;
 	int			pid;
 	int			code;
@@ -91,7 +91,7 @@ typedef struct s_commands
 typedef struct s_forks
 {
 	t_commands	*cmd;
-	char		*pipeline;
+	char		*line;
 	int			pid;
 	int			cmdamount;
 	int			waitforlast;
@@ -161,9 +161,11 @@ int			ft_checkoutquote(char *line, char target, int mode);
 int			ft_skipquote(char *s, int i);
 char		check_quote_closed(t_shell *msh);
 // heredoc
+int			ft_heredoc(char **delimiter, char *file, t_shell msh, int heredoc);
+// inputfile
 int			ft_parseinputfiles(t_shell *msh, int forknumber);
-// redirect
-int			ft_parseredirection(t_commands *cmd);
+// outputfile
+int			ft_parseoutputfiles(t_commands *cmd);
 // condition
 void		ft_copyquote(char **cmdline, char	*forkline, int icpip, int ifpip);
 t_forks		ft_parseendcondition(t_shell *msh, int forknumber);

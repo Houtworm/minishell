@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/04 22:22:12 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 10:49:02 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 16:33:11 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,56 +54,56 @@ void	ft_executedollarsign(t_commands *cmd, char **envp)
 	char	*val;
 	char	*rest;
 
-	begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	var = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	rest = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	while (ft_checkoutsinglequote(cmd->pipeline, '$') >= 0)
+	begin = ft_calloc((ft_strlen(cmd->line) + 1) * 8, 1);
+	var = ft_calloc((ft_strlen(cmd->line) + 1) * 8, 1);
+	rest = ft_calloc((ft_strlen(cmd->line) + 1) * 8, 1);
+	while (ft_checkoutsinglequote(cmd->line, '$') >= 0)
 	{
 		i = 0;
 		j = 0;
-		while (cmd->pipeline[i] && (cmd->pipeline[i] != '$' || cmd->pipeline[i + 1] != '('))
+		while (cmd->line[i] && (cmd->line[i] != '$' || cmd->line[i + 1] != '('))
 		{
-			if (cmd->pipeline[i] == '\'')
+			if (cmd->line[i] == '\'')
 			{
-				begin[j] = cmd->pipeline[i];
+				begin[j] = cmd->line[i];
 				i++;
 				j++;
-				while (cmd->pipeline[i] && cmd->pipeline[i] != '\'')
+				while (cmd->line[i] && cmd->line[i] != '\'')
 				{
-					begin[j] = cmd->pipeline[i];
+					begin[j] = cmd->line[i];
 					i++;
 					j++;
 				}
 			}
-			else if (cmd->pipeline[i] == '\"')
+			else if (cmd->line[i] == '\"')
 			{
-				begin[j] = cmd->pipeline[i];
+				begin[j] = cmd->line[i];
 				i++;
 				j++;
-				while (cmd->pipeline[i] && cmd->pipeline[i] != '\"')
+				while (cmd->line[i] && cmd->line[i] != '\"')
 				{
-					if (cmd->pipeline[i] == '$' && cmd->pipeline[i + 1] == '(')
+					if (cmd->line[i] == '$' && cmd->line[i + 1] == '(')
 						break ;
-					begin[j] = cmd->pipeline[i];
+					begin[j] = cmd->line[i];
 					i++;
 					j++;
 				}
-				if (cmd->pipeline[i] == '$' && cmd->pipeline[i + 1] == '(')
+				if (cmd->line[i] == '$' && cmd->line[i + 1] == '(')
 					break ;
 			}
-			begin[j] = cmd->pipeline[i];
+			begin[j] = cmd->line[i];
 			i++;
 			j++;
 		}
-		if (cmd->pipeline[i] == '$' && cmd->pipeline[i + 1] == '(')
+		if (cmd->line[i] == '$' && cmd->line[i + 1] == '(')
 		{
 			begin[j] = '\0';
 			i++;
 			i++;
 			j = 0;
-			while (cmd->pipeline[i] && cmd->pipeline[i] != ')')
+			while (cmd->line[i] && cmd->line[i] != ')')
 			{
-				var[j] = cmd->pipeline[i];
+				var[j] = cmd->line[i];
 				i++;
 				j++;
 			}
@@ -115,15 +115,15 @@ void	ft_executedollarsign(t_commands *cmd, char **envp)
 		else
 			val = ft_system(var, envp);
 		j = 0;
-		while (cmd->pipeline[i])
+		while (cmd->line[i])
 		{
-			rest[j] = cmd->pipeline[i];
+			rest[j] = cmd->line[i];
 			i++;
 			j++;
 		}
 		rest[j] = '\0';
-		free (cmd->pipeline);
-		cmd->pipeline = ft_vastrjoin(3, begin, val, rest);
+		free (cmd->line);
+		cmd->line = ft_vastrjoin(3, begin, val, rest);
 		free (val);
 	}
 	ft_vafree(3, begin, var, rest);
@@ -138,55 +138,55 @@ void	ft_executebacktick(t_commands *cmd, char **envp)
 	char	*val;
 	char	*rest;
 
-	begin = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	var = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	rest = ft_calloc((ft_strlen(cmd->pipeline) + 1) * 8, 1);
-	while (ft_checkoutquote(cmd->pipeline, '`', 1) >= 0)
+	begin = ft_calloc((ft_strlen(cmd->line) + 1) * 8, 1);
+	var = ft_calloc((ft_strlen(cmd->line) + 1) * 8, 1);
+	rest = ft_calloc((ft_strlen(cmd->line) + 1) * 8, 1);
+	while (ft_checkoutquote(cmd->line, '`', 1) >= 0)
 	{
 		i = 0;
 		j = 0;
-		while (cmd->pipeline[i] && cmd->pipeline[i] != '`')
+		while (cmd->line[i] && cmd->line[i] != '`')
 		{
-			if (cmd->pipeline[i] == '\'')
+			if (cmd->line[i] == '\'')
 			{
-				begin[j] = cmd->pipeline[i];
+				begin[j] = cmd->line[i];
 				i++;
 				j++;
-				while (cmd->pipeline[i] && cmd->pipeline[i] != '\'')
+				while (cmd->line[i] && cmd->line[i] != '\'')
 				{
-					begin[j] = cmd->pipeline[i];
+					begin[j] = cmd->line[i];
 					i++;
 					j++;
 				}
 			}
-			else if (cmd->pipeline[i] == '\"')
+			else if (cmd->line[i] == '\"')
 			{
-				begin[j] = cmd->pipeline[i];
+				begin[j] = cmd->line[i];
 				i++;
 				j++;
-				while (cmd->pipeline[i] && cmd->pipeline[i] != '\"')
+				while (cmd->line[i] && cmd->line[i] != '\"')
 				{
-					if (cmd->pipeline[i] == '`')
+					if (cmd->line[i] == '`')
 						break ;
-					begin[j] = cmd->pipeline[i];
+					begin[j] = cmd->line[i];
 					i++;
 					j++;
 				}
-				if (cmd->pipeline[i] == '`')
+				if (cmd->line[i] == '`')
 					break ;
 			}
-			begin[j] = cmd->pipeline[i];
+			begin[j] = cmd->line[i];
 			i++;
 			j++;
 		}
-		if (cmd->pipeline[i] == '`')
+		if (cmd->line[i] == '`')
 		{
 			begin[j] = '\0';
 			i++;
 			j = 0;
-			while (cmd->pipeline[i] && cmd->pipeline[i] != '`')
+			while (cmd->line[i] && cmd->line[i] != '`')
 			{
-				var[j] = cmd->pipeline[i];
+				var[j] = cmd->line[i];
 				i++;
 				j++;
 			}
@@ -198,15 +198,15 @@ void	ft_executebacktick(t_commands *cmd, char **envp)
 		else
 			val = ft_system(var, envp);
 		j = 0;
-		while (cmd->pipeline[i])
+		while (cmd->line[i])
 		{
-			rest[j] = cmd->pipeline[i];
+			rest[j] = cmd->line[i];
 			i++;
 			j++;
 		}
 		rest[j] = '\0';
-		free (cmd->pipeline);
-		cmd->pipeline = ft_vastrjoin(3, begin, val, rest);
+		free (cmd->line);
+		cmd->line = ft_vastrjoin(3, begin, val, rest);
 		free (val);
 	}
 	ft_vafree(3, begin, var, rest);
