@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/17 19:54:30 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/17 21:13:19 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 21:19:54 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,18 @@ void	ft_redirecttofile(char **outfile, int *append, char *outtmp, int i)
 	close(fdread);
 }
 
-void	ft_redirectoutput(char **outfile, int *append, int forknbr, t_shell *msh)
+void	ft_redirectoutput(char **outfile, int *append, int frkn, t_shell *msh)
 {
 	char	*outtmp;
 	char	*line;
 	int		i;
 
-	line = ft_itoa(forknbr);
+	line = ft_itoa(frkn);
 	outtmp = ft_vastrjoin(4, msh->tmpdir, "outputfile", line, ".tmp");
 	free(line);
 	i = 0;
-	while (outfile[i] && outfile[i + 1]) //comment out these lines for zsh behavior
-		i++; //comment out these lines for zsh behavior
+	while (outfile[i] && outfile[i + 1]) //comment this line for zsh behavior
+		i++; //comment this line for zsh behavior
 	while (outfile[i])
 	{
 		ft_redirecttofile(outfile, append, outtmp, i);

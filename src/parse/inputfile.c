@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/17 16:21:59 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/17 19:51:29 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 21:58:24 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	ft_inputtofd(char *infile, char *tmpfile, int inputnumber)
 	int		tempfd;
 
 	inputnumber = inputnumber;
-	/*if (inputnumber) // Comment out for Bash Behavior*/
-		/*tempfd = open(tmpfile, O_RDWR | O_CREAT | O_APPEND, 0666); // Comment out for Bash Behavior*/
-	/*else // Comment out for Bash Behavior*/
+	/*if (inputnumber) // comment this line for bash behavior*/
+		/*tempfd = open(tmpfile, O_RDWR | O_CREAT | O_APPEND, 0666); // comment this line for bash behavior*/
+	/*else // comment this line for bash behavior*/
 		tempfd = open(tmpfile, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	fdi = open(infile, O_RDONLY);
 	while ((ret = get_next_line(fdi, &line)) > 0)
@@ -102,7 +102,7 @@ int ft_parseinputfiles(t_shell *msh, int forknumber)
 						tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
 						free(frkn);
 						free(cmdn);
-						ft_heredoc(&delimiter, tmp, *msh, msh->frk[forknumber].cmd[icmd].infiles);
+						ft_heredoc(delimiter, tmp, *msh, msh->frk[forknumber].cmd[icmd].infiles);
 						msh->frk[forknumber].cmd[icmd].infiles++;
 						free(tmp);
 						free(delimiter);

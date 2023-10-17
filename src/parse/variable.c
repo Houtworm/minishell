@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 16:36:46 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 22:21:42 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_parsevariable(t_commands *cmd, t_shell msh)
+char	*ft_parsevariable(char *line, t_shell msh, int quote)
 {
 	int		i;
 	int		j;
@@ -21,87 +21,87 @@ int	ft_parsevariable(t_commands *cmd, t_shell msh)
 	char	*val;
 	char	*rest;
 
-	begin = ft_calloc((ft_strlen(cmd->line) + 1) * 8, 1);
-	var = ft_calloc((ft_strlen(cmd->line) + 1) * 8, 1);
-	rest = ft_calloc((ft_strlen(cmd->line) + 1) * 8, 1);
-	while (ft_checkoutquotevar(cmd->line) >= 0)
+	begin = ft_calloc((ft_strlen(line) + 1) * 8, 1);
+	var = ft_calloc((ft_strlen(line) + 1) * 8, 1);
+	rest = ft_calloc((ft_strlen(line) + 1) * 8, 1);
+	while (ft_checkoutquotevar(line) >= 0)
 	{
 		i = 0;
 		j = 0;
-		while (cmd->line[i] && cmd->line[i] != '$')
+		while (line[i] && line[i] != '$')
 		{
-			if (cmd->line[i] == '\'')
+			if (quote && line[i] == '\'')
 			{
-				begin[j] = cmd->line[i];
+				begin[j] = line[i];
 				i++;
 				j++;
-				while (cmd->line[i] && cmd->line[i] != '\'')
+				while (line[i] && line[i] != '\'')
 				{
-					begin[j] = cmd->line[i];
+					begin[j] = line[i];
 					i++;
 					j++;
 				}
 			}
-			if (cmd->line[i] == '\"')
+			if (quote && line[i] == '\"')
 			{
-				begin[j] = cmd->line[i];
+				begin[j] = line[i];
 				i++;
 				j++;
-				while (cmd->line[i] && cmd->line[i] != '\"')
+				while (line[i] && line[i] != '\"')
 				{
-					if (cmd->line[i] == '$' && cmd->line[i + 1] != '\'' && cmd->line[i + 1] != '\"' && cmd->line[i + 1] != '(')
+					if (line[i] == '$' && line[i + 1] != '\'' && line[i + 1] != '\"' && line[i + 1] != '(')
 						break ;
-					begin[j] = cmd->line[i];
+					begin[j] = line[i];
 					i++;
 					j++;
 				}
 			}
-			if (!cmd->line[i] || (cmd->line[i] == '$' && cmd->line[i + 1] != '\'' && cmd->line[i + 1] != '\"' && cmd->line[i + 1] != '('))
+			if (!line[i] || (line[i] == '$' && line[i + 1] != '\'' && line[i + 1] != '\"' && line[i + 1] != '('))
 				break ;
-			begin[j] = cmd->line[i];
+			begin[j] = line[i];
 			i++;
 			j++;
-			if (cmd->line[i] == '$' && cmd->line[i + 1] == '(')
+			if (line[i] == '$' && line[i + 1] == '(')
 			{
-				while (cmd->line[i] != ')')
+				while (line[i] != ')')
 				{
-					begin[j] = cmd->line[i];
+					begin[j] = line[i];
 					j++;
 					i++;
 				}
-				begin[j] = cmd->line[i];
+				begin[j] = line[i];
 				i++;
 				j++;
 			}
 		}
-		if (cmd->line[i] == '$')
+		if (line[i] == '$')
 		{
 			begin[j] = '\0';
 			i++;
 		}
-		if (cmd->line[i] == '?')
+		if (line[i] == '?')
 		{
 			val = ft_itoa(msh.code % 256);
 			i++;
 		}
-		else if (cmd->line[i] == '$')
+		else if (line[i] == '$')
 		{
 			val = ft_itoa(msh.pid);
 			i++;
 		}
-		else if (cmd->line[i] == ' ')
+		else if (line[i] == ' ')
 		{
 			val = ft_strdup("$");
 			i++;
 		}
-		else if (!cmd->line[i])
+		else if (!line[i])
 			val = ft_strdup("$");
 		else
 		{
 			j = 0;
-			while ((cmd->line[i] >= 'A' && cmd->line[i] <= 'Z') || (cmd->line[i] >= 'a' && cmd->line[i] <= 'z' ) || cmd->line[i] == '_')
+			while ((line[i] >= 'A' && line[i] <= 'Z') || (line[i] >= 'a' && line[i] <= 'z' ) || line[i] == '_')
 			{
-				var[j] = cmd->line[i];
+				var[j] = line[i];
 				i++;
 				j++;
 			}
@@ -109,17 +109,17 @@ int	ft_parsevariable(t_commands *cmd, t_shell msh)
 			val = ft_getenvval(msh.envp, var);
 		}
 		j = 0;
-		while (cmd->line[i])
+		while (line[i])
 		{
-			rest[j] = cmd->line[i];
+			rest[j] = line[i];
 			i++;
 			j++;
 		}
 		rest[j] = '\0';
-		free (cmd->line);
-		cmd->line = ft_vastrjoin(3, begin, val, rest);
+		free (line);
+		line = ft_vastrjoin(3, begin, val, rest);
 		free (val);
 	}
 	ft_vafree(3, begin, var, rest);
-	return (0);
+	return (line);
 }

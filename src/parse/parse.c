@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/17 16:52:17 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/17 22:23:02 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int	ft_parsecommands(t_shell *msh, int frkn, int cmdn)
 	msh->frk[frkn].cmd[cmdn].forkamount = msh->forkamount;
 	msh->frk[frkn].cmd[cmdn].prio = ft_priority(msh->frk[frkn].cmd, cmdn);
 	ft_parsealiases(&msh->frk[frkn].cmd[cmdn], *msh);
-	ft_parsevariable(&msh->frk[frkn].cmd[cmdn], *msh);
+	msh->frk[frkn].cmd[cmdn].line = ft_parsevariable(msh->frk[frkn].cmd[cmdn].line, *msh, 1);
 	msh->frk[frkn].cmd[cmdn].line = ft_parsetilde(msh->frk[frkn].cmd[cmdn].line, *msh);
 	if (ft_parseoutputfiles(&msh->frk[frkn].cmd[cmdn]))
 		return (2);
