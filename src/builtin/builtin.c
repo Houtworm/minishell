@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 15:11:33 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 01:03:44 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 03:54:06 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,42 +52,46 @@ t_builtin	*ft_getbuiltins(void)
 	return (bltn);
 }
 
-int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
+void	ft_builtinfork(int cmdnbr, int forknbr, t_shell *msh, int i)
 {
 	int		pid;
 	int		ret;
+	pid = fork();
+	if (pid == 0)
+	{
+		if (ft_dupmachine(cmdnbr, forknbr, msh) == 2)
+			exit (1);
+		if (msh->forkamount > 1)
+		{
+			close(msh->pipes[forknbr][1]);
+			close(msh->pipes[forknbr][0]);
+			close(msh->pipes[forknbr + 1][1]);
+			close(msh->pipes[forknbr + 1][0]);
+		}
+		exit(msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh));
+	}
+	waitpid(pid, &ret, 0);
+	msh->code = WEXITSTATUS(ret);
+	if (i == 8 || i == 9)
+		ft_freeexit(msh, msh->code);
+}
+
+int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
+{
 	char	*itoa;
 	char	*outtmp;
+	int		fd;
 
 	if (i < 10)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			if (ft_dupmachine(cmdnbr, forknbr, msh) == 2)
-				exit (1);
-			if (msh->forkamount > 1)
-			{
-				close(msh->pipes[forknbr][1]);
-				close(msh->pipes[forknbr][0]);
-				close(msh->pipes[forknbr + 1][1]);
-				close(msh->pipes[forknbr + 1][0]);
-			}
-			exit(msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh));
-		}
-		waitpid(pid, &ret, 0);
-		msh->code = WEXITSTATUS(ret);
-		if (i == 8 || i == 9)
-			ft_freeexit(msh, msh->code);
-	}
+		ft_builtinfork(cmdnbr, forknbr, msh, i);
 	else
 	{
 		itoa = ft_itoa(forknbr);
 		outtmp = ft_vastrjoin(4, msh->tmpdir, "outputfile", itoa, ".tmp");
-		pid = open(outtmp, O_RDWR | O_CREAT | O_TRUNC, 0666);
+		fd = open(outtmp, O_RDWR | O_CREAT | O_TRUNC, 0666);
 		free(itoa);
 		free(outtmp);
-		close(pid);
+		close(fd);
 		msh-> code = msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh);
 	}
 	return (msh->code);
