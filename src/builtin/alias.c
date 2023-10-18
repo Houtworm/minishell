@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:06:19 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 10:58:32 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 05:26:56 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ int	ft_addalias(t_shell *msh, char *var, char *val)
 	int		i;
 
 	i = 0;
-	printf("var: %s\nval: %s\n", var, val);
 	while (msh->alias[i].var)
 	{
-		printf("alias: %s\nnewar: %s\n", msh->alias[i].var, var);
 		if (!ft_strncmp(var, msh->alias[i].var, 100))
 		{
 			free(msh->alias[i].val);

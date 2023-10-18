@@ -6,44 +6,37 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:25:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/18 04:49:22 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 05:26:04 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_alias ft_aliastostruct(char *line)
+int	ft_setaliasvar(t_alias *alias, char *line, int i)
 {
-	t_alias	aliasstruct;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	if (ft_strncmp(line, "alias ", 6))
-		ft_errorexit("Error in ~/.mshrc file, only alias accepted", "mshrc", 1);
-	aliasstruct.var = ft_calloc(ft_strlen(line), 8);
-	aliasstruct.val = ft_calloc(ft_strlen(line), 8);
 	while (line[i + 6] && line[i + 6] != '=')
 	{
-		aliasstruct.var[i] = line[i + 6];
+		alias->var[i] = line[i + 6];
 		i++;
 	}
 	if (line[i + 6] == '\0')
 		ft_errorexit("Error in ~/.mshrc file", "mshrc", 1);
-	if (line[i + 7] == '\'')
+
+	return (i);
+}
+
+void	ft_setaliasval(t_alias *alias, char *line, int i)
+{
+	char	quote;
+	int		j;
+
+	j = 0;
+	if (line[i + 7] == '\'' || line[i + 7] == '\"')
 	{
-		while (line[i + j + 8] && line[i + j + 8] != '\'')
+		quote = line[i + 7];
+		while (line[i + j + 8] && line[i + j + 8] != quote)
 		{
-			aliasstruct.val[j] = line[i + j + 8];
-			j++;
-		}
-	}
-	else if (line[i + 7] == '\"')
-	{
-		while (line[i + j + 8] && line[i + j + 8] != '\"')
-		{
-			aliasstruct.val[j] = line[i + j + 8];
+			alias->val[j] = line[i + j + 8];
 			j++;
 		}
 	}
@@ -51,10 +44,24 @@ t_alias ft_aliastostruct(char *line)
 	{
 		while (line[i + j + 7] && line[i + j + 7] != ' ')
 		{
-			aliasstruct.val[j] = line[i + j + 7];
+			alias->val[j] = line[i + j + 7];
 			j++;
 		}
 	}
+}
+
+t_alias ft_aliastostruct(char *line)
+{
+	t_alias	aliasstruct;
+	int		i;
+
+	i = 0;
+	if (ft_strncmp(line, "alias ", 6))
+		ft_errorexit("Error in ~/.mshrc file, only alias accepted", "mshrc", 1);
+	aliasstruct.var = ft_calloc(ft_strlen(line), 8);
+	aliasstruct.val = ft_calloc(ft_strlen(line), 8);
+	i = ft_setaliasvar(&aliasstruct, line, i);
+	ft_setaliasval(&aliasstruct, line, i);
 	return (aliasstruct);
 }
 
