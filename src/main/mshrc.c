@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 00:25:27 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/14 04:08:08 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/18 04:49:22 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ t_alias	*ft_parsemshrc(char **envp)
 		free(line);
 		i++;
 	}
-	free(line);
-	free(home);
+	ft_vafree(2, line, home);
 	alias[i].var = NULL;
 	close(mshrcfile);
 	return (alias);

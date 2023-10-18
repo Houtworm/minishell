@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 03:48:59 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 04:52:29 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,10 @@ void	ft_heredocinit(int i, t_shell *msh, int frki, int icmd, char *start)
 	frkn = ft_itoa(frki);
 	cmdn = ft_itoa(icmd);
 	tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
-	free(frkn);
-	free(cmdn);
 	ft_heredoc(delimiter, tmp, *msh, msh->frk[frki].cmd[icmd].infiles);
 	msh->frk[frki].cmd[icmd].infiles++;
-	free(tmp);
-	free(delimiter);
 	end = ft_getendheredoc(msh, frki, icmd, i);
-	free (msh->frk[frki].cmd[icmd].line);
+	ft_vafree(5, frkn, cmdn, tmp, delimiter, msh->frk[frki].cmd[icmd].line);
 	msh->frk[frki].cmd[icmd].line = ft_strjoin(start, end);
 	free(end);
 }

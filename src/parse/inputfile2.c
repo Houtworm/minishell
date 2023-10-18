@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/18 02:37:58 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/18 02:38:09 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 04:53:39 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,8 @@ void	ft_writefiletoinput(t_shell *msh, int frki, int icmd, char *file)
 	frkn = ft_itoa(frki);
 	cmdn = ft_itoa(icmd);
 	tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
-	free(frkn);
-	free(cmdn);
 	ft_inputtofd(file, tmp, msh->frk[frki].cmd[icmd].infiles);
-	free(tmp);
+	ft_vafree(3, frkn, cmdn, tmp);
 	msh->frk[frki].cmd[icmd].infiles++;
 }
 

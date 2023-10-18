@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/09/20 03:29:24 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 10:50:43 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 04:47:32 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 		else
 			temp2 = ft_vastrjoin(3, globs->pardir, dname, temp);
 		ft_addglobmatch(globs, temp2);
-		free(temp);
-		free(temp2);
+		ft_vafree(2, temp, temp2);
 		return (1);
 	}
 	dir = opendir(fullpath);
@@ -65,8 +64,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 							temp = ft_cpptostr(globs->tempsubdir);
 							temp2 = ft_vastrjoin(3, globs->pardir, dname, temp);
 							ft_addglobmatch(globs, temp2);
-							free(temp);
-							free(temp2);
+							ft_vafree(2, temp, temp2);
 						}
 						else
 						{
@@ -91,8 +89,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 						temp = ft_cpptostr(globs->tempsubdir);
 						temp2 = ft_vastrjoin(3, globs->pardir, dname, temp);
 						ft_addglobmatch(globs, temp2);
-						free(temp);
-						free(temp2);
+						ft_vafree(2, temp, temp2);
 					}
 					else
 					{

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 04:38:01 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 04:43:45 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ void	ft_writezfile(char *home, char *tmpfile)
 		ft_putendl_fd(line, mshzfd);
 		free(line);
 	}
-	free(line);
-	free(home);
-	free(tmpfile);
+	ft_vafree(3, line, home, tmpfile);
 	close(mshzfd);
 	close(tempfd);
 }
@@ -67,18 +65,16 @@ int	ft_cdgetoldcwd(t_commands cmd, t_shell *msh, char *line)
 	getcwd(oldcwd, 512);
 	if (chdir(line))
 	{
-		free(oldcwd);
-		free(line);
+		ft_vafree(2, oldcwd, line);
 		if (errno == ENOTDIR)
 			return (ft_errorret2("Not a directory", cmd.arg[0], cmd.arg[1], 1));
 		else
 			return (ft_errorret2("No such file or directory", cmd.arg[0], cmd.arg[1], 1));
 		return (1);
 	}
-	free(line);
 	if (oldcwd[0] == '/')
 		ft_setenv(msh->envp, "OLDPWD", oldcwd);
-	free(oldcwd);
+	ft_vafree(2, oldcwd, line);
 	return (0);
 }
 

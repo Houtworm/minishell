@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 10:16:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 19:29:11 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 04:55:46 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,7 @@ void	ft_parseredirectout(t_commands *cmd)
 		rest[j] = '\0';
 		free (cmd->line);
 		cmd->line = ft_strjoin(begin, rest);
-		free(begin);
-		free(rest);
+		ft_vafree(2, begin, rest);
 		k++;
 	}
 }

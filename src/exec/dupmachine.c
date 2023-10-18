@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 04:07:14 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 04:45:56 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int	ft_inputfile(int forknumber, int cmdnumber, t_shell *msh)
 	tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
 	fd = open(tmp, O_RDONLY);
 	dup2(fd, 0);
-	free(frkn);
-	free(cmdn);
-	free(tmp);
+	ft_vafree(3, frkn, cmdn, tmp);
 	close(fd);
 	return (0);
 }
@@ -54,8 +52,7 @@ int	ft_outputfile(char **file, int forknbr, t_shell *msh)
 		return (ft_errorret("Is a directory", outtmp, 1));
 	dup2(fdo, 1);
 	close(fdo);
-	free(outtmp);
-	free(tmpnbr);
+	ft_vafree(2, outtmp, tmpnbr);
 	return (0);
 }
 
