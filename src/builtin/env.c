@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 18:13:16 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 00:51:46 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 03:58:26 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	ft_env(t_commands cmd, t_shell *msh)
 {
 	int		i;
+	char	*str;
 
 	i = 0;
 	if (cmd.arg[1])
@@ -22,7 +23,12 @@ int	ft_env(t_commands cmd, t_shell *msh)
 		if (cmd.arg[1][0] == '-')
 			return (ft_errorret2(cmd.arg[1], "env", "invalid option", 125));
 		else
-			return (ft_errorret2("No such file or directory", "env", cmd.arg[1], 127));
+		{
+			str = ft_strdup("No such file or directory");
+			ft_errorret2(str, "env", cmd.arg[1], 127);
+			free(str);
+			return (127);
+		}
 	}
 	if (cmd.arg[0][3] == ' ')
 		return (ft_errorret2("command not found", "env", cmd.arg[1], 127));

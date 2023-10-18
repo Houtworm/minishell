@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/17 17:13:15 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 04:07:14 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,36 +59,31 @@ int	ft_outputfile(char **file, int forknbr, t_shell *msh)
 	return (0);
 }
 
-int	ft_dupmachine(int cmdnbr, int forknbr, t_shell *msh)
+int	ft_dupmachine(int cmdn, int frkn, t_shell *msh)
 {
 	if (msh->debug)
-		ft_printdup(msh->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr);
-	if (forknbr > 1)
+		ft_printdup(msh->frk[frkn].cmd[cmdn], cmdn, frkn);
+	if (msh->frk[frkn].cmd[cmdn].infiles)
+		ft_inputfile(frkn, cmdn, msh);
+	else if (cmdn == 0 && frkn > 0)
 	{
-		close(msh->pipes[forknbr][1]);
-		close(msh->pipes[forknbr + 1][0]);
+		dup2(msh->pipes[frkn][0], 0);
+		close(msh->pipes[frkn][0]);
+		close(msh->pipes[frkn][1]);
+		close(msh->pipes[frkn + 1][0]);
 	}
-	if (msh->frk[forknbr].cmd[cmdnbr].infiles)
-		ft_inputfile(forknbr, cmdnbr, msh);
-	else if (cmdnbr == 0 && forknbr > 0)
+	if (msh->frk[frkn].cmd[cmdn].outfile[0])
 	{
-		dup2(msh->pipes[forknbr][0], 0);
-		close(msh->pipes[forknbr][0]);
-		close(msh->pipes[forknbr][1]);
-		close(msh->pipes[forknbr + 1][0]);
-	}
-	if (msh->frk[forknbr].cmd[cmdnbr].outfile[0])
-	{
-		if (ft_outputfile(msh->frk[forknbr].cmd[cmdnbr].outfile, forknbr, msh))
+		if (ft_outputfile(msh->frk[frkn].cmd[cmdn].outfile, frkn, msh))
 			return (1);
 	}
-	else if (cmdnbr + 1 == msh->frk[forknbr].cmd[cmdnbr].cmdamount && forknbr + 1 < msh->frk[forknbr].cmd[cmdnbr].forkamount)
+	else if (cmdn + 1 == msh->frk[frkn].cmd[cmdn].cmdamount && frkn + 1 < msh->frk[frkn].cmd[cmdn].forkamount)
 	{
-		dup2(msh->pipes[forknbr + 1][1], 1);
-		close(msh->pipes[forknbr + 1][1]);
-		close(msh->pipes[forknbr + 1][0]);
-		close(msh->pipes[forknbr][1]);
-		close(msh->pipes[forknbr][0]);
+		dup2(msh->pipes[frkn + 1][1], 1);
+		close(msh->pipes[frkn + 1][1]);
+		close(msh->pipes[frkn + 1][0]);
+		close(msh->pipes[frkn][1]);
+		close(msh->pipes[frkn][0]);
 	}
 	return (0);
 }

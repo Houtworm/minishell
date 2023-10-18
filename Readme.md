@@ -3,8 +3,6 @@
 ## Todo
 ### Tester
 - we should add a lot of bad syntax to make sure we won't segfault during evaluation.
-### Parser
-- heredoc should parse all but only input the last heredoc file
 
 ---
 ### Cleanup

@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/05/18 18:48:08 by djonker      /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/16 11:35:57 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 04:03:18 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_exit(t_commands cmd, t_shell *msh)
 
 	i = 0;
 	if (!cmd.arg[1])
-		exit(0);
+		return (0);
 	if (cmd.arg[1][0] == '\0')
 		return (ft_errorret2("numeric argument required", "exit", cmd.arg[1], 2));
 	if (ft_checklonglong(cmd.arg[1], 0))
@@ -77,7 +77,6 @@ int	ft_exit(t_commands cmd, t_shell *msh)
 		}
 		i++;
 	}
-		return (ft_atol(cmd.arg[1]));
-	return (0);
+	return (ft_atol(cmd.arg[1]));
 	msh = msh;
 }
