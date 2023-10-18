@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 00:16:02 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 02:39:15 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,11 @@ int			ft_heredoc(char *delimiter, char *file, t_shell msh, int heredoc);
 void		ft_heredocinit(int i, t_shell *msh, int forknumber, int icmd, char *start);
 // inputfile
 int			ft_parseinputfiles(t_shell *msh, int forknumber);
+char		*ft_getendinputfile(t_shell *msh, int forknumber, int icmd, int i);
+void		ft_writefiletoinput(t_shell *msh, int frki, int icmd, char *file);
+char		*ft_getfileinputfile(t_shell *msh, int f, int c, int i);
+int			ft_getfilepos(t_shell *msh, int f, int c, int i);
+
 // outputfile
 int			ft_parseoutputfiles(t_commands *cmd);
 // condition

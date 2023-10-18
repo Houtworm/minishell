@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/17 20:33:46 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/18 03:47:03 by houtworm     \___)=(___/                  #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,14 @@ SRC		=src/main/main.c\
 		 src/parse/pipe.c\
 		 src/parse/alias.c\
 		 src/parse/heredoc.c\
+		 src/parse/heredoc2.c\
 		 src/parse/quote.c\
 		 src/parse/complete.c\
 		 src/parse/condition.c\
 		 src/parse/priority.c\
 		 src/parse/outputfile.c\
 		 src/parse/inputfile.c\
+		 src/parse/inputfile2.c\
 		 src/parse/variable.c\
 		 src/parse/tilde.c\
 		 src/parse/oldline.c\
