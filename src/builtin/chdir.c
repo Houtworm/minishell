@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 04:43:45 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 05:28:55 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	ft_cdgetnewcwd(t_commands cmd, t_shell *msh)
 	free(newcwd);
 	ft_charpptofd(msh->envp, msh);
 }
+
 int	ft_chdir(t_commands cmd, t_shell *msh)
 {
 	char	*line;

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/17 16:21:59 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/18 04:54:55 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 06:20:52 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_infileinit(int i, t_shell *msh, int f, int c, char *start)
 	end = ft_getendinputfile(msh, f, c, i);
 	free (msh->frk[f].cmd[c].line);
 	msh->frk[f].cmd[c].line = ft_strjoin(start, end);
-	ft_vafree(2, end, file);
+	ft_vafree(2, end, file, start);
 	return (0);
 }
 
