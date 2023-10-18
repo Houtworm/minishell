@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:13 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/18 21:38:33 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,13 +130,15 @@ char	check_quote_closed(t_shell *msh)
 	{
 		while (msh->line[i] && !check)
 		{
-			if (msh->line[i] == '\'' || msh->line[i] == '\"' || msh->line[i] == '`' || msh->line[i] == '(')
+			if (msh->line[i] == '\'' || msh->line[i] == '\"'
+				|| msh->line[i] == '`' || msh->line[i] == '(')
 				check = msh->line[i];
 			i++;
 		}
 		while (msh->line[i] && check)
 		{
-			if ((msh->line[i] == check) || (msh->line[i] == ')' && check == '('))
+			if ((msh->line[i] == check) || (msh->line[i] == ')'
+					&& check == '('))
 				check = '\0';
 			i++;
 		}

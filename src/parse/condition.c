@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 21:33:17 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/18 22:23:11 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_foundcondition(t_shell *msh, int n, int a, int ifpip)
 	return (ifpip);
 }
 
-t_forks ft_parseendcondition(t_shell *msh, int n, int a, int k)
+t_forks	ft_parseendcondition(t_shell *msh, int n, int a, int k)
 {
 	int		i;
 
@@ -97,8 +97,10 @@ t_forks ft_parseendcondition(t_shell *msh, int n, int a, int k)
 		{
 			k = ft_cpquote(&(msh->frk[n].cmd[a].line), msh->frk[n].line, &i, k);
 			if (msh->frk[n].line[k] == '\"' || msh->frk[n].line[k] == '\'')
-				k = ft_cpquote(&(msh->frk[n].cmd[a].line), msh->frk[n].line, &i, k);
-			while (msh->frk[n].line[k] && !ft_strchr("&|;", msh->frk[n].line[k]))
+				k = ft_cpquote(&(msh->frk[n].cmd[a].line), \
+							msh->frk[n].line, &i, k);
+			while (msh->frk[n].line[k]
+				&& !ft_strchr("&|;", msh->frk[n].line[k]))
 				msh->frk[n].cmd[a].line[i++] = msh->frk[n].line[k++];
 		}
 		msh->frk[n].cmd[a].line[i] = '\0';

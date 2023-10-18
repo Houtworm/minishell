@@ -6,12 +6,11 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/17 16:21:59 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:10 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/18 22:20:43 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 int	ft_infileinit(int i, t_shell *msh, int f, int c, char *start)
 {

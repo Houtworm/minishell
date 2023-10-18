@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 19:57:51 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/18 22:14:28 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,8 @@ int	ft_parseline(char *line, t_shell *msh)
 		return (2);
 	while (check_quote_closed(msh))
 	{
-		ft_closeline(msh);
-		ft_completeline(msh, 0);
+		ft_closeline(msh, check_quote_closed(msh), NULL);
+		ft_completeline(msh, 0, NULL);
 	}
 	ft_parsehashtag(msh);
 	if (msh->line[0] == '\0')

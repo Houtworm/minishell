@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 21:33:46 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/18 22:14:22 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,8 @@ t_shell 	*ft_parsepipe(t_shell *msh);
 // alias
 void		ft_parsealiases(t_commands *cmd, t_shell msh);
 // complete
-char		*ft_completeline(t_shell *msh, int k);
-char		*ft_closeline(t_shell *msh);
+char		*ft_completeline(t_shell *msh, int k, char *temp);
+char		*ft_closeline(t_shell *msh, int quote, char *temp);
 // quote
 int			ft_checkoutquotevar(char *line);
 int			ft_checkoutquote(char *line, char target, int mode);
