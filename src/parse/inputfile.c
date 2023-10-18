@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>              //   \ \ __| | | \ \/ /   */
 /*                                                 (|     | )|_| |_| |>  <    */
 /*   Created: 2023/10/17 16:21:59 by houtworm     /'\_   _/`\__|\__,_/_/\_\   */
-/*   Updated: 2023/10/18 02:00:14 by houtworm     \___)=(___/                 */
+/*   Updated: 2023/10/18 02:29:38 by houtworm     \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,22 @@ char	*ft_getendinputfile(t_shell *msh, int forknumber, int icmd, int i)
 	return (end);
 }
 
+void	ft_writefiletoinput(t_shell *msh, int frki, int icmd, char *file)
+{
+	char	*cmdn;
+	char	*frkn;
+	char	*tmp;
+
+	frkn = ft_itoa(frki);
+	cmdn = ft_itoa(icmd);
+	tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
+	free(frkn);
+	free(cmdn);
+	ft_inputtofd(file, tmp, msh->frk[frki].cmd[icmd].infiles);
+	free(tmp);
+	msh->frk[frki].cmd[icmd].infiles++;
+}
+
 char	*ft_getfileinputfile(t_shell *msh, int f, int c, int i)
 {
 	char	quote;
@@ -63,7 +79,7 @@ char	*ft_getfileinputfile(t_shell *msh, int f, int c, int i)
 
 	j = 0;
 	file = ft_calloc(ft_strlen(msh->frk[f].cmd[c].line), 8);
-	while (msh->frk[f].cmd[c].line[i + j] && !ft_strchr(" <", msh->frk[f].cmd[c].line[i + j]))
+	while (!ft_strchr(" <", msh->frk[f].cmd[c].line[i + j]))
 	{
 		if (ft_strchr("\'\"", msh->frk[f].cmd[c].line[i + j]))
 		{
@@ -81,20 +97,28 @@ char	*ft_getfileinputfile(t_shell *msh, int f, int c, int i)
 	return (file);
 }
 
-void	ft_writefiletoinput(t_shell *msh, int frki, int icmd, char *file)
+int	ft_getfilepos(t_shell *msh, int f, int c, int i)
 {
-	char	*cmdn;
-	char	*frkn;
-	char	*tmp;
+	char	quote;
 
-	frkn = ft_itoa(frki);
-	cmdn = ft_itoa(icmd);
-	tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
-	free(frkn);
-	free(cmdn);
-	ft_inputtofd(file, tmp, msh->frk[frki].cmd[icmd].infiles);
-	free(tmp);
-	msh->frk[frki].cmd[icmd].infiles++;
+	while (!ft_strchr(" <", msh->frk[f].cmd[c].line[i]))
+	{
+		if (ft_strchr("'\'\"", msh->frk[f].cmd[c].line[i]))
+		{
+			quote = msh->frk[f].cmd[c].line[i];
+			i++;
+			while (msh->frk[f].cmd[c].line[i] != quote)
+			{
+				i++;
+			}
+			i++;
+		}
+		else
+		{
+			i++;
+		}
+	}
+	return (i);
 }
 
 int	ft_infileinit(int i, t_shell *msh, int f, int c, char *start)
@@ -102,38 +126,13 @@ int	ft_infileinit(int i, t_shell *msh, int f, int c, char *start)
 	char	*end;
 	char	*file;
 
-	char	quote;
-	int		j;
-
 	i++;
 	end = ft_calloc(ft_strlen(msh->frk[f].cmd[c].line), 8);
 	file = ft_calloc(ft_strlen(msh->frk[f].cmd[c].line), 8);
 	while (msh->frk[f].cmd[c].line[i] && msh->frk[f].cmd[c].line[i] == ' ')
 		i++;
-	/*file = ft_getfileinputfile(msh, f, c, i);*/
-	j = 0;
-	while (msh->frk[f].cmd[c].line[i] && msh->frk[f].cmd[c].line[i] != ' ' && msh->frk[f].cmd[c].line[i] != '<')
-	{
-		if (msh->frk[f].cmd[c].line[i] == '\'' || msh->frk[f].cmd[c].line[i] == '\"')
-		{
-			quote = msh->frk[f].cmd[c].line[i];
-			i++;
-			while (msh->frk[f].cmd[c].line[i] != quote)
-			{
-				file[j] = msh->frk[f].cmd[c].line[i];
-				i++;
-				j++;
-			}
-			i++;
-		}
-		else
-		{
-			file[j] = msh->frk[f].cmd[c].line[i];
-			i++;
-			j++;
-		}
-	}
-	file[j] = '\0';
+	file = ft_getfileinputfile(msh, f, c, i);
+	i = ft_getfilepos(msh, f, c, i);
 	file = ft_parsetilde(file, *msh);
 	if (ft_checkinputfile(file))
 	{
@@ -148,21 +147,21 @@ int	ft_infileinit(int i, t_shell *msh, int f, int c, char *start)
 	return (0);
 }
 
-char	*ft_foundquoteinputfile(t_shell *msh, int frkn, int icmd, char *start)
+char	*ft_foundquoteinputfile(t_shell *msh, int f, int c, char *start)
 {
 	char	quote;
 	int		i;
 
 	i = ft_strlen(start);
-	quote = msh->frk[frkn].cmd[icmd].line[i];
-	start[i] = msh->frk[frkn].cmd[icmd].line[i];
+	quote = msh->frk[f].cmd[c].line[i];
+	start[i] = msh->frk[f].cmd[c].line[i];
 	i++;
-	while (msh->frk[frkn].cmd[icmd].line[i] && msh->frk[frkn].cmd[icmd].line[i] != quote)
+	while (msh->frk[f].cmd[c].line[i] && msh->frk[f].cmd[c].line[i] != quote)
 	{
-		start[i] = msh->frk[frkn].cmd[icmd].line[i];
+		start[i] = msh->frk[f].cmd[c].line[i];
 		i++;
 	}
-	start[i] = msh->frk[frkn].cmd[icmd].line[i];
+	start[i] = msh->frk[f].cmd[c].line[i];
 	i++;
 	return (start);
 }
