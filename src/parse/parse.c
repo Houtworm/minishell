@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:11 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/18 19:57:51 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	ft_parsecommands(t_shell *msh, int frkn, int cmdn)
 
 	msh->frk[frkn].cmd[cmdn].debug = msh->debug;
 	msh->frk[frkn].cmd[cmdn].forkamount = msh->forkamount;
-	msh->frk[frkn].cmd[cmdn].prio = ft_priority(msh->frk[frkn].cmd, cmdn);
+	msh->frk[frkn].cmd[cmdn].prio = ft_priority(msh->frk[frkn].cmd, cmdn, 0, 0);
 	ft_parsealiases(&msh->frk[frkn].cmd[cmdn], *msh);
 	msh->frk[frkn].cmd[cmdn].line = ft_parsevariable(msh->frk[frkn].cmd[cmdn].line, *msh, 1);
 	msh->frk[frkn].cmd[cmdn].line = ft_parsetilde(msh->frk[frkn].cmd[cmdn].line, *msh);
@@ -184,7 +184,7 @@ int	ft_parseline(char *line, t_shell *msh)
 	forknumber = 0;
 	while (msh->forkamount > forknumber)
 	{
-		ft_parseendcondition(msh, forknumber);
+		ft_parseendcondition(msh, forknumber, 0, 0);
 		if (ft_parseinputfiles(msh, forknumber))
 			return (3);
 		if (msh->debug)

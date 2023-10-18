@@ -1,18 +1,18 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                        |o_o || |                 #
+#    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/18 03:47:03 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/18 18:02:59 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=minishell
 CC		=gcc
-CFLAGS	=-Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS	=-Wall -Werror -Wextra -g -fsanitize=address
 RM		=rm -f
 SRC		=src/main/main.c\
 		 src/main/init.c\

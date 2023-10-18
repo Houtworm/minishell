@@ -6,51 +6,54 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/26 21:31:26 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:12 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/18 20:18:20 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int ft_priority(t_commands *cmd, int cmdnbr)
+int	ft_foundparenthesis(char *line, int i, int k, int *prio)
 {
-	int prio;
-	int i;
-	int k;
+	while (line[i + k] == '(')
+	{
+		k++;
+		*prio = 1;
+	}
+	while (line[i + k] == ')')
+	{
+		k++;
+		*prio = 2;
+	}
+	return (k);
+}
 
-	i = 0;
-	k = 0;
+int	ft_founddollar(char *line, int i, int k)
+{
+	while (line[i + k] == '$')
+	{
+		while (line[i + k] && line[i + k] != ')')
+		{
+			while (line[i + k] == '\"' || line[i + k] == '\'')
+				i = ft_copyquote(&line, line, &i, i + k);
+			line[i] = line[i + k];
+			i++;
+		}
+	}
+	return (i);
+}
+
+int	ft_priority(t_commands *cmd, int cmdnbr, int i, int k)
+{
+	int	prio;
+
 	prio = 0;
 	while (cmd[cmdnbr].line[i + k])
 	{
-		while (cmd[cmdnbr].line[i + k] == '(')
-		{
-			k++;
-			prio = 1;
-		}
-		while (cmd[cmdnbr].line[i + k] == ')')
-		{
-			k++;
-			prio = 2;
-		}
-		while (cmd[cmdnbr].line[i + k] == '$')
-		{
-			while (cmd[cmdnbr].line[i + k] && cmd[cmdnbr].line[i + k] != ')')
-			{
-				while (cmd[cmdnbr].line[i + k] == '\"' || cmd[cmdnbr].line[i + k] == '\'')
-				{
-					ft_copyquote(&(cmd[cmdnbr].line), cmd[cmdnbr].line, i, i + k);
-					i = ft_skipquote(cmd[cmdnbr].line, i + k) + 1;
-				}
-				cmd[cmdnbr].line[i] = cmd[cmdnbr].line[i + k];
-				i++;
-			}
-		}
-		while (cmd[cmdnbr].line[i + k] == '\"' || cmd[cmdnbr].line[i + k] == '\'')
-		{
-			ft_copyquote(&(cmd[cmdnbr].line), cmd[cmdnbr].line, i, i + k);
-			i = ft_skipquote(cmd[cmdnbr].line, i + k) + 1;
-		}
+		k = ft_foundparenthesis(cmd[cmdnbr].line, i, k, &prio);
+		i = ft_founddollar(cmd[cmdnbr].line, i, k);
+		while (cmd[cmdnbr].line[i + k] == '\"'
+			|| cmd[cmdnbr].line[i + k] == '\'')
+			i = ft_copyquote(&(cmd[cmdnbr].line), cmd[cmdnbr].line, &i, i + k);
 		cmd[cmdnbr].line[i] = cmd[cmdnbr].line[i + k];
 		i++;
 	}

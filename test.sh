@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    test.sh                                         |o_o || |                 #
+#    test.sh                                            :+:    :+:             #
 #                                                      +:+                     #
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/18 06:21:17 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/18 18:33:53 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -1927,6 +1927,9 @@ testfunction "'echo hello && echo hello'"
 testfunction "\"echo hello && echo hello\""
 testfunction "echo hello &&echo 'hello'"
 testfunction "echo hello&& echo 'hello'"
+testfunction "echo 'hello&& echo hello'"
+testfunction "echo 'hello&& echo hello''&&hey'"
+testfunction "echo 'hello&& echo hello''&&hey''   haha'"
 testfunction "echo hello&&echo 'hello'"
 testfunction "sleep 1 && sleep 1 && sleep 1"
 
