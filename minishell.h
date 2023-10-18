@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 21:08:35 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/18 21:33:46 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int			ft_getfilepos(t_shell *msh, int f, int c, int i);
 // outputfile
 int			ft_parseoutputfiles(t_commands *cmd);
 // condition
-int			ft_copyquote(char **cmdline, char	*forkline, int *icpip, int ifpip);
+int			ft_cpquote(char **cmdline, char	*forkline, int *icpip, int ifpip);
 t_forks		ft_parseendcondition(t_shell *msh, int forknumber, int icmd, int ifpip);
 //priority
 int 		ft_priority(t_commands *cmd, int cmdnbr, int i, int k);

@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/26 21:31:26 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/10/18 20:18:20 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/18 21:34:31 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_founddollar(char *line, int i, int k)
 		while (line[i + k] && line[i + k] != ')')
 		{
 			while (line[i + k] == '\"' || line[i + k] == '\'')
-				i = ft_copyquote(&line, line, &i, i + k);
+				i = ft_cpquote(&line, line, &i, i + k);
 			line[i] = line[i + k];
 			i++;
 		}
@@ -53,7 +53,7 @@ int	ft_priority(t_commands *cmd, int cmdnbr, int i, int k)
 		i = ft_founddollar(cmd[cmdnbr].line, i, k);
 		while (cmd[cmdnbr].line[i + k] == '\"'
 			|| cmd[cmdnbr].line[i + k] == '\'')
-			i = ft_copyquote(&(cmd[cmdnbr].line), cmd[cmdnbr].line, &i, i + k);
+			i = ft_cpquote(&(cmd[cmdnbr].line), cmd[cmdnbr].line, &i, i + k);
 		cmd[cmdnbr].line[i] = cmd[cmdnbr].line[i + k];
 		i++;
 	}

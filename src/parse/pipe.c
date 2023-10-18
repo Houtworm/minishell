@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/28 13:26:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 20:31:16 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/18 21:33:59 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ t_shell	*ft_parsepipe(t_shell *msh)
 		}
 		if (msh->line[i] == '\"' || msh->line[i] == '\'')
 		{
-			i = ft_copyquote(&(msh->frk[msh->forkamount].line), msh->line, &k, i);
+			i = ft_cpquote(&(msh->frk[msh->forkamount].line), msh->line, &k, i);
 			if (msh->line[i] == '\"' || msh->line[i] == '\'')
-				i = ft_copyquote(&(msh->frk[msh->forkamount].line), msh->line, &k, i);
+				i = ft_cpquote(&(msh->frk[msh->forkamount].line), msh->line, &k, i);
 			if (msh->line[i] == '|' && msh->line[i + 1] == '|')
 			{
 				msh->frk[msh->forkamount].line[k] = msh->line[i];
