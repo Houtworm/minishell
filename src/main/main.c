@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:04 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 00:06:18 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_mainloop(t_shell *msh)
 	line = readline("$ ");
 	if (!line)
 		ft_freeexit(msh, 0);
-	msh->starttime = ft_gettimemsdate(msh->envp);
+	msh->starttime = ft_gettimemsdate(msh->envp, msh->sysfile);
 	if (!ft_isallbyte(line, ' '))
 	{
 		ft_writehistory(line, msh->historyfile, msh);

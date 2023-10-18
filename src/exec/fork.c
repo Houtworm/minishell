@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fork.c                                             :+:    :+:            */
+/*   fork.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:57 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/18 23:27:34 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_forktheforks(t_shell *msh)
 
 	forknumber = 0;
 	status = 1;
-	msh->starttime = ft_gettimemsdate(msh->envp);
+	/*msh->starttime = ft_gettimemsdate(msh->envp);*/
 	if (msh->forkamount > 1)
 	{
 		msh->pipes = ft_preparepipes(msh);

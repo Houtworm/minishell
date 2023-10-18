@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/09 07:45:51 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 21:38:39 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/18 23:25:40 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	*ft_getos(void)
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &line);
+		/*printf("line: %s\n", line);*/
 		if (!ft_strncmp(line, "PRETTY_NAME:", 7))
 		{
 			os = ft_getosfromline(line);

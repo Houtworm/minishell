@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 22:14:22 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/19 00:11:47 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_shell
 	int			pid;
 	char		*historyfile;
 	char		*tmpdir;
+	char		*sysfile;
 	char		**envp;
 	long long	starttime;
 	int			**pipes;
@@ -183,7 +184,7 @@ char		*ft_parseoldline(t_shell *msh);
 // fork
 int			ft_forktheforks(t_shell *msh);
 // priority
-void		ft_executepriority(t_commands *cmd, char **envp);
+void		ft_executepriority(t_commands *cmd, char **envp, char *sysfile);
 // exec
 int			ft_executeforks(int forknbr, t_shell *msh, int condition);
 // dupmachine

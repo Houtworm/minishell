@@ -6,14 +6,37 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/20 16:39:22 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:23 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 00:02:49 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-#include <stdio.h>
 
-char	*ft_system(char *command, char **envp)
+void	ft_systemfork(char **cmd, char **paths, char **envp, char *file)
+{
+	int		pid;
+	int		fd;
+	char	*command;
+
+	command = ft_abspathcmd(paths, cmd[0]);
+	pid = fork();
+	if (pid == 0)
+	{
+		fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+		dup2(fd, 1);
+		execve(command, cmd, envp);
+		ft_putstr_fd("command not found: ", 2);
+		ft_putendl_fd(command, 2);
+		close(fd);
+		exit(1);
+	}
+	waitpid(pid, NULL, 0);
+	ft_frearr(paths);
+	ft_frearr(cmd);
+	free(command);
+}
+
+char	*ft_system(char *command, char **envp, char *file)
 {
 	char	**cmd;
 	char	**paths;
@@ -28,25 +51,10 @@ char	*ft_system(char *command, char **envp)
 		ft_frearr(cmd);
 		return (command);
 	}
-	command = ft_abspathcmd(paths, cmd[0]);
-	pid = fork();
-	if (pid == 0)
-	{
-		fd = open("/tmp/ft_systemtmpfile", O_RDWR | O_CREAT | O_TRUNC, 0666);
-		dup2(fd, 1);
-		close(fd);
-		execve(command, cmd, envp);
-		ft_putstr_fd("command not found: ", 2);
-		ft_putendl_fd(command, 2);
-		exit(1);
-	}
-	waitpid(pid, NULL, 0);
-	free(command);
+	ft_systemfork(cmd, paths, envp, file);
 	command = ft_calloc(8 * 2000, 1);
-	fd = open("/tmp/ft_systemtmpfile", O_RDONLY);
+	fd = open(file, O_RDONLY);
 	pid = read(fd, command, 1000);
-	ft_frearr(paths);
-	ft_frearr(cmd);
 	close(fd);
 	if (pid == 1)
 	{

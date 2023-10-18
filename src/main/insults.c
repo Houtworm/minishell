@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/25 19:42:14 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:04 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 00:09:06 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_printinsult(t_shell *msh)
 	int		random;
 
 	insults = ft_getinsults();
-	random = ft_gettimemsdate(msh->envp) % 20;
+	random = ft_gettimemsdate(msh->envp, msh->sysfile) % 20;
 	ft_putendl_fd(insults[random], 2);
 	ft_frearr(insults);
 }

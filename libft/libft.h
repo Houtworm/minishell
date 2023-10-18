@@ -6,7 +6,7 @@
 /*   By: djonker <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/11 16:02:53 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 16:55:32 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 00:04:36 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ char				*ft_gethost(void);
 char				*ft_vastrjoin(int n, ...);
 void				ft_vafree(int n, ...);
 int					ft_intrchr(const char *s, int c);
-char				*ft_system(char *command, char **envp);
+char				*ft_system(char *command, char **envp, char *file);
 char				**ft_getpaths(char **envp, int i);
 char				*ft_getenvval(char **envp, char *var);
 char				*ft_abspathcmd(char **paths, char *command);
@@ -178,7 +178,7 @@ char				*ft_cpptostr(char **cpp);
 int					ft_seminit(char *file, int number);
 int					ft_semwait(char *file);
 int					ft_semfree(char *file);
-long long			ft_gettimemsdate(char **envp);
+long long			ft_gettimemsdate(char **envp, char *file);
 int					ft_mkdir(char *dirname, char **envp);
 int					ft_rmdir(char *dirname, char **envp);
 

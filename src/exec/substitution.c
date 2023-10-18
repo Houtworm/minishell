@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/04 22:22:12 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:58 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 00:11:15 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_checkoutsinglequote(char *line, char target)
 	return (-1);
 }
 
-void	ft_executedollarsign(t_commands *cmd, char **envp)
+void	ft_executedollarsign(t_commands *cmd, char **envp, char *sysfile)
 {
 	int		i;
 	int		j;
@@ -113,7 +113,7 @@ void	ft_executedollarsign(t_commands *cmd, char **envp)
 		if (j == 0)
 			val = ft_strdup("");
 		else
-			val = ft_system(var, envp);
+			val = ft_system(var, envp, sysfile);
 		j = 0;
 		while (cmd->line[i])
 		{
@@ -129,7 +129,7 @@ void	ft_executedollarsign(t_commands *cmd, char **envp)
 	ft_vafree(3, begin, var, rest);
 }
 
-void	ft_executebacktick(t_commands *cmd, char **envp)
+void	ft_executebacktick(t_commands *cmd, char **envp, char *sysfile)
 {
 	int		i;
 	int		j;
@@ -196,7 +196,7 @@ void	ft_executebacktick(t_commands *cmd, char **envp)
 		if (j == 0)
 			val = ft_strdup("");
 		else
-			val = ft_system(var, envp);
+			val = ft_system(var, envp, sysfile);
 		j = 0;
 		while (cmd->line[i])
 		{
@@ -212,8 +212,8 @@ void	ft_executebacktick(t_commands *cmd, char **envp)
 	ft_vafree(3, begin, var, rest);
 }
 
-void	ft_executepriority(t_commands *cmd, char **envp)
+void	ft_executepriority(t_commands *cmd, char **envp, char *sysfile)
 {
-	ft_executedollarsign(cmd, envp);
-	ft_executebacktick(cmd, envp);
+	ft_executedollarsign(cmd, envp, sysfile);
+	ft_executebacktick(cmd, envp, sysfile);
 }

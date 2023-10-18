@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/22 13:26:25 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:05 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 00:08:51 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_addexecutiontime(t_shell *msh, char *temp, char **envp)
 	char				*prompt;
 	long long			diff;
 
-	diff = ft_gettimemsdate(envp) - msh->starttime;
+	diff = ft_gettimemsdate(envp, msh->sysfile) - msh->starttime;
 	date = ft_ltoa(diff);
 	prompt = ft_vastrjoin(3, temp, "\e[0;30;44m ", date);
 	ft_vafree(2, date, temp);

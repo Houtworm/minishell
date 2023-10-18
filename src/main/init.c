@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 22:42:20 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/19 00:14:43 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	ft_getpid(void)
 				i++;
 			pid = ft_atoi(&line[i]);
 			free (line);
-			close(fd);
+			/*close(fd);*/
 			return (pid);
 		}
 		free (line);
 	}
-	close(fd);
+	/*close(fd);*/
 	return (-1);
 }
 
@@ -54,14 +54,14 @@ void	ft_shelllevelup(char **envp)
 	free(shlvlstr);
 }
 
-char	*ft_createtempdir(char **envp)
+char	*ft_createtempdir(char **envp, int pid)
 {
 	char	*dir;
-	char	*pid;
+	char	*apid;
 
-	pid = ft_itoa(ft_getpid());
-	dir = ft_vastrjoin(3, "/tmp/minishell", pid, "/");
-	free(pid);
+	apid = ft_itoa(pid);
+	dir = ft_vastrjoin(3, "/tmp/minishell", apid, "/");
+	free(apid);
 	ft_mkdir(dir, envp);
 	return (dir);
 }
@@ -72,10 +72,11 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	char	*home;
 
 	msh = ft_calloc(10000, 8);
-	msh->starttime = ft_gettimemsdate(envp);
-	msh->tmpdir = ft_createtempdir(envp);
 	msh->os = ft_getos();
-	// printf("%s\n\n", msh->os);
+	msh->pid = ft_getpid();
+	msh->tmpdir = ft_createtempdir(envp, msh->pid);
+	msh->sysfile = ft_strjoin(msh->tmpdir, "ft_system");
+	msh->starttime = ft_gettimemsdate(envp, msh->sysfile);
 	ft_charpptofd(envp, msh);
 	msh->envp = ft_fdtocharpp(msh);
 	ft_shelllevelup(msh->envp);
@@ -86,7 +87,6 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	free(home);
 	msh->oldline = ft_calloc(2, 8);
 	msh->alias = ft_parsemshrc(envp);
-	msh->pid = ft_getpid();
 	msh->code = 256;
 	msh->debug = debugmode;
 	ft_readhistory(msh->historyfile);
