@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/18 12:17:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 16:56:14 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 00:19:29 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_cpptostr(char **cpp)
 {
-	int	i;
+	int		i;
 	char	*ret;
 	char	*temp;
 	char	*temp2;

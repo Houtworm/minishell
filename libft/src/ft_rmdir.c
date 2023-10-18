@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/17 20:11:28 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:11 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 00:21:39 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ int	ft_rmdir(char *dirname, char **envp)
 	cmd[3] = NULL;
 	pid = fork();
 	if (pid == 0)
-	{
-		execve(command, cmd, envp);
-		exit(1);
-	}
+		if (execve(command, cmd, envp))
+			exit(1);
 	waitpid(pid, &status, 0);
 	free(command);
 	ft_frearr(paths);

@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/08/23 06:35:52 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/18 18:33:53 by yitoh         ########   odam.nl          #
+#    Updated: 2023/10/19 00:52:16 by djonker       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,26 +15,27 @@
 ERRORS=0
 PASSES=0
 SLEEP=0
-VALGRIND=0
+VALGRIND=1
 SHOWLEAKS=1
 
 testfunction()
 {
-	timeout 3 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
+	mkdir -p /tmp/minitest
+	timeout 3 bash -c "$1" > /tmp/minitest/realstdoutfile 2> /tmp/minitest/realstderrfile
 	REALRETURN=$?
-	timeout 3 ./minishell -c "$1" > /tmp/ministdoutfile 2> /tmp/ministderrfile
+	timeout 3 ./minishell -c "$1" > /tmp/minitest/ministdoutfile 2> /tmp/minitest/ministderrfile
 	MINIRETURN=$?
 	ERROROK=0
-	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
+	diff /tmp/minitest/realstdoutfile /tmp/minitest/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstdout OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
+		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/minitest/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/minitest/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
+	diff /tmp/minitest/realstderrfile /tmp/minitest/ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
@@ -43,10 +44,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "syntax error" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "syntax error" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "Syntax Error" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "Syntax Error" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -57,10 +58,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "not found" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "not found" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "not found" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "not found" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -71,10 +72,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "file or directory" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "file or directory" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "file or directory" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -85,10 +86,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "many arguments" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "many arguments" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "many arguments" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "many arguments" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -99,10 +100,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "argument required" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "argument required" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "argument required" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "argument required" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -113,10 +114,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "which: no" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "which: no" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "which: no" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "which: no" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -127,10 +128,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "Usage" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "Usage" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "Usage" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "Usage" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -141,10 +142,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "Is a directory" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "Is a directory" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "Is a directory" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "Is a directory" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -155,10 +156,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "ermission denied" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "ermission denied" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "ermission denied" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "ermission denied" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -169,10 +170,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "not a valid identifier" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "not a valid identifier" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "not a valid identifier" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "not a valid identifier" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -183,10 +184,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "invalid option" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "invalid option" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "invalid option" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "invalid option" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -197,10 +198,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "Not a directory" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "Not a directory" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "Not a directory" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "Not a directory" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -211,10 +212,10 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "OLDPWD not set" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "OLDPWD not set" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "OLDPWD not set" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "OLDPWD not set" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -225,7 +226,7 @@ testfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/minitest/realstderrfile)\nmini: $(cat /tmp/minitest/ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
@@ -238,27 +239,27 @@ testfunction()
 	fi
 	if [ $VALGRIND -eq 1 ]
 	then
-		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/memorycheck > /dev/null
-		cat /tmp/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
+		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/minitest/memorycheck > /dev/null
+		cat /tmp/minitest/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
 		if [ $? -eq 0 ]
 		then
 			printf "\n\e[1;31mDefinite Memory Leaks with command $1\e[0;00m\n"
 			if [ $SHOWLEAKS -eq 1 ]
 			then
-				cat /tmp/memorycheck
+				cat /tmp/minitest/memorycheck
 			fi
 			ERRORS=$(($ERRORS+1))
 			VALGRIND=0
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
-			cat /tmp/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
+			cat /tmp/minitest/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
-					cat /tmp/memorycheck
+					cat /tmp/minitest/memorycheck
 				fi
 				ERRORS=$(($ERRORS+1))
 				VALGRIND=0
@@ -266,13 +267,13 @@ testfunction()
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
-			cat /tmp/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
+			cat /tmp/minitest/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
-					cat /tmp/memorycheck
+					cat /tmp/minitest/memorycheck
 				fi
 				ERRORS=$(($ERRORS+1))
 				VALGRIND=0
@@ -287,29 +288,30 @@ testfunction()
 	else
 		printf "\n"
 	fi
-	rm /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile
+	rm -rf /tmp/minitest
 	sleep $SLEEP
 }
 
 redirectfunctionrel()
 {
+	mkdir -p /tmp/minitest
 	mkdir -p tmp
 	echo 1 > tmp/m1; echo 1 > tmp/r1; echo 2 > tmp/m2; echo 2 > tmp/r2; echo 3 > tmp/r3; echo 3 > tmp/m3;
-	timeout 3 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
+	timeout 3 bash -c "$1" > /tmp/minitest/realstdoutfile 2> /tmp/minitest/realstderrfile
 	REALRETURN=$?
-	timeout 3 ./minishell -c "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
+	timeout 3 ./minishell -c "$2" > /tmp/minitest/ministdoutfile 2> /tmp/minitest/ministderrfile
 	MINIRETURN=$?
 	ERROROK=0
-	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
+	diff /tmp/minitest/realstdoutfile /tmp/minitest/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstdout OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
+		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/minitest/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/minitest/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
+	diff /tmp/minitest/realstderrfile /tmp/minitest/ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
@@ -318,10 +320,10 @@ redirectfunctionrel()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "syntax error" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "syntax error" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "Syntax Error" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "Syntax Error" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -332,10 +334,10 @@ redirectfunctionrel()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "not found" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "not found" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "not found" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "not found" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -346,10 +348,10 @@ redirectfunctionrel()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "file or directory" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "file or directory" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "file or directory" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -360,10 +362,10 @@ redirectfunctionrel()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "many arguments" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "many arguments" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "many arguments" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "many arguments" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -374,10 +376,10 @@ redirectfunctionrel()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "argument required" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "argument required" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "argument required" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "argument required" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -388,7 +390,7 @@ redirectfunctionrel()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/minitest/realstderrfile)\nmini: $(cat /tmp/minitest/ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
@@ -428,27 +430,27 @@ redirectfunctionrel()
 	fi
 	if [ $VALGRIND -eq 1 ]
 	then
-		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/memorycheck > /dev/null
-		cat /tmp/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
+		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/minitest/memorycheck > /dev/null
+		cat /tmp/minitest/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
 		if [ $? -eq 0 ]
 		then
 			printf "\n\e[1;31mDefinite Memory Leaks with command $1\e[0;00m\n"
 			if [ $SHOWLEAKS -eq 1 ]
 			then
-				cat /tmp/memorycheck
+				cat /tmp/minitest/memorycheck
 			fi
 			ERRORS=$(($ERRORS+1))
 			VALGRIND=0
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
-			cat /tmp/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
+			cat /tmp/minitest/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
-					cat /tmp/memorycheck
+					cat /tmp/minitest/memorycheck
 				fi
 				ERRORS=$(($ERRORS+1))
 				VALGRIND=0
@@ -456,13 +458,13 @@ redirectfunctionrel()
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
-			cat /tmp/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
+			cat /tmp/minitest/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
-					cat /tmp/memorycheck
+					cat /tmp/minitest/memorycheck
 				fi
 				ERRORS=$(($ERRORS+1))
 				VALGRIND=0
@@ -477,28 +479,28 @@ redirectfunctionrel()
 	else
 		printf "\n"
 	fi
-	rm -rf /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile tmp 2> /dev/null
+	rm -rf /tmp/minitest tmp 2> /dev/null
 	sleep $SLEEP
 }
 redirectfunctionabs()
 {
 	mkdir -p /tmp/minitest
 	echo 1 > /tmp/minitest/m1; echo 1 > /tmp/minitest/r1; echo 2 > /tmp/minitest/m2; echo 2 > /tmp/minitest/r2; echo 3 > /tmp/minitest/r3; echo 3 > /tmp/minitest/m3;
-	timeout 3 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
+	timeout 3 bash -c "$1" > /tmp/minitest/realstdoutfile 2> /tmp/minitest/realstderrfile
 	REALRETURN=$?
-	timeout 3 ./minishell -c "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
+	timeout 3 ./minishell -c "$2" > /tmp/minitest/ministdoutfile 2> /tmp/minitest/ministderrfile
 	MINIRETURN=$?
 	ERROROK=0
-	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
+	diff /tmp/minitest/realstdoutfile /tmp/minitest/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstdout OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
+		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/minitest/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/minitest/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
+	diff /tmp/minitest/realstderrfile /tmp/minitest/ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
@@ -507,10 +509,10 @@ redirectfunctionabs()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "syntax error" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "syntax error" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "Syntax Error" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "Syntax Error" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -521,10 +523,10 @@ redirectfunctionabs()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "not found" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "not found" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "not found" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "not found" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -535,10 +537,10 @@ redirectfunctionabs()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "file or directory" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "file or directory" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "file or directory" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -549,10 +551,10 @@ redirectfunctionabs()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "many arguments" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "many arguments" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "many arguments" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "many arguments" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -563,10 +565,10 @@ redirectfunctionabs()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "argument required" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "argument required" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "argument required" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "argument required" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -577,7 +579,7 @@ redirectfunctionabs()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/minitest/realstderrfile)\nmini: $(cat /tmp/minitest/ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
@@ -617,27 +619,27 @@ redirectfunctionabs()
 	fi
 	if [ $VALGRIND -eq 1 ]
 	then
-		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/memorycheck > /dev/null
-		cat /tmp/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
+		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/minitest/memorycheck > /dev/null
+		cat /tmp/minitest/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
 		if [ $? -eq 0 ]
 		then
 			printf "\n\e[1;31mDefinite Memory Leaks with command $1\e[0;00m\n"
 			if [ $SHOWLEAKS -eq 1 ]
 			then
-				cat /tmp/memorycheck
+				cat /tmp/minitest/memorycheck
 			fi
 			ERRORS=$(($ERRORS+1))
 			VALGRIND=0
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
-			cat /tmp/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
+			cat /tmp/minitest/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
-					cat /tmp/memorycheck
+					cat /tmp/minitest/memorycheck
 				fi
 				ERRORS=$(($ERRORS+1))
 				VALGRIND=0
@@ -645,13 +647,13 @@ redirectfunctionabs()
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
-			cat /tmp/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
+			cat /tmp/minitest/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
-					cat /tmp/memorycheck
+					cat /tmp/minitest/memorycheck
 				fi
 				ERRORS=$(($ERRORS+1))
 				VALGRIND=0
@@ -666,29 +668,30 @@ redirectfunctionabs()
 	else
 		printf "\n"
 	fi
-	rm -rf /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile /tmp/minitest 2> /dev/null
+	rm -rf /tmp/minitest 2> /dev/null
 	sleep $SLEEP
 }
 
 redirectfunctionhome()
 {
+	mkdir -p /tmp/minitest
 	mkdir -p ~/tmp
 	echo 1 > ~/tmp/m1; echo 1 > ~/tmp/r1; echo 2 > ~/tmp/m2; echo 2 > ~/tmp/r2; echo 3 > ~/tmp/r3; echo 3 > ~/tmp/m3;
-	timeout 3 bash -c "$1" > /tmp/realstdoutfile 2> /tmp/realstderrfile
+	timeout 3 bash -c "$1" > /tmp/minitest/realstdoutfile 2> /tmp/minitest/realstderrfile
 	REALRETURN=$?
-	timeout 3 ./minishell -c "$2" > /tmp/ministdoutfile 2> /tmp/ministderrfile
+	timeout 3 ./minishell -c "$2" > /tmp/minitest/ministdoutfile 2> /tmp/minitest/ministderrfile
 	MINIRETURN=$?
 	ERROROK=0
-	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
+	diff /tmp/minitest/realstdoutfile /tmp/minitest/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstdout OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
+		printf "\e[1;31mKO stdout doesn't match with command ${1} \nreal: $(cat /tmp/minitest/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/minitest/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
+	diff /tmp/minitest/realstderrfile /tmp/minitest/ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
@@ -697,7 +700,7 @@ redirectfunctionhome()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} \nreal: $(cat /tmp/minitest/realstderrfile)\nmini: $(cat /tmp/minitest/ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
@@ -737,27 +740,27 @@ redirectfunctionhome()
 	fi
 	if [ $VALGRIND -eq 1 ]
 	then
-		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/memorycheck > /dev/null
-		cat /tmp/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
+		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/minitest/memorycheck > /dev/null
+		cat /tmp/minitest/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
 		if [ $? -eq 0 ]
 		then
 			printf "\n\e[1;31mDefinite Memory Leaks with command $1\e[0;00m\n"
 			if [ $SHOWLEAKS -eq 1 ]
 			then
-				cat /tmp/memorycheck
+				cat /tmp/minitest/memorycheck
 			fi
 			ERRORS=$(($ERRORS+1))
 			VALGRIND=0
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
-			cat /tmp/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
+			cat /tmp/minitest/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
-					cat /tmp/memorycheck
+					cat /tmp/minitest/memorycheck
 				fi
 				ERRORS=$(($ERRORS+1))
 				VALGRIND=0
@@ -765,13 +768,13 @@ redirectfunctionhome()
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
-			cat /tmp/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
+			cat /tmp/minitest/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
-					cat /tmp/memorycheck
+					cat /tmp/minitest/memorycheck
 				fi
 				ERRORS=$(($ERRORS+1))
 				VALGRIND=0
@@ -786,27 +789,28 @@ redirectfunctionhome()
 	else
 		printf "\n"
 	fi
-	rm -rf /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile ~/tmp 2> /dev/null
+	rm -rf /tmp/minitest ~/tmp 2> /dev/null
 	sleep $SLEEP
 }
 
 environmentfunction()
 {
-	timeout 3 bash -c "$1" 2> /tmp/realstderrfile | grep "$2" > /tmp/realstdoutfile 2>> /tmp/realstderrfile
+	mkdir -p /tmp/minitest
+	timeout 3 bash -c "$1" 2> /tmp/minitest/realstderrfile | grep "$2" > /tmp/minitest/realstdoutfile 2>> /tmp/minitest/realstderrfile
 	REALRETURN=$?
-	timeout 3 ./minishell -c "$1" 2> /tmp/ministderrfile | grep "$2" > /tmp/ministdoutfile 2>> /tmp/ministderrfile
+	timeout 3 ./minishell -c "$1" 2> /tmp/minitest/ministderrfile | grep "$2" > /tmp/minitest/ministdoutfile 2>> /tmp/minitest/ministderrfile
 	MINIRETURN=$?
 	ERROROK=0
-	diff /tmp/realstdoutfile /tmp/ministdoutfile > /dev/null
+	diff /tmp/minitest/realstdoutfile /tmp/minitest/ministdoutfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstdout OK \e[0;00m"
 		PASSES=$(($PASSES+1))
 	else
-		printf "\e[1;31mKO stdout doesn't match with command ${1} | grep ${2} \nreal: $(cat /tmp/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/ministdoutfile 2> /dev/null)\e[0;00m\n"
+		printf "\e[1;31mKO stdout doesn't match with command ${1} | grep ${2} \nreal: $(cat /tmp/minitest/realstdoutfile 2> /dev/null)\nmini: $(cat /tmp/minitest/ministdoutfile 2> /dev/null)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
-	diff /tmp/realstderrfile /tmp/ministderrfile > /dev/null
+	diff /tmp/minitest/realstderrfile /tmp/minitest/ministderrfile > /dev/null
 	if [ $? -eq 0 ]
 	then
 		printf "\e[1;32mstderr OK \e[0;00m"
@@ -815,10 +819,10 @@ environmentfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "invalid option" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "invalid option" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "invalid option" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "invalid option" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -829,10 +833,10 @@ environmentfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "not a valid identifier" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "not a valid identifier" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "not a valid identifier" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "not a valid identifier" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -843,10 +847,10 @@ environmentfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "file or directory" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "file or directory" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "file or directory" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "file or directory" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -857,10 +861,10 @@ environmentfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		cat /tmp/realstderrfile | grep "not found" > /dev/null
+		cat /tmp/minitest/realstderrfile | grep "not found" > /dev/null
 		if [ $? -eq 0 ]
 		then
-			cat /tmp/ministderrfile | grep "not found" > /dev/null
+			cat /tmp/minitest/ministderrfile | grep "not found" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\e[1;32mstderr OK \e[0;00m"
@@ -871,7 +875,7 @@ environmentfunction()
 	fi
 	if [ $ERROROK -eq 0 ]
 	then
-		printf "\n\e[1;31mKO stderr doesn't match with command ${1} | grep ${2} \nreal: $(cat /tmp/realstderrfile)\nmini: $(cat /tmp/ministderrfile)\e[0;00m\n"
+		printf "\n\e[1;31mKO stderr doesn't match with command ${1} | grep ${2} \nreal: $(cat /tmp/minitest/realstderrfile)\nmini: $(cat /tmp/minitest/ministderrfile)\e[0;00m\n"
 		ERRORS=$(($ERRORS+1))
 	fi
 	if [ $REALRETURN -ne $MINIRETURN ]
@@ -884,27 +888,27 @@ environmentfunction()
 	fi
 	if [ $VALGRIND -eq 1 ]
 	then
-		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/memorycheck > /dev/null
-		cat /tmp/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
+		timeout 10 valgrind --leak-check=full ./minishell -c "$1" 2> /tmp/minitest/memorycheck > /dev/null
+		cat /tmp/minitest/memorycheck | grep definitely | grep "[123456789] bytes" > /dev/null
 		if [ $? -eq 0 ]
 		then
 			printf "\n\e[1;31mDefinite Memory Leaks with command ${1} | grep ${2}\e[0;00m\n"
 			if [ $SHOWLEAKS -eq 1 ]
 			then
-				cat /tmp/memorycheck
+				cat /tmp/minitest/memorycheck
 			fi
 			ERRORS=$(($ERRORS+1))
 			VALGRIND=0
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
-			cat /tmp/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
+			cat /tmp/minitest/memorycheck | grep indirectly | grep "[123456789] bytes" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\n\e[1;31mIndirect Memory Leaks with command ${1} | grep ${2}\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
-					cat /tmp/memorycheck
+					cat /tmp/minitest/memorycheck
 				fi
 				ERRORS=$(($ERRORS+1))
 				VALGRIND=0
@@ -912,13 +916,13 @@ environmentfunction()
 		fi
 		if [ $VALGRIND -eq 1 ]
 		then
-			cat /tmp/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
+			cat /tmp/minitest/memorycheck | grep possibly | grep "[123456789] bytes" > /dev/null
 			if [ $? -eq 0 ]
 			then
 				printf "\n\e[1;31mIndirect Memory Leaks with command $1\e[0;00m\n"
 				if [ $SHOWLEAKS -eq 1 ]
 				then
-					cat /tmp/memorycheck
+					cat /tmp/minitest/memorycheck
 				fi
 				ERRORS=$(($ERRORS+1))
 				VALGRIND=0
@@ -933,7 +937,7 @@ environmentfunction()
 	else
 		printf "\n"
 	fi
-	rm /tmp/realstdoutfile /tmp/realstderrfile /tmp/ministdoutfile /tmp/ministderrfile
+	rm -rf /tmp/minitest
 	sleep $SLEEP
 }
 
