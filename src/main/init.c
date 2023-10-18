@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   init.c                                             :+:    :+:            */
+/*   init.c                                          |o_o || |                */
 /*                                                     +:+                    */
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:04 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/18 21:31:33 by djonker      \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	msh->starttime = ft_gettimemsdate(envp);
 	msh->tmpdir = ft_createtempdir(envp);
 	msh->os = ft_getos();
+	printf("%s\n\n", msh->os);
 	ft_charpptofd(envp, msh);
 	msh->envp = ft_fdtocharpp(msh);
 	ft_shelllevelup(msh->envp);
