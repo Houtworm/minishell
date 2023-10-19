@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 13:46:13 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/19 17:47:36 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_mainloop(t_shell *msh)
 	if (!ft_isallbyte(line, ' '))
 	{
 		ft_writehistory(line, msh->historyfile, msh);
-		ret = ft_parseline(line, msh);
+		ret = ft_parseline(line, msh, 0);
 		if (ret == 2)
 			return (2);
 		if (ret == 127)
@@ -57,7 +57,7 @@ int	ft_runscript(char *file, t_shell *msh)
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &line);
-		if (ft_parseline(line, msh))
+		if (ft_parseline(line, msh, 0))
 		{
 			close(fd);
 			free(line);
@@ -75,7 +75,7 @@ int	ft_singlecommand(t_shell *msh, char *line)
 {
 	int		ret;
 
-	ret = ft_parseline(line, msh);
+	ret = ft_parseline(line, msh, 0);
 	if (ret == 1)
 		return (0);
 	if (ret == 3)

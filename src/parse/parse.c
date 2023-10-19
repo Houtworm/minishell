@@ -6,11 +6,38 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 00:10:18 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/19 18:49:44 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+
+char	*ft_cpnonquote(char *args, char *new, int *j, int *k)
+{
+	char	quote;
+
+	while (args[*j] && args[*j] != '\'' && args[*j] != '\"')
+	{
+		new[*k] = args[*j];
+		(*j)++;
+		(*k)++;
+	}
+	if (args[*j] == '\'' || args[*j] == '\"')
+	{
+		quote = args[*j];
+		(*j)++;
+		while (args[*j] && args[*j] != quote)
+		{
+			new[*k] = args[*j];
+			(*j)++;
+			(*k)++;
+		}
+		(*j)++;
+	}
+	return (new);
+}
+
 
 char	**ft_removequotes(char **args)
 {
@@ -18,7 +45,6 @@ char	**ft_removequotes(char **args)
 	int		i;
 	int		j;
 	int		k;
-	char	quote;
 
 	i = 0;
 	while (args[i])
@@ -31,26 +57,7 @@ char	**ft_removequotes(char **args)
 		j = 0;
 		k = 0;
 		while (args[i][j])
-		{
-			while (args[i][j] && args[i][j] != '\'' && args[i][j] != '\"')
-			{
-				new[i][k] = args[i][j];
-				j++;
-				k++;
-			}
-			if (args[i][j] == '\'' || args[i][j] == '\"')
-			{
-				quote = args[i][j];
-				j++;
-				while (args[i][j] && args[i][j] != quote)
-				{
-					new[i][k] = args[i][j];
-					j++;
-					k++;
-				}
-				j++;
-			}
-		}
+			new[i] = ft_cpnonquote(args[i], new[i], &j, &k);
 		new[i][k] = '\0';
 		i++;
 	}
@@ -60,15 +67,11 @@ char	**ft_removequotes(char **args)
 	return (new);
 }
 
-char	**ft_splitcmd(char *cmd)
+int	ft_countargs(char *cmd, int icmd)
 {
-	char	**arguments;
-	int		icmd;
 	int		argument;
-	int		iarg;
 	char	quote;
 
-	icmd = 0;
 	argument = 1;
 	while (cmd[icmd])
 	{
@@ -88,80 +91,95 @@ char	**ft_splitcmd(char *cmd)
 			icmd++;
 		argument++;
 	}
-	arguments = ft_calloc(argument, 8);
+	return (argument);
+}
+
+char	*ft_cpwithquote(char *cmd, char *arg, int *icmd, int *iarg)
+{
+	char	quote;
+
+	if (cmd[*icmd] == '\'' || cmd[*icmd] == '\"')
+	{
+		arg[*iarg] = cmd[*icmd];
+		quote = cmd[*icmd];
+		(*iarg)++;
+		(*icmd)++;
+		while (cmd[*icmd] && cmd[*icmd] != quote)
+		{
+			arg[*iarg] = cmd[*icmd];
+			(*iarg)++;
+			(*icmd)++;
+		}
+	}
+	if (cmd[*icmd])
+	{
+		arg[*iarg] = cmd[*icmd];
+		(*iarg)++;
+		(*icmd)++;
+	}
+	return (arg);
+}
+
+char	**ft_splitcmd(char *cmd)
+{
+	char	**arguments;
+	int		icmd;
+	int		arg;
+	int		iarg;
+
+	arguments = ft_calloc(ft_countargs(cmd, 0), 8);
 	icmd = 0;
-	argument = 0;
+	arg = 0;
 	while (cmd[icmd] == ' ')
 		icmd++;
 	while (cmd[icmd])
 	{
-		arguments[argument] = ft_calloc(1000, 8);
+		arguments[arg] = ft_calloc(1000, 8);
 		iarg = 0;
 		while (cmd[icmd] && cmd[icmd] != ' ')
-		{
-			if (cmd[icmd] == '\'' || cmd[icmd] == '\"')
-			{
-				arguments[argument][iarg] = cmd[icmd];
-				quote = cmd[icmd];
-				iarg++;
-				icmd++;
-				while (cmd[icmd] && cmd[icmd] != quote)
-				{
-					arguments[argument][iarg] = cmd[icmd];
-					iarg++;
-					icmd++;
-				}
-			}
-			if (cmd[icmd])
-			{
-				arguments[argument][iarg] = cmd[icmd];
-				iarg++;
-				icmd++;
-			}
-		}
-		arguments[argument][iarg] = '\0';
+			arguments[arg] = ft_cpwithquote(cmd, arguments[arg], &icmd, &iarg);
+		arguments[arg][iarg] = '\0';
 		while (cmd[icmd] == ' ')
 			icmd++;
-		argument++;
+		arg++;
 	}
-	arguments[argument] = NULL;
+	arguments[arg] = NULL;
 	return (arguments);
 }
 
-int	ft_parsecommands(t_shell *msh, int frkn, int cmdn)
+int	ft_parsecommands(t_shell *msh, int f, int c)
 {
 	char	**paths;
 
-	msh->frk[frkn].cmd[cmdn].debug = msh->debug;
-	msh->frk[frkn].cmd[cmdn].forkamount = msh->forkamount;
-	msh->frk[frkn].cmd[cmdn].prio = ft_priority(msh->frk[frkn].cmd, cmdn, 0, 0);
-	ft_parsealiases(&msh->frk[frkn].cmd[cmdn], *msh);
-	msh->frk[frkn].cmd[cmdn].line = ft_parsevariable(msh->frk[frkn].cmd[cmdn].line, *msh, 1);
-	msh->frk[frkn].cmd[cmdn].line = ft_parsetilde(msh->frk[frkn].cmd[cmdn].line, *msh);
-	if (ft_parseoutputfiles(&msh->frk[frkn].cmd[cmdn]))
+	msh->frk[f].cmd[c].debug = msh->debug;
+	msh->frk[f].cmd[c].forkamount = msh->forkamount;
+	msh->frk[f].cmd[c].prio = ft_priority(msh->frk[f].cmd, c, 0, 0);
+	ft_parsealiases(&msh->frk[f].cmd[c], *msh);
+	msh->frk[f].cmd[c].line = ft_parsevariable(msh->frk[f].cmd[c].line, *msh, 1);
+	msh->frk[f].cmd[c].line = ft_parsetilde(msh->frk[f].cmd[c].line, *msh);
+	if (ft_parseoutputfiles(&msh->frk[f].cmd[c]))
 		return (2);
-	ft_executepriority(&msh->frk[frkn].cmd[cmdn], msh->envp, msh->sysfile);
-	ft_parseglobs(&msh->frk[frkn].cmd[cmdn], msh->envp);
-	paths = ft_splitcmd(msh->frk[frkn].cmd[cmdn].line);
-	msh->frk[frkn].cmd[cmdn].arg = ft_removequotes(paths);
-	if (!msh->frk[frkn].cmd[cmdn].arg[0])
+	ft_executepriority(&msh->frk[f].cmd[c], msh->envp, msh->sysfile);
+	ft_parseglobs(&msh->frk[f].cmd[c], msh->envp);
+	paths = ft_splitcmd(msh->frk[f].cmd[c].line);
+	msh->frk[f].cmd[c].arg = ft_removequotes(paths);
+	if (!msh->frk[f].cmd[c].arg[0])
 		return (1);
-	msh->frk[frkn].cmd[cmdn].cmdamount = msh->frk[frkn].cmdamount;
+	msh->frk[f].cmd[c].cmdamount = msh->frk[f].cmdamount;
 	paths = ft_getpaths(msh->envp, 1);
 	if (!paths)
-		msh->frk[frkn].cmd[cmdn].absolute = ft_strdup(msh->frk[frkn].cmd[cmdn].arg[0]);
+		msh->frk[f].cmd[c].absolute = ft_strdup(msh->frk[f].cmd[c].arg[0]);
 	else
 	{
-		msh->frk[frkn].cmd[cmdn].absolute = ft_abspathcmd(paths, msh->frk[frkn].cmd[cmdn].arg[0]);
+		msh->frk[f].cmd[c].absolute = ft_abspathcmd(paths, msh->frk[f].cmd[c].arg[0]);
 		ft_frearr(paths);
 	}
 	return (0);
 }
 
-int	ft_parseline(char *line, t_shell *msh)
+//if we remove the printing, it will be normed
+int	ft_parseline(char *line, t_shell *msh, int forknumber)
 {
-	int	forknumber;
-
 	free(msh->line);
 	msh->line = ft_strdup(line);
 	if (!ft_parseoldline(msh))
@@ -181,7 +199,6 @@ int	ft_parseline(char *line, t_shell *msh)
 	ft_parsepipe(msh);
 	if (msh->debug)
 		ft_printshell(*msh);
-	forknumber = 0;
 	while (msh->forkamount > forknumber)
 	{
 		ft_parseendcondition(msh, forknumber, 0, 0);

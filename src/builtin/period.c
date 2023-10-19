@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/30 04:01:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 05:39:25 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/19 17:47:15 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_periodscript(t_shell *msh, int fd)
 			return (msh->code);
 		}
 		ft_freenewprompt(msh);
-		if (ft_parseline(line, msh))
+		if (ft_parseline(line, msh, 0))
 		{
 			free(line);
 			close(fd);

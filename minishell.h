@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 13:44:52 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/19 17:46:51 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void		ft_printinsult(t_shell *msh);
 
 // PARSE
 // parse
-int			ft_parseline(char *line, t_shell *msh);
+int			ft_parseline(char *line, t_shell *msh, int forknumber);
 int			ft_parsecommands(t_shell *msh, int forknumber, int cmdnumber);
 // hashtag
 char		*ft_parsehashtag(t_shell *msh);
