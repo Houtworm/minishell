@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 00:11:47 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/19 01:33:56 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@
 
 // Structs
 
-typedef struct s_shell t_shell;
-typedef struct s_forks t_forks;
-typedef struct s_commands t_commands;
-typedef struct s_globs t_globs;
-typedef struct s_builtin t_builtin;
-typedef struct s_alias t_alias;
+typedef struct s_shell		t_shell;
+typedef struct s_forks		t_forks;
+typedef struct s_commands	t_commands;
+typedef struct s_globs		t_globs;
+typedef struct s_builtin	t_builtin;
+typedef struct s_alias		t_alias;
 
 typedef struct s_alias
 {
@@ -41,7 +41,7 @@ typedef struct s_alias
 	char		*val;
 }	t_alias;
 
-typedef struct	s_builtin
+typedef struct s_builtin
 {
 	char		*cmnd;
 	int			(*func)(t_commands cmd, t_shell *msh);
@@ -80,7 +80,6 @@ typedef struct s_commands
 	char		*line;
 	char		*absolute;
 	char		**arg;
-	//int			detatch;
 	int			code;
 	int			cmdamount;
 	int			debug;
@@ -138,14 +137,14 @@ void		ft_printinsult(t_shell *msh);
 // PARSE
 // parse
 int			ft_parseline(char *line, t_shell *msh);
-int		 	ft_parsecommands(t_shell *msh, int forknumber, int cmdnumber);
+int			ft_parsecommands(t_shell *msh, int forknumber, int cmdnumber);
 // hashtag
 char		*ft_parsehashtag(t_shell *msh);
 // syntax
 int			ft_checksyntax(t_shell *msh);
 int			ft_startsyntax(t_shell *msh);
 // pipe
-t_shell 	*ft_parsepipe(t_shell *msh);
+t_shell		*ft_parsepipe(t_shell *msh);
 // alias
 void		ft_parsealiases(t_commands *cmd, t_shell msh);
 // complete
@@ -158,7 +157,7 @@ int			ft_skipquote(char *s, int i);
 char		check_quote_closed(t_shell *msh);
 // heredoc
 int			ft_heredoc(char *delimiter, char *file, t_shell msh, int heredoc);
-void		ft_heredocinit(int i, t_shell *msh, int forknumber, int icmd, char *start);
+void		ft_heredocinit(int i, t_shell *msh, int ifrk, int icmd, char *strt);
 // inputfile
 int			ft_parseinputfiles(t_shell *msh, int forknumber);
 char		*ft_getendinputfile(t_shell *msh, int forknumber, int icmd, int i);
@@ -170,11 +169,11 @@ int			ft_getfilepos(t_shell *msh, int f, int c, int i);
 int			ft_parseoutputfiles(t_commands *cmd);
 // condition
 int			ft_cpquote(char **cmdline, char	*forkline, int *icpip, int ifpip);
-t_forks		ft_parseendcondition(t_shell *msh, int forknumber, int icmd, int ifpip);
+t_forks		ft_parseendcondition(t_shell *msh, int ifrk, int icmd, int ifpip);
 //priority
-int 		ft_priority(t_commands *cmd, int cmdnbr, int i, int k);
+int			ft_priority(t_commands *cmd, int cmdnbr, int i, int k);
 // variable
-char 		*ft_parsevariable(char *line, t_shell msh, int quote);
+char		*ft_parsevariable(char *line, t_shell msh, int quote);
 // tilde
 char		*ft_parsetilde(char *line, t_shell msh);
 // oldline
@@ -194,12 +193,12 @@ int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);
 int			ft_checkcommand(char **arguments, char **envp);
 //redirect
-void		ft_redirectoutput(char **outfile, int *append, int forknbr, t_shell *msh);
+void		ft_redirectoutput(char **outf, int *appe, int ifrk, t_shell *msh);
 
 // BUILTINS
 // builtin
 t_builtin	*ft_getbuiltins(void);
-int			ft_builtincheck(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh);
+int			ft_builtincheck(t_commands cmd, int icmd, int ifrk, t_shell *msh);
 int			ft_alias(t_commands cmd, t_shell *msh);
 int			ft_chdir(t_commands cmd, t_shell *msh);
 int			ft_exit(t_commands cmd, t_shell *msh);
@@ -220,12 +219,12 @@ int			ft_parseglobs(t_commands *cmd, char **envp);
 void		ft_getsubdir(t_globs *globs);
 int			ft_getparent(t_globs *globs);
 int			ft_getglob(t_globs *globs, int startpos);
-t_globs 	*ft_initglobstruct(char *pipeline);
+t_globs		*ft_initglobstruct(char *pipeline);
 // globsub
-int			ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i);
+int			ft_recursivematchsub(t_globs *globs, char *path, char *dnme, int i);
 // globpoint
 int			ft_nextsubglob(t_globs *globs, int subi, int reali, int globi);
-int			ft_firstsubglob(t_globs *globs, struct dirent *dirents, int subi, int reali);
+int			ft_firstsubglob(t_globs *globs, struct dirent *dre, int si, int ri);
 int			ft_nextglob(t_globs *globs, char *dname, int reali, int globi);
 int			ft_firstglob(t_globs *globs, char *dname, int reali);
 // globtools
@@ -235,17 +234,17 @@ void		ft_backupglob(t_globs *globs);
 void		ft_cleanglob(t_globs *globs);
 // wildcard
 int			ft_nextsubwildcard(t_globs *globs, int subi, int reali, int globi);
-int			ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int subi, int reali);
+int			ft_firstsubwildcard(t_globs *g, struct dirent *dre, int si, int ri);
 int			ft_nextwildcard(t_globs *globs, char *dname, int reali, int globi);
 int			ft_firstwildcard(t_globs *globs, char *dname, int reali);
 // joker
 int			ft_nextsubjoker(t_globs *globs, int subi, int reali, int globi);
-int			ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int subi, int reali);
+int			ft_firstsubjoker(t_globs *g, struct dirent *dre, int si, int ri);
 int			ft_nextjoker(t_globs *globs, char *dname, int reali, int globi);
 int			ft_firstjoker(t_globs *globs, char *dname, int reali);
 // anyof
 int			ft_nextsubanyof(t_globs *globs, int subi, int reali, int globi);
-int			ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int subi, int reali);
+int			ft_firstsubanyof(t_globs *g, struct dirent *dre, int si, int ri);
 int			ft_nextanyof(t_globs *globs, char *dname, int reali, int globi);
 int			ft_firstanyof(t_globs *globs, char *dname, int reali);
 

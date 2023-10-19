@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:30 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 02:04:30 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ft_adddirtoz(char *cwd, t_shell *msh)
 	ft_writezfile(home, tmpfile);
 }
 
-int	ft_cdgetoldcwd(t_commands cmd, t_shell *msh, char *line)
+int	ft_cdgetoldcwd(t_commands c, t_shell *msh, char *line)
 {
 	char	*oldcwd;
 
@@ -67,9 +67,9 @@ int	ft_cdgetoldcwd(t_commands cmd, t_shell *msh, char *line)
 	{
 		ft_vafree(2, oldcwd, line);
 		if (errno == ENOTDIR)
-			return (ft_errorret2("Not a directory", cmd.arg[0], cmd.arg[1], 1));
+			ft_errorret2("Not a directory", c.arg[0], c.arg[1], 1);
 		else
-			return (ft_errorret2("No such file or directory", cmd.arg[0], cmd.arg[1], 1));
+			ft_errorret2("No such file or directory", c.arg[0], c.arg[1], 1);
 		return (1);
 	}
 	if (oldcwd[0] == '/')
@@ -92,7 +92,8 @@ void	ft_cdgetnewcwd(t_commands cmd, t_shell *msh)
 		newcwd = ft_vastrjoin(3, "/home/", line, "/");
 		free(line);
 		chdir(newcwd);
-		ft_errorret2("No such file or directory Seems the current directory does not exist, going home", cmd.arg[0], cmd.arg[1], 1);
+		ft_errorret2("No such file or directory", cmd.arg[0], cmd.arg[1], 1);
+		ft_errorret("No parent directory, going home", cmd.arg[0], 1);
 	}
 	ft_setenv(msh->envp, "PWD", newcwd);
 	ft_adddirtoz(newcwd, msh);
@@ -113,7 +114,7 @@ int	ft_chdir(t_commands cmd, t_shell *msh)
 		line = ft_vastrjoin(3, "/home/", temp, "/");
 		free(temp);
 	}
-	else if (!ft_strncmp(cmd.arg[1],  "-\0", 2))
+	else if (!ft_strncmp(cmd.arg[1], "-\0", 2))
 	{
 		line = ft_getenvval(msh->envp, "OLDPWD");
 		if (!line)

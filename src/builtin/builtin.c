@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 15:11:33 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:30 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 01:53:25 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	ft_builtinfork(int cmdnbr, int forknbr, t_shell *msh, int i)
 {
 	int		pid;
 	int		ret;
+
 	pid = fork();
 	if (pid == 0)
 	{
@@ -92,14 +93,14 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
 		free(itoa);
 		free(outtmp);
 		close(fd);
-		msh-> code = msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh);
+		msh->code = msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh);
 	}
 	return (msh->code);
 }
 
 int	ft_builtincheck(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 {
-	int i;
+	int	i;
 	int	j;
 	int	len;
 

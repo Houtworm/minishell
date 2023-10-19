@@ -6,36 +6,36 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 18:12:44 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:33 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 04:51:14 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_printexport(t_shell *msh)
+int	ft_printexport(t_shell *m)
 {
-	int 	i;
+	int		i;
 	int		j;
-	char	*str;
-	char	*tmp;
+	char	*s;
+	char	*t;
 
 	i = 0;
-	tmp = ft_calloc(1000, 8);
-	while (msh->envp[i])
+	t = ft_calloc(1000, 8);
+	while (m->envp[i])
 	{
 		j = 0;
-		while (msh->envp[i][j] && msh->envp[i][j] != '=')
+		while (m->envp[i][j] && m->envp[i][j] != '=')
 		{
-			tmp[j] = msh->envp[i][j];
+			t[j] = m->envp[i][j];
 			j++;
 		}
-		tmp[j] = '\0';
-		str = ft_vastrjoin(5, "declare -x ", tmp, "=\"", &msh->envp[i][j + 1], "\"");
-		ft_putendl(str);
-		free(str);
+		t[j] = '\0';
+		s = ft_vastrjoin(5, "declare -x ", t, "=\"", &m->envp[i][j + 1], "\"");
+		ft_putendl(s);
+		free(s);
 		i++;
 	}
-	free(tmp);
+	free(t);
 	return (0);
 }
 
@@ -50,27 +50,20 @@ int	ft_export(t_commands cmd, t_shell *msh)
 	i = 0;
 	j = 0;
 	if (!cmd.arg[1])
-	{
-		ft_printexport(msh);
-		return (0);
-	}
+		return (ft_printexport(msh));
 	if (cmd.arg[1][0] == '-')
-	{
 		return (ft_errorret("invalid option", "export", 2));
-	}
-	if ((cmd.arg[1][i] < 'a' || cmd.arg[1][i] > 'z') && (cmd.arg[1][i] < 'A' || cmd.arg[1][i] > 'Z'))
-		if (cmd.arg[1][i] != '_')
-			return (ft_errorret2("not a valid identifier", cmd.arg[1], "export", 1));
+	if (!ft_isalpha(cmd.arg[1][i]) || cmd.arg[1][i] != '_')
+		return (ft_errorret2("not a valid identifier", cmd.arg[1], "export", 1));
 	var = ft_calloc(512, 1);
 	val = ft_calloc(512, 1);
 	while (cmd.arg[1][i] != '\0' && cmd.arg[1][i] != '=')
 	{
-		if ((cmd.arg[1][i] < 'a' || cmd.arg[1][i] > 'z') && (cmd.arg[1][i] < 'A' || cmd.arg[1][i] > 'Z'))
-			if (cmd.arg[1][i] != '_' && cmd.arg[1][i] < '0' && cmd.arg[1][i] > '9')
-			{
-				ft_vafree(2, var, val);
-				return (ft_errorret2("not a valid identifier", cmd.arg[1], "export", 1));
-			}
+		if (!ft_isalnum(cmd.arg[1][i]) && cmd.arg[1][i] != '_')
+		{
+			ft_vafree(2, var, val);
+			return (ft_errorret2("not a valid identifier", cmd.arg[1], "export", 1));
+		}
 		var[i] = cmd.arg[1][i];
 		i++;
 	}

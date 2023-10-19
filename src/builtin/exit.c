@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 18:48:08 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:32 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 02:15:24 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ unsigned long long	ft_atoull(char *str, int c)
 
 int	ft_checklonglong(char *str, int i)
 {
-	unsigned long long 	number;
-	unsigned long long 	compare;
+	unsigned long long	number;
+	unsigned long long	compare;
 	int					negative;
 
 	compare = 9223372036854775807;
@@ -62,9 +62,7 @@ int	ft_exit(t_commands cmd, t_shell *msh)
 	i = 0;
 	if (!cmd.arg[1])
 		return (0);
-	if (cmd.arg[1][0] == '\0')
-		return (ft_errorret2("numeric argument required", "exit", cmd.arg[1], 2));
-	if (ft_checklonglong(cmd.arg[1], 0))
+	if (cmd.arg[1][0] == '\0' || ft_checklonglong(cmd.arg[1], 0))
 		return (ft_errorret("numeric argument required", "exit", 2));
 	if (cmd.arg[1][i] == '-')
 		i++;
@@ -73,7 +71,8 @@ int	ft_exit(t_commands cmd, t_shell *msh)
 		if (cmd.arg[1][i] < '0' || cmd.arg[1][i] > '9' )
 		{
 			ft_putendl_fd("exit", 2);
-			return (ft_errorret2 ("numeric argument required", "exit", cmd.arg[1], 2));
+			ft_errorret2 ("numeric argument required", "exit", cmd.arg[1], 2);
+			return (2);
 		}
 		i++;
 	}

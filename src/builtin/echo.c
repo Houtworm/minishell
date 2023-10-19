@@ -6,15 +6,15 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 18:13:11 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:31 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 02:08:41 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int ft_echorecursion(t_commands cmd, char *print, int i, int j)
+int	ft_echorecursion(t_commands cmd, char *print, int i, int j)
 {
-	int k;
+	int	k;
 
 	k = 0;
 	if (!cmd.arg[j])
