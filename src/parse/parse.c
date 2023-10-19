@@ -6,12 +6,11 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 18:49:44 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/19 18:54:37 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 char	*ft_cpnonquote(char *args, char *new, int *j, int *k)
 {
@@ -37,7 +36,6 @@ char	*ft_cpnonquote(char *args, char *new, int *j, int *k)
 	}
 	return (new);
 }
-
 
 char	**ft_removequotes(char **args)
 {
