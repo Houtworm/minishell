@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 00:06:18 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/19 06:39:56 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 	}
 	else
-		msh =	ft_initstruct(envp, 0);
+		msh = ft_initstruct(envp, 0);
 	while (1)
 		ft_mainloop(msh);
 	ft_freeexit(msh, 0);

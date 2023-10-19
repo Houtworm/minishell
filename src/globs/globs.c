@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/03 09:12:54 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:01 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 05:57:33 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 
 void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char type)
 {
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 	char	*temp;
 
 	i = 0;
@@ -90,9 +90,11 @@ int	ft_parseglob(t_globs *globs, char **envp)
 	dir = opendir(checkdir);
 	if (dir)
 	{
-		while ((dirents = readdir(dir)))
+		dirents = readdir(dir);
+		while (dirents)
 		{
 			ft_matchtillglob(globs, dirents->d_name, checkdir, dirents->d_type);
+			dirents = readdir(dir);
 		}
 		closedir(dir);
 	}

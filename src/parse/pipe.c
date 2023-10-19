@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/28 13:26:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 21:33:59 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/19 06:26:32 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_shell	*ft_parsepipe(t_shell *msh)
 			}
 		}
 		msh->frk[msh->forkamount].line[k] = '\0';
-		if (msh->line[i] == '|'  && msh->line[i + 1] != '|')
+		if (msh->line[i] == '|' && msh->line[i + 1] != '|')
 		{
 			i++;
 			msh->forkamount++;

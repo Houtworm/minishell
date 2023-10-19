@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:16 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 06:22:32 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,14 @@ void	ft_printdup(t_commands cmd, int cmdnbr, int forknbr)
 		printf("\e[1;32minput from stdin\e[0;00m\n");
 	if (cmdnbr + 1 == cmd.cmdamount && forknbr + 1 < cmd.forkamount)
 		printf("\e[1;32moutput to pipe\e[0;00m\n");
-	else if (cmd.outfile[0])
+	else if (cmd.ofi[0])
 	{
-		while (cmd.outfile[i])
+		while (cmd.ofi[i])
 		{
 			if (cmd.append[i])
-				printf("\e[1;36moutput %d appending to: %s \e[0;00m\n", i, cmd.outfile[i]);
+				printf("\e[1;36moutput %d append: %s\e[0;00m\n", i, cmd.ofi[i]);
 			else
-				printf("\e[1;36moutput %d trunctuating: %s \e[0;00m\n", i, cmd.outfile[i]);
+				printf("\e[1;36moutput %d trunct: %s\e[0;00m\n", i, cmd.ofi[i]);
 			i++;
 		}
 	}

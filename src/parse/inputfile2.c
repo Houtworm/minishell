@@ -6,26 +6,27 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/18 02:37:58 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:09 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 06:37:30 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+	// add below lines to enable zsh behavior
+	/*if (inputnumber)*/
+		/*tempfd = open(tmpfile, O_RDWR | O_CREAT | O_APPEND, 0666);*/
+	/*else*/
+
 int	ft_inputtofd(char *infile, char *tmpfile, int inputnumber)
 {
 	int		fdi;
 	char	*line;
-	int		ret;
 	int		tempfd;
 
 	inputnumber = inputnumber;
-	/*if (inputnumber) // comment this line for bash behavior*/
-		/*tempfd = open(tmpfile, O_RDWR | O_CREAT | O_APPEND, 0666); // comment this line for bash behavior*/
-	/*else // comment this line for bash behavior*/
-		tempfd = open(tmpfile, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	tempfd = open(tmpfile, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	fdi = open(infile, O_RDONLY);
-	while ((ret = get_next_line(fdi, &line)) > 0)
+	while (get_next_line(fdi, &line) > 0)
 	{
 		if (!line)
 			ft_errorexit("Error allocating memory", "ft_heredoc", 1);
@@ -84,13 +85,17 @@ char	*ft_getfileinputfile(t_shell *msh, int f, int c, int i)
 			quote = msh->frk[f].cmd[c].line[i + j];
 			i++;
 			while (msh->frk[f].cmd[c].line[i + j] != quote)
-				if ((file[j] = msh->frk[f].cmd[c].line[i + j]))
-					j++;
+			{
+				file[j] = msh->frk[f].cmd[c].line[i + j];
+				j++;
+			}
 			i++;
 		}
 		else
-			if ((file[j] = msh->frk[f].cmd[c].line[i + j]))
-				j++;
+		{
+			file[j] = msh->frk[f].cmd[c].line[i + j];
+			j++;
+		}
 	}
 	return (file);
 }

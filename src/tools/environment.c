@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/26 03:56:16 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:15 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 06:24:35 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	**ft_fdtocharpp(t_shell *msh)
 
 void	ft_charpptofd(char **array, t_shell *msh)
 {
-	int 	i;
+	int		i;
 	char	*temp;
 	int		fd;
 

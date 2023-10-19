@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/25 04:55:07 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:59 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 06:41:54 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_checkinputfile(char *file)
 	if (file)
 	{
 		fd = open(file, O_RDWR);
-		if (errno == EISDIR) 
+		if (errno == EISDIR)
 			return (ft_errorret("is a directory", file, 1));
 		close(fd);
 		if (access(file, R_OK) < 0)
@@ -40,7 +40,6 @@ int	ft_checkoutputfile(char *file)
 	i = ft_strlen(file) - 1;
 	if (file)
 	{
-		
 		if (file[0] == '\0')
 			return (ft_errorret("no such file or directory", file, 1));
 		fd = open(file, O_RDONLY | O_CREAT);
@@ -65,7 +64,7 @@ int	ft_checkoutputfile(char *file)
 		{
 			return (ft_errorret("permission denied", file, 1));
 		}
-		else if (fd == -1) 
+		else if (fd == -1)
 			return (ft_errorret("is a directory", file, 1));
 	}
 	return (0);

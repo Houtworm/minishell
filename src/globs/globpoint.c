@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:29:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:00 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 05:58:18 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_nextsubglob(t_globs *globs, int si, int ri, int gi)
+int	ft_nextsubglob(t_globs *globs, int si, int ri, int gi)
 {
 	if (globs->subdir[si][gi] == '*')
 		return (ft_nextsubwildcard(globs, si, ri, gi));
@@ -23,7 +23,7 @@ int		ft_nextsubglob(t_globs *globs, int si, int ri, int gi)
 	return (0);
 }
 
-int		ft_firstsubglob(t_globs *globs, struct dirent *dirents, int si, int gi)
+int	ft_firstsubglob(t_globs *globs, struct dirent *dirents, int si, int gi)
 {
 	if (globs->subdir[si][gi] == '*')
 		return (ft_firstsubwildcard(globs, dirents, si, gi));

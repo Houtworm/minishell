@@ -6,15 +6,15 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:51:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:02 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 05:49:40 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_nextsubjoker(t_globs *globs, int si, int ri, int gi)
+int	ft_nextsubjoker(t_globs *globs, int si, int ri, int gi)
 {
-	while (globs->subdir[si][gi] == '\\' || (globs->tempsubdir[si][ri] && globs->subdir[si][gi] && globs->tempsubdir[si][ri] == globs->subdir[si][gi])) //while the characters match we skip them
+	while (globs->subdir[si][gi] == '\\' || (globs->tempsubdir[si][ri] && globs->subdir[si][gi] && globs->tempsubdir[si][ri] == globs->subdir[si][gi]))
 	{
 		if (globs->subdir[si][gi] == '\\')
 			gi++;
@@ -51,7 +51,7 @@ int		ft_nextsubjoker(t_globs *globs, int si, int ri, int gi)
 	return (0);
 }
 
-int		ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int si, int gi)
+int	ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int si, int gi)
 {
 	int		ri;
 

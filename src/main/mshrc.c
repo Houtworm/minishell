@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:25:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:05 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 06:39:03 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	ft_setaliasvar(t_alias *alias, char *line, int i)
 	}
 	if (line[i + 6] == '\0')
 		ft_errorexit("Error in ~/.mshrc file", "mshrc", 1);
-
 	return (i);
 }
 
@@ -50,7 +49,7 @@ void	ft_setaliasval(t_alias *alias, char *line, int i)
 	}
 }
 
-t_alias ft_aliastostruct(char *line)
+t_alias	ft_aliastostruct(char *line)
 {
 	t_alias	aliasstruct;
 	int		i;

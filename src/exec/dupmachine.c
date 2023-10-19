@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 21:59:03 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:56 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 06:22:10 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ int	ft_dupmachine(int cmdn, int frkn, t_shell *msh)
 		close(msh->pipes[frkn][1]);
 		close(msh->pipes[frkn + 1][0]);
 	}
-	if (msh->frk[frkn].cmd[cmdn].outfile[0])
+	if (msh->frk[frkn].cmd[cmdn].ofi[0])
 	{
-		if (ft_outputfile(msh->frk[frkn].cmd[cmdn].outfile, frkn, msh))
+		if (ft_outputfile(msh->frk[frkn].cmd[cmdn].ofi, frkn, msh))
 			return (1);
 	}
 	else if (cmdn + 1 == msh->frk[frkn].cmd[cmdn].cmdamount && frkn + 1 < msh->frk[frkn].cmd[cmdn].forkamount)

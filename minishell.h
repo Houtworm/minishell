@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 01:33:56 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/19 06:21:05 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_commands
 	int			condition;
 	int			prio;
 	int			infiles;
-	char		**outfile;
+	char		**ofi;
 	int			*append;
 	char		*line;
 	char		*absolute;

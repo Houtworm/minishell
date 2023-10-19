@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 10:16:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:11 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 06:21:37 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	ft_parseredirectout(t_commands *cmd)
 	char	*rest;
 	char	quote;
 
-	free(cmd->outfile);
-	cmd->outfile = ft_calloc(100, 8);
-	if (cmd->outfile == NULL)
+	free(cmd->ofi);
+	cmd->ofi = ft_calloc(100, 8);
+	if (cmd->ofi == NULL)
 		ft_errorexit("Error allocating memory", "ft_parseredirectout", 1);
 	k = 0;
 	i = 0;
@@ -34,8 +34,8 @@ void	ft_parseredirectout(t_commands *cmd)
 		if (begin == NULL || rest == NULL)
 			ft_errorexit("Error allocating memory", "ft_parseredirectout", 1);
 		i = 0;
-		cmd->outfile[k] = ft_calloc(ft_strlen(cmd->line) + 1, 8);
-		if (cmd->outfile[k] == NULL)
+		cmd->ofi[k] = ft_calloc(ft_strlen(cmd->line) + 1, 8);
+		if (cmd->ofi[k] == NULL)
 			ft_errorexit("Error allocating memory", "ft_parseredirectout", 1);
 		j = 0;
 		while (cmd->line[i] && cmd->line[i] != '>')
@@ -79,7 +79,7 @@ void	ft_parseredirectout(t_commands *cmd)
 					i++;
 					while (cmd->line[i] != quote)
 					{
-						cmd->outfile[k][j] = cmd->line[i];
+						cmd->ofi[k][j] = cmd->line[i];
 						i++;
 						j++;
 					}
@@ -87,12 +87,12 @@ void	ft_parseredirectout(t_commands *cmd)
 				}
 				else
 				{
-					cmd->outfile[k][j] = cmd->line[i];
+					cmd->ofi[k][j] = cmd->line[i];
 					i++;
 					j++;
 				}
 			}
-			cmd->outfile[k][j] = '\0';
+			cmd->ofi[k][j] = '\0';
 			while (cmd->line[i] && cmd->line[i] == ' ')
 				i++;
 		}
@@ -115,15 +115,15 @@ int	ft_parseoutputfiles(t_commands *cmd)
 {
 	int	i;
 
-	cmd->outfile = ft_calloc(1000 * 8, 1);
+	cmd->ofi = ft_calloc(1000 * 8, 1);
 	cmd->append = ft_calloc(1000 * 8, 1);
 	if (ft_checkoutquote(cmd->line, '>', 2) >= 0)
 		ft_parseredirectout(cmd);
 	i = 0;
 	ft_createfdo(*cmd);
-	while (cmd->outfile[i])
+	while (cmd->ofi[i])
 	{
-		if (ft_checkoutputfile(cmd->outfile[i]))
+		if (ft_checkoutputfile(cmd->ofi[i]))
 			return (1);
 		i++;
 	}

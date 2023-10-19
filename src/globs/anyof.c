@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:51:38 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:59 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 06:18:53 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_nextsubanyof(t_globs *globs, int si, int ri, int gi)
+int	ft_nextsubanyof(t_globs *globs, int si, int ri, int gi)
 {
 	int		l;
 
@@ -62,7 +62,7 @@ int		ft_nextsubanyof(t_globs *globs, int si, int ri, int gi)
 	return (0);
 }
 
-int		ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int si, int gi)
+int	ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int si, int gi)
 {
 	int	ri;
 
@@ -148,8 +148,8 @@ int	ft_nextanyof(t_globs *globs, char *dname, int ri, int gi)
 		return (0);
 	if (ft_strchr(globs->anyof, match))
 	{
-			gi++;
-			ri++;
+		gi++;
+		ri++;
 	}
 	while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
 	{

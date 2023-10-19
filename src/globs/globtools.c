@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:34:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:02 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 05:52:27 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ void	ft_cleanpardir(t_globs *globs)
 			while (globs->pardir[oldcount] == '/')
 				oldcount++;
 			if (oldcount > newcount)
+			{
 				while (globs->pardir[oldcount] && globs->pardir[oldcount] != '/')
 				{
 					globs->pardir[newcount] = globs->pardir[oldcount];
 					oldcount++;
 					newcount++;
 				}
+			}
 		}
 		oldcount++;
 	}
@@ -56,7 +58,7 @@ void	ft_cleansubdir(t_globs *globs)
 		if (!globs->subdir[olddir])
 		{
 			newdir++;
-			break;
+			break ;
 		}
 		oldcount = 0;
 		newcount = 0;

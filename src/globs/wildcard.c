@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:23 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:03 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 05:49:06 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_nextsubwildcard(t_globs *globs, int si, int ri, int gi)
+int	ft_nextsubwildcard(t_globs *globs, int si, int ri, int gi)
 {
 	int	ti;
 
@@ -59,7 +59,7 @@ int		ft_nextsubwildcard(t_globs *globs, int si, int ri, int gi)
 	return (0);
 }
 
-int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int si, int gi)
+int	ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int si, int gi)
 {
 	int	ri;
 
@@ -76,7 +76,7 @@ int		ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int si, int gi)
 				globs->tempsubdir[si] = ft_strjoin("/", dirents->d_name);
 				return (1);
 			}
-			while (globs->subdir[si][gi] == '\\' || (dirents->d_name[ri] && globs->subdir[si][gi] && dirents->d_name[ri] == globs->subdir[si][gi])) //while the characters match we skip them
+			while (globs->subdir[si][gi] == '\\' || (dirents->d_name[ri] && globs->subdir[si][gi] && dirents->d_name[ri] == globs->subdir[si][gi]))
 			{
 				if (globs->subdir[si][gi] == '\\')
 					gi++;

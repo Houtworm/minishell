@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:29:24 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:01 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 05:54:39 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
+int	ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 {
 	int				j;
 	int				offset;
@@ -36,7 +36,8 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 	dir = opendir(fullpath);
 	if (dir)
 	{
-		while ((dirents = readdir(dir)))
+		dirents = readdir(dir);
+		while (dirents)
 		{
 			offset = 1;
 			if ((globs->subdir[i][1] == '.' && dirents->d_name[0] == '.') || (globs->subdir[i][1] != '.' && dirents->d_name[0] != '.'))
@@ -105,6 +106,7 @@ int		ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 					}
 				}
 			}
+			dirents = readdir(dir);
 		}
 		closedir(dir);
 	}

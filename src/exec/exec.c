@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:57 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 06:44:56 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	ft_createfdo(t_commands cmd)
 	int	i;
 
 	i = 0;
-	while (cmd.outfile[i])
+	while (cmd.ofi[i])
 	{
 		if (cmd.append[i])
-			fdo = open(cmd.outfile[i], O_RDWR | O_CREAT | O_APPEND, 0666);
+			fdo = open(cmd.ofi[i], O_RDWR | O_CREAT | O_APPEND, 0666);
 		else
-			fdo = open(cmd.outfile[i], O_RDWR | O_CREAT | O_TRUNC, 0666);
+			fdo = open(cmd.ofi[i], O_RDWR | O_CREAT | O_TRUNC, 0666);
 		close (fdo);
 		i++;
 	}
@@ -31,8 +31,8 @@ void	ft_createfdo(t_commands cmd)
 
 void	ft_checklastcode(t_forks fork, t_shell *msh)
 {
-	int	fd;
-	int	icmd;
+	int		fd;
+	int		icmd;
 	char	*file;
 
 	icmd = 0;
@@ -50,7 +50,6 @@ void	ft_checklastcode(t_forks fork, t_shell *msh)
 	}
 	free(file);
 }
-
 
 int	ft_executecommand(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 {
@@ -141,8 +140,8 @@ int	ft_executeforks(int forknbr, t_shell *msh, int condition)
 		if (msh->debug)
 			ft_printcommands(msh->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr);
 		status = ft_executecommand(msh->frk[forknbr].cmd[cmdnbr], cmdnbr, forknbr, msh);
-		if (msh->frk[forknbr].cmd[cmdnbr].outfile[0] && status != 127)
-			ft_redirectoutput(msh->frk[forknbr].cmd[cmdnbr].outfile, msh->frk[forknbr].cmd[cmdnbr].append, forknbr, msh);
+		if (msh->frk[forknbr].cmd[cmdnbr].ofi[0] && status != 127)
+			ft_redirectoutput(msh->frk[forknbr].cmd[cmdnbr].ofi, msh->frk[forknbr].cmd[cmdnbr].append, forknbr, msh);
 		cmdnbr++;
 	}
 	if (condition)

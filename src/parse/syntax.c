@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 13:48:26 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:13 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 06:32:28 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_syntaxerror(t_shell *msh, char s1, char *line, int i)
+int	ft_syntaxerror(t_shell *msh, char s1, char *line, int i)
 {
 	int		j;
 	char	*help;
@@ -38,7 +38,7 @@ int		ft_syntaxerror(t_shell *msh, char s1, char *line, int i)
 	return (2);
 }
 
-int		ft_checksmallerthan(t_shell *msh, char *line, int i)
+int	ft_checksmallerthan(t_shell *msh, char *line, int i)
 {
 	int		j;
 
@@ -52,7 +52,7 @@ int		ft_checksmallerthan(t_shell *msh, char *line, int i)
 	return (0);
 }
 
-int		ft_checkgreaterthan(t_shell *msh, char *line, int i)
+int	ft_checkgreaterthan(t_shell *msh, char *line, int i)
 {
 	int		j;
 
@@ -66,7 +66,7 @@ int		ft_checkgreaterthan(t_shell *msh, char *line, int i)
 	return (0);
 }
 
-int		ft_checkampersand(t_shell *msh, char *line, int i)
+int	ft_checkampersand(t_shell *msh, char *line, int i)
 {
 	int		j;
 
@@ -80,7 +80,7 @@ int		ft_checkampersand(t_shell *msh, char *line, int i)
 	return (0);
 }
 
-int		ft_checkpipe(t_shell *msh, char *line, int i)
+int	ft_checkpipe(t_shell *msh, char *line, int i)
 {
 	int		j;
 
@@ -94,7 +94,7 @@ int		ft_checkpipe(t_shell *msh, char *line, int i)
 	return (0);
 }
 
-int		ft_checksemicolon(t_shell *msh, char *line, int i)
+int	ft_checksemicolon(t_shell *msh, char *line, int i)
 {
 	int		j;
 
@@ -106,7 +106,7 @@ int		ft_checksemicolon(t_shell *msh, char *line, int i)
 	return (0);
 }
 
-int		ft_checksyntax(t_shell *msh)
+int	ft_checksyntax(t_shell *msh)
 {
 	int	i;
 
@@ -157,7 +157,7 @@ int		ft_checksyntax(t_shell *msh)
 
 int	ft_startsyntax(t_shell *msh)
 {
-	int	i;
+	int		i;
 	int		j;
 	char	*help;
 
@@ -166,7 +166,6 @@ int	ft_startsyntax(t_shell *msh)
 		i++;
 	if (msh->line[i] == '|' || msh->line[i] == '&' || msh->line[i] == ';')
 	{
-
 		ft_putstr_fd("Syntax Error: ", 2);
 		ft_printinsult(msh);
 		ft_putstr_fd("you can't start with a ", 2);

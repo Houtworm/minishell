@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fork.c                                          |o_o || |                */
+/*   fork.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 23:27:34 by djonker      \___)=(___/                 */
+/*   Updated: 2023/10/19 06:43:18 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,12 @@ int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
 int	ft_forktheforks(t_shell *msh)
 {
 	int		status;
-	int 	forknumber;
+	int		forknumber;
 	int		fd;
 	char	*file;
 
 	forknumber = 0;
 	status = 1;
-	/*msh->starttime = ft_gettimemsdate(msh->envp);*/
 	if (msh->forkamount > 1)
 	{
 		msh->pipes = ft_preparepipes(msh);

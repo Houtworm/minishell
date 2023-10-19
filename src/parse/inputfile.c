@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/17 16:21:59 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 22:20:43 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/19 06:26:08 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*ft_getstart(t_shell *msh, int frkn, int icmd, char *start)
 	return (start);
 }
 
-int ft_parseinputfiles(t_shell *msh, int frkn)
+int	ft_parseinputfiles(t_shell *msh, int frkn)
 {
 	int		icmd;
 	char	*start;

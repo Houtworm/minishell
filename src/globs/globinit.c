@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:32:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:00 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/19 06:00:16 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_getsubdir(t_globs *globs)
 			globs->subdir[i] = ft_calloc(500, 8);
 			globs->subdir[i][0] = '/';
 			j = 1;
-			while(globs->gend[k + j] && globs->gend[k + j] != '/')
+			while (globs->gend[k + j] && globs->gend[k + j] != '/')
 			{
 				globs->subdir[i][j] = globs->gend[k + j];
 				j++;
@@ -76,7 +76,7 @@ int	ft_getparent(t_globs *globs)
 
 int	ft_getglob(t_globs *globs, int startpos)
 {
-	int 	endpos;
+	int		endpos;
 	char	quote;
 
 	endpos = 0;
@@ -111,13 +111,13 @@ int	ft_getglob(t_globs *globs, int startpos)
 	return (endpos);
 }
 
-t_globs *ft_initglobstruct(char *line)
+t_globs	*ft_initglobstruct(char *line)
 {
 	t_globs			*globs;
 	int				linelenght;
 
 	linelenght = ft_strlen(line);
-	globs = ft_calloc(linelenght , 128);
+	globs = ft_calloc(linelenght, 128);
 	globs->gstart = ft_calloc(linelenght, 8);
 	globs->gend = ft_calloc(500, 8);
 	globs->start = ft_calloc(linelenght, 8);
