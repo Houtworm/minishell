@@ -6,66 +6,78 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/26 03:56:16 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 06:24:35 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/20 17:20:56 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+char	**ft_replaceenv(char **envp, char *var, char *val, int i)
+{
+	int	j;
+	int	k;
+
+	j = 0;
+	k = 0;
+	free(envp[i]);
+	envp[i] = ft_calloc(1000, 8);
+	while (var[j])
+	{
+		envp[i][j] = var[j];
+		j++;
+	}
+	envp[i][j] = '=';
+	j++;
+	while (val[k])
+	{
+		envp[i][j] = val[k];
+		j++;
+		k++;
+	}
+	envp[i][j] = '\0';
+	return (envp);
+}
+
+char	**ft_newenv(char **envp, char *var, char *val, int i)
+{
+	int	j;
+	int	k;
+
+	j = 0;
+	k = 0;
+	free(envp[i]);
+	envp[i] = ft_calloc(8 * 512, 1);
+	while (var[j] != '\0')
+	{
+		envp[i][j] = var[j];
+		j++;
+	}
+	envp[i][j] = '=';
+	j++;
+	while (val[k] != '\0')
+	{
+		envp[i][k + j] = val[k];
+		k++;
+	}
+	envp[i + 1] = NULL;
+	return (envp);
+}
+
 char	**ft_setenv(char **envp, char *var, char *val)
 {
 	int		i;
-	int		j;
-	int		k;
 
 	i = 0;
 	while (envp[i])
 	{
 		if (!ft_strncmp(envp[i], var, ft_strlen(var)))
 		{
-			free(envp[i]);
-			envp[i] = ft_calloc(1000, 8);
-			j = 0;
-			while (var[j])
-			{
-				envp[i][j] = var[j];
-				j++;
-			}
-			envp[i][j] = '=';
-			j++;
-			k = 0;
-			while (val[k])
-			{
-				envp[i][j] = val[k];
-				j++;
-				k++;
-			}
-			envp[i][j] = '\0';
-			break ;
+			envp = ft_replaceenv(envp, var, val, i);
+			return (envp);
 		}
 		i++;
 	}
-	if (!envp[i])
-	{
-		i--;
-		free(envp[i]);
-		envp[i] = ft_calloc(8 * 512, 1);
-		j = 0;
-		while (var[j] != '\0')
-		{
-			envp[i][j] = var[j];
-			j++;
-		}
-		envp[i][j] = '=';
-		j++;
-		k = 0;
-		while (val[k] != '\0')
-		{
-			envp[i][k + j] = val[k];
-			k++;
-		}
-		envp[i + 1] = NULL;
-	}
+	envp = ft_newenv(envp, var, val, i - 1);
 	return (envp);
 }
 
