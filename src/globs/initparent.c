@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   globinitparent.c                                   :+:    :+:            */
+/*   initparent.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/20 18:49:57 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:02:26 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:21:34 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,9 @@ int	ft_getparent(t_globs *globs)
 		}
 		globs->pardir[j] = '\0';
 		j = 0;
-		while (globs->gstart[i])
+		while (globs->gstart[i + j])
 		{
-			globs->gstart[j] = globs->gstart[i];
-			i++;
+			globs->gstart[j] = globs->gstart[i + j];
 			j++;
 		}
 		globs->gstart[j] = '\0';

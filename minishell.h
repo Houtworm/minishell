@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 19:10:20 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:33:17 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,20 +246,23 @@ void		ft_removequotesfromsubdir(t_globs *globs);
 void		ft_getsubdir(t_globs *globs);
 
 // wildcard
-int			ft_nextsubwildcard(t_globs *globs, int subi, int reali, int globi);
-int			ft_firstsubwildcard(t_globs *g, struct dirent *dre, int si, int ri);
-int			ft_nextwildcard(t_globs *globs, char *dname, int reali, int globi);
 int			ft_firstwildcard(t_globs *globs, char *dname, int reali);
+int			ft_nextwildcard(t_globs *globs, char *dname, int reali, int globi);
+// subwildcard
+int			ft_firstsubwildcard(t_globs *g, struct dirent *dre, int si, int ri);
+int			ft_nextsubwildcard(t_globs *globs, int subi, int reali, int globi);
 // joker
-int			ft_nextsubjoker(t_globs *globs, int subi, int reali, int globi);
-int			ft_firstsubjoker(t_globs *g, struct dirent *dre, int si, int ri);
-int			ft_nextjoker(t_globs *globs, char *dname, int reali, int globi);
 int			ft_firstjoker(t_globs *globs, char *dname, int reali);
+int			ft_nextjoker(t_globs *globs, char *dname, int reali, int globi);
+// subjoker
+int			ft_firstsubjoker(t_globs *g, struct dirent *dre, int si, int ri);
+int			ft_nextsubjoker(t_globs *globs, int subi, int reali, int globi);
 // anyof
-int			ft_nextsubanyof(t_globs *globs, int subi, int reali, int globi);
-int			ft_firstsubanyof(t_globs *g, struct dirent *dre, int si, int ri);
-int			ft_nextanyof(t_globs *globs, char *dname, int reali, int globi);
 int			ft_firstanyof(t_globs *globs, char *dname, int reali);
+int			ft_nextanyof(t_globs *globs, char *dname, int reali, int globi);
+// subanyof
+int			ft_firstsubanyof(t_globs *g, struct dirent *dre, int si, int ri);
+int			ft_nextsubanyof(t_globs *globs, int subi, int reali, int globi);
 
 // TOOLS
 // print

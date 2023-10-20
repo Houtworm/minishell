@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/03 09:12:54 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:10:51 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:27:00 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,24 +70,24 @@ int	ft_globfoundglob(t_globs *globs, t_commands *cmd, int startpos, char **envp)
 	return (0);
 }
 
-void	ft_globlooper(t_globs *globs, t_commands *cmd, int startpos, char **envp)
+void	ft_globlooper(t_globs *globs, t_commands *cmd, int startp, char **envp)
 {
-	while (globs->line[globs->linecount + startpos])
+	while (globs->line[globs->linecount + startp])
 	{
-		if (ft_strchr("\'\"", globs->line[globs->linecount + startpos]))
-			startpos = ft_skipbutcopygstart(globs, startpos);
-		else if (globs->line[globs->linecount + startpos] == ' ')
+		if (ft_strchr("\'\"", globs->line[globs->linecount + startp]))
+			startp = ft_skipbutcopygstart(globs, startp);
+		else if (globs->line[globs->linecount + startp] == ' ')
 		{
-			globs->linecount = globs->linecount + startpos + 1;
-			ft_bzero(globs->gstart, startpos);
-			startpos = 0;
+			globs->linecount = globs->linecount + startp + 1;
+			ft_bzero(globs->gstart, startp);
+			startp = 0;
 		}
-		else if (ft_strchr("*?[", globs->line[globs->linecount + startpos]))
-			startpos = ft_globfoundglob(globs, cmd, startpos, envp);
-		else if (globs->line[globs->linecount + startpos])
+		else if (ft_strchr("*?[", globs->line[globs->linecount + startp]))
+			startp = ft_globfoundglob(globs, cmd, startp, envp);
+		else if (globs->line[globs->linecount + startp])
 		{
-			globs->gstart[startpos] = globs->line[globs->linecount + startpos];
-			startpos++;
+			globs->gstart[startp] = globs->line[globs->linecount + startp];
+			startp++;
 		}
 	}
 }
