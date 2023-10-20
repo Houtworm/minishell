@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/03 09:12:54 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 05:57:33 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/20 18:26:18 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,10 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 	}
 }
 
-int	ft_parseglob(t_globs *globs, char **envp)
+char	*ft_globcheckabsolute(t_globs *globs, char **envp)
 {
-	DIR				*dir;
-	struct dirent	*dirents;
-	char			*curdir;
-	char			*checkdir;
+	char	*curdir;
+	char	*checkdir;
 
 	if (globs->pardir[0] == '/')
 		checkdir = ft_strdup(globs->pardir);
@@ -87,6 +85,16 @@ int	ft_parseglob(t_globs *globs, char **envp)
 		checkdir = ft_vastrjoin(2, curdir, globs->pardir);
 		free(curdir);
 	}
+	return (checkdir);
+}
+
+int	ft_parseglob(t_globs *globs, char **envp)
+{
+	DIR				*dir;
+	struct dirent	*dirents;
+	char			*checkdir;
+
+	checkdir = ft_globcheckabsolute(globs, envp);
 	dir = opendir(checkdir);
 	if (dir)
 	{
@@ -99,6 +107,21 @@ int	ft_parseglob(t_globs *globs, char **envp)
 		closedir(dir);
 	}
 	free(checkdir);
+	return (0);
+}
+
+int	ft_globfoundglob(t_globs *globs, t_commands *cmd, int startpos, char **envp)
+{
+	globs->glob[0] = globs->line[globs->linecount + startpos];
+	ft_getglob(globs, startpos);
+	ft_getparent(globs);
+	ft_getsubdir(globs);
+	ft_backupglob(globs);
+	ft_cleanglob(globs);
+	ft_parseglob(globs, envp);
+	ft_newpipeline(globs);
+	if (cmd->debug)
+		ft_printglobs(*globs, "globlooper");
 	return (0);
 }
 
@@ -115,19 +138,7 @@ void	ft_globlooper(t_globs *globs, t_commands *cmd, int startpos, char **envp)
 			startpos = 0;
 		}
 		else if (ft_strchr("*?[", globs->line[globs->linecount + startpos]))
-		{
-			globs->glob[0] = globs->line[globs->linecount + startpos];
-			ft_getglob(globs, startpos);
-			ft_getparent(globs);
-			ft_getsubdir(globs);
-			ft_backupglob(globs);
-			ft_cleanglob(globs);
-			ft_parseglob(globs, envp);
-			ft_newpipeline(globs);
-			if (cmd->debug)
-				ft_printglobs(*globs, "globlooper");
-			startpos = 0;
-		}
+			startpos = ft_globfoundglob(globs, cmd, startpos, envp);
 		else if (globs->line[globs->linecount + startpos])
 		{
 			globs->gstart[startpos] = globs->line[globs->linecount + startpos];
