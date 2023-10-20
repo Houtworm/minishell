@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 17:26:07 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/20 18:00:11 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int			ft_skipquote(char *s, int i);
 char		check_quote_closed(t_shell *msh);
 // heredoc
 int			ft_heredoc(char *delimiter, char *file, t_shell msh, int heredoc);
-void		ft_heredocinit(int i, t_shell *msh, int ifrk, int icmd, char *strt);
+void		ft_heredocinit(t_shell *msh, int ifrk, int icmd, char *strt);
 // inputfile
 int			ft_parseinputfiles(t_shell *msh, int forknumber);
 char		*ft_getendinputfile(t_shell *msh, int forknumber, int icmd, int i);

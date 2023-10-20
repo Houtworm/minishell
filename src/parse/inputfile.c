@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/17 16:21:59 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 17:40:24 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/20 18:01:58 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_foundinputfile(t_shell *msh, int frkn, int icmd, char *start)
 
 	i = ft_strlen(start);
 	if (msh->frk[frkn].cmd[icmd].line[i + 1] == '<')
-		ft_heredocinit(i, msh, frkn, icmd, start);
+		ft_heredocinit(msh, frkn, icmd, start);
 	else
 		if (ft_infileinit(msh, frkn, icmd, start))
 			return (2);

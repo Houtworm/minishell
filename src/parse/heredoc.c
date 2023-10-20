@@ -6,28 +6,11 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:01:09 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 18:04:40 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-char	*ft_getendheredoc(t_shell *msh, int forknumber, int icmd, int i)
-{
-	char	*end;
-	int		j;
-
-	j = 0;
-	end = ft_calloc(ft_strlen(msh->frk[forknumber].cmd[icmd].line), 8);
-	while (msh->frk[forknumber].cmd[icmd].line[i])
-	{
-		end[j] = msh->frk[forknumber].cmd[icmd].line[i];
-		i++;
-		j++;
-	}
-	end[j] = '\0';
-	return (end);
-}
 
 char	*ft_getdelimiterheredoc(t_shell *msh, int f, int c, int i)
 {
@@ -59,7 +42,25 @@ int	ft_getposheredoc(t_shell *msh, int f, int c, int i)
 	return (i);
 }
 
-void	ft_heredocinit(int i, t_shell *msh, int frki, int icmd, char *start)
+char	*ft_getendheredoc(t_shell *msh, int frki, int icmd, int i)
+{
+	char	*end;
+	int		j;
+
+	j = 0;
+	i = ft_getposheredoc(msh, frki, icmd, i);
+	end = ft_calloc(ft_strlen(msh->frk[frki].cmd[icmd].line), 8);
+	while (msh->frk[frki].cmd[icmd].line[i])
+	{
+		end[j] = msh->frk[frki].cmd[icmd].line[i];
+		i++;
+		j++;
+	}
+	end[j] = '\0';
+	return (end);
+}
+
+void	ft_heredocinit(t_shell *msh, int frki, int icmd, char *start)
 {
 	char	*delimiter;
 	char	*cmdn;
@@ -67,15 +68,13 @@ void	ft_heredocinit(int i, t_shell *msh, int frki, int icmd, char *start)
 	char	*end;
 	char	*tmp;
 
-	i = i + 2;
-	delimiter = ft_getdelimiterheredoc(msh, frki, icmd, i);
-	i = ft_getposheredoc(msh, frki, icmd, i);
+	delimiter = ft_getdelimiterheredoc(msh, frki, icmd, ft_strlen(start) + 2);
 	frkn = ft_itoa(frki);
 	cmdn = ft_itoa(icmd);
 	tmp = ft_vastrjoin(7, msh->tmpdir, "heredoc", ".", frkn, ".", cmdn, ".tmp");
 	ft_heredoc(delimiter, tmp, *msh, msh->frk[frki].cmd[icmd].infiles);
 	msh->frk[frki].cmd[icmd].infiles++;
-	end = ft_getendheredoc(msh, frki, icmd, i);
+	end = ft_getendheredoc(msh, frki, icmd, ft_strlen(start) + 2);
 	ft_vafree(5, frkn, cmdn, tmp, delimiter, msh->frk[frki].cmd[icmd].line);
 	msh->frk[frki].cmd[icmd].line = ft_strjoin(start, end);
 	free(end);
