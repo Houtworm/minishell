@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/18 02:37:58 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 13:49:24 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 17:42:24 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,31 +72,14 @@ void	ft_writefiletoinput(t_shell *msh, int frki, int icmd, char *file)
 
 char	*ft_getfileinputfile(t_shell *msh, int f, int c, int i)
 {
-	char	quote;
-	int		j;
 	char	*file;
+	int		j;
 
 	j = 0;
 	file = ft_calloc(ft_strlen(msh->frk[f].cmd[c].line), 8);
-	while (!ft_strchr(" <", msh->frk[f].cmd[c].line[i + j]))
-	{
-		if (ft_strchr("\'\"", msh->frk[f].cmd[c].line[i + j]))
-		{
-			quote = msh->frk[f].cmd[c].line[i + j];
-			i++;
-			while (msh->frk[f].cmd[c].line[i + j] != quote)
-			{
-				file[j] = msh->frk[f].cmd[c].line[i + j];
-				j++;
-			}
-			i++;
-		}
-		else
-		{
-			file[j] = msh->frk[f].cmd[c].line[i + j];
-			j++;
-		}
-	}
+	while (!ft_strchr(" <", msh->frk[f].cmd[c].line[i]))
+		file = ft_cpnonquote(msh->frk[f].cmd[c].line, file, &i, &j);
+	file[j] = '\0';
 	return (file);
 }
 

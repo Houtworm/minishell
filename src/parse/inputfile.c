@@ -6,18 +6,19 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/17 16:21:59 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 16:16:07 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 17:40:24 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_infileinit(int i, t_shell *msh, int f, int c, char *start)
+int	ft_infileinit( t_shell *msh, int f, int c, char *start)
 {
 	char	*end;
 	char	*file;
+	int		i;
 
-	i++;
+	i = ft_strlen(start) + 1;
 	while (msh->frk[f].cmd[c].line[i] && msh->frk[f].cmd[c].line[i] == ' ')
 		i++;
 	file = ft_getfileinputfile(msh, f, c, i);
@@ -63,7 +64,7 @@ int	ft_foundinputfile(t_shell *msh, int frkn, int icmd, char *start)
 	if (msh->frk[frkn].cmd[icmd].line[i + 1] == '<')
 		ft_heredocinit(i, msh, frkn, icmd, start);
 	else
-		if (ft_infileinit(i, msh, frkn, icmd, start))
+		if (ft_infileinit(msh, frkn, icmd, start))
 			return (2);
 	return (0);
 }

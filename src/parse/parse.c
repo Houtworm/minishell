@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 16:45:51 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 17:34:18 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*ft_cpnonquote(char *args, char *new, int *j, int *k)
 {
 	char	quote;
 
-	while (args[*j] && args[*j] != '\'' && args[*j] != '\"')
+	if (args[*j] && args[*j] != '\'' && args[*j] != '\"')
 	{
 		new[*k] = args[*j];
 		(*j)++;
