@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 19:39:36 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:59:54 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,8 @@ t_forks		ft_parseendcondition(t_shell *msh, int ifrk, int icmd, int ifpip);
 int			ft_priority(t_commands *cmd, int cmdnbr, int i, int k);
 // variable
 char		*ft_parsevariable(char *line, t_shell msh, int quote);
+// variable2
+char	*ft_parsebegin(char *line, char *begin, int quote, int *i);
 // tilde
 char		*ft_parsetilde(char *line, t_shell msh);
 // oldline

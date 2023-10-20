@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/20 19:32:07 by houtworm      ########   odam.nl          #
+#    Updated: 2023/10/20 19:59:34 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC		=src/main/main.c\
 		 src/parse/inputfile.c\
 		 src/parse/inputfile2.c\
 		 src/parse/variable.c\
+		 src/parse/variable2.c\
 		 src/parse/tilde.c\
 		 src/parse/oldline.c\
 		 src/exec/fork.c\

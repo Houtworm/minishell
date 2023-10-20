@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 11:25:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 18:04:40 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/20 19:29:33 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*ft_getdelimiterheredoc(t_shell *msh, int f, int c, int i)
 	while (msh->frk[f].cmd[c].line[i] == ' ')
 		i++;
 	j = 0;
-	while (msh->frk[f].cmd[c].line[i] && msh->frk[f].cmd[c].line[i] != ' ')
+	while (msh->frk[f].cmd[c].line[i] && msh->frk[f].cmd[c].line[i] != ' '
+		&& msh->frk[f].cmd[c].line[i] != '<')
 	{
 		delimiter[j] = msh->frk[f].cmd[c].line[i];
 		i++;
@@ -31,24 +32,20 @@ char	*ft_getdelimiterheredoc(t_shell *msh, int f, int c, int i)
 	return (delimiter);
 }
 
-int	ft_getposheredoc(t_shell *msh, int f, int c, int i)
-{
-	while (msh->frk[f].cmd[c].line[i] == ' ')
-		i++;
-	while (msh->frk[f].cmd[c].line[i] && msh->frk[f].cmd[c].line[i] != ' ')
-		i++;
-	while (msh->frk[f].cmd[c].line[i] == ' ')
-		i++;
-	return (i);
-}
-
 char	*ft_getendheredoc(t_shell *msh, int frki, int icmd, int i)
 {
 	char	*end;
 	int		j;
 
 	j = 0;
-	i = ft_getposheredoc(msh, frki, icmd, i);
+	while (msh->frk[frki].cmd[icmd].line[i] == ' ')
+		i++;
+	while (msh->frk[frki].cmd[icmd].line[i]
+		&& msh->frk[frki].cmd[icmd].line[i] != ' '
+		&& msh->frk[frki].cmd[icmd].line[i] != '<')
+		i++;
+	while (msh->frk[frki].cmd[icmd].line[i] == ' ')
+		i++;
 	end = ft_calloc(ft_strlen(msh->frk[frki].cmd[icmd].line), 8);
 	while (msh->frk[frki].cmd[icmd].line[i])
 	{

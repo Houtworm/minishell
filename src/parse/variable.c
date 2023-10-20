@@ -6,62 +6,35 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 23:03:57 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/20 20:00:55 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*ft_quoteinvariable(char *line, char *begin, int *i, int *j)
+char	*ft_parsevar_rest(char *line, char *dst, int *i, int rest)
 {
-	begin[*j] = line[*i];
-	(*i)++;
-	(*j)++;
-	if (line[(*i) - 1] == '\'')
-	{
-		while (line[*i] && line[*i] != '\'')
-		{
-			begin[*j] = line[*i];
-			(*i)++;
-			(*j)++;
-		}
-	}
-	if (line[(*i) - 1] == '\"')
-	{
-		while (line[*i] && line[*i] != '\"')
-		{
-			if (line[*i] == '$' && line[(*i) + 1] != '\''
-				&& line[*i + 1] != '\"' && line[*i + 1] != '(')
-				break ;
-			begin[*j] = line[*i];
-			(*i)++;
-			(*j)++;
-		}
-	}
-	return (begin);
-}
+	int	j;
 
-char	*ft_cpnonvariable(char *line, char *begin, int *i, int *j)
-{
-	begin[*j] = line[*i];
-	(*i)++;
-	(*j)++;
-	if (line[*i] == '$' && line[(*i) + 1] == '(')
+	j = 0;
+	while (!rest && ((line[*i] >= 'A' && line[*i] <= 'Z')
+			|| (line[*i] >= 'a' && line[*i] <= 'z' ) || line[*i] == '_'))
 	{
-		while (line[*i] != ')')
-		{
-			begin[*j] = line[*i];
-			(*i)++;
-			(*j)++;
-		}
-		begin[*j] = line[*i];
+		dst[j] = line[*i];
 		(*i)++;
-		(*j)++;
+		j++;
 	}
-	return (begin);
+	while (rest && line[*i])
+	{
+		dst[j] = line[*i];
+		(*i)++;
+		j++;
+	}
+	dst[j] = '\0';
+	return (dst);
 }
 
-char	*ft_foundvariable(t_shell msh, char *line, int *i)
+char	*ft_parsevarval(t_shell msh, char *line, char **var, int *i)
 {
 	char	*val;
 
@@ -82,13 +55,17 @@ char	*ft_foundvariable(t_shell msh, char *line, int *i)
 	}
 	else if (!line[*i])
 		val = ft_strdup("$");
+	else
+	{
+		*var = ft_parsevar_rest(line, *var, i, 0);
+		val = ft_getenvval(msh.envp, *var);
+	}
 	return (val);
 }
 
 char	*ft_parsevariable(char *line, t_shell msh, int quote)
 {
 	int		i;
-	int		j;
 	char	*begin;
 	char	*var;
 	char	*val;
@@ -100,43 +77,9 @@ char	*ft_parsevariable(char *line, t_shell msh, int quote)
 	while (ft_checkoutquotevar(line) >= 0)
 	{
 		i = 0;
-		j = 0;
-		while (line[i] && line[i] != '$')
-		{
-			if (quote && (line[i] == '\'' || line[i] == '\"'))
-				begin = ft_quoteinvariable(line, begin, &i, &j);
-			if (!line[i] || (line[i] == '$' && line[i + 1] != '\''
-					&& line[i + 1] != '\"' && line[i + 1] != '('))
-				break ;
-			begin = ft_cpnonvariable(line, begin, &i, &j);
-		}
-		if (line[i] == '$')
-		{
-			begin[j] = '\0';
-			i++;
-		}
-		if (!line[i] || ft_strchr("?$ ", line[i]))
-			val = ft_foundvariable(msh, line, &i);
-		else
-		{
-			j = 0;
-			while ((line[i] >= 'A' && line[i] <= 'Z') || (line[i] >= 'a' && line[i] <= 'z' ) || line[i] == '_')
-			{
-				var[j] = line[i];
-				i++;
-				j++;
-			}
-			var[j] = '\0';
-			val = ft_getenvval(msh.envp, var);
-		}
-		j = 0;
-		while (line[i])
-		{
-			rest[j] = line[i];
-			i++;
-			j++;
-		}
-		rest[j] = '\0';
+		begin = ft_parsebegin(line, begin, quote, &i);
+		val = ft_parsevarval(msh, line, &var, &i);
+		rest = ft_parsevar_rest(line, rest, &i, 1);
 		free (line);
 		line = ft_vastrjoin(3, begin, val, rest);
 		free (val);
