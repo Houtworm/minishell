@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   globparent.c                                       :+:    :+:            */
+/*   globinitparent.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/20 18:49:57 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 18:50:01 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:02:26 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	ft_removequotesfrompardir(t_globs *globs)
 	globs->pardir[j] = '\0';
 }
 
-
 int	ft_getparent(t_globs *globs)
 {
 	int	i;
@@ -103,4 +102,3 @@ int	ft_getparent(t_globs *globs)
 	}
 	return (0);
 }
-

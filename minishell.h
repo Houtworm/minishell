@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 18:56:08 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:10:20 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,9 @@ int			ft_which(t_commands cmd, t_shell *msh);
 int			ft_parseglobs(t_commands *cmd, char **envp);
 // globinit
 int			ft_getglob(t_globs *globs, int startpos);
+void		ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char type);
 t_globs		*ft_initglobstruct(char *pipeline);
+int			ft_skipbutcopygstart(t_globs *globs, int startpos);
 void		ft_removequotesfromglobstart(t_globs *globs);
 void		ft_removequotesfromglobend(t_globs *globs);
 // globsub

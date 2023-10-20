@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   globinitsub.c                                      :+:    :+:            */
+/*   globinitsubdir.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/20 18:50:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 18:50:09 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:02:38 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,3 @@ void	ft_getsubdir(t_globs *globs)
 	}
 	globs->subdir[i] = NULL;
 }
-

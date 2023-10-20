@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/20 18:56:47 by houtworm      ########   odam.nl          #
+#    Updated: 2023/10/20 19:12:40 by houtworm      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,11 +58,11 @@ SRC		=src/main/main.c\
 		 src/builtin/exec.c\
 		 src/builtin/which.c\
 		 src/globs/globs.c\
-		 src/globs/globinit.c\
-		 src/globs/globinitsubdir.c\
-		 src/globs/globinitparent.c\
-		 src/globs/globsub.c\
-		 src/globs/globpoint.c\
+		 src/globs/initglob.c\
+		 src/globs/initsubdir.c\
+		 src/globs/initparent.c\
+		 src/globs/globsubdir.c\
+		 src/globs/globpointer.c\
 		 src/globs/globtools.c\
 		 src/globs/wildcard.c\
 		 src/globs/joker.c\
