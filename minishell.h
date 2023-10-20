@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 18:00:11 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/20 18:56:08 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,10 +217,10 @@ int			ft_which(t_commands cmd, t_shell *msh);
 // globs
 int			ft_parseglobs(t_commands *cmd, char **envp);
 // globinit
-void		ft_getsubdir(t_globs *globs);
-int			ft_getparent(t_globs *globs);
 int			ft_getglob(t_globs *globs, int startpos);
 t_globs		*ft_initglobstruct(char *pipeline);
+void		ft_removequotesfromglobstart(t_globs *globs);
+void		ft_removequotesfromglobend(t_globs *globs);
 // globsub
 int			ft_recursivematchsub(t_globs *globs, char *path, char *dnme, int i);
 // globpoint
@@ -233,6 +233,16 @@ int			ft_newpipeline(t_globs *globs);
 void		ft_addglobmatch(t_globs *globs, char *match);
 void		ft_backupglob(t_globs *globs);
 void		ft_cleanglob(t_globs *globs);
+// globinitparent
+int			ft_getparent(t_globs *globs);
+void		ft_cleanpardir(t_globs *globs);
+void		ft_removequotesfrompardir(t_globs *globs);
+
+// globinitsubdir
+void		ft_cleansubdir(t_globs *globs);
+void		ft_removequotesfromsubdir(t_globs *globs);
+void		ft_getsubdir(t_globs *globs);
+
 // wildcard
 int			ft_nextsubwildcard(t_globs *globs, int subi, int reali, int globi);
 int			ft_firstsubwildcard(t_globs *g, struct dirent *dre, int si, int ri);

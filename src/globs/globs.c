@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/03 09:12:54 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 18:31:54 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 18:51:53 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,12 @@ int	ft_globfoundglob(t_globs *globs, t_commands *cmd, int startpos, char **envp)
 	ft_getparent(globs);
 	ft_getsubdir(globs);
 	ft_backupglob(globs);
-	ft_cleanglob(globs);
+	ft_removequotesfromglobstart(globs);
+	ft_removequotesfromglobend(globs);
+	ft_cleanpardir(globs);
+	ft_cleansubdir(globs);
+	ft_removequotesfrompardir(globs);
+	ft_removequotesfromsubdir(globs);
 	ft_parseglob(globs, envp);
 	ft_newpipeline(globs);
 	if (cmd->debug)

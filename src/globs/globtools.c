@@ -6,168 +6,11 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:34:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 05:52:27 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/20 18:52:03 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	ft_cleanpardir(t_globs *globs)
-{
-	int		oldcount;
-	int		newcount;
-
-	oldcount = 0;
-	newcount = 0;
-	while (globs->pardir[oldcount])
-	{
-		if (globs->pardir[oldcount] == '/')
-		{
-			oldcount++;
-			newcount = oldcount;
-			while (globs->pardir[oldcount] == '/')
-				oldcount++;
-			if (oldcount > newcount)
-			{
-				while (globs->pardir[oldcount] && globs->pardir[oldcount] != '/')
-				{
-					globs->pardir[newcount] = globs->pardir[oldcount];
-					oldcount++;
-					newcount++;
-				}
-			}
-		}
-		oldcount++;
-	}
-	globs->pardir[newcount] = '\0';
-}
-
-void	ft_cleansubdir(t_globs *globs)
-{
-	int		olddir;
-	int		newdir;
-	int		oldcount;
-	int		newcount;
-
-	olddir = 0;
-	newdir = 0;
-	while (globs->subdir[olddir])
-	{
-		while (globs->subdir[olddir] && globs->subdir[olddir][0] == '/' && globs->subdir[olddir][1] == '\0')
-			olddir++;
-		if (!globs->subdir[olddir])
-		{
-			newdir++;
-			break ;
-		}
-		oldcount = 0;
-		newcount = 0;
-		while (globs->subdir[olddir][oldcount])
-		{
-			if (globs->subdir[olddir][oldcount] == '/')
-			{
-				globs->subdir[newdir][newcount] = globs->subdir[olddir][oldcount];
-				newcount++;
-				oldcount++;
-				while (globs->subdir[olddir][oldcount] == '/')
-					oldcount++;
-				while (globs->subdir[olddir][oldcount] && globs->subdir[olddir][oldcount] != '/')
-				{
-					globs->subdir[newdir][newcount] = globs->subdir[olddir][oldcount];
-					newcount++;
-					oldcount++;
-				}
-			}
-			globs->subdir[newdir][newcount] = globs->subdir[olddir][oldcount];
-			oldcount++;
-			newcount++;
-		}
-		globs->subdir[newdir][newcount] = '\0';
-		newdir++;
-		olddir++;
-	}
-	while (newdir < olddir)
-	{
-		free(globs->subdir[newdir]);
-		globs->subdir[newdir] = NULL;
-		newdir++;
-	}
-}
-
-void	ft_removequotesfromsubdir(t_globs *globs)
-{
-	int		i;
-	int		j;
-	int		k;
-	char	quote;
-
-	i = 0;
-	while (globs->subdir[i])
-	{
-		j = 0;
-		k = 0;
-		while (globs->subdir[i][j])
-		{
-			if (ft_strchr("\'\"", globs->subdir[i][j]))
-			{
-				quote = globs->subdir[i][j];
-				j++;
-				while (globs->subdir[i][j] != quote)
-				{
-					if (ft_strchr("*?[", globs->subdir[i][j]))
-					{
-						globs->subdir[i][k] = '\\';
-						k++;
-					}
-					globs->subdir[i][k] = globs->subdir[i][j];
-					j++;
-					k++;
-				}
-				j++;
-			}
-			if (globs->subdir[i][j])
-			{
-				globs->subdir[i][k] = globs->subdir[i][j];
-				k++;
-				j++;
-			}
-		}
-		globs->subdir[i][k] = '\0';
-		i++;
-	}
-}
-
-void	ft_removequotesfrompardir(t_globs *globs)
-{
-	int		i;
-	int		j;
-	char	quote;
-
-	i = 0;
-	j = 0;
-	while (globs->pardir[i])
-	{
-		if (ft_strchr("\'\"", globs->pardir[i]))
-		{
-			quote = globs->pardir[i];
-			i++;
-			while (globs->pardir[i] != quote)
-			{
-				globs->pardir[j] = globs->pardir[i];
-				j++;
-				i++;
-			}
-			i++;
-		}
-		while (globs->pardir[i] && !ft_strchr("\'\"", globs->pardir[i]))
-		{
-			globs->pardir[j] = globs->pardir[i];
-			j++;
-			i++;
-		}
-	}
-	globs->pardir[j] = '\0';
-}
 
 void	ft_removequotesfromglobstart(t_globs *globs)
 {
@@ -236,16 +79,6 @@ void	ft_removequotesfromglobend(t_globs *globs)
 		}
 	}
 	globs->gend[j] = '\0';
-}
-
-void	ft_cleanglob(t_globs *globs)
-{
-	ft_cleanpardir(globs);
-	ft_cleansubdir(globs);
-	ft_removequotesfrompardir(globs);
-	ft_removequotesfromsubdir(globs);
-	ft_removequotesfromglobstart(globs);
-	ft_removequotesfromglobend(globs);
 }
 
 void	ft_backupglob(t_globs *globs)
