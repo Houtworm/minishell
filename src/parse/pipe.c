@@ -6,12 +6,11 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/28 13:26:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 16:14:07 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 16:18:31 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 int	ft_getpipe(t_shell *msh, int i, int k)
 {
