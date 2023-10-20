@@ -1,6 +1,9 @@
 # Minishell
 ---
 ## Todo
+### Parsing
+- Heredoc should react to signals
+- chdir should get home from $HOME not $USER
 ### Tester
 - we should add a lot of bad syntax to make sure we won't segfault during evaluation.
 
