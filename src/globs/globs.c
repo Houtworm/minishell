@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/03 09:12:54 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 18:26:18 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 18:31:54 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,33 @@ int	ft_skipbutcopygstart(t_globs *globs, int startpos)
 	return (startpos);
 }
 
+void	ft_globmatches(t_globs *globs, char *dname, unsigned char type, char *fullpath)
+{
+	char	*temp;
+
+	if (globs->subdir[0])
+	{
+		if (type == DT_DIR)
+		{
+			temp = ft_vastrjoin(2, fullpath, dname);
+			free(globs->tempsubdir[0]);
+			globs->tempsubdir[0] = ft_strjoin("/", dname);
+			ft_recursivematchsub(globs, temp, dname, 0);
+			free(temp);
+		}
+	}
+	else
+	{
+		temp = ft_vastrjoin(2, globs->pardir, dname);
+		ft_addglobmatch(globs, temp);
+		free(temp);
+	}
+}
+
 void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char type)
 {
 	int		i;
 	int		j;
-	char	*temp;
 
 	i = 0;
 	j = 0;
@@ -51,23 +73,7 @@ void	ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char
 	{
 		if (ft_firstglob(globs, dname, i))
 		{
-			if (globs->subdir[0])
-			{
-				if (type == DT_DIR)
-				{
-					temp = ft_vastrjoin(2, fullpath, dname);
-					free(globs->tempsubdir[0]);
-					globs->tempsubdir[0] = ft_strjoin("/", dname);
-					ft_recursivematchsub(globs, temp, dname, 0);
-					free(temp);
-				}
-			}
-			else
-			{
-				temp = ft_vastrjoin(2, globs->pardir, dname);
-				ft_addglobmatch(globs, temp);
-				free(temp);
-			}
+			ft_globmatches(globs, dname, type, fullpath);
 		}
 	}
 }
