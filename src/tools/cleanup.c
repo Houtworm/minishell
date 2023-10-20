@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 16:14:18 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:52:45 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,16 @@ void	ft_freenewprompt(t_shell *msh)
 void	ft_freeglobs(t_globs *globs)
 {
 	free(globs->line);
-	free(globs->gstart);
+	free(globs->gsta);
 	free(globs->gend);
 	free(globs->start);
 	free(globs->end);
 	free(globs->glob);
 	free(globs->anyof);
-	free(globs->pardir);
+	free(globs->pdir);
 	free(globs->backup);
-	ft_frearr(globs->subdir);
-	ft_frearr(globs->tempsubdir);
+	ft_frearr(globs->sdir);
+	ft_frearr(globs->tmpsdir);
 	ft_frearr(globs->matches);
 	free(globs);
 }

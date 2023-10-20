@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 19:33:17 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:39:36 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,19 @@ typedef struct s_builtin
 typedef struct s_globs
 {
 	char		*line;
-	char		*gstart;
+	char		*gsta;
 	char		*gend;
 	char		*start;
 	char		*glob;
 	char		*backup;
 	char		*end;
-	char		**subdir;
-	char		**tempsubdir;
+	char		**sdir;
+	char		**tmpsdir;
 	char		*curdir;
 	int			temptype;
-	char		*pardir;
+	char		*pdir;
 	char		**matches;
-	char		*subdirs;
+	//char		*subdirs;
 	int			linecount;
 	int			matchcount;
 	char		*anyof;

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:29:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 05:58:18 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/20 19:40:23 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 int	ft_nextsubglob(t_globs *globs, int si, int ri, int gi)
 {
-	if (globs->subdir[si][gi] == '*')
+	if (globs->sdir[si][gi] == '*')
 		return (ft_nextsubwildcard(globs, si, ri, gi));
-	if (globs->subdir[si][gi] == '?')
+	if (globs->sdir[si][gi] == '?')
 		return (ft_nextsubjoker(globs, si, ri + 1, gi + 1));
-	if (globs->subdir[si][gi] == '[')
+	if (globs->sdir[si][gi] == '[')
 		return (ft_nextsubanyof(globs, si, ri, gi + 1));
 	return (0);
 }
 
 int	ft_firstsubglob(t_globs *globs, struct dirent *dirents, int si, int gi)
 {
-	if (globs->subdir[si][gi] == '*')
+	if (globs->sdir[si][gi] == '*')
 		return (ft_firstsubwildcard(globs, dirents, si, gi));
-	if (globs->subdir[si][gi] == '?')
+	if (globs->sdir[si][gi] == '?')
 		return (ft_firstsubjoker(globs, dirents, si, gi));
-	if (globs->subdir[si][gi] == '[')
+	if (globs->sdir[si][gi] == '[')
 		return (ft_firstsubanyof(globs, dirents, si, gi + 1));
 	return (0);
 }

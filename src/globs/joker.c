@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:51:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:33:35 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:49:23 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_firstjoker(t_globs *globs, char *dname, int ri)
 	int	gi;
 
 	gi = 0;
-	if (globs->gstart[0] != '.' && dname[0] == '.')
+	if (globs->gsta[0] != '.' && dname[0] == '.')
 		return (0);
 	while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
 	{

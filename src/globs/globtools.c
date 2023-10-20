@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:34:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 18:52:03 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:45:51 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,28 @@ void	ft_removequotesfromglobstart(t_globs *globs)
 
 	i = 0;
 	j = 0;
-	while (globs->gstart[i])
+	while (globs->gsta[i])
 	{
-		if (ft_strchr("\'\"", globs->gstart[i]))
+		if (ft_strchr("\'\"", globs->gsta[i]))
 		{
-			quote = globs->gstart[i];
+			quote = globs->gsta[i];
 			i++;
-			while (globs->gstart[i] != quote)
+			while (globs->gsta[i] != quote)
 			{
-				globs->gstart[j] = globs->gstart[i];
+				globs->gsta[j] = globs->gsta[i];
 				j++;
 				i++;
 			}
 			i++;
 		}
-		while (globs->gstart[i] && !ft_strchr("\'\"", globs->gstart[i]))
+		while (globs->gsta[i] && !ft_strchr("\'\"", globs->gsta[i]))
 		{
-			globs->gstart[j] = globs->gstart[i];
+			globs->gsta[j] = globs->gsta[i];
 			j++;
 			i++;
 		}
 	}
-	globs->gstart[j] = '\0';
+	globs->gsta[j] = '\0';
 }
 
 void	ft_removequotesfromglobend(t_globs *globs)
@@ -86,14 +86,14 @@ void	ft_backupglob(t_globs *globs)
 	char	*temp;
 
 	free(globs->backup);
-	if (globs->subdir[0])
+	if (globs->sdir[0])
 	{
-		temp = ft_cpptostr(globs->subdir);
-		globs->backup = ft_vastrjoin(5, globs->pardir, globs->gstart, globs->glob, globs->gend, temp);
+		temp = ft_cpptostr(globs->sdir);
+		globs->backup = ft_vastrjoin(5, globs->pdir, globs->gsta, globs->glob, globs->gend, temp);
 		free(temp);
 	}
 	else
-		globs->backup = ft_vastrjoin(4, globs->pardir, globs->gstart, globs->glob, globs->gend);
+		globs->backup = ft_vastrjoin(4, globs->pdir, globs->gsta, globs->glob, globs->gend);
 }
 
 void	ft_addglobmatch(t_globs *globs, char *match)
@@ -147,8 +147,8 @@ int	ft_newpipeline(t_globs *globs)
 		globs->matches = ft_calloc(100, 4096);
 		free(globs->line);
 		globs->line = ft_vastrjoin(3, globs->start, temp, globs->end);
-		ft_frearr(globs->subdir);
-		globs->subdir = ft_calloc(100, 128);
+		ft_frearr(globs->sdir);
+		globs->sdir = ft_calloc(100, 128);
 		globs->linecount = globs->linecount + k;
 	}
 	ft_vafree(3, globs->anyof, globs->backup, globs->gend);

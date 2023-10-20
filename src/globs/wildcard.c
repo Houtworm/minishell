@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:23 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:35:02 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:51:47 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_firstwildcard(t_globs *globs, char *dname, int ri)
 
 	gi = 0;
 	temp = ri;
-	if (globs->gstart[0] != '.' && dname[0] == '.')
+	if (globs->gsta[0] != '.' && dname[0] == '.')
 		return (0);
 	while (globs->gend[gi] == '*')
 		gi++;

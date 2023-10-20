@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/03 09:12:54 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:27:00 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:40:53 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ char	*ft_globcheckabsolute(t_globs *globs, char **envp)
 	char	*curdir;
 	char	*checkdir;
 
-	if (globs->pardir[0] == '/')
-		checkdir = ft_strdup(globs->pardir);
+	if (globs->pdir[0] == '/')
+		checkdir = ft_strdup(globs->pdir);
 	else
 	{
 		curdir = ft_getpwd(envp, 1);
-		checkdir = ft_vastrjoin(2, curdir, globs->pardir);
+		checkdir = ft_vastrjoin(2, curdir, globs->pdir);
 		free(curdir);
 	}
 	return (checkdir);
@@ -79,14 +79,14 @@ void	ft_globlooper(t_globs *globs, t_commands *cmd, int startp, char **envp)
 		else if (globs->line[globs->linecount + startp] == ' ')
 		{
 			globs->linecount = globs->linecount + startp + 1;
-			ft_bzero(globs->gstart, startp);
+			ft_bzero(globs->gsta, startp);
 			startp = 0;
 		}
 		else if (ft_strchr("*?[", globs->line[globs->linecount + startp]))
 			startp = ft_globfoundglob(globs, cmd, startp, envp);
 		else if (globs->line[globs->linecount + startp])
 		{
-			globs->gstart[startp] = globs->line[globs->linecount + startp];
+			globs->gsta[startp] = globs->line[globs->linecount + startp];
 			startp++;
 		}
 	}

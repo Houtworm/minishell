@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 16:16:45 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 19:52:21 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ void	ft_printglobs(t_globs globs, char *function)
 	i = 0;
 	printf("\e[1;31mglobs struct in %s\e[0;00m\n", function);
 	printf("\e[1;31mpipeline: %s\e[0;00m\n", globs.line);
-	printf("\e[1;31mpardir: %s\e[0;00m\n", globs.pardir);
-	printf("\e[1;31mgstart: %s\e[0;00m\n", globs.gstart);
+	printf("\e[1;31mpardir: %s\e[0;00m\n", globs.pdir);
+	printf("\e[1;31mgstart: %s\e[0;00m\n", globs.gsta);
 	printf("\e[1;31mglob: %c\e[0;00m\n", globs.glob[0]);
 	printf("\e[1;31mgend: %s\e[0;00m\n", globs.gend);
-	while (globs.subdir[i])
+	while (globs.sdir[i])
 	{
-		printf("\e[1;31msubdir %d: %s\e[0;00m\n", i, globs.subdir[i]);
+		printf("\e[1;31msubdir %d: %s\e[0;00m\n", i, globs.sdir[i]);
 		i++;
 	}
 	printf("\e[1;31mstart: %s\e[0;00m\n", globs.start);
