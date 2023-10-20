@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 16:16:18 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 16:45:51 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,13 +175,12 @@ int	ft_parsecommands(t_shell *msh, int f, int c)
 	return (0);
 }
 
-//if we remove the printing, it will be normed
 int	ft_parseline(char *line, t_shell *msh, int forknumber)
 {
 	free(msh->line);
 	msh->line = ft_strdup(line);
 	if (!ft_parseoldline(msh))
-		return (127);
+		return (ft_errorret("command not found", "!!", 127));
 	if (ft_startsyntax(msh))
 		return (2);
 	while (check_quote_closed(msh))
@@ -191,7 +190,7 @@ int	ft_parseline(char *line, t_shell *msh, int forknumber)
 	}
 	ft_parsehashtag(msh);
 	if (msh->line[0] == '\0')
-		return (1);
+		return (4);
 	if (ft_checksyntax(msh))
 		return (2);
 	ft_parsepipe(msh);
@@ -201,7 +200,7 @@ int	ft_parseline(char *line, t_shell *msh, int forknumber)
 	{
 		ft_parseendcondition(msh, forknumber, 0, 0);
 		if (ft_parseinputfiles(msh, forknumber))
-			return (3);
+			return (1);
 		if (msh->debug)
 			ft_printforks(msh->frk[forknumber], forknumber);
 		forknumber++;

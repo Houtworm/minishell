@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 17:47:36 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/20 16:47:51 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	ft_mainloop(t_shell *msh)
 {
 	char	*line;
-	int		ret;
 
 	ft_printprompt(msh, msh->envp);
 	line = readline("$ ");
@@ -25,16 +24,9 @@ int	ft_mainloop(t_shell *msh)
 	if (!ft_isallbyte(line, ' '))
 	{
 		ft_writehistory(line, msh->historyfile, msh);
-		ret = ft_parseline(line, msh, 0);
-		if (ret == 2)
-			return (2);
-		if (ret == 127)
-			return (ft_errorret("command not found", "!!", 127));
-		if (ret == 3)
-		{
-			msh->code = 1;
-			return (1);
-		}
+		msh->code = ft_parseline(line, msh, 0);
+		if (msh->code)
+			return (msh->code);
 		msh->code = ft_forktheforks(msh);
 		ft_freenewprompt(msh);
 		free(line);
@@ -76,14 +68,13 @@ int	ft_singlecommand(t_shell *msh, char *line)
 	int		ret;
 
 	ret = ft_parseline(line, msh, 0);
-	if (ret == 1)
-		return (0);
-	if (ret == 3)
-		return (1);
-	if (ret == 2)
-		return (2);
-	if (ret == 127)
-		return (ft_errorret("command not found", "!!", 127));
+	if (ret)
+	{
+		if (ret == 4)
+			return (0);
+		else
+			return (ret);
+	}
 	return (ft_forktheforks(msh));
 }
 
