@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 19:35:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 22:23:11 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/20 16:15:53 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	ft_foundcondition(t_shell *msh, int n, int a, int ifpip)
 	}
 	else
 		msh->frk[n].cmd[a + 1].condition = 0;
-	if (msh->frk[n].cmd[a + 1].condition && msh->forkamount > n)
+	if (msh->frk[n].cmd[a + 1].condition && msh->forks > n)
 		msh->frk[n + 1].waitforlast = 1;
 	ifpip++;
 	return (ifpip);
@@ -85,9 +85,9 @@ t_forks	ft_parseendcondition(t_shell *msh, int n, int a, int k)
 {
 	int		i;
 
-	msh->frk[n].cmdamount = ft_countendconditions(msh->frk[n].line, 0, 0);
+	msh->frk[n].cmds = ft_countendconditions(msh->frk[n].line, 0, 0);
 	msh->frk[n].cmd = ft_calloc(10000 * sizeof(t_commands), 1);
-	while (msh->frk[n].line[k] && a < msh->frk[n].cmdamount)
+	while (msh->frk[n].line[k] && a < msh->frk[n].cmds)
 	{
 		i = 0;
 		msh->frk[n].cmd[a].line = ft_calloc(1000 * 8, 1);

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 06:43:18 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/20 16:15:34 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	**ft_preparepipes(t_shell *msh)
 	int	i;
 
 	i = 0;
-	pipes = ft_calloc(sizeof(int *) * (msh->forkamount + 2), 1);
+	pipes = ft_calloc(sizeof(int *) * (msh->forks + 2), 1);
 	if (pipes == NULL)
 		ft_errorexit("Error allocating memory", "malloc", 1);
-	while (i <= msh->forkamount + 1)
+	while (i <= msh->forks + 1)
 	{
 		pipes[i] = ft_calloc(sizeof(int) * 2, 1);
 		if (pipes[i] == NULL)
@@ -41,7 +41,7 @@ int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
 	{
 		icmd = 0;
 		ifork = forknbr;
-		while (icmd < fork[ifork].cmdamount)
+		while (icmd < fork[ifork].cmds)
 		{
 			if (fork[ifork].cmd[icmd].condition)
 				return (1);
@@ -52,7 +52,7 @@ int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
 	while (fork[ifork].line)
 	{
 		icmd = 0;
-		while (icmd < fork[ifork].cmdamount)
+		while (icmd < fork[ifork].cmds)
 		{
 			if (fork[ifork].cmd[icmd].condition)
 				return (1);
@@ -72,11 +72,11 @@ int	ft_forktheforks(t_shell *msh)
 
 	forknumber = 0;
 	status = 1;
-	if (msh->forkamount > 1)
+	if (msh->forks > 1)
 	{
 		msh->pipes = ft_preparepipes(msh);
 		pipe(msh->pipes[forknumber]);
-		while (msh->forkamount > forknumber)
+		while (msh->forks > forknumber)
 		{
 			if (msh->frk[forknumber].waitforlast)
 			{
@@ -100,7 +100,7 @@ int	ft_forktheforks(t_shell *msh)
 			forknumber++;
 		}
 		forknumber = 0;
-		while (msh->forkamount > forknumber)
+		while (msh->forks > forknumber)
 		{
 			close(msh->pipes[forknumber][0]);
 			close(msh->pipes[forknumber][1]);

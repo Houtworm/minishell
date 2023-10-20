@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 06:22:32 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/20 16:16:45 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ void	ft_printshell(t_shell msh)
 {
 	printf("\e[1;34mshell struct\e[0;00m\n");
 	printf("\e[1;34mline: %s\e[0;00m\n", msh.line);
-	printf("\e[1;34mforkamount: %d\e[0;00m\n", msh.forkamount);
+	printf("\e[1;34mforkamount: %d\e[0;00m\n", msh.forks);
 }
 
 void	ft_printforks(t_forks forks, int forknumber)
 {
 	printf("\e[1;35mforks struct %d\e[0;00m\n", forknumber);
 	printf("\e[1;35mpipeline: %s\e[0;00m\n", forks.line);
-	printf("\e[1;35mcmdamount: %d\e[0;00m\n", forks.cmdamount);
+	printf("\e[1;35mcmdamount: %d\e[0;00m\n", forks.cmds);
 }
 
 void	ft_printcommands(t_commands cmd, int cmdnbr, int forknbr)
@@ -82,7 +82,7 @@ void	ft_printdup(t_commands cmd, int cmdnbr, int forknbr)
 		printf("\e[1;32minput from %d files\e[0;00m\n", cmd.infiles);
 	else
 		printf("\e[1;32minput from stdin\e[0;00m\n");
-	if (cmdnbr + 1 == cmd.cmdamount && forknbr + 1 < cmd.forkamount)
+	if (cmdnbr + 1 == cmd.cmds && forknbr + 1 < cmd.forks)
 		printf("\e[1;32moutput to pipe\e[0;00m\n");
 	else if (cmd.ofi[0])
 	{

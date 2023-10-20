@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 13:45:56 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/20 16:14:18 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	ft_freenewprompt(t_shell *msh)
 
 	ft_freeforks(msh->frk);
 	i = 0;
-	if (msh->forkamount > 1)
+	if (msh->forks > 1)
 	{
-		while (msh->forkamount >= i)
+		while (msh->forks >= i)
 		{
 			free(msh->pipes[i]);
 			i++;

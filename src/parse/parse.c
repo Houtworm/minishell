@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 18:54:37 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/20 16:16:18 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int	ft_parsecommands(t_shell *msh, int f, int c)
 	char	**paths;
 
 	msh->frk[f].cmd[c].debug = msh->debug;
-	msh->frk[f].cmd[c].forkamount = msh->forkamount;
+	msh->frk[f].cmd[c].forks = msh->forks;
 	msh->frk[f].cmd[c].prio = ft_priority(msh->frk[f].cmd, c, 0, 0);
 	ft_parsealiases(&msh->frk[f].cmd[c], *msh);
 	msh->frk[f].cmd[c].line = ft_parsevariable(msh->frk[f].cmd[c].line, *msh, 1);
@@ -163,7 +163,7 @@ int	ft_parsecommands(t_shell *msh, int f, int c)
 	msh->frk[f].cmd[c].arg = ft_removequotes(paths);
 	if (!msh->frk[f].cmd[c].arg[0])
 		return (1);
-	msh->frk[f].cmd[c].cmdamount = msh->frk[f].cmdamount;
+	msh->frk[f].cmd[c].cmds = msh->frk[f].cmds;
 	paths = ft_getpaths(msh->envp, 1);
 	if (!paths)
 		msh->frk[f].cmd[c].absolute = ft_strdup(msh->frk[f].cmd[c].arg[0]);
@@ -197,7 +197,7 @@ int	ft_parseline(char *line, t_shell *msh, int forknumber)
 	ft_parsepipe(msh);
 	if (msh->debug)
 		ft_printshell(*msh);
-	while (msh->forkamount > forknumber)
+	while (msh->forks > forknumber)
 	{
 		ft_parseendcondition(msh, forknumber, 0, 0);
 		if (ft_parseinputfiles(msh, forknumber))

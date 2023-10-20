@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 06:44:56 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/20 16:15:26 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_checklastcode(t_forks fork, t_shell *msh)
 
 	icmd = 0;
 	file = ft_strjoin(msh->tmpdir, "lastcode.tmp");
-	while (icmd < fork.cmdamount)
+	while (icmd < fork.cmds)
 	{
 		if (((fork.cmd[icmd].condition == 1 && fork.cmd[icmd].lastcode != 0) || (fork.cmd[icmd].condition == 2 && fork.cmd[icmd].lastcode == 0)))
 		{
@@ -96,7 +96,7 @@ int	ft_executecommand(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 			signal(SIGQUIT, ft_sighandler);
 			if (ft_dupmachine(cmdnbr, forknbr, msh) == 2)
 				return (1);
-			if (msh->forkamount > 1)
+			if (msh->forks > 1)
 			{
 				close(msh->pipes[forknbr][1]);
 				close(msh->pipes[forknbr][0]);
@@ -106,7 +106,7 @@ int	ft_executecommand(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 			execve(cmd.absolute, cmd.arg, msh->envp);
 			ft_errorexit("command not found", cmd.absolute, 127);
 		}
-		if (msh->forkamount > 1)
+		if (msh->forks > 1)
 		{
 			close(msh->pipes[forknbr][1]);
 			close(msh->pipes[forknbr][0]);
@@ -125,7 +125,7 @@ int	ft_executeforks(int forknbr, t_shell *msh, int condition)
 	int	cmdnbr;
 
 	cmdnbr = 0;
-	while (msh->frk[forknbr].cmdamount > cmdnbr)
+	while (msh->frk[forknbr].cmds > cmdnbr)
 	{
 		ft_frearr(msh->envp);
 		msh->envp = ft_fdtocharpp(msh);

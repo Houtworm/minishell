@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/17 16:21:59 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 13:49:11 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 16:16:07 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	ft_parseinputfiles(t_shell *msh, int frkn)
 
 	icmd = 0;
 	start = ft_calloc(ft_strlen(msh->frk[frkn].cmd[icmd].line), 8);
-	while (icmd < msh->frk[frkn].cmdamount)
+	while (icmd < msh->frk[frkn].cmds)
 	{
 		msh->frk[frkn].cmd[icmd].infiles = 0;
 		if (ft_checkoutquote(msh->frk[frkn].cmd[icmd].line, '<', 2) >= 0)

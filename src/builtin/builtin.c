@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 15:11:33 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 01:53:25 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/20 16:14:47 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_builtinfork(int cmdnbr, int forknbr, t_shell *msh, int i)
 	{
 		if (ft_dupmachine(cmdnbr, forknbr, msh) == 2)
 			exit (1);
-		if (msh->forkamount > 1)
+		if (msh->forks > 1)
 		{
 			close(msh->pipes[forknbr][1]);
 			close(msh->pipes[forknbr][0]);

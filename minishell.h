@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 13:49:46 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/20 16:15:15 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_globs
 
 typedef struct s_commands
 {
-	int			forkamount;
+	int			forks;
 	int			lastcode;
 	int			condition;
 	int			prio;
@@ -81,7 +81,7 @@ typedef struct s_commands
 	char		*absolute;
 	char		**arg;
 	int			code;
-	int			cmdamount;
+	int			cmds;
 	int			debug;
 }	t_commands;
 
@@ -90,7 +90,7 @@ typedef struct s_forks
 	t_commands	*cmd;
 	int			pid;
 	char		*line;
-	int			cmdamount;
+	int			cmds;
 	int			waitforlast;
 }	t_forks;
 
@@ -109,7 +109,7 @@ typedef struct s_shell
 	int			**pipes;
 	char		*oldline;
 	char		*line;
-	int			forkamount;
+	int			forks;
 	int			code;
 	int			debug;
 }	t_shell;
