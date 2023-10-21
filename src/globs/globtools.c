@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   globtools.c                                        :+:    :+:            */
+/*   globtools.c                                        :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:34:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:45:51 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 12:24:26 by houtworm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,26 @@ void	ft_addglobmatch(t_globs *globs, char *match)
 	globs->matchcount++;
 }
 
+void	ft_globcleannewline(t_globs *globs, char *temp, int k)
+{
+	if (globs->matches[0])
+	{
+		ft_frearr(globs->matches);
+		globs->matches = ft_calloc(100, 4096);
+		free(globs->line);
+		globs->line = ft_vastrjoin(3, globs->start, temp, globs->end);
+		ft_frearr(globs->sdir);
+		globs->sdir = ft_calloc(100, 128);
+		globs->linecount = globs->linecount + k;
+	}
+	ft_vafree(3, globs->anyof, globs->backup, globs->gend);
+	globs->anyof = ft_calloc(100, 8);
+	globs->backup = ft_calloc(10000, 8);
+	globs->gend = ft_calloc(1000, 8);
+	globs->matchcount = 0;
+	free(temp);
+}
+
 int	ft_newpipeline(t_globs *globs)
 {
 	int		i;
@@ -143,19 +163,7 @@ int	ft_newpipeline(t_globs *globs)
 			i++;
 		}
 		temp[k] = '\0';
-		ft_frearr(globs->matches);
-		globs->matches = ft_calloc(100, 4096);
-		free(globs->line);
-		globs->line = ft_vastrjoin(3, globs->start, temp, globs->end);
-		ft_frearr(globs->sdir);
-		globs->sdir = ft_calloc(100, 128);
-		globs->linecount = globs->linecount + k;
 	}
-	ft_vafree(3, globs->anyof, globs->backup, globs->gend);
-	globs->anyof = ft_calloc(100, 8);
-	globs->backup = ft_calloc(10000, 8);
-	globs->gend = ft_calloc(1000, 8);
-	globs->matchcount = 0;
-	free(temp);
+	ft_globcleannewline(globs, temp, k);
 	return (0);
 }

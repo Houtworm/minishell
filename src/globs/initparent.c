@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   initparent.c                                       :+:    :+:            */
+/*   initparent.c                                       :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/20 18:49:57 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:53:37 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 12:09:27 by houtworm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,23 @@ void	ft_removequotesfrompardir(t_globs *globs)
 
 	i = 0;
 	j = 0;
-	while (globs->pdir[i])
+	while (globs->pdir[i + j])
 	{
-		if (ft_strchr("\'\"", globs->pdir[i]))
+		if (ft_strchr("\'\"", globs->pdir[i + j]))
 		{
-			quote = globs->pdir[i];
+			quote = globs->pdir[i + j];
 			i++;
-			while (globs->pdir[i] != quote)
+			while (globs->pdir[i + j] != quote)
 			{
-				globs->pdir[j] = globs->pdir[i];
+				globs->pdir[j] = globs->pdir[i + j];
 				j++;
-				i++;
 			}
 			i++;
 		}
-		while (globs->pdir[i] && !ft_strchr("\'\"", globs->pdir[i]))
+		while (globs->pdir[i + j] && !ft_strchr("\'\"", globs->pdir[i + j]))
 		{
-			globs->pdir[j] = globs->pdir[i];
+			globs->pdir[j] = globs->pdir[i + j];
 			j++;
-			i++;
 		}
 	}
 	globs->pdir[j] = '\0';

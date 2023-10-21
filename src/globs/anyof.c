@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   anyof.c                                            :+:    :+:            */
+/*   anyof.c                                            :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:51:38 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/21 09:13:20 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 12:11:50 by houtworm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ int	ft_nextanyof(t_globs *globs, char *dname, int ri, int gi)
 		gi++;
 	}
 	if (globs->gend[gi - 1] != '\\' && globs->gend[gi] && ft_strchr("*?[", globs->gend[gi]))
-	{
 		return (ft_nextglob(globs, dname, ri, gi));
-	}
 	if (globs->gend[gi] == '\0' && dname[ri] == '\0')
 		return (1);
 	return (0);

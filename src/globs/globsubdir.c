@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   globsubdir.c                                       :+:    :+:            */
+/*   globsubdir.c                                       :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:29:24 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:43:24 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 12:19:13 by houtworm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,14 @@ void	ft_subatend(t_globs *globs, int i, int offset, char *fullpath, struct diren
 		ft_addglobmatch(globs, temp2);
 		ft_vafree(2, temp, temp2);
 	}
-	else
+	else if (dirents->d_type == DT_DIR)
 	{
-		if (dirents->d_type == DT_DIR)
-		{
-			free(globs->tmpsdir[i]);
-			globs->tmpsdir[i] = ft_strjoin("/", dirents->d_name);
-			temp = ft_vastrjoin(3, fullpath, "/", dirents->d_name);
-			globs->temptype = dirents->d_type;
-			ft_recursivematchsub(globs, temp, dname, i + 1);
-			free(temp);
-		}
+		free(globs->tmpsdir[i]);
+		globs->tmpsdir[i] = ft_strjoin("/", dirents->d_name);
+		temp = ft_vastrjoin(3, fullpath, "/", dirents->d_name);
+		globs->temptype = dirents->d_type;
+		ft_recursivematchsub(globs, temp, dname, i + 1);
+		free(temp);
 	}
 }
 
