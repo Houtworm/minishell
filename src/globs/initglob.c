@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:32:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/21 16:06:13 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/21 18:59:02 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,21 +110,22 @@ int	ft_getglob(t_globs *globs, int spos, int epos, char quote)
 t_globs	*ft_initglobstruct(char *line)
 {
 	t_globs			*globs;
-	int				linelenght;
+	int				linelength;
 
-	linelenght = ft_strlen(line);
-	globs = ft_calloc(linelenght, 128);
-	globs->gsta = ft_calloc(linelenght, 8);
+	linelength = ft_strlen(line);
+	globs = ft_calloc(linelength, 256);
+	globs->gsta = ft_calloc(linelength, 8);
 	globs->gend = ft_calloc(500, 8);
-	globs->start = ft_calloc(linelenght, 8);
-	globs->end = ft_calloc(linelenght, 8);
-	globs->glob = ft_calloc(linelenght, 8);
-	globs->backup = ft_calloc(linelenght, 8);
-	globs->sdir = ft_calloc(linelenght, 128);
-	globs->tmpsdir = ft_calloc(linelenght, 128);
-	globs->pdir = ft_calloc(linelenght * 2, 8);
-	globs->anyof = ft_calloc(linelenght, 8);
-	globs->matches = ft_calloc(linelenght, 4096);
+	globs->start = ft_calloc(linelength, 8);
+	globs->end = ft_calloc(linelength, 8);
+	globs->glob = ft_calloc(linelength, 8);
+	globs->backup = ft_calloc(linelength, 8);
+	globs->sdir = ft_calloc(linelength, 128);
+	globs->tmpsdir = ft_calloc(linelength, 128);
+	globs->pdir = ft_calloc(linelength * 2, 8);
+	globs->anyof = ft_calloc(linelength, 8);
+	globs->dname = ft_calloc(linelength, 1000);
+	globs->matches = ft_calloc(linelength, 4096);
 	globs->line = ft_strdup(line);
 	globs->li = 0;
 	globs->matchcount = 0;
