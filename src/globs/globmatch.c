@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 13:34:34 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/21 13:55:41 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/21 14:10:18 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,10 @@ void	ft_globcleannewline(t_globs *globs, char *temp, int k)
 	free(temp);
 }
 
-char	*ft_newpipefoundmatch(t_globs *globs)
+void	ft_newpipefoundmatch(t_globs *globs, char *temp, int i, int k)
 {
-	char	*temp;
-	int		i;
 	int		j;
-	int		k;
 
-	temp = ft_calloc(100000, 8);
-	k = 0;
-	i = 0;
 	while (globs->matches[i])
 	{
 		j = 0;
@@ -71,7 +65,6 @@ char	*ft_newpipefoundmatch(t_globs *globs)
 		k++;
 		i++;
 	}
-	return (temp);
 }
 
 int	ft_newpipeline(t_globs *globs)
@@ -86,7 +79,8 @@ int	ft_newpipeline(t_globs *globs)
 	}
 	else
 	{
-		temp = ft_newpipefoundmatch(globs);
+		temp = ft_calloc(100000, 8);
+		ft_newpipefoundmatch(globs, temp, 0, 0);
 		k = ft_strlen(temp);
 	}
 	ft_globcleannewline(globs, temp, k);
