@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 13:34:34 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/21 14:10:18 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/21 15:52:26 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_globcleannewline(t_globs *globs, char *temp, int k)
 		globs->line = ft_vastrjoin(3, globs->start, temp, globs->end);
 		ft_frearr(globs->sdir);
 		globs->sdir = ft_calloc(100, 128);
-		globs->linecount = globs->linecount + k;
+		globs->li = globs->li + k;
 	}
 	ft_vafree(3, globs->anyof, globs->backup, globs->gend);
 	globs->anyof = ft_calloc(100, 8);
@@ -75,7 +75,7 @@ int	ft_newpipeline(t_globs *globs)
 	if (!globs->matches[0])
 	{
 		temp = ft_strdup(globs->backup);
-		globs->linecount = globs->linecount + ft_strlen(temp);
+		globs->li = globs->li + ft_strlen(temp);
 	}
 	else
 	{

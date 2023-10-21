@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/03 09:12:54 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/21 15:34:32 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/21 15:52:02 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,16 @@ int	ft_globstarter(t_globs *globs, char **envp)
 
 int	ft_globfoundglob(t_globs *globs, t_commands *cmd, int startpos, char **envp)
 {
-	globs->glob[0] = globs->line[globs->linecount + startpos];
-	ft_getglob(globs, startpos);
+	int	endpos;
+
+	globs->glob[0] = globs->line[globs->li + startpos];
+	globs->gsta[startpos] = '\0';
+	startpos++;
+	endpos = ft_getglob(globs, startpos, 0, 0);
+	free(globs->start);
+	globs->start = ft_substr(globs->line, 0, globs->li);
+	free(globs->end);
+	globs->end = ft_strdup(&globs->line[globs->li + startpos + endpos]);
 	ft_getparent(globs, 0, 0);
 	ft_getsubdir(globs, 0, 0, 0);
 	ft_backupglob(globs);
@@ -72,21 +80,21 @@ int	ft_globfoundglob(t_globs *globs, t_commands *cmd, int startpos, char **envp)
 
 void	ft_globlooper(t_globs *globs, t_commands *cmd, int startp, char **envp)
 {
-	while (globs->line[globs->linecount + startp])
+	while (globs->line[globs->li + startp])
 	{
-		if (ft_strchr("\'\"", globs->line[globs->linecount + startp]))
+		if (ft_strchr("\'\"", globs->line[globs->li + startp]))
 			startp = ft_skipbutcopygstart(globs, startp);
-		else if (globs->line[globs->linecount + startp] == ' ')
+		else if (globs->line[globs->li + startp] == ' ')
 		{
-			globs->linecount = globs->linecount + startp + 1;
+			globs->li = globs->li + startp + 1;
 			ft_bzero(globs->gsta, startp);
 			startp = 0;
 		}
-		else if (ft_strchr("*?[", globs->line[globs->linecount + startp]))
+		else if (ft_strchr("*?[", globs->line[globs->li + startp]))
 			startp = ft_globfoundglob(globs, cmd, startp, envp);
-		else if (globs->line[globs->linecount + startp])
+		else if (globs->line[globs->li + startp])
 		{
-			globs->gsta[startp] = globs->line[globs->linecount + startp];
+			globs->gsta[startp] = globs->line[globs->li + startp];
 			startp++;
 		}
 	}

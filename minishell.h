@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/21 15:34:10 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/21 15:51:29 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_globs
 	int			temptype;
 	char		*pdir;
 	char		**matches;
-	int			linecount;
+	int			li;
 	int			matchcount;
 	char		*anyof;
 }	t_globs;
@@ -217,8 +217,8 @@ int			ft_which(t_commands cmd, t_shell *msh);
 // globs
 int			ft_parseglobs(t_commands *cmd, char **envp);
 // globinit
-int			ft_getglob(t_globs *globs, int startpos);
-void		ft_matchtillglob(t_globs *g, char *dn, char *fp, unsigned char ty);
+int			ft_getglob(t_globs *globs, int startpos, int endpos, char quote);
+void		ft_matchtillglob(t_globs *glo, char *dname, char *fullp, char type);
 t_globs		*ft_initglobstruct(char *pipeline);
 int			ft_skipbutcopygstart(t_globs *globs, int startpos);
 void		ft_removequotesfromglobstart(t_globs *globs);
