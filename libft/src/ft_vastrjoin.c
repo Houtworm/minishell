@@ -6,12 +6,11 @@
 /*   By: djonker <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/11 16:17:34 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:26 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 16:57:33 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-#include <stdio.h>
 
 char	*ft_vastrjoin(int n, ...)
 {
