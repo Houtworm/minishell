@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 19:59:54 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/21 07:45:41 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_globs
 	int			temptype;
 	char		*pdir;
 	char		**matches;
-	//char		*subdirs;
 	int			linecount;
 	int			matchcount;
 	char		*anyof;
@@ -176,7 +175,7 @@ int			ft_priority(t_commands *cmd, int cmdnbr, int i, int k);
 // variable
 char		*ft_parsevariable(char *line, t_shell msh, int quote);
 // variable2
-char	*ft_parsebegin(char *line, char *begin, int quote, int *i);
+char		*ft_parsebegin(char *line, char *begin, int quote, int *i);
 // tilde
 char		*ft_parsetilde(char *line, t_shell msh);
 // oldline
@@ -220,7 +219,7 @@ int			ft_which(t_commands cmd, t_shell *msh);
 int			ft_parseglobs(t_commands *cmd, char **envp);
 // globinit
 int			ft_getglob(t_globs *globs, int startpos);
-void		ft_matchtillglob(t_globs *globs, char *dname, char *fullpath, unsigned char type);
+void		ft_matchtillglob(t_globs *g, char *dn, char *fp, unsigned char ty);
 t_globs		*ft_initglobstruct(char *pipeline);
 int			ft_skipbutcopygstart(t_globs *globs, int startpos);
 void		ft_removequotesfromglobstart(t_globs *globs);

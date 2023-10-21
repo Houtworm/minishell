@@ -5,6 +5,9 @@
 - Heredoc should react to signals
 - chdir should get home from $HOME not $USER
 - ~~ is instant crash
+### Builtin
+#### Period
+- just a / should print is a directory
 ### Tester
 - we should add a lot of bad syntax to make sure we won't segfault during evaluation.
 
