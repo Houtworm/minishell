@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:23 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:51:47 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 09:12:40 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,9 @@ int	ft_nextwildcard(t_globs *globs, char *dname, int ri, int gi)
 		{
 			while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
 			{
-				if (globs->gend[gi] == '\\')
-					gi++;
-				else
-				{
-					gi++;
+				if (globs->gend[gi] != '\\')
 					ri++;
-				}
+				gi++;
 			}
 			if (globs->gend[gi - 1] != '\\' && globs->gend[gi] && ft_strchr("*?[", globs->gend[gi]))
 				return (ft_nextglob(globs, dname, ri, gi));
@@ -76,13 +72,9 @@ int	ft_firstwildcard(t_globs *globs, char *dname, int ri)
 				return (1);
 			while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
 			{
-				if (globs->gend[gi] == '\\')
-					gi++;
-				else
-				{
-					gi++;
+				if (globs->gend[gi] != '\\')
 					ri++;
-				}
+				gi++;
 			}
 			if (dname[ri] == '\0' && globs->gend[gi] == '\0')
 			{

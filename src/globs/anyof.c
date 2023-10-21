@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:51:38 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:33:49 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 09:13:20 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,9 @@ int	ft_nextanyof(t_globs *globs, char *dname, int ri, int gi)
 	}
 	while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
 	{
-		if (globs->gend[gi] == '\\')
-			gi++;
-		else
-		{
-			gi++;
+		if (globs->gend[gi] != '\\')
 			ri++;
-		}
+		gi++;
 	}
 	if (globs->gend[gi - 1] != '\\' && globs->gend[gi] && ft_strchr("*?[", globs->gend[gi]))
 	{
@@ -96,13 +92,9 @@ int	ft_firstanyof(t_globs *globs, char *dname, int ri)
 		ri++;
 		while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
 		{
-			if (globs->gend[gi] == '\\')
-				gi++;
-			else
-			{
-				gi++;
+			if (globs->gend[gi] != '\\')
 				ri++;
-			}
+			gi++;
 		}
 		if (dname[ri] == '\0' && globs->gend[gi] == '\0')
 			return (1);

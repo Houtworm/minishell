@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:51:38 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:50:33 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 09:16:27 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,9 @@ int	ft_nextsubanyof(t_globs *globs, int si, int ri, int gi)
 	}
 	while (globs->sdir[si][gi] == '\\' || (globs->sdir[si][gi] && globs->tmpsdir[si][ri] && globs->tmpsdir[si][ri] == globs->sdir[si][gi]))
 	{
-		if (globs->sdir[si][gi] == '\\')
-			gi++;
-		else
-		{
+		if (globs->sdir[si][gi] != '\\')
 			ri++;
-			gi++;
-		}
+		gi++;
 	}
 	if (globs->sdir[si][gi] == '\0' && globs->tmpsdir[si][ri] == '\0')
 	{
@@ -87,13 +83,9 @@ int	ft_firstsubanyof(t_globs *globs, struct dirent *dirents, int si, int gi)
 		ri++;
 		while (globs->sdir[si][gi] == '\\' || (globs->sdir[si][gi] && dirents->d_name[ri] && dirents->d_name[ri] == globs->sdir[si][gi]))
 		{
-			if (globs->sdir[si][gi] == '\\')
-				gi++;
-			else
-			{
-				gi++;
+			if (globs->sdir[si][gi] != '\\')
 				ri++;
-			}
+			gi++;
 		}
 		if (dirents->d_name[ri] == '\0' && globs->sdir[si][gi] == '\0')
 		{

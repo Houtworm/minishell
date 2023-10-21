@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:51:17 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:51:10 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 09:21:58 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,9 @@ int	ft_nextsubjoker(t_globs *globs, int si, int ri, int gi)
 {
 	while (globs->sdir[si][gi] == '\\' || (globs->tmpsdir[si][ri] && globs->sdir[si][gi] && globs->tmpsdir[si][ri] == globs->sdir[si][gi]))
 	{
-		if (globs->sdir[si][gi] == '\\')
-			gi++;
-		else
-		{
-			gi++;
+		if (globs->sdir[si][gi] != '\\')
 			ri++;
-		}
+		gi++;
 	}
 	if (globs->sdir[si][gi] == '\0' && globs->tmpsdir[si][ri] == '\0')
 	{
@@ -60,10 +56,9 @@ int	ft_firstsubjoker(t_globs *globs, struct dirent *dirents, int si, int gi)
 	{
 		while (globs->sdir[si][gi] == '\\' || (dirents->d_name[ri] && globs->sdir[si][gi] && dirents->d_name[ri] == globs->sdir[si][gi]))
 		{
-			if (globs->sdir[si][gi] == '\\')
-				gi++;
-			else
-				gi++;
+			if (globs->sdir[si][gi] != '\\')
+				ri++;
+			gi++;
 		}
 		if (globs->sdir[si][gi] == '\0' && dirents->d_name[ri] == '\0')
 		{

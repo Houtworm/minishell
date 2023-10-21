@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:23 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:51:38 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 09:37:50 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,9 @@ int	ft_nextsubwildcard(t_globs *globs, int si, int ri, int gi)
 		{
 			while (globs->sdir[si][gi] == '\\' || (globs->tmpsdir[si][ri] && globs->sdir[si][gi] && globs->tmpsdir[si][ri] == globs->sdir[si][gi]))
 			{
-				if (globs->sdir[si][gi] == '\\')
-					gi++;
-				else
-				{
-					gi++;
+				if (globs->sdir[si][gi] != '\\')
 					ri++;
-				}
+				gi++;
 			}
 			if (globs->sdir[si][gi] == '\0')
 			{
@@ -78,13 +74,9 @@ int	ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int si, int gi)
 			}
 			while (globs->sdir[si][gi] == '\\' || (dirents->d_name[ri] && globs->sdir[si][gi] && dirents->d_name[ri] == globs->sdir[si][gi]))
 			{
-				if (globs->sdir[si][gi] == '\\')
-					gi++;
-				else
-				{
-					gi++;
+				if (globs->sdir[si][gi] != '\\')
 					ri++;
-				}
+				gi++;
 			}
 			if (globs->sdir[si][gi] == '\0')
 			{
