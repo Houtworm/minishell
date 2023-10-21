@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/21 13:37:53 by djonker       ########   odam.nl          #
+#    Updated: 2023/10/22 01:37:25 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC		=src/main/main.c\
 		 src/parse/oldline.c\
 		 src/exec/fork.c\
 		 src/exec/substitution.c\
+		 src/exec/substitution2.c\
 		 src/exec/exec.c\
 		 src/exec/dupmachine.c\
 		 src/exec/redirect.c\

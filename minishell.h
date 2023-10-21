@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/21 18:58:36 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/22 01:08:09 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,8 +173,10 @@ t_forks		ft_parseendcondition(t_shell *msh, int ifrk, int icmd, int ifpip);
 //priority
 int			ft_priority(t_commands *cmd, int cmdnbr, int i, int k);
 // variable
+char		*ft_parsevar_rest(char *line, char *dst, int *i, int rest);
 char		*ft_parsevariable(char *line, t_shell msh, int quote);
 // variable2
+char		*ft_quoteinvariable(char *line, char *begin, int *i, int *j);
 char		*ft_parsebegin(char *line, char *begin, int quote, int *i);
 // tilde
 char		*ft_parsetilde(char *line, t_shell msh);
@@ -184,8 +186,10 @@ char		*ft_parseoldline(t_shell *msh);
 // EXEC
 // fork
 int			ft_forktheforks(t_shell *msh);
-// priority
+// substitution
 void		ft_executepriority(t_commands *cmd, char **envp, char *sysfile);
+// substitution2
+void		ft_executedollarsign(t_commands *cmd, char **envp, char *sysfile);
 // exec
 int			ft_executeforks(int forknbr, t_shell *msh, int condition);
 // dupmachine
