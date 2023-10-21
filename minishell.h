@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/21 13:38:29 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/21 13:39:46 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,12 +238,10 @@ void		ft_cleanglob(t_globs *globs);
 int			ft_getparent(t_globs *globs);
 void		ft_cleanpardir(t_globs *globs);
 void		ft_removequotesfrompardir(t_globs *globs);
-
 // globinitsubdir
 void		ft_cleansubdir(t_globs *globs);
 void		ft_removequotesfromsubdir(t_globs *globs);
 void		ft_getsubdir(t_globs *globs);
-
 // wildcard
 int			ft_firstwildcard(t_globs *globs, char *dname, int reali);
 int			ft_nextwildcard(t_globs *globs, char *dname, int reali, int globi);
