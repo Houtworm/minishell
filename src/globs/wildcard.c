@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:23 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/21 13:14:21 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/21 19:54:30 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	ft_nextwildcard(t_globs *globs, char *dname, int ri, int gi)
 int	ft_firstwildcard(t_globs *globs, char *dname, int ri)
 {
 	int	temp;
-	int	ret;
 	int	gi;
 
 	gi = 0;
@@ -79,23 +78,15 @@ int	ft_firstwildcard(t_globs *globs, char *dname, int ri)
 			if (dname[ri] == '\0' && globs->gend[gi] == '\0')
 				return (1);
 			if (globs->gend[gi - 1] != '\\' && globs->gend[gi] && ft_strchr("*?[", globs->gend[gi]))
-			{
-				ret = ft_nextglob(globs, dname, ri, gi);
-				if (ret == 1)
-					return (ret);
-				ri++;
-				gi = 0;
-			}
-			else
-			{
-				ri++;
-				gi = 0;
-			}
+				if (ft_nextglob(globs, dname, ri, gi))
+					return (1);
+			ri++;
+			gi = 0;
 		}
-		else if (ft_strchr("*?[", globs->gend[gi]))
+		if (globs->gend[gi - 1] != '\\' && globs->gend[gi] && ft_strchr("*?[", globs->gend[gi]))
 		{
 			if (ft_nextglob(globs, dname, ri, gi))
-				return (ret);
+				return (1);
 			temp++;
 			ri = temp;
 		}
