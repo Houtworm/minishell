@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:32:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/21 15:52:58 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/21 16:06:13 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	ft_matchtillglob(t_globs *globs, char *dn, char *fullp, char type)
 
 	i = 0;
 	j = 0;
-	while (globs->gsta[j + i] == '\\' || (dn[i] && globs->gsta[j + i] == dn[i]))
+	while (globs->gsta[j + i] == '\\' || \
+			(dn[i] && globs->gsta[j + i] == dn[i]))
 	{
 		if (globs->gsta[i + j] == '\\')
 			j++;
