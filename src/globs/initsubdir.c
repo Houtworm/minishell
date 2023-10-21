@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/20 18:50:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:53:48 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 15:31:01 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,8 @@ void	ft_removequotesfromsubdir(t_globs *globs)
 	}
 }
 
-void	ft_getsubdir(t_globs *globs)
+void	ft_getsubdir(t_globs *globs, int i, int j, int k)
 {
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	k = 0;
 	ft_frearr(globs->sdir);
 	globs->sdir = ft_calloc(ft_strlen(globs->line), 128);
 	while (globs->gend[k])

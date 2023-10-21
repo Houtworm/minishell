@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/03 09:12:54 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:40:53 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 15:34:32 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ int	ft_globfoundglob(t_globs *globs, t_commands *cmd, int startpos, char **envp)
 {
 	globs->glob[0] = globs->line[globs->linecount + startpos];
 	ft_getglob(globs, startpos);
-	ft_getparent(globs);
-	ft_getsubdir(globs);
+	ft_getparent(globs, 0, 0);
+	ft_getsubdir(globs, 0, 0, 0);
 	ft_backupglob(globs);
 	ft_removequotesfromglobstart(globs);
 	ft_removequotesfromglobend(globs);
-	ft_cleanpardir(globs);
+	ft_cleanpardir(globs, 0, 0);
 	ft_cleansubdir(globs);
-	ft_removequotesfrompardir(globs);
+	ft_removequotesfrompardir(globs, 0, 0);
 	ft_removequotesfromsubdir(globs);
 	ft_globstarter(globs, envp);
 	ft_newpipeline(globs);

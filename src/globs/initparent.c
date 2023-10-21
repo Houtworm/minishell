@@ -6,19 +6,14 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/20 18:49:57 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/21 13:14:03 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/21 15:34:02 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_cleanpardir(t_globs *globs)
+void	ft_cleanpardir(t_globs *globs, int oldcount, int newcount)
 {
-	int		oldcount;
-	int		newcount;
-
-	oldcount = 0;
-	newcount = 0;
 	while (globs->pdir[oldcount])
 	{
 		if (globs->pdir[oldcount] == '/')
@@ -42,14 +37,10 @@ void	ft_cleanpardir(t_globs *globs)
 	globs->pdir[newcount] = '\0';
 }
 
-void	ft_removequotesfrompardir(t_globs *globs)
+void	ft_removequotesfrompardir(t_globs *globs, int i, int j)
 {
-	int		i;
-	int		j;
 	char	quote;
 
-	i = 0;
-	j = 0;
 	while (globs->pdir[i + j])
 	{
 		if (ft_strchr("\'\"", globs->pdir[i + j]))
@@ -72,11 +63,8 @@ void	ft_removequotesfrompardir(t_globs *globs)
 	globs->pdir[j] = '\0';
 }
 
-int	ft_getparent(t_globs *globs)
+int	ft_getparent(t_globs *globs, int i, int j)
 {
-	int	i;
-	int	j;
-
 	if (ft_strchr(globs->gsta, '/'))
 	{
 		i = ft_strlen(globs->gsta);
