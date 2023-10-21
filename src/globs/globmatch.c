@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 13:34:34 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/21 13:34:52 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/21 13:55:41 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,44 @@ void	ft_globcleannewline(t_globs *globs, char *temp, int k)
 	free(temp);
 }
 
-int	ft_newpipeline(t_globs *globs)
+char	*ft_newpipefoundmatch(t_globs *globs)
 {
+	char	*temp;
 	int		i;
 	int		j;
+	int		k;
+
+	temp = ft_calloc(100000, 8);
+	k = 0;
+	i = 0;
+	while (globs->matches[i])
+	{
+		j = 0;
+		if (ft_isallbyte(globs->matches[i], ' '))
+		{
+			temp[k] = '\'';
+			k++;
+		}
+		while (globs->matches[i][j])
+		{
+			temp[k] = globs->matches[i][j];
+			j++;
+			k++;
+		}
+		if (ft_isallbyte(globs->matches[i], ' '))
+		{
+			temp[k] = '\'';
+			k++;
+		}
+		temp[k] = ' ';
+		k++;
+		i++;
+	}
+	return (temp);
+}
+
+int	ft_newpipeline(t_globs *globs)
+{
 	int		k;
 	char	*temp;
 
@@ -52,33 +86,8 @@ int	ft_newpipeline(t_globs *globs)
 	}
 	else
 	{
-		temp = ft_calloc(100000, 8);
-		k = 0;
-		i = 0;
-		while (globs->matches[i])
-		{
-			j = 0;
-			if (ft_isallbyte(globs->matches[i], ' '))
-			{
-				temp[k] = '\'';
-				k++;
-			}
-			while (globs->matches[i][j])
-			{
-				temp[k] = globs->matches[i][j];
-				j++;
-				k++;
-			}
-			if (ft_isallbyte(globs->matches[i], ' '))
-			{
-				temp[k] = '\'';
-				k++;
-			}
-			temp[k] = ' ';
-			k++;
-			i++;
-		}
-		temp[k] = '\0';
+		temp = ft_newpipefoundmatch(globs);
+		k = ft_strlen(temp);
 	}
 	ft_globcleannewline(globs, temp, k);
 	return (0);
