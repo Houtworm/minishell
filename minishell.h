@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/21 07:45:41 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/21 13:38:29 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,8 +232,6 @@ int			ft_firstsubglob(t_globs *globs, struct dirent *dre, int si, int ri);
 int			ft_nextglob(t_globs *globs, char *dname, int reali, int globi);
 int			ft_firstglob(t_globs *globs, char *dname, int reali);
 // globtools
-int			ft_newpipeline(t_globs *globs);
-void		ft_addglobmatch(t_globs *globs, char *match);
 void		ft_backupglob(t_globs *globs);
 void		ft_cleanglob(t_globs *globs);
 // globinitparent
@@ -264,6 +262,9 @@ int			ft_nextanyof(t_globs *globs, char *dname, int reali, int globi);
 // subanyof
 int			ft_firstsubanyof(t_globs *g, struct dirent *dre, int si, int ri);
 int			ft_nextsubanyof(t_globs *globs, int subi, int reali, int globi);
+// globtools
+int			ft_newpipeline(t_globs *globs);
+void		ft_addglobmatch(t_globs *globs, char *match);
 
 // TOOLS
 // print

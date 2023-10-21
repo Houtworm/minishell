@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/20 19:59:34 by yitoh         ########   odam.nl          #
+#    Updated: 2023/10/21 13:37:53 by djonker       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ SRC		=src/main/main.c\
 		 src/globs/subwildcard.c\
 		 src/globs/subjoker.c\
 		 src/globs/subanyof.c\
+		 src/globs/globmatch.c\
 		 src/tools/error.c\
 		 src/tools/print.c\
 		 src/tools/environment.c\
