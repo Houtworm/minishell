@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/22 01:52:55 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/22 03:13:07 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_parsevarval(t_shell msh, char *line, char **var, int *i)
 	return (val);
 }
 
-char	*ft_parsevariable(char *line, t_shell msh, int quote)
+char	*ft_parsevar(char *line, t_shell msh, int quote)
 {
 	int		i;
 	char	*begin;

@@ -6,64 +6,11 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 17:34:18 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/22 03:44:11 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-char	*ft_cpnonquote(char *args, char *new, int *j, int *k)
-{
-	char	quote;
-
-	if (args[*j] && args[*j] != '\'' && args[*j] != '\"')
-	{
-		new[*k] = args[*j];
-		(*j)++;
-		(*k)++;
-	}
-	if (args[*j] == '\'' || args[*j] == '\"')
-	{
-		quote = args[*j];
-		(*j)++;
-		while (args[*j] && args[*j] != quote)
-		{
-			new[*k] = args[*j];
-			(*j)++;
-			(*k)++;
-		}
-		(*j)++;
-	}
-	return (new);
-}
-
-char	**ft_removequotes(char **args)
-{
-	char	**new;
-	int		i;
-	int		j;
-	int		k;
-
-	i = 0;
-	while (args[i])
-		i++;
-	new = ft_calloc(i + 2, 8);
-	i = 0;
-	while (args[i])
-	{
-		new[i] = ft_calloc(1000, 8);
-		j = 0;
-		k = 0;
-		while (args[i][j])
-			new[i] = ft_cpnonquote(args[i], new[i], &j, &k);
-		new[i][k] = '\0';
-		i++;
-	}
-	ft_frearr(args);
-	new[i] = NULL;
-	new[i + 1] = NULL;
-	return (new);
-}
 
 int	ft_countargs(char *cmd, int icmd)
 {
@@ -90,32 +37,6 @@ int	ft_countargs(char *cmd, int icmd)
 		argument++;
 	}
 	return (argument);
-}
-
-char	*ft_cpwithquote(char *cmd, char *arg, int *icmd, int *iarg)
-{
-	char	quote;
-
-	if (cmd[*icmd] == '\'' || cmd[*icmd] == '\"')
-	{
-		arg[*iarg] = cmd[*icmd];
-		quote = cmd[*icmd];
-		(*iarg)++;
-		(*icmd)++;
-		while (cmd[*icmd] && cmd[*icmd] != quote)
-		{
-			arg[*iarg] = cmd[*icmd];
-			(*iarg)++;
-			(*icmd)++;
-		}
-	}
-	if (cmd[*icmd])
-	{
-		arg[*iarg] = cmd[*icmd];
-		(*iarg)++;
-		(*icmd)++;
-	}
-	return (arg);
 }
 
 char	**ft_splitcmd(char *cmd)
@@ -145,32 +66,30 @@ char	**ft_splitcmd(char *cmd)
 	return (arguments);
 }
 
-int	ft_parsecommands(t_shell *msh, int f, int c)
+int	ft_parsecmds(t_shell *msh, int f, int c, char **path)
 {
-	char	**paths;
-
 	msh->frk[f].cmd[c].debug = msh->debug;
 	msh->frk[f].cmd[c].forks = msh->forks;
 	msh->frk[f].cmd[c].prio = ft_priority(msh->frk[f].cmd, c, 0, 0);
 	ft_parsealiases(&msh->frk[f].cmd[c], *msh);
-	msh->frk[f].cmd[c].line = ft_parsevariable(msh->frk[f].cmd[c].line, *msh, 1);
+	msh->frk[f].cmd[c].line = ft_parsevar(msh->frk[f].cmd[c].line, *msh, 1);
 	msh->frk[f].cmd[c].line = ft_parsetilde(msh->frk[f].cmd[c].line, *msh);
 	if (ft_parseoutputfiles(&msh->frk[f].cmd[c]))
 		return (2);
 	ft_executepriority(&msh->frk[f].cmd[c], msh->envp, msh->sysfile);
 	ft_parseglobs(&msh->frk[f].cmd[c], msh->envp);
-	paths = ft_splitcmd(msh->frk[f].cmd[c].line);
-	msh->frk[f].cmd[c].arg = ft_removequotes(paths);
+	path = ft_splitcmd(msh->frk[f].cmd[c].line);
+	msh->frk[f].cmd[c].arg = ft_removequotes(path);
 	if (!msh->frk[f].cmd[c].arg[0])
 		return (1);
 	msh->frk[f].cmd[c].cmds = msh->frk[f].cmds;
-	paths = ft_getpaths(msh->envp, 1);
-	if (!paths)
-		msh->frk[f].cmd[c].absolute = ft_strdup(msh->frk[f].cmd[c].arg[0]);
+	path = ft_getpaths(msh->envp, 1);
+	if (!path)
+		msh->frk[f].cmd[c].abs = ft_strdup(msh->frk[f].cmd[c].arg[0]);
 	else
 	{
-		msh->frk[f].cmd[c].absolute = ft_abspathcmd(paths, msh->frk[f].cmd[c].arg[0]);
-		ft_frearr(paths);
+		msh->frk[f].cmd[c].abs = ft_abspathcmd(path, msh->frk[f].cmd[c].arg[0]);
+		ft_frearr(path);
 	}
 	return (0);
 }
@@ -183,11 +102,7 @@ int	ft_parseline(char *line, t_shell *msh, int forknumber)
 		return (ft_errorret("command not found", "!!", 127));
 	if (ft_startsyntax(msh))
 		return (2);
-	while (check_quote_closed(msh))
-	{
-		ft_closeline(msh, check_quote_closed(msh), NULL);
-		ft_completeline(msh, 0, NULL);
-	}
+	ft_close_completeline(msh);
 	ft_parsehashtag(msh);
 	if (msh->line[0] == '\0')
 		return (4);

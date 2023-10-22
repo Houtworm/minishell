@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/18 03:38:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:12:45 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/22 03:13:34 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_readstdinheredoc(char *delimiter, int parse, int fdi, t_shell msh)
 	{
 		ft_putstr_fd("minishell heredoc> ", 0);
 		if (parse)
-			line = ft_parsevariable(line, msh, 0);
+			line = ft_parsevar(line, msh, 0);
 		ft_putendl_fd(line, fdi);
 		free(line);
 		get_next_line(0, &line);

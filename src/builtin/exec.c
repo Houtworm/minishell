@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/01 00:57:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:32 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/22 03:09:42 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ int	ft_exec(t_commands cmd, t_shell *msh)
 		args[i] = ft_strdup(cmd.arg[i + 1]);
 		i++;
 	}
-	free(cmd.absolute);
-	cmd.absolute = ft_abspathcmd(paths, args[0]);
+	free(cmd.abs);
+	cmd.abs = ft_abspathcmd(paths, args[0]);
 	ft_frearr(paths);
 	status = ft_checkcommand(args, msh->envp);
 	if (status)
 		status = 127;
 	else
-		execve(cmd.absolute, args, msh->envp);
+		execve(cmd.abs, args, msh->envp);
 	ft_frearr(args);
-	free(cmd.absolute);
+	free(cmd.abs);
 	return (status);
 }

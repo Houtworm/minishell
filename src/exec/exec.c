@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 16:15:26 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/22 03:13:59 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ int	ft_executecommand(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)
 				close(msh->pipes[forknbr + 1][1]);
 				close(msh->pipes[forknbr + 1][0]);
 			}
-			execve(cmd.absolute, cmd.arg, msh->envp);
-			ft_errorexit("command not found", cmd.absolute, 127);
+			execve(cmd.abs, cmd.arg, msh->envp);
+			ft_errorexit("command not found", cmd.abs, 127);
 		}
 		if (msh->forks > 1)
 		{
@@ -129,7 +129,7 @@ int	ft_executeforks(int forknbr, t_shell *msh, int condition)
 	{
 		ft_frearr(msh->envp);
 		msh->envp = ft_fdtocharpp(msh);
-		status = ft_parsecommands(msh, forknbr, cmdnbr);
+		status = ft_parsecmds(msh, forknbr, cmdnbr, NULL);
 		if (status == 1)
 		{
 			ft_createfdo(msh->frk[forknbr].cmd[cmdnbr]);

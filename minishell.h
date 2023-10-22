@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/22 02:26:43 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/22 03:27:00 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_commands
 	char		**ofi;
 	int			*append;
 	char		*line;
-	char		*absolute;
+	char		*abs;
 	char		**arg;
 	int			code;
 	int			cmds;
@@ -136,10 +136,8 @@ void		ft_printinsult(t_shell *msh);
 
 // PARSE
 // parse
-char		*ft_cpwithquote(char *cmd, char *arg, int *icmd, int *iarg);
-char		*ft_cpnonquote(char *args, char *new, int *j, int *k);
 int			ft_parseline(char *line, t_shell *msh, int forknumber);
-int			ft_parsecommands(t_shell *msh, int forknumber, int cmdnumber);
+int			ft_parsecmds(t_shell *msh, int fnbr, int cnbr, char **path);
 // hashtag
 char		*ft_parsehashtag(t_shell *msh);
 // syntax
@@ -150,13 +148,16 @@ t_shell		*ft_parsepipe(t_shell *msh);
 // alias
 void		ft_parsealiases(t_commands *cmd, t_shell msh);
 // complete
-char		*ft_completeline(t_shell *msh, int k, char *temp);
-char		*ft_closeline(t_shell *msh, int quote, char *temp);
+void	ft_close_completeline(t_shell *msh);
 // quote
 int			ft_checkoutquotevar(char *line, int i);
 int			ft_checkoutquote(char *line, char target, int mode);
 int			ft_skipquote(char *s, int i);
 char		check_quote_closed(t_shell *msh);
+// quote2
+char		*ft_cpwithquote(char *cmd, char *arg, int *icmd, int *iarg);
+char		*ft_cpnonquote(char *args, char *new, int *j, int *k);
+char		**ft_removequotes(char **args);
 // heredoc
 int			ft_heredoc(char *delimiter, char *file, t_shell msh, int heredoc);
 void		ft_heredocinit(t_shell *msh, int ifrk, int icmd, char *strt);
@@ -175,7 +176,7 @@ t_forks		ft_parseendcondition(t_shell *msh, int ifrk, int icmd, int ifpip);
 int			ft_priority(t_commands *cmd, int cmdnbr, int i, int k);
 // variable
 char		*ft_parsevar_rest(char *line, char *dst, int *i, int rest);
-char		*ft_parsevariable(char *line, t_shell msh, int quote);
+char		*ft_parsevar(char *line, t_shell msh, int quote);
 // variable2
 char		*ft_quoteinvariable(char *line, char *begin, int *i, int *j);
 char		*ft_parsebegin(char *line, char *begin, int quote, int *i);

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/03 18:38:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 22:17:11 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/22 04:27:50 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,13 @@ char	*ft_closeline(t_shell *msh, int quote, char *temp)
 	return (msh->line);
 }
 
-int	ft_seti(char *line, int i)
-{
-	while (line[i])
-		i++;
-	i--;
-	while (line[i] == ' ')
-		i--;
-	return (i);
-}
-
-char	*ft_completeline(t_shell *msh, int k, char *temp)
+char	*ft_completeline(t_shell *msh, int i, char *temp)
 {
 	int		ret;
 	char	*gnl;
-	int		i;
+	int		k;
 
-	i = ft_seti(msh->line, 0);
+	k = 0;
 	if (msh->line[i] != '&' && msh->line[i] != '|')
 		return (msh->line);
 	while ((msh->line[i] == '&' && msh->line[i - 1] == '&')
@@ -87,4 +77,31 @@ char	*ft_completeline(t_shell *msh, int k, char *temp)
 		i += k;
 	}
 	return (msh->line);
+}
+
+/*
+if we want to make it like bash, 
+we need to put this chunk outside te while (check_quote_closed)
+	while (msh->line[i])
+		i++;
+	i--;
+	while (msh->line[i] == ' ')
+		i--;
+	ft_completeline(msh, i, NULL);
+	*/
+void	ft_close_completeline(t_shell *msh)
+{
+	int	i;
+
+	i = 0;
+	while (check_quote_closed(msh))
+	{
+		ft_closeline(msh, check_quote_closed(msh), NULL);
+		while (msh->line[i])
+			i++;
+		i--;
+		while (msh->line[i] == ' ')
+			i--;
+		ft_completeline(msh, i, NULL);
+	}
 }

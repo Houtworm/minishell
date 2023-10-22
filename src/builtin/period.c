@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/30 04:01:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 17:47:15 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/22 03:10:04 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ int	ft_period(t_commands cmd, t_shell *msh)
 		status = ft_checkperiod(cmd);
 		if (status)
 			return (status);
-		execve(cmd.absolute, cmd.arg, msh->envp);
-		fd = open(cmd.absolute, O_RDONLY);
+		execve(cmd.abs, cmd.arg, msh->envp);
+		fd = open(cmd.abs, O_RDONLY);
 		status = ft_periodscript(msh, fd);
 		if (fd == -1)
-			return (ft_errorret("command not found", cmd.absolute, 127));
+			return (ft_errorret("command not found", cmd.abs, 127));
 		close(fd);
 		if (status == 2)
 			return (2);

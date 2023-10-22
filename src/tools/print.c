@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 19:52:21 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/22 03:11:11 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_printcommands(t_commands cmd, int cmdnbr, int forknbr)
 		printf("\e[1;36margument %d: %s\e[0;00m\n", i, cmd.arg[i]);
 		i++;
 	}
-	printf("\e[1;36mabsolute: %s\e[0;00m\n", cmd.absolute);
+	printf("\e[1;36mabsolute: %s\e[0;00m\n", cmd.abs);
 	if (cmd.condition == 1)
 		printf("\e[1;36mcondition: &&\e[0;00m\n");
 	else if (cmd.condition == 2)
