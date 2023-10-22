@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/22 01:08:09 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/22 02:26:43 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void		ft_printinsult(t_shell *msh);
 
 // PARSE
 // parse
+char		*ft_cpwithquote(char *cmd, char *arg, int *icmd, int *iarg);
 char		*ft_cpnonquote(char *args, char *new, int *j, int *k);
 int			ft_parseline(char *line, t_shell *msh, int forknumber);
 int			ft_parsecommands(t_shell *msh, int forknumber, int cmdnumber);
@@ -152,7 +153,7 @@ void		ft_parsealiases(t_commands *cmd, t_shell msh);
 char		*ft_completeline(t_shell *msh, int k, char *temp);
 char		*ft_closeline(t_shell *msh, int quote, char *temp);
 // quote
-int			ft_checkoutquotevar(char *line);
+int			ft_checkoutquotevar(char *line, int i);
 int			ft_checkoutquote(char *line, char target, int mode);
 int			ft_skipquote(char *s, int i);
 char		check_quote_closed(t_shell *msh);

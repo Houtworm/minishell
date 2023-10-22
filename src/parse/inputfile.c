@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/17 16:21:59 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 18:01:58 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/22 02:42:00 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_infileinit( t_shell *msh, int f, int c, char *start)
 	return (0);
 }
 
-char	*ft_foundquoteinputfile(t_shell *msh, int f, int c, char *start)
+char	*ft_foundquote_infile(t_shell *msh, int f, int c, char *start)
 {
 	char	quote;
 	int		i;
@@ -56,7 +56,7 @@ char	*ft_foundquoteinputfile(t_shell *msh, int f, int c, char *start)
 	return (start);
 }
 
-int	ft_foundinputfile(t_shell *msh, int frkn, int icmd, char *start)
+int	ft_foundinfile(t_shell *msh, int frkn, int icmd, char *start)
 {
 	int		i;
 
@@ -69,7 +69,7 @@ int	ft_foundinputfile(t_shell *msh, int frkn, int icmd, char *start)
 	return (0);
 }
 
-char	*ft_getstart(t_shell *msh, int frkn, int icmd, char *start)
+char	*ft_getstart_in(t_shell *msh, int frkn, int icmd, char *start)
 {
 	int		i;
 
@@ -78,13 +78,13 @@ char	*ft_getstart(t_shell *msh, int frkn, int icmd, char *start)
 	{
 		if (ft_strchr("\'\"", msh->frk[frkn].cmd[icmd].line[i]))
 		{
-			start = ft_foundquoteinputfile(msh, frkn, icmd, start);
+			start = ft_foundquote_infile(msh, frkn, icmd, start);
 			i = ft_strlen(start);
 		}
 		else if (msh->frk[frkn].cmd[icmd].line[i] == '<')
 		{
 			start[i] = '\0';
-			if (ft_foundinputfile(msh, frkn, icmd, start))
+			if (ft_foundinfile(msh, frkn, icmd, start))
 				return (NULL);
 			i = 0;
 		}
@@ -109,7 +109,7 @@ int	ft_parseinputfiles(t_shell *msh, int frkn)
 		msh->frk[frkn].cmd[icmd].infiles = 0;
 		if (ft_checkoutquote(msh->frk[frkn].cmd[icmd].line, '<', 2) >= 0)
 		{
-			start = ft_getstart(msh, frkn, icmd, start);
+			start = ft_getstart_in(msh, frkn, icmd, start);
 			if (!start)
 				return (2);
 		}

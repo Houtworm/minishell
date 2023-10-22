@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/30 17:08:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 21:38:33 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/22 01:52:58 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,35 +28,29 @@ int	ft_skipquote(char *s, int i)
 	return (i + k);
 }
 
-int	ft_checkoutquotevar(char *line)
+int	ft_checkoutquotevar(char *line, int i)
 {
-	int		i;
-
-	i = 0;
-	if (line)
+	while (line && line[i])
 	{
-		while (line[i])
+		if (line[i] == '$' && line[i + 1]
+			&& (ft_isalpha(line[i + 1])
+				|| ft_strchr("_?$\"\'", line[i + 1])))
+			return (i);
+		if (line[i] == '\"')
 		{
-			if (line[i] == '$' && line[i + 1] && ((line[i + 1] >= 'A' && line[i + 1] <= 'Z') || (line[i + 1] >= 'a' && line[i + 1] <= 'z' ) || ft_strchr("_?$\"\'", line[i + 1])))
-				return (i);
-			if (line[i] == '\"')
-			{
-				i++;
-				while (line[i] != '\"')
-				{
-					if (line[i] == '$' && line[i + 1] && ((line[i + 1] >= 'A' && line[i + 1] <= 'Z') || (line[i + 1] >= 'a' && line[i + 1] <= 'z' ) || ft_strchr("_?$", line[i + 1])))
-						return (i);
-					i++;
-				}
-			}
-			if (line[i] == '\'')
-			{
-				i++;
-				while (line[i] != '\'')
-					i++;
-			}
 			i++;
+			while (line[i] != '\"')
+			{
+				if (line[i] == '$' && line[i + 1]
+					&& (ft_isalpha(line[i + 1])
+						|| ft_strchr("_?$", line[i + 1])))
+					return (i);
+				i++;
+			}
 		}
+		if (line[i] == '\'')
+			i = ft_skipquote(line, i);
+		i++;
 	}
 	return (-1);
 }

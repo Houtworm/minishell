@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 20:00:55 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/22 01:52:55 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*ft_parsevariable(char *line, t_shell msh, int quote)
 	begin = ft_calloc((ft_strlen(line) + 1) * 8, 1);
 	var = ft_calloc((ft_strlen(line) + 1) * 8, 1);
 	rest = ft_calloc((ft_strlen(line) + 1) * 8, 1);
-	while (ft_checkoutquotevar(line) >= 0)
+	while (ft_checkoutquotevar(line, 0) >= 0)
 	{
 		i = 0;
 		begin = ft_parsebegin(line, begin, quote, &i);
