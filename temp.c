@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   subwildcard.c                                      :+:    :+:            */
+/*   temp.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:23 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 15:01:03 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/23 14:50:06 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 int	ft_nextswcstartmatch(t_globs *globs, int si, int *ri, int *gi)
 {
@@ -77,19 +77,14 @@ int	ft_foundanotherglob(t_globs *globs, struct dirent *dirents, int *srg)
 		}
 		return (2);
 	}
-	else if (globs->sdir[srg[0]][srg[2] - 1] != '*' && \
-			globs->sdir[srg[0]][srg[2]] == '?' && \
-			!globs->tmpsdir[srg[0]][srg[1] + 3] && \
-			!globs->sdir[srg[0]][srg[2] + 1])
+	else if (globs->sdir[srg[0]][srg[2] - 1] != '*' && globs->sdir[srg[0]][srg[2]] == '?' && !globs->tmpsdir[srg[0]][srg[1] + 3] && !globs->sdir[srg[0]][srg[2] + 1])
 		return (2);
-	return (0);
+	return (2);
 }
 
 int	ft_attemptfromhere(t_globs *globs, struct dirent *dirents, int *srg)
 {
-	while (globs->sdir[srg[0]][srg[2]] == '\\' || \
-	(dirents->d_name[srg[1]] && globs->sdir[srg[0]][srg[2]] && \
-	dirents->d_name[srg[1]] == globs->sdir[srg[0]][srg[2]]))
+	while (globs->sdir[srg[0]][srg[2]] == '\\' || (dirents->d_name[srg[1]] && globs->sdir[srg[0]][srg[2]] && dirents->d_name[srg[1]] == globs->sdir[srg[0]][srg[2]]))
 	{
 		if (globs->sdir[srg[0]][srg[2]] != '\\')
 			srg[1]++;
@@ -105,10 +100,10 @@ int	ft_attemptfromhere(t_globs *globs, struct dirent *dirents, int *srg)
 		}
 		return (2);
 	}
-	else if (globs->sdir[srg[0]][srg[2] - 1] != '\\' && \
-	globs->sdir[srg[0]][srg[2]] && \
-	ft_strchr("*?[", globs->sdir[srg[0]][srg[2]]))
-		return (ft_foundanotherglob(globs, dirents, srg));
+	else if (globs->sdir[srg[0]][srg[2] - 1] != '\\' && globs->sdir[srg[0]][srg[2]] && ft_strchr("*?[", globs->sdir[srg[0]][srg[2]]))
+	{
+		return(ft_foundanotherglob(globs, dirents, srg));
+	}
 	return (0);
 }
 
@@ -123,8 +118,7 @@ int	ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int si, int gi)
 	srg[2] = gi;
 	while (globs->sdir[si][srg[2]] == '*')
 		srg[2]++;
-	if ((globs->sdir[si][0] == '.' && dirents->d_name[0] == '.') || \
-			(globs->sdir[si][0] != '.' && dirents->d_name[0] != '.'))
+	if ((globs->sdir[si][0] == '.' && dirents->d_name[0] == '.') || (globs->sdir[si][0] != '.' && dirents->d_name[0] != '.'))
 	{
 		while (dirents->d_name[srg[1]])
 		{
