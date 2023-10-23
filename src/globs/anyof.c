@@ -6,13 +6,13 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:51:38 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 13:05:51 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/23 13:48:40 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_matchanyof(char *glob, int ri, int gi, char match)
+int	ft_matchanyof(char *glob, int gi, char match)
 {
 	int		k;
 	char	*anyof;
@@ -33,7 +33,6 @@ int	ft_matchanyof(char *glob, int ri, int gi, char match)
 	if (ft_strchr(anyof, match))
 	{
 		gi++;
-		ri++;
 		free(anyof);
 		return (gi);
 	}
@@ -43,7 +42,7 @@ int	ft_matchanyof(char *glob, int ri, int gi, char match)
 
 int	ft_nextanyof(t_globs *globs, char *dname, int ri, int gi)
 {
-	gi = ft_matchanyof(globs->gend, ri, gi, dname[ri]);
+	gi = ft_matchanyof(globs->gend, gi, dname[ri]);
 	if (gi == 0)
 		return (0);
 	else
@@ -68,7 +67,7 @@ int	ft_firstanyof(t_globs *globs, char *dname, int ri)
 	int		gi;
 
 	gi = 0;
-	gi = ft_matchanyof(globs->gend, ri, gi, dname[ri]);
+	gi = ft_matchanyof(globs->gend, gi, dname[ri]);
 	if (gi == 0)
 		return (0);
 	else
