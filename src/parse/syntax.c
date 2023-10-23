@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 13:48:26 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 18:18:00 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 22:34:08 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_checksyntax(t_shell *msh)
 	while (msh->line[i])
 	{
 		i = ft_skipquote(msh->line, i);
-		if ((msh->line[i] == '\'' || msh->line[i] == '\"') && msh->line[i])
+		if (msh->line[i] && (msh->line[i] == '\'' || msh->line[i] == '\"'))
 			i++;
 		else if (msh->line[i] && ft_strchr("<>&|;", msh->line[i]))
 		{
@@ -60,7 +60,7 @@ int	ft_checksyntax(t_shell *msh)
 		if (msh->line[i] && i > 0 && msh->line[i] == '#'
 			&& msh->line[i - 1] == ' ')
 			return (0);
-		else if (msh->line[i])
+		else if (msh->line[i] && msh->line[i] != '\'' && msh->line[i] != '\"')
 			i++;
 	}
 	return (0);

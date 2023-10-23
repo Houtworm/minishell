@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 20:40:06 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 22:14:49 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ int	ft_forktheforks(t_shell *msh)
 		}
 	}
 	else
-		msh->code = ft_execforks(fnbr, msh, 0);
+		msh->code = ft_execforks(0, msh, 0);
 	return (msh->code);
 }
