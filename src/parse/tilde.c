@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/06 16:38:04 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 23:52:47 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/24 00:03:50 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_tildenewline(char *line, char *begin, int *i, t_shell msh)
 	char	*temp;
 
 	j = 0;
-	rest = ft_calloc((ft_strlen(line) + 1), 8);
+	rest = ft_calloc(10000, 8);
 	while (line[*i])
 	{
 		rest[j] = line[*i];
@@ -72,7 +72,7 @@ char	*ft_parsetilde(char *line, t_shell msh)
 	int		i;
 	char	*begin;
 
-	begin = ft_calloc((ft_strlen(line) + 1), 8);
+	begin = ft_calloc(10000, 8);
 	i = 0;
 	while (line[i])
 	{
