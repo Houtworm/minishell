@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 12:04:00 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/23 19:17:03 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	ft_printdup(t_commands cmd, int cmdnbr, int forknbr)
 	{
 		while (cmd.ofi[i])
 		{
-			if (cmd.append[i])
-				printf("\e[1;36moutput %d append: %s\e[0;00m\n", i, cmd.ofi[i]);
+			if (cmd.app[i])
+				printf("\e[1;36moutput %d app: %s\e[0;00m\n", i, cmd.ofi[i]);
 			else
 				printf("\e[1;36moutput %d trunct: %s\e[0;00m\n", i, cmd.ofi[i]);
 			i++;

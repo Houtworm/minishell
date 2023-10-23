@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/22 04:26:10 by yitoh         ########   odam.nl          #
+#    Updated: 2023/10/23 18:39:59 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC		=src/main/main.c\
 		 src/parse/parse.c\
 		 src/parse/hashtag.c\
 		 src/parse/syntax.c\
+		 src/parse/syntax2.c\
 		 src/parse/pipe.c\
 		 src/parse/alias.c\
 		 src/parse/heredoc.c\

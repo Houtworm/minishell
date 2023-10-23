@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 10:16:27 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/22 02:52:29 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 19:16:43 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	ft_parsestart_out(t_commands *cmd, char **start, int k, int i)
 	if (cmd->line[i] == '>')
 	{
 		i++;
-		cmd->append[k] = 0;
+		cmd->app[k] = 0;
 		if (cmd->line[i] == '>')
 		{
-			cmd->append[k] = 1;
+			cmd->app[k] = 1;
 			i++;
 		}
 		while (cmd->line[i] && cmd->line[i] == ' ')
@@ -70,7 +70,7 @@ int	ft_parseoutputfiles(t_commands *cmd)
 	int	i;
 
 	cmd->ofi = ft_calloc(1000 * 8, 1);
-	cmd->append = ft_calloc(1000 * 8, 1);
+	cmd->app = ft_calloc(1000 * 8, 1);
 	if (ft_checkoutquote(cmd->line, '>', 2) >= 0)
 	{
 		free(cmd->ofi);

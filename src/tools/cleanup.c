@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 14:16:04 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/23 19:16:54 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	ft_freecommands(t_commands *cmd)
 			ft_frearr(cmd[i].arg);
 		if (cmd[i].ofi)
 			ft_frearr(cmd[i].ofi);
-		if (cmd[i].append)
-			free(cmd[i].append);
+		if (cmd[i].app)
+			free(cmd[i].app);
 		i++;
 	}
 	free(cmd);

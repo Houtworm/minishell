@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/17 19:54:30 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 06:42:25 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/23 19:16:09 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_redirecttofile(char **outfile, int *append, char *outtmp, int i)
 	close(fdread);
 }
 
-void	ft_redirectoutput(char **outfile, int *append, int frkn, t_shell *msh)
+void	ft_rediout(char **outfile, int *append, int frkn, t_shell *msh)
 {
 	char	*outtmp;
 	char	*line;

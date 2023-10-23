@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 18:20:00 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 19:18:08 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_commands
 	int			prio;
 	int			infiles;
 	char		**ofi;
-	int			*append;
+	int			*app;
 	char		*line;
 	char		*abs;
 	char		**arg;
@@ -208,7 +208,7 @@ int			ft_checkinputfile(char *inputfile);
 int			ft_checkoutputfile(char *outputfile);
 int			ft_checkcommand(char **arguments, char **envp);
 //redirect
-void		ft_redirectoutput(char **outf, int *appe, int ifrk, t_shell *msh);
+void		ft_rediout(char **outf, int *appe, int ifrk, t_shell *msh);
 
 // BUILTINS
 // builtin
