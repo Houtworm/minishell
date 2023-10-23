@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 19:15:42 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 20:07:05 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,37 +79,6 @@ int	ft_checkexec(t_commands cmd, int c, int f, t_shell *msh)
 		return (cmd.lastcode);
 	}
 	return (-1);
-}
-
-void	ft_nonbuiltinfork(t_commands *cmd, int c, int f, t_shell *msh)
-{
-	int	pid;
-	int	status;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		signal(SIGQUIT, ft_sighandler);
-		if (ft_dupmachine(c, f, msh) == 2)
-			exit (1);
-		if (msh->forks > 1)
-		{
-			close(msh->pipes[f][1]);
-			close(msh->pipes[f][0]);
-			close(msh->pipes[f + 1][1]);
-			close(msh->pipes[f + 1][0]);
-		}
-		execve((*cmd).abs, (*cmd).arg, msh->envp);
-		ft_errorexit("command not found", (*cmd).abs, 127);
-	}
-	if (msh->forks > 1)
-	{
-		close(msh->pipes[f][1]);
-		close(msh->pipes[f][0]);
-		close(msh->pipes[f + 1][0]);
-	}
-	waitpid(pid, &status, 0);
-	(*cmd).code = WEXITSTATUS(status);
 }
 
 int	ft_executecommand(t_commands cmd, int c, int f, t_shell *msh)
