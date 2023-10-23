@@ -1,40 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   anyof.c                                            :+:      :+:    :+:   */
+/*   anyof.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:51:38 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/21 22:27:02 by houtworm         ###   ########.fr       */
+/*   Updated: 2023/10/23 12:49:28 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_nextanyof(t_globs *globs, char *dname, int ri, int gi)
+int	ft_matchanyof(char *glob, int ri, int gi, char match)
 {
-	char	match;
-	int		k;
+	int	k;
+	char *anyof;
 
 	k = 0;
-	match = dname[ri];
-	while (globs->gend[gi] && globs->gend[gi] != ']')
+	anyof = ft_calloc(ft_strlen(glob), 8);
+	while (glob[gi] && glob[gi] != ']')
 	{
-		globs->anyof[k] = globs->gend[gi];
+		anyof[k] = glob[gi];
 		gi++;
 		k++;
 	}
-	if (!globs->gend[gi])
+	if (!glob[gi] || k == 0)
+	{
+		free(anyof);
 		return (0);
-	globs->anyof[k] = '\0';
-	if (globs->anyof[0] == '\0')
-		return (0);
-	if (ft_strchr(globs->anyof, match))
+	}
+	if (ft_strchr(anyof, match))
 	{
 		gi++;
 		ri++;
+		free(anyof);
+		return (gi);
 	}
+	free(anyof);
+	return (0);
+}
+
+int	ft_nextanyof(t_globs *globs, char *dname, int ri, int gi)
+{
+	gi = ft_matchanyof(globs->gend, ri, gi, dname[ri]);
+	if (gi == 0)
+		return (0);
+	else
+		ri++;
 	while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
 	{
 		if (globs->gend[gi] != '\\')

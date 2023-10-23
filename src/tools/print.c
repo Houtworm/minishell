@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/05 00:27:40 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/22 03:11:11 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 12:04:00 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	ft_printcommands(t_commands cmd, int cmdnbr, int forknbr)
 		printf("\e[1;36mcondition: unconditional\e[0;00m\n");
 	if (cmd.prio)
 		printf("\e[1;36mcmd gets priority\e[0;00m\n");
-	printf("\e[1;36mredirect input from %d files\e[0;00m\n", cmd.infiles);
 }
 
 void	ft_printglobs(t_globs globs, char *function)
