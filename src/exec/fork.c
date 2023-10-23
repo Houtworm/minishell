@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 22:14:49 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 22:44:40 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,8 @@ int	ft_forking(t_shell *msh, int fnbr, int fd, int status)
 			file = ft_strjoin(msh->tmpdir, "lastcode.tmp");
 			fd = open(file, O_RDONLY);
 			free(file);
-			if (fd > 0)
-			{
-				close(fd);
+			if (fd > 0 && !close(fd))
 				return (msh->code);
-			}
 		}
 		pipe(msh->pipes[fnbr + 1]);
 		msh->frk[fnbr].pid = fork();
