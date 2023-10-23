@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 15:11:55 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/23 18:20:00 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,15 @@ int			ft_parsecmds(t_shell *msh, int fnbr, int cnbr, char **path);
 // hashtag
 char		*ft_parsehashtag(t_shell *msh);
 // syntax
+int			ft_syntaxerror(t_shell *msh, char s1, char *line, int i);
 int			ft_checksyntax(t_shell *msh);
-int			ft_startsyntax(t_shell *msh);
+int			ft_startsyntax(t_shell *msh, int i);
+// syntax2
+int			ft_checksmallerthan(t_shell *msh, char *line, int i);
+int			ft_checkmorethan(t_shell *msh, char *line, int i);
+int			ft_checkampersand(t_shell *msh, char *line, int i);
+int			ft_checkpipe(t_shell *msh, char *line, int i);
+int			ft_checksmcolon(t_shell *msh, char *line, int i);
 // pipe
 t_shell		*ft_parsepipe(t_shell *msh);
 // alias

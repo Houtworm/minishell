@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/22 03:44:11 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 18:15:02 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	ft_parseline(char *line, t_shell *msh, int forknumber)
 	msh->line = ft_strdup(line);
 	if (!ft_parseoldline(msh))
 		return (ft_errorret("command not found", "!!", 127));
-	if (ft_startsyntax(msh))
+	if (ft_startsyntax(msh, 0))
 		return (2);
 	ft_close_completeline(msh);
 	ft_parsehashtag(msh);
