@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/06 16:38:04 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 13:23:54 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/23 23:52:47 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_tildenewline(char *line, char *begin, int *i, t_shell msh)
 	free(line);
 	temp = ft_gethome(msh.envp);
 	if (temp == NULL)
-		line = ft_strjoin(begin, rest);
+		line = ft_vastrjoin(3, begin, msh.home, rest);
 	else
 		line = ft_vastrjoin(3, begin, temp, rest);
 	free(temp);

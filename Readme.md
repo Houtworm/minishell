@@ -3,7 +3,6 @@
 ## Todo
 ### Parsing
 - Heredoc should react to signals
-- chdir should get home from $HOME not $USER
 - ~~ is instant crash
 ### Builtin
 #### Period

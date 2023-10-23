@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 01:11:51 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/23 23:45:21 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 
 	msh = ft_calloc(10000, 8);
 	msh->os = ft_getos();
+	msh->home = ft_gethome(envp);
 	msh->pid = ft_getpid();
 	msh->tmpdir = ft_createtempdir(envp, msh->pid);
 	msh->sysfile = ft_strjoin(msh->tmpdir, "ft_system");

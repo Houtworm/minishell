@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 02:04:30 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/23 23:21:54 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	ft_cdgetoldcwd(t_commands c, t_shell *msh, char *line)
 		ft_vafree(2, oldcwd, line);
 		if (errno == ENOTDIR)
 			ft_errorret2("Not a directory", c.arg[0], c.arg[1], 1);
+		if (!line)
+			return (ft_errorret2("HOME not set", c.arg[0], c.arg[1], 1));
 		else
 			ft_errorret2("No such file or directory", c.arg[0], c.arg[1], 1);
 		return (1);
@@ -81,16 +83,16 @@ int	ft_cdgetoldcwd(t_commands c, t_shell *msh, char *line)
 void	ft_cdgetnewcwd(t_commands cmd, t_shell *msh)
 {
 	char	*newcwd;
-	char	*line;
+	/*char	*line;*/
 
 	newcwd = malloc(512);
 	getcwd(newcwd, 512);
 	if (newcwd[0] != '/')
 	{
 		free(newcwd);
-		line = ft_getuser(msh->envp);
-		newcwd = ft_vastrjoin(3, "/home/", line, "/");
-		free(line);
+		newcwd = ft_gethome(msh->envp);
+		/*newcwd = ft_vastrjoin(2, line, "/");*/
+		/*free(line);*/
 		chdir(newcwd);
 		ft_errorret2("No such file or directory", cmd.arg[0], cmd.arg[1], 1);
 		ft_errorret("No parent directory, going home", cmd.arg[0], 1);
@@ -104,15 +106,13 @@ void	ft_cdgetnewcwd(t_commands cmd, t_shell *msh)
 int	ft_chdir(t_commands cmd, t_shell *msh)
 {
 	char	*line;
-	char	*temp;
+	/*char	*temp;*/
 
 	if (cmd.arg[2])
 		return (ft_errorret("too many arguments", "cd", 1));
 	if (!cmd.arg[1] || cmd.arg[1][0] == '\0')
 	{
-		temp = ft_getuser(msh->envp);
-		line = ft_vastrjoin(3, "/home/", temp, "/");
-		free(temp);
+		line = ft_gethome(msh->envp);
 	}
 	else if (!ft_strncmp(cmd.arg[1], "-\0", 2))
 	{

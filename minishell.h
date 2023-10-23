@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 20:33:22 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 23:43:24 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_shell
 	t_alias		*alias;
 	t_builtin	*bltn;
 	char		*os;
+	char		*home;
 	int			pid;
 	char		*historyfile;
 	char		*tmpdir;
