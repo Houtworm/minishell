@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/30 04:01:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/22 03:10:04 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/24 00:08:32 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_period(t_commands cmd, t_shell *msh)
 	int		status;
 	int		fd;
 
-	if (cmd.arg[0][1] == '\0')
+	if (cmd.arg[0][1] == '.' && cmd.arg[0][1] == '\0')
 		return (ft_errorret("filename argument required", ".", 2));
 	else if (cmd.arg[0][1] == '/' || cmd.arg[0][0] == '/')
 	{
