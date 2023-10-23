@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 20:07:05 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 20:33:43 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	ft_executecommand(t_commands cmd, int c, int f, t_shell *msh)
 	return (cmd.code);
 }
 
-int	ft_executeforks(int f, t_shell *msh, int condition)
+int	ft_execforks(int f, t_shell *msh, int condition)
 {
 	int	status;
 	int	c;

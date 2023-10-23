@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 16:15:34 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/23 20:40:06 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,10 @@ int	**ft_preparepipes(t_shell *msh)
 	return (pipes);
 }
 
-int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
+int	ft_checkcond(t_forks *fork, int mode, int forknbr, int ifork)
 {
-	int	ifork;
 	int	icmd;
 
-	ifork = 0;
 	if (!mode)
 	{
 		icmd = 0;
@@ -47,9 +45,8 @@ int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
 				return (1);
 			icmd++;
 		}
-		return (0);
 	}
-	while (fork[ifork].line)
+	while (mode && fork[ifork].line)
 	{
 		icmd = 0;
 		while (icmd < fork[ifork].cmds)
@@ -63,55 +60,60 @@ int	ft_checkcondition(t_forks *fork, int mode, int forknbr)
 	return (0);
 }
 
+int	ft_forking(t_shell *msh, int fnbr, int fd, int status)
+{
+	char	*file;
+
+	while (msh->forks > fnbr)
+	{
+		if (msh->frk[fnbr].waitforlast)
+		{
+			waitpid(msh->frk[fnbr - 1].pid, &status, 0);
+			msh->code = WEXITSTATUS(status);
+			file = ft_strjoin(msh->tmpdir, "lastcode.tmp");
+			fd = open(file, O_RDONLY);
+			free(file);
+			if (fd > 0)
+			{
+				close(fd);
+				return (msh->code);
+			}
+		}
+		pipe(msh->pipes[fnbr + 1]);
+		msh->frk[fnbr].pid = fork();
+		if (msh->frk[fnbr].pid == 0)
+			exit (ft_execforks(fnbr, msh, ft_checkcond(msh->frk, 0, fnbr, 0)));
+		close(msh->pipes[fnbr][1]);
+		close(msh->pipes[fnbr][0]);
+		fnbr++;
+	}
+	return (-1);
+}
+
 int	ft_forktheforks(t_shell *msh)
 {
 	int		status;
-	int		forknumber;
-	int		fd;
-	char	*file;
+	int		fnbr;
 
-	forknumber = 0;
 	status = 1;
 	if (msh->forks > 1)
 	{
 		msh->pipes = ft_preparepipes(msh);
-		pipe(msh->pipes[forknumber]);
-		while (msh->forks > forknumber)
+		pipe(msh->pipes[0]);
+		msh->code = ft_forking(msh, 0, 0, status);
+		if (msh->code >= 0)
+			return (msh->code);
+		fnbr = 0;
+		while (msh->forks > fnbr)
 		{
-			if (msh->frk[forknumber].waitforlast)
-			{
-				waitpid(msh->frk[forknumber - 1].pid, &status, 0);
-				msh->code = WEXITSTATUS(status);
-				file = ft_strjoin(msh->tmpdir, "lastcode.tmp");
-				fd = open(file, O_RDONLY);
-				free(file);
-				if (fd > 0)
-				{
-					close(fd);
-					return (msh->code);
-				}
-			}
-			pipe(msh->pipes[forknumber + 1]);
-			msh->frk[forknumber].pid = fork();
-			if (msh->frk[forknumber].pid == 0)
-				exit (ft_executeforks(forknumber, msh, ft_checkcondition(msh->frk, 0, forknumber)));
-			close(msh->pipes[forknumber][1]);
-			close(msh->pipes[forknumber][0]);
-			forknumber++;
-		}
-		forknumber = 0;
-		while (msh->forks > forknumber)
-		{
-			close(msh->pipes[forknumber][0]);
-			close(msh->pipes[forknumber][1]);
-			waitpid(msh->frk[forknumber].pid, &status, 0);
+			close(msh->pipes[fnbr][0]);
+			close(msh->pipes[fnbr][1]);
+			waitpid(msh->frk[fnbr].pid, &status, 0);
 			msh->code = WEXITSTATUS(status);
-			forknumber++;
+			fnbr++;
 		}
 	}
 	else
-	{
-		msh->code = ft_executeforks(forknumber, msh, 0);
-	}
+		msh->code = ft_execforks(fnbr, msh, 0);
 	return (msh->code);
 }
