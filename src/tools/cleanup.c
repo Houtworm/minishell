@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/22 03:10:59 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 14:16:04 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void	ft_freeglobs(t_globs *globs)
 	free(globs->start);
 	free(globs->end);
 	free(globs->glob);
-	free(globs->anyof);
 	free(globs->pdir);
 	free(globs->backup);
 	ft_frearr(globs->sdir);

@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 13:34:34 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/21 15:52:26 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/23 14:16:37 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ void	ft_globcleannewline(t_globs *globs, char *temp, int k)
 		globs->sdir = ft_calloc(100, 128);
 		globs->li = globs->li + k;
 	}
-	ft_vafree(3, globs->anyof, globs->backup, globs->gend);
-	globs->anyof = ft_calloc(100, 8);
+	ft_vafree(2, globs->backup, globs->gend);
 	globs->backup = ft_calloc(10000, 8);
 	globs->gend = ft_calloc(1000, 8);
 	globs->matchcount = 0;

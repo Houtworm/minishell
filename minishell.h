@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 13:48:11 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/23 14:15:48 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ typedef struct s_globs
 	char		**matches;
 	int			li;
 	int			matchcount;
-	char		*anyof;
 	char		**dname;
 }	t_globs;
 
