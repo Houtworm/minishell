@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/25 04:55:07 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/22 04:54:16 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 23:49:25 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,13 @@ int	ft_joinpathsarg(char **args, char **paths, char **temp, int *i)
 int	ft_checkcommand(char **args, char **envp)
 {
 	int		i;
-	int		returncode;
 	char	*temp;
 	char	**paths;
 
 	i = 0;
 	paths = ft_getpaths(envp, 1);
-	returncode = ft_joinpathsarg(args, paths, &temp, &i);
+	if (ft_joinpathsarg(args, paths, &temp, &i) == 127)
+		return (127);
 	if (!paths[i] || ft_isallbyte(args[0], ' ')
 		|| ft_isallbyte(args[0], '.') || access(temp, F_OK))
 	{
@@ -114,5 +114,5 @@ int	ft_checkcommand(char **args, char **envp)
 		return (ft_errorret("permission denied", args[0], 126));
 	}
 	free (temp);
-	return (returncode);
+	return (0);
 }
