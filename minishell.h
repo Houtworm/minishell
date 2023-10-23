@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/22 03:27:00 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/23 13:09:02 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,7 @@ int			ft_nextjoker(t_globs *globs, char *dname, int reali, int globi);
 int			ft_firstsubjoker(t_globs *g, struct dirent *dre, int si, int ri);
 int			ft_nextsubjoker(t_globs *globs, int subi, int reali, int globi);
 // anyof
+int			ft_matchanyof(char *glob, int ri, int gi, char match);
 int			ft_firstanyof(t_globs *globs, char *dname, int reali);
 int			ft_nextanyof(t_globs *globs, char *dname, int reali, int globi);
 // subanyof

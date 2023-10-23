@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:51:38 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/21 13:14:09 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/23 13:17:40 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,11 @@
 
 int	ft_nextsubanyof(t_globs *globs, int si, int ri, int gi)
 {
-	int		l;
-
-	l = 0;
-	while (globs->sdir[si][gi] && globs->sdir[si][gi] != ']')
-	{
-		globs->anyof[l] = globs->sdir[si][gi];
-		gi++;
-		l++;
-	}
-	if (!globs->sdir[si][gi])
+	gi = ft_matchanyof(globs->sdir[si], ri, gi, globs->tmpsdir[si][ri]);
+	if (gi == 0)
 		return (0);
-	globs->anyof[l] = '\0';
-	if (globs->anyof[0] == '\0')
-		return (0);
-	if (ft_strchr(globs->anyof, globs->tmpsdir[si][ri]))
-	{
-		gi++;
+	else
 		ri++;
-	}
 	while (globs->sdir[si][gi] == '\\' || (globs->sdir[si][gi] && globs->tmpsdir[si][ri] && globs->tmpsdir[si][ri] == globs->sdir[si][gi]))
 	{
 		if (globs->sdir[si][gi] != '\\')

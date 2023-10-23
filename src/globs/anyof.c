@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 00:51:38 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 13:02:35 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/23 13:05:51 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_matchanyof(char *glob, int ri, int gi, char match)
 {
-	int	k;
-	char *anyof;
+	int		k;
+	char	*anyof;
 
 	k = 0;
 	anyof = ft_calloc(ft_strlen(glob), 8);
@@ -48,13 +48,15 @@ int	ft_nextanyof(t_globs *globs, char *dname, int ri, int gi)
 		return (0);
 	else
 		ri++;
-	while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
+	while (globs->gend[gi] == '\\' || \
+			(dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
 	{
 		if (globs->gend[gi] != '\\')
 			ri++;
 		gi++;
 	}
-	if (globs->gend[gi - 1] != '\\' && globs->gend[gi] && ft_strchr("*?[", globs->gend[gi]))
+	if (globs->gend[gi - 1] != '\\' && globs->gend[gi] && \
+			ft_strchr("*?[", globs->gend[gi]))
 		return (ft_nextglob(globs, dname, ri, gi));
 	if (globs->gend[gi] == '\0' && dname[ri] == '\0')
 		return (1);
@@ -71,7 +73,8 @@ int	ft_firstanyof(t_globs *globs, char *dname, int ri)
 		return (0);
 	else
 		ri++;
-	while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && dname[ri] == globs->gend[gi]))
+	while (globs->gend[gi] == '\\' || (dname[ri] && globs->gend[gi] && \
+				dname[ri] == globs->gend[gi]))
 	{
 		if (globs->gend[gi] != '\\')
 			ri++;
