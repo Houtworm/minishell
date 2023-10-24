@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 01:18:08 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/24 02:15:48 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/24 10:07:50 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,25 @@ void	ft_freeforks(t_forks *frk)
 
 void	ft_freeexit(t_shell *msh, int code)
 {
-	int		i;
+	/*int		i;*/
 
 	ft_rmdir(msh->tmpdir, msh->envp);
-	ft_freeforks(msh->frk);
-	free(msh->alias->val);
-	free(msh->alias->var);
-	free(msh->alias);
-	free(msh->historyfile);
-	free(msh->oldline);
-	free(msh->line);
-	ft_frearr(msh->envp);
-	i = 0;
-	while (i < 13)
-	{
-		free(msh->bltn[i].cmnd);
-		i++;
-	}
-	free(msh->bltn);
-	free(msh->os);
+	/*ft_freeforks(msh->frk);*/
+	/*free(msh->alias->val);*/
+	/*free(msh->alias->var);*/
+	/*free(msh->alias);*/
+	/*free(msh->historyfile);*/
+	/*free(msh->oldline);*/
+	/*free(msh->line);*/
+	/*ft_frearr(msh->envp);*/
+	/*i = 0;*/
+	/*while (i < 13)*/
+	/*{*/
+		/*free(msh->bltn[i].cmnd);*/
+		/*i++;*/
+	/*}*/
+	/*free(msh->bltn);*/
+	/*free(msh->os);*/
 	exit (code);
 }
 

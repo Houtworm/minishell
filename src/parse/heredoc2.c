@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/18 03:38:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/24 02:22:05 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/24 10:12:47 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	ft_heredoc(char *delimiter, char *file, t_shell msh, int heredoc)
 	if (ft_readstdinheredoc(delimiter, parse, fdi, msh))
 	{
 		close(fdi);
+		ft_freeforks(msh.frk);
 		return (1);
 	}
 	close(fdi);

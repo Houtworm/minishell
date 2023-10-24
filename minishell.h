@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/24 01:05:16 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/24 11:02:49 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,6 +300,7 @@ int			ft_errorret(char *reason, char *cmd, int code);
 int			ft_errorret2(char *reason, char *cmd, char *cmd2, int code);
 // cleanup
 void		ft_freeexit(t_shell *msh, int code);
+void		ft_freeforks(t_forks *frk);
 void		ft_freeglobs(t_globs *globs);
 void		ft_freenewprompt(t_shell *msh);
 // fd

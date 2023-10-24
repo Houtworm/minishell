@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   wildcard.c                                         :+:      :+:    :+:   */
+/*   wildcard.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:23 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/21 21:34:32 by houtworm         ###   ########.fr       */
+/*   Updated: 2023/10/24 10:18:12 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_firstwildcard(t_globs *globs, char *dname, int ri)
 			gi++;
 		if (dname[ri] == globs->gend[gi] || globs->gend[0] == '\0')
 			return (ft_firstwcposglob(globs, dname, &ri, &gi));
-		if (globs->gend[gi - 1] != '\\' && globs->gend[gi] && \
+		if ((gi == 0 || globs->gend[gi - 1] != '\\') && globs->gend[gi] && \
 				ft_strchr("*?[", globs->gend[gi]))
 			if (ft_nextglob(globs, dname, ri, gi))
 				return (1);

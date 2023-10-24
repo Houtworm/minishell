@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:29:24 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 23:05:55 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/24 11:01:49 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,12 @@ int	ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 
 	if (globs->sdir[i][0] == '/' && globs->sdir[i][1] == '\0')
 		return (ft_subjustaslash(globs, dname, i));
+	/*globs->dname[i] = ft_strdup(dname);*/
+	/*printf("dname original: %s %p\ncopy in struct: %s %p\n", dname, dname, globs->dname, globs->dname);*/
+	/*globs->fpath[i] = ft_strdup(fullpath);*/
+	/*printf("fpath original: %s %p\ncopy in struct: %s %p\n", fullpath, fullpath, globs->fpath, globs->fpath);*/
+	/*printf("dname: %s %p\n", globs->dname, globs->dname);*/
+	/*printf("fpath: %s %p\n", globs->fpath, globs->fpath);*/
 	dir = opendir(fullpath);
 	if (dir)
 	{
