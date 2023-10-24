@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/24 11:02:49 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/24 21:14:13 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,7 @@ int			ft_skipbutcopygstart(t_globs *globs, int startpos);
 void		ft_removequotesfromglobstart(t_globs *globs);
 void		ft_removequotesfromglobend(t_globs *globs);
 // globsub
-int			ft_recursivematchsub(t_globs *globs, char *path, char *dnme, int i);
+int			ft_recursivematchsub(t_globs *globs, char *dname, int i);
 // globpoint
 int			ft_nextsubglob(t_globs *globs, int subi, int reali, int globi);
 int			ft_firstsubglob(t_globs *globs, struct dirent *dre, int si, int ri);
