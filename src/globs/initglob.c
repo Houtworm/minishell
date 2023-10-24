@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:32:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/24 11:02:25 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/24 19:24:38 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,16 @@ void	ft_globmatches(t_globs *globs, char *dname, char type, char *fullpath)
 	{
 		if ((unsigned char)type == DT_DIR)
 		{
-			temp = ft_vastrjoin(2, fullpath, dname);
+			globs->fpath = ft_vastrjoin(2, fullpath, dname);
+			// temp = ft_vastrjoin(2, fullpath, dname);
 			free(globs->tmpsdir[0]);
 			globs->tmpsdir[0] = ft_strjoin("/", dname);
-			ft_recursivematchsub(globs, temp, dname, 0);
-			free(temp);
+			globs->dname = ft_strdup(dname);
+			ft_recursivematchsub(globs, globs->fpath, dname, 0);
+			// ft_recursivematchsub(globs, temp, dname, 0);
+			// free(temp);
+			free (globs->dname);
+			free (globs->fpath);
 		}
 	}
 	else
@@ -123,8 +128,6 @@ t_globs	*ft_initglobstruct(char *line)
 	globs->sdir = ft_calloc(linelength, 128);
 	globs->tmpsdir = ft_calloc(linelength, 128);
 	globs->pdir = ft_calloc(linelength * 2, 8);
-	/*globs->dname = ft_calloc(linelength, 8);*/
-	/*globs->fpath = ft_calloc(linelength, 800);*/
 	globs->matches = ft_calloc(linelength, 4096);
 	globs->line = ft_strdup(line);
 	globs->li = 0;
