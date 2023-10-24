@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:29:24 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/24 11:01:49 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/25 00:54:15 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_subjustaslash(t_globs *globs, char *dname, int i)
 	return (1);
 }
 
-void	ft_subfoundglob(t_globs *globs, int i, int j, char *fullpath, struct dirent *dirents, char *dname)
+void	ft_subfoundglob(t_globs *globs, int i, int j, char *fullpath, struct dirent *dirents)
 {
 	char	*temp;
 	char	*temp2;
@@ -39,7 +39,7 @@ void	ft_subfoundglob(t_globs *globs, int i, int j, char *fullpath, struct dirent
 		if (!globs->sdir[i + 1])
 		{
 			temp = ft_cpptostr(globs->tmpsdir);
-			temp2 = ft_vastrjoin(3, globs->pdir, dname, temp);
+			temp2 = ft_vastrjoin(3, globs->pdir, globs->dname, temp);
 			ft_addglobmatch(globs, temp2);
 			ft_vafree(2, temp, temp2);
 		}
@@ -49,13 +49,13 @@ void	ft_subfoundglob(t_globs *globs, int i, int j, char *fullpath, struct dirent
 			globs->tmpsdir[i] = ft_strjoin("/", dirents->d_name);
 			temp = ft_vastrjoin(3, fullpath, "/", dirents->d_name);
 			globs->temptype = dirents->d_type;
-			ft_recursivematchsub(globs, temp, dname, i + 1);
+			ft_recursivematchsub(globs, temp, i + 1);
 			free(temp);
 		}
 	}
 }
 
-void	ft_subatend(t_globs *globs, int i, int offset, char *fullpath, struct dirent *dirents, char *dname)
+void	ft_subatend(t_globs *globs, int i, int offset, char *fullpath, struct dirent *dirents)
 {
 	char	*temp;
 	char	*temp2;
@@ -65,7 +65,7 @@ void	ft_subatend(t_globs *globs, int i, int offset, char *fullpath, struct diren
 		free(globs->tmpsdir[i]);
 		globs->tmpsdir[i] = ft_strjoin("/", dirents->d_name);
 		temp = ft_cpptostr(globs->tmpsdir);
-		temp2 = ft_vastrjoin(3, globs->pdir, dname, temp);
+		temp2 = ft_vastrjoin(3, globs->pdir, globs->dname, temp);
 		ft_addglobmatch(globs, temp2);
 		ft_vafree(2, temp, temp2);
 	}
@@ -75,12 +75,12 @@ void	ft_subatend(t_globs *globs, int i, int offset, char *fullpath, struct diren
 		globs->tmpsdir[i] = ft_strjoin("/", dirents->d_name);
 		temp = ft_vastrjoin(3, fullpath, "/", dirents->d_name);
 		globs->temptype = dirents->d_type;
-		ft_recursivematchsub(globs, temp, dname, i + 1);
+		ft_recursivematchsub(globs, temp, i + 1);
 		free(temp);
 	}
 }
 
-void	ft_subcomparedir(t_globs *globs, struct dirent *dirents, int i, char *fullpath, char *dname)
+void	ft_subcomparedir(t_globs *globs, struct dirent *dirents, int i, char *fullpath)
 {
 	int		offset;
 	int		j;
@@ -97,19 +97,19 @@ void	ft_subcomparedir(t_globs *globs, struct dirent *dirents, int i, char *fullp
 				j++;
 		}
 		if (globs->sdir[i][j + offset] && globs->sdir[i][j + offset - 1] != '\\' && ft_strchr("*?[", globs->sdir[i][j + offset]))
-			ft_subfoundglob(globs, i, j + offset, fullpath, dirents, dname);
+			ft_subfoundglob(globs, i, j + offset, fullpath, dirents);
 		if (globs->sdir[i][j + offset] == '\0' && dirents->d_name[j] == '\0')
-			ft_subatend(globs, i, offset, fullpath, dirents, dname);
+			ft_subatend(globs, i, offset, fullpath, dirents);
 	}
 }
 
-int	ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
+int	ft_recursivematchsub(t_globs *globs, char *fullpath, int i)
 {
 	DIR				*dir;
 	struct dirent	*dirents;
 
 	if (globs->sdir[i][0] == '/' && globs->sdir[i][1] == '\0')
-		return (ft_subjustaslash(globs, dname, i));
+		return (ft_subjustaslash(globs, globs->dname, i));
 	/*globs->dname[i] = ft_strdup(dname);*/
 	/*printf("dname original: %s %p\ncopy in struct: %s %p\n", dname, dname, globs->dname, globs->dname);*/
 	/*globs->fpath[i] = ft_strdup(fullpath);*/
@@ -122,7 +122,7 @@ int	ft_recursivematchsub(t_globs *globs, char *fullpath, char *dname, int i)
 		dirents = readdir(dir);
 		while (dirents)
 		{
-			ft_subcomparedir(globs, dirents, i, fullpath, dname);
+			ft_subcomparedir(globs, dirents, i, fullpath);
 			dirents = readdir(dir);
 		}
 		closedir(dir);

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:32:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/24 11:02:25 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/25 00:52:57 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ void	ft_globmatches(t_globs *globs, char *dname, char type, char *fullpath)
 			temp = ft_vastrjoin(2, fullpath, dname);
 			free(globs->tmpsdir[0]);
 			globs->tmpsdir[0] = ft_strjoin("/", dname);
-			ft_recursivematchsub(globs, temp, dname, 0);
+			globs->dname = ft_strdup(dname);
+			ft_recursivematchsub(globs, temp, 0);
+			free(globs->dname);
 			free(temp);
 		}
 	}
