@@ -1,14 +1,7 @@
 # Minishell
 ---
 ## Todo
-### Parsing
-- Heredoc should react to signals
-- ~~ is instant crash
-### Builtin
-#### Period
-- just a / should print is a directory
-### Tester
-- we should add a lot of bad syntax to make sure we won't segfault during evaluation.
+Nothing...
 
 ---
 ### Cleanup
