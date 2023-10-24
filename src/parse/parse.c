@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:36:04 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 18:15:02 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/24 01:38:05 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,29 @@ int	ft_parsecmds(t_shell *msh, int f, int c, char **path)
 	return (0);
 }
 
+int	ft_parseforks(t_shell *msh, int forknumber)
+{
+	int	ret;
+
+	while (msh->forks > forknumber)
+	{
+		ft_parseendcondition(msh, forknumber, 0, 0);
+		ret = ft_parseinputfiles(msh, forknumber);
+		if (ret == 130)
+			return (130);
+		if (ret)
+			return (1);
+		if (msh->debug)
+			ft_printforks(msh->frk[forknumber], forknumber);
+		forknumber++;
+	}
+	return (0);
+}
+
 int	ft_parseline(char *line, t_shell *msh, int forknumber)
 {
+	int	ret;
+
 	free(msh->line);
 	msh->line = ft_strdup(line);
 	if (!ft_parseoldline(msh))
@@ -111,14 +132,6 @@ int	ft_parseline(char *line, t_shell *msh, int forknumber)
 	ft_parsepipe(msh);
 	if (msh->debug)
 		ft_printshell(*msh);
-	while (msh->forks > forknumber)
-	{
-		ft_parseendcondition(msh, forknumber, 0, 0);
-		if (ft_parseinputfiles(msh, forknumber))
-			return (1);
-		if (msh->debug)
-			ft_printforks(msh->frk[forknumber], forknumber);
-		forknumber++;
-	}
-	return (0);
+	ret = ft_parseforks(msh, forknumber);
+	return (ret);
 }

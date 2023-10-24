@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/18 03:38:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/22 03:13:34 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/24 02:22:05 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,40 @@ char	*ft_checkdelimiter(char *delimiter)
 	return (delimiter);
 }
 
-void	ft_readstdinheredoc(char *delimiter, int parse, int fdi, t_shell msh)
+int	ft_heredocfork(char *dl, int parse, int fdi, t_shell msh)
 {
 	char	*line;
 	int		length;
 
-	length = ft_strlen(delimiter);
-	ft_putstr_fd("minishell heredoc> ", 0);
-	get_next_line(0, &line);
+	length = ft_strlen(dl);
+	signal(SIGINT, ft_sighandlerheredoc);
+	line = readline("minishell heredoc>");
 	if (!line)
-		ft_errorexit("Error allocating memory", "ft_heredoc", 1);
-	while (ft_strncmp(line, delimiter, length + 1))
+		exit (ft_errorret2("delimited by EOF char", "expected", dl, 0));
+	while (ft_strncmp(line, dl, length + 1))
 	{
-		ft_putstr_fd("minishell heredoc> ", 0);
 		if (parse)
 			line = ft_parsevar(line, msh, 0);
 		ft_putendl_fd(line, fdi);
 		free(line);
-		get_next_line(0, &line);
+		line = readline("minishell heredoc>");
 		if (!line)
-			ft_errorexit("Error allocating memory", "ft_heredoc", 1);
+			exit (ft_errorret2("delimited by EOF char", "expected", dl, 0));
 	}
 	free(line);
+	exit (0);
+}
+
+int	ft_readstdinheredoc(char *delimiter, int parse, int fdi, t_shell msh)
+{
+	int		pid;
+	int		status;
+
+	pid = fork();
+	if (pid == 0)
+		exit(ft_heredocfork(delimiter, parse, fdi, msh));
+	waitpid(pid, &status, 0);
+	return (WEXITSTATUS(status));
 }
 
 	// add in these lines to enalbe ZSH behavior
@@ -82,7 +94,11 @@ int	ft_heredoc(char *delimiter, char *file, t_shell msh, int heredoc)
 	delimiter = ft_checkdelimiter(delimiter);
 	if (ft_strlen(delimiter) < length)
 		parse = 0;
-	ft_readstdinheredoc(delimiter, parse, fdi, msh);
+	if (ft_readstdinheredoc(delimiter, parse, fdi, msh))
+	{
+		close(fdi);
+		return (1);
+	}
 	close(fdi);
-	return (fdi);
+	return (0);
 }

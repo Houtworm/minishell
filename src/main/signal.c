@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 22:27:48 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 06:38:28 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/24 02:21:09 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,13 @@ void	ft_sighandler(int sig)
 	if (sig == SIGQUIT)
 	{
 		ft_putstr_fd("Quit (core dumped)", 0);
+	}
+}
+
+void	ft_sighandlerheredoc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		exit(1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:23 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 15:01:03 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/24 02:30:08 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int	ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int si, int gi)
 	int	*srg;
 	int	ret;
 
+	ret = 0;
 	srg = ft_calloc(4, 16);
 	srg[0] = si;
 	srg[1] = gi - 1;
@@ -126,15 +127,14 @@ int	ft_firstsubwildcard(t_globs *globs, struct dirent *dirents, int si, int gi)
 	if ((globs->sdir[si][0] == '.' && dirents->d_name[0] == '.') || \
 			(globs->sdir[si][0] != '.' && dirents->d_name[0] != '.'))
 	{
-		while (dirents->d_name[srg[1]])
+		while (ret == 0 && dirents->d_name[srg[1]])
 		{
 			ret = ft_attemptfromhere(globs, dirents, srg);
-			if (ret == 1)
-				return (1);
-			if (ret == 2)
-				return (0);
 			srg[1]++;
 		}
 	}
+	free(srg);
+	if (ret == 1)
+		return (1);
 	return (0);
 }

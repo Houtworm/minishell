@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/17 16:21:59 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/22 02:42:00 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/24 01:57:25 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,24 @@ int	ft_foundinfile(t_shell *msh, int frkn, int icmd, char *start)
 
 	i = ft_strlen(start);
 	if (msh->frk[frkn].cmd[icmd].line[i + 1] == '<')
-		ft_heredocinit(msh, frkn, icmd, start);
+	{
+		if (ft_heredocinit(msh, frkn, icmd, start))
+			return (130);
+	}
 	else
 		if (ft_infileinit(msh, frkn, icmd, start))
 			return (2);
 	return (0);
 }
 
-char	*ft_getstart_in(t_shell *msh, int frkn, int icmd, char *start)
+int	ft_getstart_in(t_shell *msh, int frkn, int icmd, char *start)
 {
 	int		i;
+	int		ret;
 
 	i = 0;
-	while (msh->frk[frkn].cmd[icmd].line[i])
+	ret = 0;
+	while (ret == 0 && msh->frk[frkn].cmd[icmd].line[i])
 	{
 		if (ft_strchr("\'\"", msh->frk[frkn].cmd[icmd].line[i]))
 		{
@@ -84,8 +89,7 @@ char	*ft_getstart_in(t_shell *msh, int frkn, int icmd, char *start)
 		else if (msh->frk[frkn].cmd[icmd].line[i] == '<')
 		{
 			start[i] = '\0';
-			if (ft_foundinfile(msh, frkn, icmd, start))
-				return (NULL);
+			ret = ft_foundinfile(msh, frkn, icmd, start);
 			i = 0;
 		}
 		else
@@ -94,27 +98,25 @@ char	*ft_getstart_in(t_shell *msh, int frkn, int icmd, char *start)
 			i++;
 		}
 	}
-	return (start);
+	return (ret);
 }
 
 int	ft_parseinputfiles(t_shell *msh, int frkn)
 {
 	int		icmd;
+	int		ret;
 	char	*start;
 
 	icmd = 0;
+	ret = 0;
 	start = ft_calloc(ft_strlen(msh->frk[frkn].cmd[icmd].line), 8);
-	while (icmd < msh->frk[frkn].cmds)
+	while (ret == 0 && icmd < msh->frk[frkn].cmds)
 	{
 		msh->frk[frkn].cmd[icmd].infiles = 0;
 		if (ft_checkoutquote(msh->frk[frkn].cmd[icmd].line, '<', 2) >= 0)
-		{
-			start = ft_getstart_in(msh, frkn, icmd, start);
-			if (!start)
-				return (2);
-		}
+			ret = ft_getstart_in(msh, frkn, icmd, start);
 		icmd++;
 	}
 	free(start);
-	return (0);
+	return (ret);
 }

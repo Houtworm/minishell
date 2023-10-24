@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 23:43:24 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/24 01:05:16 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ t_shell		*ft_initstruct(char **envp, int debugmode);
 // prompt
 void		ft_printprompt(t_shell *msh, char **envp);
 // signal
+void		ft_sighandlerheredoc(int sig);
 void		ft_sighandler(int sig);
 int			ft_sighook(void);
 // mshrc
@@ -168,7 +169,7 @@ char		*ft_cpnonquote(char *args, char *new, int *j, int *k);
 char		**ft_removequotes(char **args);
 // heredoc
 int			ft_heredoc(char *delimiter, char *file, t_shell msh, int heredoc);
-void		ft_heredocinit(t_shell *msh, int ifrk, int icmd, char *strt);
+int			ft_heredocinit(t_shell *msh, int ifrk, int icmd, char *strt);
 // inputfile
 int			ft_parseinputfiles(t_shell *msh, int forknumber);
 char		*ft_getendinputfile(t_shell *msh, int forknumber, int icmd, int i);
