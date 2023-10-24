@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/25 00:52:24 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/25 01:41:25 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void		ft_executepriority(t_commands *cmd, char **envp, char *sysfile);
 // substitution2
 void		ft_executedollarsign(t_commands *cmd, char **envp, char *sysfile);
 // nonbuiltin
-void	ft_nonbuiltinfork(t_commands *cmd, int c, int f, t_shell *msh);
+void		ft_nonbuiltinfork(t_commands *cmd, int c, int f, t_shell *msh);
 // exec
 int			ft_execforks(int forknbr, t_shell *msh, int condition);
 // dupmachine

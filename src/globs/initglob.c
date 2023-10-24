@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/20 03:32:43 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/25 00:52:57 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/25 01:41:43 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,6 @@ t_globs	*ft_initglobstruct(char *line)
 	globs->sdir = ft_calloc(linelength, 128);
 	globs->tmpsdir = ft_calloc(linelength, 128);
 	globs->pdir = ft_calloc(linelength * 2, 8);
-	/*globs->dname = ft_calloc(linelength, 8);*/
-	/*globs->fpath = ft_calloc(linelength, 800);*/
 	globs->matches = ft_calloc(linelength, 4096);
 	globs->line = ft_strdup(line);
 	globs->li = 0;

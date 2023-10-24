@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 13:34:34 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 14:16:37 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/25 01:21:54 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,16 @@ void	ft_newpipefoundmatch(t_globs *globs, char *temp, int i, int k)
 	while (globs->matches[i])
 	{
 		j = 0;
-		if (ft_isallbyte(globs->matches[i], ' '))
-		{
-			temp[k] = '\'';
-			k++;
-		}
+		temp[k] = '\'';
+		k++;
 		while (globs->matches[i][j])
 		{
 			temp[k] = globs->matches[i][j];
 			j++;
 			k++;
 		}
-		if (ft_isallbyte(globs->matches[i], ' '))
-		{
-			temp[k] = '\'';
-			k++;
-		}
+		temp[k] = '\'';
+		k++;
 		temp[k] = ' ';
 		k++;
 		i++;
