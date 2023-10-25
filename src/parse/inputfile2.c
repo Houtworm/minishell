@@ -6,12 +6,11 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/18 02:37:58 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/25 05:24:28 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/25 05:27:24 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 int	ft_inputtofd(char *infile, char *tmpfile, int inputnumber)
 {

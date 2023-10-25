@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/18 03:38:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/25 05:23:33 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/25 05:27:18 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	ft_readstdinheredoc(char *delimiter, int parse, int fdi, t_shell msh)
 	waitpid(pid, &status, 0);
 	return (WEXITSTATUS(status));
 }
-
 
 int	ft_heredoc(char *delimiter, char *file, t_shell msh, int heredoc)
 {
