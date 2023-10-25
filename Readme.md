@@ -1,22 +1,6 @@
 # Minishell
 ---
-## Todo
-Nothing...
 
----
-### Cleanup
-- Check for forbidden functions
-- look for optimizations anywhere in the code
-- No memory leaks found in any testcase
-- protect all mallocs
-- Break up code into digestable functions
-- Norminette
-- Push to 42 git
-- double check
-- close project
-- evaluation
-
----
 ## Features
 #### Mandatory
 - ```CTRL + C```
