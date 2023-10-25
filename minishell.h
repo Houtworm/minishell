@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/25 01:41:25 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/25 04:35:31 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ typedef struct s_shell
 // main
 int			main(int argc, char **argv, char **envp);
 // init
+int			ft_getpid(void);
+char		*ft_createtempdir(char **envp, int pid);
 t_shell		*ft_initstruct(char **envp, int debugmode);
 // prompt
 void		ft_printprompt(t_shell *msh, char **envp);

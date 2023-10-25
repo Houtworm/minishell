@@ -6,11 +6,19 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 23:45:21 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/25 05:19:40 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	ft_fixstatus(void)
+{
+	int	fd;
+
+	fd = open("/proc/self/status", O_RDWR);
+	close(fd);
+}
 
 int	ft_getpid(void)
 {
@@ -32,6 +40,7 @@ int	ft_getpid(void)
 			pid = ft_atoi(&line[i]);
 			free (line);
 			close(fd);
+			ft_fixstatus();
 			return (pid);
 		}
 		free (line);

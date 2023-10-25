@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/30 04:01:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/24 00:08:32 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/25 05:14:54 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_checkperiod(t_commands cmd)
 	return (0);
 }
 
-int	ft_periodscript(t_shell *msh, int fd)
+int	ft_scriptfork(t_shell *msh, int fd)
 {
 	int		status;
 	char	*line;
@@ -42,18 +42,38 @@ int	ft_periodscript(t_shell *msh, int fd)
 		{
 			free(line);
 			close(fd);
-			return (msh->code);
+			exit(msh->code);
 		}
 		ft_freenewprompt(msh);
 		if (ft_parseline(line, msh, 0))
 		{
 			free(line);
 			close(fd);
-			return (2);
+			exit(2);
 		}
 		free(line);
 		msh->code = ft_forktheforks(msh);
 	}
+	exit(0);
+}
+
+int	ft_periodscript(t_shell *msh, int fd)
+{
+	int		status;
+	int		pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		msh->pid = ft_getpid();
+		free(msh->tmpdir);
+		msh->tmpdir = ft_createtempdir(msh->envp, msh->pid);
+		ft_charpptofd(msh->envp, msh);
+		msh->envp = ft_fdtocharpp(msh);
+		ft_scriptfork(msh, fd);
+	}
+	waitpid(pid, &status, 0);
+	msh->code = WEXITSTATUS(status);
 	return (0);
 }
 

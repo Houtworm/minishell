@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/23 18:17:02 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/10/23 18:17:56 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/25 03:00:50 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_checksmallerthan(t_shell *msh, char *line, int i)
 		j++;
 	while (line[i + j] == ' ')
 		j++;
-	if (!line[i + j] || ft_strchr(";<&|", line[i + j]))
+	if (ft_strchr(";<&|", line[i + j]))
 		return (ft_syntaxerror(msh, '<', line, i));
 	return (0);
 }
@@ -35,7 +35,7 @@ int	ft_checkmorethan(t_shell *msh, char *line, int i)
 		j++;
 	while (line[i + j] == ' ')
 		j++;
-	if (!line[i + j] || ft_strchr(";<>&|", line[i + j]))
+	if (ft_strchr(";<>&|", line[i + j]))
 		return (ft_syntaxerror(msh, '>', line, i));
 	return (0);
 }
@@ -49,7 +49,7 @@ int	ft_checkampersand(t_shell *msh, char *line, int i)
 		j++;
 	while (line[i + j] == ' ')
 		j++;
-	if (!line[i + j] || ft_strchr(";&|", line[i + j]))
+	if (line[i + j] && ft_strchr(";&|", line[i + j]))
 		return (ft_syntaxerror(msh, '&', line, i));
 	return (0);
 }
@@ -63,7 +63,7 @@ int	ft_checkpipe(t_shell *msh, char *line, int i)
 		j++;
 	while (line[i + j] == ' ')
 		j++;
-	if (!line[i + j] || ft_strchr(";&|", line[i + j]))
+	if (line[i + j] && ft_strchr(";&|", line[i + j]))
 		return (ft_syntaxerror(msh, '|', line, i));
 	return (0);
 }
