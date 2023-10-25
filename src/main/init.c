@@ -6,28 +6,47 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/25 09:37:52 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/25 11:26:57 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_getpid(char **envp)
+void	ft_fixstatus(void)
 {
-	int			pid;
-	char		*file;
-	char		*line;
+	int	fd;
 
-	if (!access("/tmp/ft_systemtempfile", R_OK | W_OK))
-		ft_errorexit("I think you evaluated enough...", "init", 1);
-	file = ft_system("cat /proc/self/status", envp, "/tmp/ft_systemtempfile");
-	unlink("/tmp/ft_systemtempfile");
-	line = ft_strnstr(file, "Pid:", 2000);
-	while (*line < 0 || *line > 9)
-		line++;
-	pid = ft_atoi(line);
-	free (file);
-	return (pid);
+	fd = open("/proc/self/status", O_RDWR | O_APPEND);
+	close(fd);
+}
+
+int	ft_getpid(void)
+{
+	int		fd;
+	int		pid;
+	char	*line;
+	int		i;
+
+	fd = open("/proc/self/status", O_RDONLY);
+	pid = 1;
+	i = 0;
+	while (pid > 0)
+	{
+		pid = get_next_line(fd, &line);
+		if (!ft_strncmp(line, "Pid:", 4))
+		{
+			while (line[i] < 0 || line[i] > 9)
+				i++;
+			pid = ft_atoi(&line[i]);
+			free (line);
+			close(fd);
+			ft_fixstatus();
+			return (pid);
+		}
+		free (line);
+	}
+	close(fd);
+	return (-1);
 }
 
 void	ft_shelllevelup(char **envp)
@@ -64,7 +83,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	msh = ft_calloc(10000, 8);
 	msh->os = ft_getos();
 	msh->home = ft_gethome(envp);
-	msh->pid = ft_getpid(envp);
+	msh->pid = ft_getpid();
 	msh->tmpdir = ft_createtempdir(envp, msh->pid);
 	msh->sysfile = ft_strjoin(msh->tmpdir, "ft_system");
 	msh->starttime = ft_gettimemsdate(envp, msh->sysfile);

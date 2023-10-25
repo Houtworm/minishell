@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/25 06:47:36 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/25 11:27:28 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_globs
 	int			li;
 	int			matchcount;
 	char		*dname;
-	char		*fpath;
 }	t_globs;
 
 typedef struct s_commands
@@ -121,7 +120,7 @@ typedef struct s_shell
 // main
 int			main(int argc, char **argv, char **envp);
 // init
-int			ft_getpid(char **envp);
+int			ft_getpid(void);
 char		*ft_createtempdir(char **envp, int pid);
 t_shell		*ft_initstruct(char **envp, int debugmode);
 // prompt
