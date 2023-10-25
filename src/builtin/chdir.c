@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 17:21:02 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 23:59:59 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/25 05:54:45 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_cdgetoldcwd(t_commands c, t_shell *msh, char *line)
 {
 	char	*oldcwd;
 
-	oldcwd = malloc(512);
+	oldcwd = ft_calloc(512, 8);
 	getcwd(oldcwd, 512);
 	if (chdir(line))
 	{
@@ -84,7 +84,7 @@ void	ft_cdgetnewcwd(t_commands cmd, t_shell *msh)
 {
 	char	*newcwd;
 
-	newcwd = malloc(512);
+	newcwd = ft_calloc(512, 8);
 	getcwd(newcwd, 512);
 	if (newcwd[0] != '/')
 	{

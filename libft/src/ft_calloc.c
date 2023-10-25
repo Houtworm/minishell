@@ -6,7 +6,7 @@
 /*   By: djonker <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/01 21:20:32 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 16:55:45 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/25 05:52:55 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*ft_calloc(size_t count, size_t size)
 	}
 	p = malloc(count * size);
 	if (p == NULL)
-		return (0x0);
+		exit(1);
 	if (p)
 	{
 		t = p;

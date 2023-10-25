@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 22:44:40 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/25 05:55:11 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,9 @@ int	**ft_preparepipes(t_shell *msh)
 
 	i = 0;
 	pipes = ft_calloc(sizeof(int *) * (msh->forks + 2), 1);
-	if (pipes == NULL)
-		ft_errorexit("Error allocating memory", "malloc", 1);
 	while (i <= msh->forks + 1)
 	{
 		pipes[i] = ft_calloc(sizeof(int) * 2, 1);
-		if (pipes[i] == NULL)
-			ft_errorexit("Error allocating memory", "malloc", 1);
 		i++;
 	}
 	return (pipes);
