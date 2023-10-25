@@ -6,13 +6,13 @@
 #    By: djonker <marvin@codam.nl>                    +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/10/27 15:02:02 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/23 18:24:31 by yitoh         ########   odam.nl          #
+#    Updated: 2023/10/25 05:28:15 by djonker       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=libft.a
 CC			=gcc
-FC			=-Wall -Werror -Wextra -g #-fsanitize=address
+FC			=-Wall -Werror -Wextra# -g -fsanitize=address
 FAR			=ar -rs
 RM			=rm -f
 SRC			=src/ft_atoi.c \
