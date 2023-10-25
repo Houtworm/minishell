@@ -6,7 +6,7 @@
 /*   By: djonker <marvin@codam.nl>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/11 16:02:53 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 00:04:36 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/25 07:05:24 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <fcntl.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 
 typedef struct s_list

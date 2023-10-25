@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/20 16:39:22 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 00:02:49 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/25 09:33:24 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	ft_systemfork(char **cmd, char **paths, char **envp, char *file)
 	if (pid == 0)
 	{
 		fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+		if (fd == -1)
+			exit(1);
 		dup2(fd, 1);
 		execve(command, cmd, envp);
 		ft_putstr_fd("command not found: ", 2);

@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/30 04:01:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/25 05:14:54 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/25 06:47:53 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_periodscript(t_shell *msh, int fd)
 	pid = fork();
 	if (pid == 0)
 	{
-		msh->pid = ft_getpid();
+		msh->pid = ft_getpid(msh->envp);
 		free(msh->tmpdir);
 		msh->tmpdir = ft_createtempdir(msh->envp, msh->pid);
 		ft_charpptofd(msh->envp, msh);
