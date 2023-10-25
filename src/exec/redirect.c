@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/17 19:54:30 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/23 19:16:09 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/25 05:26:24 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ void	ft_rediout(char **outfile, int *append, int frkn, t_shell *msh)
 	outtmp = ft_vastrjoin(4, msh->tmpdir, "outputfile", line, ".tmp");
 	free(line);
 	i = 0;
-	while (outfile[i] && outfile[i + 1])
-		i++;
 	while (outfile[i])
 	{
 		ft_redirecttofile(outfile, append, outtmp, i);

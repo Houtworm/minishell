@@ -6,16 +6,12 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/18 02:37:58 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/20 17:42:24 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/10/25 05:24:28 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-	// add below lines to enable zsh behavior
-	/*if (inputnumber)*/
-		/*tempfd = open(tmpfile, O_RDWR | O_CREAT | O_APPEND, 0666);*/
-	/*else*/
 
 int	ft_inputtofd(char *infile, char *tmpfile, int inputnumber)
 {
@@ -23,8 +19,10 @@ int	ft_inputtofd(char *infile, char *tmpfile, int inputnumber)
 	char	*line;
 	int		tempfd;
 
-	inputnumber = inputnumber;
-	tempfd = open(tmpfile, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	if (inputnumber)
+		tempfd = open(tmpfile, O_RDWR | O_CREAT | O_APPEND, 0666);
+	else
+		tempfd = open(tmpfile, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	fdi = open(infile, O_RDONLY);
 	while (get_next_line(fdi, &line) > 0)
 	{

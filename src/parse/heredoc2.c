@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/18 03:38:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/24 10:12:47 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/25 05:23:33 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,6 @@ int	ft_readstdinheredoc(char *delimiter, int parse, int fdi, t_shell msh)
 	return (WEXITSTATUS(status));
 }
 
-	// add in these lines to enalbe ZSH behavior
-	/*78 if (heredoc)*/
-		/*79 fdi = open(file, O_RDWR | O_CREAT | O_APPEND, 0666);*/
-	/*80 else*/
 
 int	ft_heredoc(char *delimiter, char *file, t_shell msh, int heredoc)
 {
@@ -87,8 +83,10 @@ int	ft_heredoc(char *delimiter, char *file, t_shell msh, int heredoc)
 	size_t	length;
 	int		parse;
 
-	heredoc = heredoc;
-	fdi = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	if (heredoc)
+		fdi = open(file, O_RDWR | O_CREAT | O_APPEND, 0666);
+	else
+		fdi = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	length = ft_strlen(delimiter);
 	parse = 1;
 	delimiter = ft_checkdelimiter(delimiter);
