@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                     .--.  _                  #
-#    Makefile                                        |o_o || |                 #
+#    Makefile                                           :+:    :+:             #
 #                                                    |:_/ || |_ _   ___  __    #
 #    By: djonker <djonker@student.codam.nl>         //   \ \ __| | | \ \/ /    #
 #                                                  (|     | )|_| |_| |>  <     #
 #    Created: 2021/05/27 01:24:02 by djonker      /'\_   _/`\__|\__,_/_/\_\    #
-#    Updated: 2023/02/20 20:37:06 by houtworm     \___)=(___/                  #
+#    Updated: 2023/10/26 18:00:26 by houtworm      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ fclean:		clean
 
 re:			fclean all
 
-$(OBJ):		$(SRC)
+$(OBJ):		$(SRC) get_next_line.h Makefile
 				@mkdir -p $(dir $@)
 				@printf "\e[1;34mBuilding $@\n\e[0;00m"
 				@$(CC) $(CFLAGS) -c $(@:obj/%.o=src/%.c) -o $@

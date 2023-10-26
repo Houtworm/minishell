@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   get_next_line.h                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: djonker <marvin@codam.nl>                    +#+                     */
+/*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/12/19 06:09:11 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 16:55:31 by houtworm      ########   odam.nl         */
+/*   Created: 2023/10/26 18:51:25 by houtworm      #+#    #+#                 */
+/*   Updated: 2023/10/26 18:51:26 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

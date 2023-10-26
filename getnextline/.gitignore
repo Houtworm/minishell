@@ -1,8 +1,0 @@
-*.pdf
-*.o
-*.a
-LICENSE
-obj
-tests/tmp
-.git
-.ccls-cache

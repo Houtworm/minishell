@@ -6,7 +6,7 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/25 09:48:54 by djonker       ########   odam.nl          #
+#    Updated: 2023/10/26 18:03:08 by houtworm      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,7 +101,7 @@ fclean:		clean
 
 re:			fclean all
 
-$(OBJ):		$(SRC)
+$(OBJ):		$(SRC) minishell.h Makefile
 				@mkdir -p $(dir $@)
 				@printf "\e[1;34mBuilding $@\n\e[0;00m"
 				@$(CC) $(CFLAGS) -c $(@:obj/%.o=src/%.c) -o $@

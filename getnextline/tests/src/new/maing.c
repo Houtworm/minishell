@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   maing.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: djonker <marvin@codam.nl>                    +#+                     */
+/*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/02/15 03:43:05 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/18 17:08:41 by houtworm      ########   odam.nl         */
+/*   Created: 2023/10/26 18:53:02 by houtworm      #+#    #+#                 */
+/*   Updated: 2023/10/26 18:53:02 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
