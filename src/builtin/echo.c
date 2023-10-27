@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 18:13:11 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/19 02:08:41 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/27 13:23:45 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	ft_echo(t_commands cmd, t_shell *msh)
 	flagcount[0] = 0;
 	flagcount[1] = 0;
 	flagcount[2] = 1;
+	msh->nothing = 1;
 	if (cmd.arg[1])
 	{
 		print = ft_calloc(10000, 8);
@@ -85,7 +86,6 @@ int	ft_echo(t_commands cmd, t_shell *msh)
 	}
 	else
 		printf("\n");
-	msh = msh;
 	free(flagcount);
 	return (0);
 }

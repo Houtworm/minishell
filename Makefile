@@ -6,12 +6,12 @@
 #    By: djonker <djonker@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/19 15:20:20 by djonker       #+#    #+#                  #
-#    Updated: 2023/10/26 18:03:08 by houtworm      ########   odam.nl          #
+#    Updated: 2023/10/27 13:21:32 by djonker       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=minishell
-CC		=gcc
+CC		=cc
 CFLAGS	=-Wall -Werror -Wextra -g -fsanitize=address
 RM		=rm -f
 SRC		=src/main/main.c\

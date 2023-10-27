@@ -6,7 +6,7 @@
 /*   By: djonker <codam@houtworm.net>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/21 13:34:34 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/25 01:21:54 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/27 13:27:14 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	ft_newpipeline(t_globs *globs)
 	int		k;
 	char	*temp;
 
+	k = 0;
 	if (!globs->matches[0])
 	{
 		temp = ft_strdup(globs->backup);

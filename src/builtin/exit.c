@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 18:48:08 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 02:15:24 by djonker       ########   odam.nl         */
+/*   Updated: 2023/10/27 13:23:21 by djonker       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	ft_exit(t_commands cmd, t_shell *msh)
 	int	i;
 
 	i = 0;
+	msh->nothing = 1;
 	if (!cmd.arg[1])
 		return (0);
 	if (cmd.arg[1][0] == '\0' || ft_checklonglong(cmd.arg[1], 0))
@@ -77,5 +78,4 @@ int	ft_exit(t_commands cmd, t_shell *msh)
 		i++;
 	}
 	return (ft_atol(cmd.arg[1]));
-	msh = msh;
 }
