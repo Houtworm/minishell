@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/18 03:38:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/29 04:14:17 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/10/29 04:51:36 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,7 @@ int	ft_heredoc(char *delimiter, char *file, t_shell msh, int heredoc)
 		fdi = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	length = ft_strlen(delimiter);
 	parse = 1;
-	printf("delimiter: %s\n", delimiter);
 	delimiter = ft_checkdelimiter(delimiter);
-	printf("delimiter: %s\n", delimiter);
 	if (ft_strlen(delimiter) < length)
 		parse = 0;
 	if (ft_readstdinheredoc(delimiter, parse, fdi, msh))
