@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/23 20:06:18 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/10/23 20:07:02 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/11/11 07:35:01 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_nonbuiltin_child(t_commands *cmd, int c, int f, t_shell *msh)
 		close(msh->pipes[f + 1][1]);
 		close(msh->pipes[f + 1][0]);
 	}
-	execve((*cmd).abs, (*cmd).arg, msh->envp);
+	execve(cmd->abs, cmd->arg, msh->envp);
 	ft_errorexit("command not found", (*cmd).abs, 127);
 }
 
@@ -43,5 +43,5 @@ void	ft_nonbuiltinfork(t_commands *cmd, int c, int f, t_shell *msh)
 		close(msh->pipes[f + 1][0]);
 	}
 	waitpid(pid, &status, 0);
-	(*cmd).code = WEXITSTATUS(status);
+	cmd->code = WEXITSTATUS(status);
 }

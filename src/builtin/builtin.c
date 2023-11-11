@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/12 15:11:33 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/25 04:31:57 by djonker       ########   odam.nl         */
+/*   Updated: 2023/11/11 07:59:46 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ void	ft_builtinfork(int cmdnbr, int forknbr, t_shell *msh, int i)
 		exit(msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh));
 	}
 	waitpid(pid, &ret, 0);
-	msh->code = WEXITSTATUS(ret);
+	g_retcode = WEXITSTATUS(ret);
 	if (i == 8 || i == 9)
-		ft_freeexit(msh, msh->code);
+		ft_freeexit(msh, g_retcode);
 }
 
 int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
@@ -93,9 +93,9 @@ int	ft_builtinexecute(int cmdnbr, int forknbr, t_shell *msh, int i)
 		free(itoa);
 		free(outtmp);
 		close(fd);
-		msh->code = msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh);
+		g_retcode = msh->bltn[i].func(msh->frk[forknbr].cmd[cmdnbr], msh);
 	}
-	return (msh->code);
+	return (g_retcode);
 }
 
 int	ft_builtincheck(t_commands cmd, int cmdnbr, int forknbr, t_shell *msh)

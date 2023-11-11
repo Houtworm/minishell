@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/22 13:26:25 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/19 00:08:51 by djonker       ########   odam.nl         */
+/*   Updated: 2023/11/11 07:57:58 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,20 @@ char	*ft_addexecutiontime(t_shell *msh, char *temp, char **envp)
 	return (prompt);
 }
 
-char	*ft_addreturncode(t_shell *msh, char *temp)
+char	*ft_addreturncode(char *temp)
 {
 	char	*prompt;
 	char	*temp2;
 
-	if (msh->code != 256)
+	if (g_retcode != 256)
 	{
-		if (msh->code)
+		if (g_retcode)
 			temp2 = ft_strjoin(temp, "ms \e[34;41m\e[30;41m ");
 		else
 			temp2 = ft_strjoin(temp, "ms \e[34;42m\e[30;42m ");
 		free(temp);
-		temp = ft_itoa(msh->code);
-		if (msh->code)
+		temp = ft_itoa(g_retcode);
+		if (g_retcode)
 			prompt = ft_vastrjoin(3, temp2, temp, " ✘ \e[31;49m\e[0;0m\n");
 		else
 			prompt = ft_strjoin(temp2, "✔ \e[32;49m\e[0;0m\n");
@@ -101,7 +101,7 @@ void	ft_printprompt(t_shell *msh, char **envp)
 	prompt = ft_addosuserandhosttoprompt(msh, envp);
 	prompt = ft_addworkingdirectory(prompt, envp);
 	prompt = ft_addexecutiontime(msh, prompt, envp);
-	prompt = ft_addreturncode(msh, prompt);
+	prompt = ft_addreturncode(prompt);
 	ft_printf(prompt);
 	free(prompt);
 }

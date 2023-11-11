@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/19 13:48:26 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/25 04:54:06 by djonker       ########   odam.nl         */
+/*   Updated: 2023/11/11 07:58:27 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_syntaxerror(t_shell *msh, char s1, char *line, int i)
 	help[j + 1] = '\0';
 	ft_putendl_fd(line, 2);
 	ft_putendl_fd(help, 2);
-	msh->code = 2;
+	g_retcode = 2;
 	free(help);
 	return (2);
 }
@@ -96,7 +96,7 @@ int	ft_startsyntax(t_shell *msh, int i)
 		help[j + 1] = '\0';
 		ft_putendl_fd(msh->line, 2);
 		ft_putendl_fd(help, 2);
-		msh->code = 2;
+		g_retcode = 2;
 		free(help);
 		return (1);
 	}

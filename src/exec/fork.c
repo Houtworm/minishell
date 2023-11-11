@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/25 05:55:11 by djonker       ########   odam.nl         */
+/*   Updated: 2023/11/11 07:59:17 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ int	ft_forking(t_shell *msh, int fnbr, int fd, int status)
 		if (msh->frk[fnbr].waitforlast)
 		{
 			waitpid(msh->frk[fnbr - 1].pid, &status, 0);
-			msh->code = WEXITSTATUS(status);
+			g_retcode = WEXITSTATUS(status);
 			file = ft_strjoin(msh->tmpdir, "lastcode.tmp");
 			fd = open(file, O_RDONLY);
 			free(file);
 			if (fd > 0 && !close(fd))
-				return (msh->code);
+				return (g_retcode);
 		}
 		pipe(msh->pipes[fnbr + 1]);
 		msh->frk[fnbr].pid = fork();
@@ -93,20 +93,20 @@ int	ft_forktheforks(t_shell *msh)
 	{
 		msh->pipes = ft_preparepipes(msh);
 		pipe(msh->pipes[0]);
-		msh->code = ft_forking(msh, 0, 0, status);
-		if (msh->code >= 0)
-			return (msh->code);
+		g_retcode = ft_forking(msh, 0, 0, status);
+		if (g_retcode >= 0)
+			return (g_retcode);
 		fnbr = 0;
 		while (msh->forks > fnbr)
 		{
 			close(msh->pipes[fnbr][0]);
 			close(msh->pipes[fnbr][1]);
 			waitpid(msh->frk[fnbr].pid, &status, 0);
-			msh->code = WEXITSTATUS(status);
+			g_retcode = WEXITSTATUS(status);
 			fnbr++;
 		}
 	}
 	else
-		msh->code = ft_execforks(0, msh, 0);
-	return (msh->code);
+		g_retcode = ft_execforks(0, msh, 0);
+	return (g_retcode);
 }

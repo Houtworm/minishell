@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 18:12:31 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/27 13:22:59 by djonker       ########   odam.nl         */
+/*   Updated: 2023/11/11 07:56:27 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <sys/termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+extern int					g_retcode;
 
 // Structs
 
@@ -110,7 +112,6 @@ typedef struct s_shell
 	char		*oldline;
 	char		*line;
 	int			forks;
-	int			code;
 	int			nothing;
 	int			debug;
 }	t_shell;

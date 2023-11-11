@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:12 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/23 20:33:43 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/11/11 07:56:01 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	ft_executecommand(t_commands cmd, int c, int f, t_shell *msh)
 	int	lastcode;
 	int	status;
 
+	signal(SIGQUIT, ft_sighandler);
 	if (c > 0 || (cmd.condition == 1 && cmd.lastcode != 0)
 		|| (cmd.condition == 2 && cmd.lastcode == 0))
 	{
@@ -105,6 +106,7 @@ int	ft_executecommand(t_commands cmd, int c, int f, t_shell *msh)
 		ft_nonbuiltinfork(&cmd, c, f, msh);
 	}
 	msh->frk[f].cmd[c + 1].lastcode = cmd.code;
+	signal(SIGQUIT, SIG_IGN);
 	return (cmd.code);
 }
 
@@ -132,5 +134,7 @@ int	ft_execforks(int f, t_shell *msh, int condition)
 	}
 	if (condition)
 		ft_checklastcode(msh->frk[f], msh);
+	if (g_retcode == 130 || g_retcode == 131)
+		return (g_retcode);
 	return (status);
 }

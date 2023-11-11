@@ -6,11 +6,13 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/25 07:02:53 by djonker       ########   odam.nl         */
+/*   Updated: 2023/11/11 07:57:05 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	g_retcode;
 
 int	ft_mainloop(t_shell *msh)
 {
@@ -24,10 +26,10 @@ int	ft_mainloop(t_shell *msh)
 	if (!ft_isallbyte(line, ' '))
 	{
 		ft_writehistory(line, msh->historyfile, msh);
-		msh->code = ft_parseline(line, msh, 0);
-		if (msh->code)
-			return (msh->code);
-		msh->code = ft_forktheforks(msh);
+		g_retcode = ft_parseline(line, msh, 0);
+		if (g_retcode)
+			return (g_retcode);
+		g_retcode = ft_forktheforks(msh);
 		ft_freenewprompt(msh);
 		free(line);
 	}

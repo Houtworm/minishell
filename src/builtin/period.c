@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/30 04:01:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/25 11:24:56 by djonker       ########   odam.nl         */
+/*   Updated: 2023/11/11 08:00:18 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_scriptfork(t_shell *msh, int fd)
 		{
 			free(line);
 			close(fd);
-			exit(msh->code);
+			exit(g_retcode);
 		}
 		ft_freenewprompt(msh);
 		if (ft_parseline(line, msh, 0))
@@ -52,7 +52,7 @@ int	ft_scriptfork(t_shell *msh, int fd)
 			exit(2);
 		}
 		free(line);
-		msh->code = ft_forktheforks(msh);
+		g_retcode = ft_forktheforks(msh);
 	}
 	exit(0);
 }
@@ -73,7 +73,7 @@ int	ft_periodscript(t_shell *msh, int fd)
 		ft_scriptfork(msh, fd);
 	}
 	waitpid(pid, &status, 0);
-	msh->code = WEXITSTATUS(status);
+	g_retcode = WEXITSTATUS(status);
 	return (0);
 }
 
@@ -97,7 +97,7 @@ int	ft_period(t_commands cmd, t_shell *msh)
 		close(fd);
 		if (status == 2)
 			return (2);
-		return (msh->code);
+		return (g_retcode);
 	}
 	else
 		return (ft_errorret("command not found", cmd.arg[0], 127));

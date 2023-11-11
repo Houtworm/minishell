@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:28 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/25 11:26:57 by djonker       ########   odam.nl         */
+/*   Updated: 2023/11/11 07:57:16 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_shell	*ft_initstruct(char **envp, int debugmode)
 	free(home);
 	msh->oldline = ft_calloc(2, 8);
 	msh->alias = ft_parsemshrc(envp);
-	msh->code = 256;
+	g_retcode = 256;
 	msh->debug = debugmode;
 	ft_readhistory(msh->historyfile);
 	return (msh);

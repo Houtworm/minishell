@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/27 08:14:18 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/22 03:13:07 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/11/11 07:58:36 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_parsevarval(t_shell msh, char *line, char **var, int *i)
 
 	if (line[*i] == '?')
 	{
-		val = ft_itoa(msh.code % 256);
+		val = ft_itoa(g_retcode % 256);
 		(*i)++;
 	}
 	else if (line[*i] == '$')
