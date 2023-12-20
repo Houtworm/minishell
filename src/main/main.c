@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/11/11 07:57:05 by houtworm      ########   odam.nl         */
+/*   Updated: 2023/12/20 18:31:47 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_mainloop(t_shell *msh)
 	if (!line)
 		ft_freeexit(msh, 0);
 	msh->starttime = ft_gettimemsdate(msh->envp, msh->sysfile);
-	if (!ft_isallbyte(line, ' '))
+	if (!ft_isallbyte(line, ' ') && !ft_isallbyte(line, '\t'))
 	{
 		ft_writehistory(line, msh->historyfile, msh);
 		g_retcode = ft_parseline(line, msh, 0);
