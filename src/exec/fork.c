@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/24 23:56:01 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/11/11 07:59:17 by houtworm      ########   odam.nl         */
+/*   Updated: 2024/01/12 17:57:06 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,26 +87,27 @@ int	ft_forktheforks(t_shell *msh)
 {
 	int		status;
 	int		fnbr;
+	int		code;
 
 	status = 1;
 	if (msh->forks > 1)
 	{
 		msh->pipes = ft_preparepipes(msh);
 		pipe(msh->pipes[0]);
-		g_retcode = ft_forking(msh, 0, 0, status);
-		if (g_retcode >= 0)
-			return (g_retcode);
+		code = ft_forking(msh, 0, 0, status);
+		if (code >= 0)
+			return (code);
 		fnbr = 0;
 		while (msh->forks > fnbr)
 		{
 			close(msh->pipes[fnbr][0]);
 			close(msh->pipes[fnbr][1]);
 			waitpid(msh->frk[fnbr].pid, &status, 0);
-			g_retcode = WEXITSTATUS(status);
+			code = WEXITSTATUS(status);
 			fnbr++;
 		}
 	}
 	else
-		g_retcode = ft_execforks(0, msh, 0);
-	return (g_retcode);
+		code = ft_execforks(0, msh, 0);
+	return (code);
 }

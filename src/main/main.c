@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 04:35:43 by djonker       #+#    #+#                 */
-/*   Updated: 2023/12/20 18:36:29 by yitoh         ########   odam.nl         */
+/*   Updated: 2024/01/12 17:52:20 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	g_retcode;
 int	ft_mainloop(t_shell *msh)
 {
 	char	*line;
+	int		code;
 
 	ft_printprompt(msh, msh->envp);
 	line = readline("$ ");
@@ -26,9 +27,9 @@ int	ft_mainloop(t_shell *msh)
 	if (!ft_isallbyte(line, ' ') && !ft_strchr(line, '\t'))
 	{
 		ft_writehistory(line, msh->historyfile, msh);
-		g_retcode = ft_parseline(line, msh, 0);
-		if (g_retcode)
-			return (g_retcode);
+		code = ft_parseline(line, msh, 0);
+		if (code)
+			return (code);
 		g_retcode = ft_forktheforks(msh);
 		ft_freenewprompt(msh);
 		free(line);
