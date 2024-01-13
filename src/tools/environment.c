@@ -6,7 +6,7 @@
 /*   By: djonker <djonker@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/26 03:56:16 by djonker       #+#    #+#                 */
-/*   Updated: 2023/10/20 17:20:56 by houtworm      ########   odam.nl         */
+/*   Updated: 2024/01/13 08:00:07 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	**ft_setenv(char **envp, char *var, char *val)
 		}
 		i++;
 	}
-	envp = ft_newenv(envp, var, val, i - 1);
+	envp = ft_newenv(envp, var, val, i);
 	return (envp);
 }
 

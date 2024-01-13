@@ -6,7 +6,7 @@
 /*   By: houtworm <codam@houtworm.net>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 18:13:05 by houtworm      #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:55 by houtworm      ########   odam.nl         */
+/*   Updated: 2024/01/13 08:05:04 by houtworm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	ft_unset(t_commands cmd, t_shell *msh)
 				msh->envp[i] = ft_strdup(msh->envp[i + 1]);
 				i++;
 			}
+			free(msh->envp[i]);
+			msh->envp[i] = NULL;
 		}
 		i++;
 	}
